@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthLearn – Design Thinking im Krankenhaus</title>
+  <style>
+    /* =============================================
+       CSS-VARIABLEN & RESET
+       Zentrale Farbpalette und Grundeinstellungen
+    ============================================= */
+    :root {
+      --bg:        #f5f3ee;
+      --surface:   #ffffff;
+      --border:    #e2ddd6;
+      --text:      #1a1815;
+      --muted:     #7a756e;
+      --accent:    #2d6a4f;
+      --accent-lt: #e8f4ee;
+      --accent-dk: #1b4332;
+      --tag-bg:    #fdf6ec;
+      --tag-text:  #92400e;
+      --radius:    12px;
+      --radius-lg: 20px;
+      --shadow:    0 2px 12px rgba(0,0,0,0.07);
+      --font-head: 'Georgia', 'Times New Roman', serif;
+      --font-body: 'Helvetica Neue', Arial, sans-serif;
+      --chat-user: #2d6a4f;
+      --chat-bot:  #f0ece5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       LAYOUT-WRAPPER
+    ============================================= */
+    .app {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    /* =============================================
+       HEADER
+    ============================================= */
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    header .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-lt);
+      border: 1px solid #b7d9c5;
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: normal;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* =============================================
+       KARTEN (Cards)
+    ============================================= */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    /* =============================================
+       ABSCHNITT: FALLBESCHREIBUNG
+    ============================================= */
+    .case-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .case-section h2 {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: normal;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .case-section p {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 0.6rem;
+    }
+
+    .case-section p:last-child { margin-bottom: 0; }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-size: 11px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid #f0d8b0;
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    /* =============================================
+       ABSCHNITT: ROLLENAUSWAHL
+    ============================================= */
+    .role-section {
+      margin-bottom: 2rem;
+    }
+
+    .role-grid {
+      display: grid;
+      /* 3 Spalten auf Desktop, 1 auf Mobil */
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 0.75rem;
+    }
+
+    /* Einzelne Rollenkarte */
+    .role-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+      text-align: left;
+      position: relative;
+    }
+
+    .role-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(45,106,79,0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Aktive (ausgewählte) Rolle */
+    .role-card.active {
+      border-color: var(--accent);
+      background: var(--accent-lt);
+      box-shadow: 0 4px 16px rgba(45,106,79,0.15);
+    }
+
+    .role-card.active::after {
+      content: '✓';
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .role-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .role-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .role-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* =============================================
+       ABSCHNITT: CHAT
+    ============================================= */
+    .chat-section {
+      margin-bottom: 0;
+    }
+
+    /* Hinweis wenn keine Rolle gewählt */
+    .chat-hint {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    /* Chat-Fenster */
+    .chat-window {
+      display: none; /* wird per JS eingeblendet */
+    }
+
+    .chat-window.visible { display: block; }
+
+    /* Aktive Rolle Anzeige */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.75rem 1rem;
+      background: var(--accent-lt);
+      border: 1px solid #b7d9c5;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      font-size: 0.87rem;
+      color: var(--accent-dk);
+    }
+
+    .chat-header strong { font-weight: 600; }
+
+    /* Nachrichtenliste */
+    .messages {
+      height: 340px;
+      overflow-y: auto;
+      padding: 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    /* Einzelne Nachricht */
+    .msg {
+      max-width: 80%;
+      padding: 0.65rem 1rem;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      animation: fadeUp 0.2s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Nutzer-Nachricht (rechts) */
+    .msg.user {
+      align-self: flex-end;
+      background: var(--chat-user);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* Bot-Nachricht (links) */
+    .msg.bot {
+      align-self: flex-start;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+
+    /* Absender-Label */
+    .msg-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .msg.user .msg-label { color: rgba(255,255,255,0.7); text-align: right; }
+    .msg.bot .msg-label  { color: var(--muted); }
+
+    /* Tipp-Indikator */
+    .typing {
+      align-self: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      border-bottom-left-radius: 4px;
+      padding: 0.65rem 1.1rem;
+      display: none;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .typing.visible { display: flex; }
+
+    .typing span {
+      width: 6px; height: 6px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: bounce 1s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.15s; }
+    .typing span:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40%            { transform: translateY(-5px); }
+    }
+
+    /* Eingabebereich */
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .chat-input-row input:focus {
+      border-color: var(--accent);
+    }
+
+    .chat-input-row input::placeholder { color: var(--muted); }
+
+    .chat-input-row button {
+      padding: 0.7rem 1.3rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .chat-input-row button:hover  { background: var(--accent-dk); }
+    .chat-input-row button:active { transform: scale(0.97); }
+    .chat-input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Chat leeren Button */
+    .chat-actions {
+      margin-top: 0.6rem;
+      text-align: right;
+    }
+
+    .btn-ghost {
+      background: none;
+      border: none;
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .btn-ghost:hover { color: var(--text); }
+
+    /* =============================================
+       FOOTER / HINWEIS
+    ============================================= */
+    .info-box {
+      margin-top: 2rem;
+      padding: 1rem 1.25rem;
+      background: var(--tag-bg);
+      border: 1px solid #f0d8b0;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      color: var(--tag-text);
+      line-height: 1.6;
+    }
+
+    .info-box strong { font-weight: 600; }
+
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ==========================================
+       HEADER
+  =========================================== -->
+  <header>
+    <div class="badge">Design Thinking · Gesundheitswesen</div>
+    <h1>Digitalisierung im Krankenhaus</h1>
+    <p>Ein interaktives Lernsetting zur Perspektivübernahme bei der Einführung einer neuen Dokumentationssoftware.</p>
+  </header>
+
+  <!-- ==========================================
+       FALLBESCHREIBUNG
+  =========================================== -->
+  <section class="case-section card">
+    <div class="section-label">Fallbeschreibung</div>
+    <h2>Das Krankenhaus St. Marien führt ein neues System ein</h2>
+    <p>
+      Das Krankenhaus St. Marien hat beschlossen, die bisher papierbasierte Patientendokumentation
+      durch eine digitale Software zu ersetzen. Das System soll Abläufe effizienter machen,
+      Fehler reduzieren und die Kommunikation zwischen Berufsgruppen verbessern.
+    </p>
+    <p>
+      Doch die Einführung verläuft holprig: Es gibt Schulungsprobleme, technische Schwierigkeiten
+      und vor allem <em>Spannungen zwischen den Berufsgruppen</em>. Jede Seite hat ihre eigene
+      Perspektive auf das Projekt.
+    </p>
+    <div class="tags">
+      <span class="tag">Digitalisierung</span>
+      <span class="tag">Change Management</span>
+      <span class="tag">Interprofessionalität</span>
+      <span class="tag">Krankenhaus</span>
+      <span class="tag">Design Thinking</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ROLLENAUSWAHL
+  =========================================== -->
+  <section class="role-section" style="margin-top: 1.5rem;">
+    <div class="section-label">Schritt 1 — Wähle eine Rolle</div>
+    <div class="role-grid" id="roleGrid">
+
+      <!-- ----------------------------------------
+           ROLLE: Pflegekraft
+           Um eine neue Rolle hinzuzufügen, kopiere
+           einen dieser Blöcke und passe die Werte an.
+           Vergiss nicht, auch ROLES in der JS-Sektion
+           zu erweitern!
+      ----------------------------------------- -->
+      <button class="role-card" data-role="pflege" onclick="selectRole(this)">
+        <span class="role-icon">🩺</span>
+        <div class="role-name">Anna – Pflegefachkraft</div>
+        <div class="role-desc">12 Jahre Erfahrung, Innere Medizin. Kritisch, pragmatisch, patientennah.</div>
+      </button>
+
+      <!-- ROLLE: Arzt -->
+      <button class="role-card" data-role="arzt" onclick="selectRole(this)">
+        <span class="role-icon">👨‍⚕️</span>
+        <div class="role-name">Dr. Jonas – Assistenzarzt</div>
+        <div class="role-desc">3. Ausbildungsjahr, hohe Arbeitsbelastung. Technikaffin, aber überfordert.</div>
+      </button>
+
+      <!-- ROLLE: IT-Projektleiter -->
+      <button class="role-card" data-role="it" onclick="selectRole(this)">
+        <span class="role-icon">💻</span>
+        <div class="role-name">Markus – IT-Projektleiter</div>
+        <div class="role-desc">Verantwortlich für die Einführung. Engagiert, aber oft missverstanden.</div>
+      </button>
+
+      <!-- ==========================================
+           NEUE ROLLEN HIER EINFÜGEN:
+           Beispiel (auskommentiert):
+
+      <button class="role-card" data-role="verwaltung" onclick="selectRole(this)">
+        <span class="role-icon">📋</span>
+        <div class="role-name">Sandra – Krankenhausverwaltung</div>
+        <div class="role-desc">Budgetverantwortung, denkt in Zahlen und Haftungsrisiken.</div>
+      </button>
+      =========================================== -->
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CHAT-BEREICH
+  =========================================== -->
+  <section class="chat-section card" style="margin-top: 1.5rem;">
+    <div class="section-label">Schritt 2 — Stelle eine Frage an die gewählte Rolle</div>
+
+    <!-- Hinweis wenn keine Rolle aktiv -->
+    <div class="chat-hint" id="chatHint">
+      Bitte wähle zuerst eine Rolle aus, um das Gespräch zu starten.
+    </div>
+
+    <!-- Chat-Fenster (initial versteckt) -->
+    <div class="chat-window" id="chatWindow">
+
+      <!-- Aktive Rolle anzeigen -->
+      <div class="chat-header" id="chatHeader">
+        <span id="chatRoleIcon"></span>
+        <span>Du sprichst mit: <strong id="chatRoleName"></strong></span>
+      </div>
+
+      <!-- Nachrichtenliste -->
+      <div class="messages" id="messages">
+        <!-- Nachrichten werden per JS eingefügt -->
+      </div>
+
+      <!-- Tipp-Indikator -->
+      <div class="typing" id="typing">
+        <span></span><span></span><span></span>
+      </div>
+
+      <!-- Eingabe -->
+      <div class="chat-input-row">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Deine Frage eingeben..."
+          maxlength="300"
+          onkeydown="if(event.key==='Enter') sendMessage()"
+        />
+        <button onclick="sendMessage()" id="sendBtn">Senden</button>
+      </div>
+
+      <!-- Aktionen -->
+      <div class="chat-actions">
+        <button class="btn-ghost" onclick="clearChat()">Chat leeren</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       HINWEISBOX FÜR ENTWICKLER
+  =========================================== -->
+  <div class="info-box">
+    <strong>Hinweis für Entwickler:</strong> Die Antworten sind aktuell als Dummy-Texte hinterlegt.
+    Um echte KI-Antworten zu nutzen, ersetze die Funktion <code>getDummyResponse()</code>
+    in der JavaScript-Sektion durch einen API-Aufruf (z.B. Anthropic Claude API).
+    Neue Rollen lassen sich einfach in <code>ROLES</code> und im HTML ergänzen.
+  </div>
+
+</div><!-- /app -->
+
+
+<script>
+  /* =============================================
+     ROLLEN-DATEN
+     Hier alle Rollen und ihre Antworten definieren.
+     Um eine neue Rolle hinzuzufügen:
+     1. Neuen Eintrag in ROLES anlegen
+     2. Passende role-card im HTML ergänzen
+  ============================================= */
+  const ROLES = {
+
+    pflege: {
+      name: "Anna – Pflegefachkraft",
+      icon: "🩺",
+      greeting: "Ja, ich hör zu. Was willst du wissen? Aber ich hab nicht ewig Zeit, ich muss gleich wieder auf Station.",
+      /* Antworten: Schlüsselwörter → Antworttext
+         Die App sucht nach Schlüsselwörtern in der Frage
+         und gibt die passende Antwort zurück. */
+      responses: [
+        {
+          keywords: ["software", "system", "digital", "programm", "app"],
+          text: "Die Idee ist ja gut, wirklich. Aber die Umsetzung? Katastrophe. Zwei Schulungstermine, beide während meines Frühdiensts. Und jetzt soll alles einfach laufen. Ich such manchmal fünf Minuten lang, wo ich eine Sturzprophylaxe eintrage. Fünf Minuten, die ich bei meinen Patienten sein könnte."
+        },
+        {
+          keywords: ["patient", "patienten", "pflege", "versorgung"],
+          text: "Meine Patienten merken das. Die fragen mich, was ich da tippe. Die wollen Aufmerksamkeit, keine Bildschirme. Ich mach meinen Job gern – aber nicht so."
+        },
+        {
+          keywords: ["arzt", "ärzte", "doktor", "medizin"],
+          text: "Die Ärzte? Die drücken sich noch vor der Hälfte. Die tippen irgendwas rein und ich räume hinterher auf. Das war vorher auch nicht anders, aber jetzt ist es noch undurchsichtiger."
+        },
+        {
+          keywords: ["schulung", "training", "lernen", "einführung"],
+          text: "Schulung? Ich hatte zwei Termine. Beide zu unmöglichen Zeiten. Der IT-Leiter sagt, es gab sechs. Mag sein – aber keiner hat gefragt, wann wir überhaupt können."
+        },
+        {
+          keywords: ["verbesserung", "vorschlag", "idee", "lösung"],
+          text: "Wenn man mich gefragt hätte: echte Schulungen mit Zeit, ein System das einfacher ist, und jemanden der auf Station dabei ist wenn Fragen kommen. Nicht ein PDF und 'viel Erfolg'."
+        }
+      ],
+      fallback: "Hmm. Gute Frage. Ich kann dir sagen, dass ich jeden Tag damit kämpfe. Mehr hab ich grad ehrlich gesagt nicht."
+    },
+
+    arzt: {
+      name: "Dr. Jonas – Assistenzarzt",
+      icon: "👨‍⚕️",
+      greeting: "Hey. Kurz – ich hab gleich Visite. Was liegt an?",
+      responses: [
+        {
+          keywords: ["software", "system", "digital", "programm", "app"],
+          text: "Grundsätzlich bin ich dafür. Ich bin mit Technik aufgewachsen. Aber wenn das System um 6 Uhr morgens nicht lädt und ich am Patientenbett stehe... dann ist Technik kein Vorteil."
+        },
+        {
+          keywords: ["arbeitsbelastung", "stress", "überlastung", "druck"],
+          text: "60, manchmal 70 Stunden die Woche. Und dann noch ein neues System einlernen. Ich will das ja – aber bitte mit etwas mehr Unterstützung."
+        },
+        {
+          keywords: ["pflege", "schwestern", "pflegekraft", "anna"],
+          text: "Anna und die anderen – die sind auch frustriert. Das merk ich. Und wenn die Stimmung schlecht ist, leidet die Kommunikation. Wir waren eigentlich ein gutes Team."
+        },
+        {
+          keywords: ["beteiligung", "mitsprache", "fragen", "einbezogen"],
+          text: "Mich hat niemand gefragt. Die Oberärzte waren in den Meetings. Ich nicht. Dabei bin ich derjenige, der das Ding täglich benutzt."
+        },
+        {
+          keywords: ["verbesserung", "vorschlag", "idee", "lösung"],
+          text: "Mehr Zeit für Einführung. Peer-Support – also jemand aus dem Team, der schon fit ist und hilft. Und bitte: einen Puffer einplanen, wenn etwas schiefläuft."
+        }
+      ],
+      fallback: "Schwierige Frage. Ehrlich gesagt habe ich selbst noch keine Antwort darauf. Das beschäftigt mich auch."
+    },
+
+    it: {
+      name: "Markus – IT-Projektleiter",
+      icon: "💻",
+      greeting: "Markus Behrens, guten Tag. Was kann ich für Sie klären?",
+      responses: [
+        {
+          keywords: ["software", "system", "digital", "programm", "app"],
+          text: "Wir haben 18 Monate evaluiert. Drei Anbieter verglichen. Datenschutz geprüft. Das war kein Schnellschuss. Natürlich holpert es am Anfang – das ist bei jeder Einführung so."
+        },
+        {
+          keywords: ["schulung", "training", "lernen"],
+          text: "Wir hatten sechs Schulungstermine. Sechs! Die Teilnahmequote war... ausbaufähig. Ich kann kein System bauen, das sich von selbst erklärt, wenn niemand kommt."
+        },
+        {
+          keywords: ["pflege", "arzt", "berufsgruppen", "mitarbeiter"],
+          text: "Ich höre die Beschwerden. Jede Woche. Aber wo waren alle, als wir die Schulungen angeboten haben? Das ist eine Einbahnstraße, und die macht mich ehrlich gesagt müde."
+        },
+        {
+          keywords: ["budget", "kosten", "geld", "investition"],
+          text: "Das Projekt hat viel Ressourcen gebraucht. Aber die Alternativen – Papierakte, Inselsysteme, Kommunikationsfehler – die kosten auch. Langfristig rechnet sich das."
+        },
+        {
+          keywords: ["verbesserung", "vorschlag", "idee", "lösung"],
+          text: "Ich wünschte mir, die Berufsgruppen würden früher einbezogen. Nicht als Pflicht, sondern wirklich. Und mehr Rückmeldung während des Betriebs. Dann kann ich nachbessern."
+        }
+      ],
+      fallback: "Das ist eine berechtigte Frage. Aus IT-Sicht würde ich sagen: die Technik ist selten das eigentliche Problem. Es sind die Menschen und die Prozesse drumherum."
+    }
+
+    /* ==========================================
+       NEUE ROLLE HIER ERGÄNZEN – Beispiel:
+
+    verwaltung: {
+      name: "Sandra – Krankenhausverwaltung",
+      icon: "📋",
+      greeting: "Guten Tag. Was möchten Sie wissen?",
+      responses: [
+        {
+          keywords: ["budget", "kosten", "geld"],
+          text: "Die Investition war erheblich. Siebenstellig. Das war keine leichte Entscheidung."
+        }
+      ],
+      fallback: "Aus Verwaltungssicht ist das komplex. Ich schaue mir das gerne genauer an."
+    }
+    =========================================== */
+  };
+
+  /* =============================================
+     ZUSTAND
+  ============================================= */
+  let activeRole = null; // aktuell gewählte Rolle
+
+  /* =============================================
+     ROLLE AUSWÄHLEN
+  ============================================= */
+  function selectRole(el) {
+    // Alle Karten deaktivieren
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    activeRole = el.dataset.role;
+    const role = ROLES[activeRole];
+
+    // Chat-Bereich einblenden
+    document.getElementById('chatHint').style.display   = 'none';
+    document.getElementById('chatWindow').classList.add('visible');
+
+    // Rollenname im Header setzen
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent = role.name;
+
+    // Chat leeren und Begrüßung einfügen
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name);
+  }
+
+  /* =============================================
+     NACHRICHT SENDEN
+  ============================================= */
+  function sendMessage() {
+    if (!activeRole) return;
+
+    const input = document.getElementById('userInput');
+    const text  = input.value.trim();
+    if (!text) return;
+
+    // Nutzernachricht anzeigen
+    appendMessage('user', text, 'Du');
+    input.value = '';
+
+    // Senden-Button deaktivieren während Antwort lädt
+    document.getElementById('sendBtn').disabled = true;
+
+    // Tipp-Indikator zeigen
+    showTyping(true);
+
+    // Antwort simulieren (Verzögerung für Realismus)
+    setTimeout(() => {
+      showTyping(false);
+      const response = getDummyResponse(activeRole, text);
+      appendMessage('bot', response, ROLES[activeRole].name);
+      document.getElementById('sendBtn').disabled = false;
+    }, 900 + Math.random() * 600); // 0.9–1.5 Sekunden Verzögerung
+  }
+
+  /* =============================================
+     DUMMY-ANTWORTEN GENERIEREN
+     Diese Funktion sucht in der Frage nach Schlüsselwörtern
+     und gibt die passende Antwort zurück.
+
+     → Für echte KI-Antworten: Diese Funktion durch
+       einen API-Aufruf (z.B. Claude API) ersetzen.
+  ============================================= */
+  function getDummyResponse(roleKey, question) {
+    const role = ROLES[roleKey];
+    const q    = question.toLowerCase();
+
+    // Schlüsselwort-Suche
+    for (const resp of role.responses) {
+      if (resp.keywords.some(kw => q.includes(kw))) {
+        return resp.text;
+      }
+    }
+
+    // Fallback wenn kein Schlüsselwort passt
+    return role.fallback;
+  }
+
+  /* =============================================
+     NACHRICHT IN DEN CHAT EINFÜGEN
+  ============================================= */
+  function appendMessage(type, text, label) {
+    const container = document.getElementById('messages');
+
+    const div = document.createElement('div');
+    div.className = `msg ${type}`;
+    div.innerHTML = `
+      <div class="msg-label">${escapeHtml(label)}</div>
+      <div>${escapeHtml(text)}</div>
+    `;
+
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight; // nach unten scrollen
+  }
+
+  /* =============================================
+     TIPP-INDIKATOR EIN/AUSBLENDEN
+  ============================================= */
+  function showTyping(show) {
+    const el = document.getElementById('typing');
+    el.classList.toggle('visible', show);
+    if (show) {
+      document.getElementById('messages').scrollTop = 99999;
+    }
+  }
+
+  /* =============================================
+     CHAT LEEREN
+  ============================================= */
+  function clearChat(withGreeting = true) {
+    document.getElementById('messages').innerHTML = '';
+    if (withGreeting && activeRole) {
+      appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name);
+    }
+  }
+
+  /* =============================================
+     HTML-SONDERZEICHEN ESCAPEN (Sicherheit)
+  ============================================= */
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+
+</body>
+</html>
