@@ -404,20 +404,75 @@
     .btn-ghost:hover { color: var(--text); }
 
     /* =============================================
-       FOOTER / HINWEIS
+       API-KEY BEREICH
     ============================================= */
-    .info-box {
-      margin-top: 2rem;
-      padding: 1rem 1.25rem;
-      background: var(--tag-bg);
+    .api-key-section {
+      margin-bottom: 0;
+    }
+
+    .api-info-box {
+      background: #fffbf0;
       border: 1px solid #f0d8b0;
       border-radius: var(--radius);
+      padding: 0.75rem 1rem;
       font-size: 0.82rem;
       color: var(--tag-text);
       line-height: 1.6;
+      margin-bottom: 0.85rem;
     }
 
-    .info-box strong { font-weight: 600; }
+    .api-info-box a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .api-info-box a:hover { text-decoration: underline; }
+
+    .api-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .api-input-row input {
+      flex: 1;
+      padding: 0.65rem 1rem;
+      font-size: 0.88rem;
+      font-family: 'Courier New', monospace;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .api-input-row input:focus { border-color: var(--accent); }
+    .api-input-row input::placeholder { font-family: var(--font-body); color: var(--muted); }
+
+    .api-input-row button {
+      padding: 0.65rem 1.2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .api-input-row button:hover { background: var(--accent-dk); }
+
+    /* Status-Meldung */
+    .api-status {
+      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      min-height: 1.2em;
+    }
+    .api-status.ok    { color: var(--accent); }
+    .api-status.error { color: #b91c1c; }
+    .api-status.warn  { color: #92400e; }
 
   </style>
 </head>
@@ -558,13 +613,37 @@
   </section>
 
   <!-- ==========================================
-       HINWEISBOX FÜR ENTWICKLER
+       API-KEY EINGABE
+       Der Key wird nur im Browser-Speicher gehalten
+       und nie an einen anderen Server gesendet.
   =========================================== -->
-  <div class="info-box">
-    <strong>Hinweis für Entwickler:</strong> Die Antworten sind aktuell als Dummy-Texte hinterlegt.
-    Um echte KI-Antworten zu nutzen, ersetze die Funktion <code>getDummyResponse()</code>
-    in der JavaScript-Sektion durch einen API-Aufruf (z.B. Anthropic Claude API).
-    Neue Rollen lassen sich einfach in <code>ROLES</code> und im HTML ergänzen.
+  <div class="card api-key-section" style="margin-top: 1.5rem;">
+    <div class="section-label">API-Einstellungen</div>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.75rem; line-height:1.6;">
+      Gib hier deinen <strong style="color:var(--text)">Anthropic API-Key</strong> ein, um echte KI-Antworten zu aktivieren.
+      Der Key wird ausschließlich in deinem Browser gespeichert und direkt an die Anthropic API gesendet — kein Zwischenserver.
+    </p>
+
+    <!-- Wo bekomme ich einen Key? -->
+    <div class="api-info-box">
+      <strong>🔑 Wo bekomme ich einen API-Key?</strong><br>
+      Registriere dich unter <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>
+      → „API Keys" → „Create Key". Kostenlose Credits für neue Accounts verfügbar.
+    </div>
+
+    <div class="api-input-row">
+      <input
+        type="password"
+        id="apiKeyInput"
+        placeholder="sk-ant-api03-..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button onclick="saveApiKey()" id="saveKeyBtn">Speichern</button>
+    </div>
+
+    <!-- Status-Anzeige -->
+    <div id="apiStatus" class="api-status"></div>
   </div>
 
 </div><!-- /app -->
@@ -584,6 +663,17 @@
       name: "Anna – Pflegefachkraft",
       icon: "🩺",
       greeting: "Ja, ich hör zu. Was willst du wissen? Aber ich hab nicht ewig Zeit, ich muss gleich wieder auf Station.",
+      /* systemContext: Wird als Teil des System-Prompts an die Claude API gesendet.
+         Je detaillierter, desto realistischer die Antworten. */
+      systemContext: `
+Du bist Anna, Pflegefachkraft mit 12 Jahren Erfahrung auf einer internistischen Station.
+Du bist pragmatisch, patientennah und kritisch gegenüber schlecht geplanten Veränderungen.
+Du bist NICHT grundsätzlich technikfeindlich – du siehst den Nutzen, bist aber frustriert
+über die schlechte Umsetzung der Software-Einführung: zu wenige Schulungen zu unmöglichen
+Zeiten, kein Support auf Station, und das Gefühl, nicht gehört worden zu sein.
+Du machst dir Sorgen, dass deine Patienten weniger Aufmerksamkeit bekommen.
+Deine Sprache ist direkt, manchmal leicht gereizt, aber immer ehrlich.
+      `.trim(),
       /* Antworten: Schlüsselwörter → Antworttext
          Die App sucht nach Schlüsselwörtern in der Frage
          und gibt die passende Antwort zurück. */
@@ -616,6 +706,15 @@
       name: "Dr. Jonas – Assistenzarzt",
       icon: "👨‍⚕️",
       greeting: "Hey. Kurz – ich hab gleich Visite. Was liegt an?",
+      systemContext: `
+Du bist Dr. Jonas Weber, Assistenzarzt im 3. Jahr der Facharztausbildung, Innere Medizin.
+Du arbeitest 60–70 Stunden pro Woche und bist chronisch überlastet.
+Du bist technikaffin und grundsätzlich für die Digitalisierung – aber die Umsetzung
+frustriert dich: Du wurdest nie gefragt, die Software läuft nicht zuverlässig,
+und du spürst die Spannungen mit dem Pflegeteam.
+Du bist oft müde, manchmal zynisch, aber eigentlich motiviert und idealistisch.
+Deine Sprache ist knapp, manchmal abgehackt – du hast wenig Zeit.
+      `.trim(),
       responses: [
         {
           keywords: ["software", "system", "digital", "programm", "app"],
@@ -645,6 +744,15 @@
       name: "Markus – IT-Projektleiter",
       icon: "💻",
       greeting: "Markus Behrens, guten Tag. Was kann ich für Sie klären?",
+      systemContext: `
+Du bist Markus Behrens, IT-Projektleiter im Krankenhaus St. Marien.
+Du hast die Software-Einführung 18 Monate lang vorbereitet, Anbieter verglichen und
+Datenschutzfragen geklärt. Du stehst voll hinter dem Projekt.
+Du bist zunehmend frustriert, weil du das Gefühl hast, die Berufsgruppen wollten nicht
+kooperieren – sechs Schulungstermine wurden kaum angenommen.
+Du hast aber auch ein echtes Verständnis dafür, dass Veränderung schwierig ist.
+Deine Sprache ist sachlich und professionell, gelegentlich leicht defensiv.
+      `.trim(),
       responses: [
         {
           keywords: ["software", "system", "digital", "programm", "app"],
@@ -691,82 +799,198 @@
   /* =============================================
      ZUSTAND
   ============================================= */
-  let activeRole = null; // aktuell gewählte Rolle
+  let activeRole    = null;  // aktuell gewählte Rolle
+  let chatHistory   = [];    // Gesprächsverlauf für die API (multi-turn)
+  let apiKey        = localStorage.getItem('healthlearn_api_key') || '';
+
+  // API-Key beim Laden aus localStorage wiederherstellen
+  window.addEventListener('DOMContentLoaded', () => {
+    if (apiKey) {
+      document.getElementById('apiKeyInput').value = apiKey;
+      setApiStatus('ok', '✓ API-Key geladen');
+    }
+  });
+
+  /* =============================================
+     API-KEY SPEICHERN
+     Der Key wird im localStorage des Browsers gespeichert.
+     Er verlässt nie deinen Browser außer als Header
+     direkt an api.anthropic.com.
+  ============================================= */
+  function saveApiKey() {
+    const input = document.getElementById('apiKeyInput').value.trim();
+
+    // Einfache Validierung: Anthropic-Keys beginnen mit "sk-ant-"
+    if (!input.startsWith('sk-ant-')) {
+      setApiStatus('error', '✗ Ungültiges Format. Anthropic-Keys beginnen mit „sk-ant-"');
+      return;
+    }
+
+    apiKey = input;
+    localStorage.setItem('healthlearn_api_key', apiKey); // im Browser speichern
+    setApiStatus('ok', '✓ API-Key gespeichert – KI-Modus aktiv!');
+  }
 
   /* =============================================
      ROLLE AUSWÄHLEN
   ============================================= */
   function selectRole(el) {
-    // Alle Karten deaktivieren
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
 
-    activeRole = el.dataset.role;
+    activeRole  = el.dataset.role;
+    chatHistory = []; // Verlauf bei Rollenwechsel zurücksetzen
+
     const role = ROLES[activeRole];
 
-    // Chat-Bereich einblenden
-    document.getElementById('chatHint').style.display   = 'none';
+    document.getElementById('chatHint').style.display = 'none';
     document.getElementById('chatWindow').classList.add('visible');
-
-    // Rollenname im Header setzen
     document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
-    document.getElementById('chatRoleName').textContent = role.name;
+    document.getElementById('chatRoleName').textContent  = role.name;
 
-    // Chat leeren und Begrüßung einfügen
     clearChat(false);
     appendMessage('bot', role.greeting, role.name);
   }
 
   /* =============================================
      NACHRICHT SENDEN
+     Entscheidet automatisch ob Dummy- oder API-Modus.
   ============================================= */
-  function sendMessage() {
+  async function sendMessage() {
     if (!activeRole) return;
 
     const input = document.getElementById('userInput');
     const text  = input.value.trim();
     if (!text) return;
 
-    // Nutzernachricht anzeigen
     appendMessage('user', text, 'Du');
     input.value = '';
-
-    // Senden-Button deaktivieren während Antwort lädt
     document.getElementById('sendBtn').disabled = true;
-
-    // Tipp-Indikator zeigen
     showTyping(true);
 
-    // Antwort simulieren (Verzögerung für Realismus)
-    setTimeout(() => {
+    try {
+      let response;
+      if (apiKey) {
+        // ── ECHTER KI-MODUS ────────────────────────
+        response = await getClaudeResponse(text);
+      } else {
+        // ── DUMMY-MODUS (kein Key vorhanden) ───────
+        await new Promise(r => setTimeout(r, 900 + Math.random() * 500));
+        response = getDummyResponse(activeRole, text);
+        setApiStatus('warn', '⚠ Kein API-Key – Dummy-Antwort. Gib oben deinen Key ein.');
+      }
+
       showTyping(false);
-      const response = getDummyResponse(activeRole, text);
       appendMessage('bot', response, ROLES[activeRole].name);
-      document.getElementById('sendBtn').disabled = false;
-    }, 900 + Math.random() * 600); // 0.9–1.5 Sekunden Verzögerung
+
+    } catch (err) {
+      showTyping(false);
+      appendMessage('bot', `Fehler: ${err.message}`, 'System');
+      setApiStatus('error', `✗ API-Fehler: ${err.message}`);
+    }
+
+    document.getElementById('sendBtn').disabled = false;
   }
 
   /* =============================================
-     DUMMY-ANTWORTEN GENERIEREN
-     Diese Funktion sucht in der Frage nach Schlüsselwörtern
-     und gibt die passende Antwort zurück.
+     CLAUDE API AUFRUFEN
+     ─────────────────────────────────────────────
+     Aufbau des Requests:
+     1. System-Prompt: Legt die Rolle + den Kontext fest
+     2. messages:      Gesamter Gesprächsverlauf (multi-turn)
+     3. model:         claude-sonnet-4-20250514 (aktuelles Modell)
 
-     → Für echte KI-Antworten: Diese Funktion durch
-       einen API-Aufruf (z.B. Claude API) ersetzen.
+     Der Gesprächsverlauf (chatHistory) wird bei jedem
+     Request mitgeschickt, damit die KI den Kontext kennt.
+  ============================================= */
+  async function getClaudeResponse(userMessage) {
+    const role = ROLES[activeRole];
+
+    /* ── SYSTEM-PROMPT ──────────────────────────────
+       Hier wird die Persönlichkeit der Rolle definiert.
+       Du kannst diesen Text für jede Rolle individuell
+       anpassen, um realistischere Antworten zu erhalten.
+    ─────────────────────────────────────────────── */
+    const systemPrompt = `
+Du bist ${role.name} und arbeitest im Krankenhaus St. Marien.
+Das Krankenhaus führt gerade eine neue digitale Dokumentationssoftware ein.
+
+Deine Rolle und Persönlichkeit:
+${role.systemContext}
+
+Wichtige Regeln:
+- Antworte IMMER aus deiner Rolle heraus, niemals neutral oder allgemein
+- Nutze realistische Emotionen, Erfahrungen und Perspektiven
+- Antworte auf Deutsch, in natürlicher Umgangssprache
+- Halte Antworten prägnant (3–6 Sätze) – du bist im Klinikalltag
+- Bleibe konsequent in deiner Rolle, auch bei Nachfragen
+    `.trim();
+
+    // Nutzernachricht zum Verlauf hinzufügen
+    chatHistory.push({ role: 'user', content: userMessage });
+
+    /* ── API-AUFRUF ─────────────────────────────────
+       Endpunkt:  https://api.anthropic.com/v1/messages
+       Methode:   POST
+       Header:    x-api-key  → DEIN API-KEY (aus dem Eingabefeld oben)
+                  anthropic-version → API-Version (fest eingestellt)
+       Body:      model, max_tokens, system, messages
+    ─────────────────────────────────────────────── */
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type':      'application/json',
+        'x-api-key':         apiKey,           // ← DEIN API-KEY wird hier eingesetzt
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true' // Erlaubt Browser-Direktzugriff
+      },
+      body: JSON.stringify({
+        model:      'claude-sonnet-4-6', // Aktuelles Claude-Modell
+        max_tokens: 400,                        // Max. Antwortlänge (ca. 300 Wörter)
+        system:     systemPrompt,               // Rollen-Kontext
+        messages:   chatHistory                 // Gesamter Verlauf (multi-turn)
+      })
+    });
+
+    // Fehlerbehandlung
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      // Häufige Fehler klar benennen
+      if (response.status === 401) throw new Error('API-Key ungültig oder abgelaufen.');
+      if (response.status === 429) throw new Error('Anfragelimit erreicht. Bitte kurz warten.');
+      throw new Error(err.error?.message || `HTTP ${response.status}`);
+    }
+
+    const data        = await response.json();
+    const botMessage  = data.content[0].text;
+
+    // Antwort zum Verlauf hinzufügen (für nächsten Turn)
+    chatHistory.push({ role: 'assistant', content: botMessage });
+
+    return botMessage;
+  }
+
+  /* =============================================
+     DUMMY-ANTWORTEN (Fallback ohne API-Key)
+     Bleibt als Fallback erhalten – wird automatisch
+     verwendet wenn kein API-Key gesetzt ist.
   ============================================= */
   function getDummyResponse(roleKey, question) {
     const role = ROLES[roleKey];
     const q    = question.toLowerCase();
-
-    // Schlüsselwort-Suche
     for (const resp of role.responses) {
-      if (resp.keywords.some(kw => q.includes(kw))) {
-        return resp.text;
-      }
+      if (resp.keywords.some(kw => q.includes(kw))) return resp.text;
     }
-
-    // Fallback wenn kein Schlüsselwort passt
     return role.fallback;
+  }
+
+  /* =============================================
+     API-STATUS ANZEIGEN
+  ============================================= */
+  function setApiStatus(type, message) {
+    const el = document.getElementById('apiStatus');
+    el.className  = `api-status ${type}`;
+    el.textContent = message;
   }
 
   /* =============================================
@@ -774,16 +998,14 @@
   ============================================= */
   function appendMessage(type, text, label) {
     const container = document.getElementById('messages');
-
     const div = document.createElement('div');
     div.className = `msg ${type}`;
     div.innerHTML = `
       <div class="msg-label">${escapeHtml(label)}</div>
       <div>${escapeHtml(text)}</div>
     `;
-
     container.appendChild(div);
-    container.scrollTop = container.scrollHeight; // nach unten scrollen
+    container.scrollTop = container.scrollHeight;
   }
 
   /* =============================================
@@ -792,9 +1014,7 @@
   function showTyping(show) {
     const el = document.getElementById('typing');
     el.classList.toggle('visible', show);
-    if (show) {
-      document.getElementById('messages').scrollTop = 99999;
-    }
+    if (show) document.getElementById('messages').scrollTop = 99999;
   }
 
   /* =============================================
@@ -802,6 +1022,7 @@
   ============================================= */
   function clearChat(withGreeting = true) {
     document.getElementById('messages').innerHTML = '';
+    chatHistory = []; // auch API-Verlauf zurücksetzen
     if (withGreeting && activeRole) {
       appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name);
     }
