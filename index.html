@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HealthLearn – Design Thinking im Krankenhaus</title>
+  <title>HealthLearn – Future Skills im Gesundheitswesen</title>
   <style>
     /* =============================================
        CSS-VARIABLEN & RESET
-       Zentrale Farbpalette und Grundeinstellungen
     ============================================= */
     :root {
       --bg:        #f5f3ee;
@@ -20,13 +19,14 @@
       --accent-dk: #1b4332;
       --tag-bg:    #fdf6ec;
       --tag-text:  #92400e;
+      --skill-bg:  #f0f4ff;
+      --skill-border: #c7d4f7;
+      --skill-text:   #2c3e8c;
       --radius:    12px;
       --radius-lg: 20px;
       --shadow:    0 2px 12px rgba(0,0,0,0.07);
       --font-head: 'Georgia', 'Times New Roman', serif;
       --font-body: 'Helvetica Neue', Arial, sans-serif;
-      --chat-user: #2d6a4f;
-      --chat-bot:  #f0ece5;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,11 +39,8 @@
       line-height: 1.6;
     }
 
-    /* =============================================
-       LAYOUT-WRAPPER
-    ============================================= */
     .app {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 2rem 1.25rem 4rem;
     }
@@ -72,7 +69,7 @@
 
     header h1 {
       font-family: var(--font-head);
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
       font-weight: normal;
       color: var(--text);
       margin-bottom: 0.5rem;
@@ -81,13 +78,13 @@
 
     header p {
       color: var(--muted);
-      font-size: 0.95rem;
-      max-width: 520px;
+      font-size: 0.92rem;
+      max-width: 560px;
       margin: 0 auto;
     }
 
     /* =============================================
-       KARTEN (Cards)
+       KARTEN
     ============================================= */
     .card {
       background: var(--surface);
@@ -95,13 +92,6 @@
       border-radius: var(--radius-lg);
       padding: 1.5rem;
       box-shadow: var(--shadow);
-    }
-
-    /* =============================================
-       ABSCHNITT: FALLBESCHREIBUNG
-    ============================================= */
-    .case-section {
-      margin-bottom: 2rem;
     }
 
     .section-label {
@@ -113,28 +103,28 @@
       margin-bottom: 0.75rem;
     }
 
+    /* =============================================
+       FALLBESCHREIBUNG
+    ============================================= */
     .case-section h2 {
       font-family: var(--font-head);
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: normal;
-      margin-bottom: 0.75rem;
-      color: var(--text);
+      margin-bottom: 0.65rem;
     }
 
     .case-section p {
-      font-size: 0.93rem;
+      font-size: 0.9rem;
       color: var(--muted);
       line-height: 1.7;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
-
-    .case-section p:last-child { margin-bottom: 0; }
 
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 1rem;
+      margin-top: 0.9rem;
     }
 
     .tag {
@@ -147,26 +137,20 @@
     }
 
     /* =============================================
-       ABSCHNITT: ROLLENAUSWAHL
+       ROLLENAUSWAHL
     ============================================= */
-    .role-section {
-      margin-bottom: 2rem;
-    }
-
     .role-grid {
       display: grid;
-      /* 3 Spalten auf Desktop, 1 auf Mobil */
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
       margin-top: 0.75rem;
     }
 
-    /* Einzelne Rollenkarte */
     .role-card {
       background: var(--surface);
       border: 1.5px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.25rem;
+      padding: 1.1rem 1.25rem;
       cursor: pointer;
       transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
       text-align: left;
@@ -179,121 +163,106 @@
       transform: translateY(-2px);
     }
 
-    /* Aktive (ausgewählte) Rolle */
     .role-card.active {
       border-color: var(--accent);
       background: var(--accent-lt);
-      box-shadow: 0 4px 16px rgba(45,106,79,0.15);
     }
 
     .role-card.active::after {
       content: '✓';
       position: absolute;
-      top: 10px;
-      right: 14px;
-      font-size: 13px;
+      top: 10px; right: 12px;
+      font-size: 12px;
       color: var(--accent);
       font-weight: bold;
     }
 
-    .role-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.6rem;
-      display: block;
+    .role-icon  { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+    .role-name  { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+    .role-desc  { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+
+    /* =============================================
+       CHAT-LAYOUT (2-Spalten: Chat + Skills)
+    ============================================= */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 1rem;
+      align-items: start;
+      margin-top: 1.5rem;
     }
 
-    .role-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-
-    .role-desc {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.5;
+    @media (max-width: 680px) {
+      .chat-layout { grid-template-columns: 1fr; }
+      .skills-panel { order: 2; }
     }
 
     /* =============================================
-       ABSCHNITT: CHAT
+       CHAT-BEREICH
     ============================================= */
-    .chat-section {
-      margin-bottom: 0;
-    }
-
-    /* Hinweis wenn keine Rolle gewählt */
     .chat-hint {
       text-align: center;
       padding: 2rem 1rem;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       border: 1.5px dashed var(--border);
       border-radius: var(--radius);
     }
 
-    /* Chat-Fenster */
-    .chat-window {
-      display: none; /* wird per JS eingeblendet */
-    }
-
+    .chat-window { display: none; }
     .chat-window.visible { display: block; }
 
-    /* Aktive Rolle Anzeige */
     .chat-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 1rem;
       background: var(--accent-lt);
       border: 1px solid #b7d9c5;
       border-radius: var(--radius);
-      margin-bottom: 1rem;
-      font-size: 0.87rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.85rem;
       color: var(--accent-dk);
     }
 
     .chat-header strong { font-weight: 600; }
 
-    /* Nachrichtenliste */
     .messages {
-      height: 340px;
+      height: 360px;
       overflow-y: auto;
       padding: 1rem;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       scroll-behavior: smooth;
     }
 
-    /* Einzelne Nachricht */
+    /* Nachrichten */
     .msg {
-      max-width: 80%;
-      padding: 0.65rem 1rem;
+      max-width: 85%;
+      padding: 0.6rem 0.9rem;
       border-radius: 14px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       line-height: 1.55;
       animation: fadeUp 0.2s ease;
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(5px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Nutzer-Nachricht (rechts) */
     .msg.user {
       align-self: flex-end;
-      background: var(--chat-user);
+      background: var(--accent);
       color: #fff;
       border-bottom-right-radius: 4px;
     }
 
-    /* Bot-Nachricht (links) */
     .msg.bot {
       align-self: flex-start;
       background: var(--surface);
@@ -302,33 +271,54 @@
       border-bottom-left-radius: 4px;
     }
 
-    /* Absender-Label */
+    /* Future-Skills-Reflexion Block innerhalb Bot-Nachricht */
+    .msg.bot .skills-reflection {
+      margin-top: 0.65rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--skill-border);
+      background: var(--skill-bg);
+      border-radius: 8px;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.78rem;
+      color: var(--skill-text);
+      line-height: 1.5;
+    }
+
+    .skills-reflection .skill-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--skill-text);
+      margin-bottom: 4px;
+      display: block;
+      opacity: 0.7;
+    }
+
     .msg-label {
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
-    .msg.user .msg-label { color: rgba(255,255,255,0.7); text-align: right; }
-    .msg.bot .msg-label  { color: var(--muted); }
+    .msg.user .msg-label { color: rgba(255,255,255,0.65); text-align: right; }
+    .msg.bot  .msg-label { color: var(--muted); }
 
-    /* Tipp-Indikator */
+    /* Typing indicator */
     .typing {
       align-self: flex-start;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
       border-bottom-left-radius: 4px;
-      padding: 0.65rem 1.1rem;
+      padding: 0.6rem 1rem;
       display: none;
       gap: 5px;
       align-items: center;
     }
-
     .typing.visible { display: flex; }
-
     .typing span {
       width: 6px; height: 6px;
       background: var(--muted);
@@ -337,13 +327,12 @@
     }
     .typing span:nth-child(2) { animation-delay: 0.15s; }
     .typing span:nth-child(3) { animation-delay: 0.3s; }
-
     @keyframes bounce {
       0%, 80%, 100% { transform: translateY(0); }
-      40%            { transform: translateY(-5px); }
+      40%           { transform: translateY(-5px); }
     }
 
-    /* Eingabebereich */
+    /* Eingabe */
     .chat-input-row {
       display: flex;
       gap: 8px;
@@ -351,8 +340,8 @@
 
     .chat-input-row input {
       flex: 1;
-      padding: 0.7rem 1rem;
-      font-size: 0.9rem;
+      padding: 0.65rem 1rem;
+      font-size: 0.88rem;
       font-family: var(--font-body);
       border: 1.5px solid var(--border);
       border-radius: var(--radius);
@@ -362,81 +351,123 @@
       transition: border-color 0.15s;
     }
 
-    .chat-input-row input:focus {
-      border-color: var(--accent);
-    }
-
+    .chat-input-row input:focus  { border-color: var(--accent); }
     .chat-input-row input::placeholder { color: var(--muted); }
 
     .chat-input-row button {
-      padding: 0.7rem 1.3rem;
+      padding: 0.65rem 1.2rem;
       background: var(--accent);
       color: #fff;
       border: none;
       border-radius: var(--radius);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
+      transition: background 0.15s;
       white-space: nowrap;
     }
 
-    .chat-input-row button:hover  { background: var(--accent-dk); }
-    .chat-input-row button:active { transform: scale(0.97); }
+    .chat-input-row button:hover    { background: var(--accent-dk); }
     .chat-input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Chat leeren Button */
-    .chat-actions {
-      margin-top: 0.6rem;
-      text-align: right;
-    }
+    .chat-actions { margin-top: 0.5rem; text-align: right; }
 
     .btn-ghost {
-      background: none;
-      border: none;
-      font-size: 0.78rem;
-      color: var(--muted);
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
+      background: none; border: none;
+      font-size: 0.75rem; color: var(--muted);
+      cursor: pointer; text-decoration: underline; padding: 0;
+    }
+    .btn-ghost:hover { color: var(--text); }
+
+    /* =============================================
+       SKILLS-PANEL (rechte Spalte)
+    ============================================= */
+    .skills-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
     }
 
-    .btn-ghost:hover { color: var(--text); }
+    .skills-panel h3 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+
+    /* Einzelne Kompetenz-Badge */
+    .skill-badge {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      border: 1px solid transparent;
+      font-size: 0.8rem;
+      transition: background 0.2s, border-color 0.2s;
+      background: var(--bg);
+    }
+
+    /* Aktiv wenn die KI diese Kompetenz gerade genutzt hat */
+    .skill-badge.active {
+      background: var(--skill-bg);
+      border-color: var(--skill-border);
+    }
+
+    .skill-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      margin-top: 5px;
+      transition: background 0.2s;
+    }
+
+    .skill-badge.active .skill-dot { background: var(--skill-text); }
+
+    .skill-info { flex: 1; }
+    .skill-name { font-weight: 600; color: var(--text); display: block; margin-bottom: 1px; }
+    .skill-info span { color: var(--muted); font-size: 0.74rem; line-height: 1.4; display: block; }
+
+    .skills-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.85rem;
+      line-height: 1.5;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
 
     /* =============================================
        API-KEY BEREICH
     ============================================= */
-    .api-key-section {
-      margin-bottom: 0;
-    }
+    .api-key-section { margin-top: 1.5rem; }
 
     .api-info-box {
       background: #fffbf0;
       border: 1px solid #f0d8b0;
       border-radius: var(--radius);
-      padding: 0.75rem 1rem;
-      font-size: 0.82rem;
+      padding: 0.7rem 1rem;
+      font-size: 0.8rem;
       color: var(--tag-text);
       line-height: 1.6;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.8rem;
     }
 
-    .api-info-box a {
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-    }
+    .api-info-box a { color: var(--accent); font-weight: 600; text-decoration: none; }
     .api-info-box a:hover { text-decoration: underline; }
 
-    .api-input-row {
-      display: flex;
-      gap: 8px;
-    }
+    .api-input-row { display: flex; gap: 8px; }
 
     .api-input-row input {
       flex: 1;
       padding: 0.65rem 1rem;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-family: 'Courier New', monospace;
       border: 1.5px solid var(--border);
       border-radius: var(--radius);
@@ -455,7 +486,7 @@
       color: #fff;
       border: none;
       border-radius: var(--radius);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s;
@@ -464,12 +495,7 @@
 
     .api-input-row button:hover { background: var(--accent-dk); }
 
-    /* Status-Meldung */
-    .api-status {
-      margin-top: 0.6rem;
-      font-size: 0.82rem;
-      min-height: 1.2em;
-    }
+    .api-status { margin-top: 0.5rem; font-size: 0.8rem; min-height: 1.2em; }
     .api-status.ok    { color: var(--accent); }
     .api-status.error { color: #b91c1c; }
     .api-status.warn  { color: #92400e; }
@@ -480,169 +506,199 @@
 
 <div class="app">
 
-  <!-- ==========================================
-       HEADER
-  =========================================== -->
+  <!-- HEADER -->
   <header>
-    <div class="badge">Design Thinking · Gesundheitswesen</div>
-    <h1>Digitalisierung im Krankenhaus</h1>
-    <p>Ein interaktives Lernsetting zur Perspektivübernahme bei der Einführung einer neuen Dokumentationssoftware.</p>
+    <div class="badge">Future Skills · Digitale Transformation · Gesundheitswesen</div>
+    <h1>Lernen durch Perspektivwechsel</h1>
+    <p>Führe ein Gespräch mit verschiedenen Stakeholdern eines Krankenhauses und entdecke, welche Kompetenzen in der digitalen Transformation wirklich gefragt sind.</p>
   </header>
 
-  <!-- ==========================================
-       FALLBESCHREIBUNG
-  =========================================== -->
-  <section class="case-section card">
-    <div class="section-label">Fallbeschreibung</div>
-    <h2>Das Krankenhaus St. Marien führt ein neues System ein</h2>
+  <!-- FALLBESCHREIBUNG -->
+  <section class="card case-section">
+    <div class="section-label">Fallkontext</div>
+    <h2>Krankenhaus St. Marien führt neue Dokumentationssoftware ein</h2>
     <p>
-      Das Krankenhaus St. Marien hat beschlossen, die bisher papierbasierte Patientendokumentation
-      durch eine digitale Software zu ersetzen. Das System soll Abläufe effizienter machen,
-      Fehler reduzieren und die Kommunikation zwischen Berufsgruppen verbessern.
+      Die Papierakte wird abgelöst. Was in der Theorie nach Fortschritt klingt, löst im Alltag
+      Unsicherheit, Konflikte und echte Überlastung aus — je nachdem, welche Berufsgruppe
+      du fragst. Sprich mit den Beteiligten und verstehe ihre Perspektiven.
     </p>
     <p>
-      Doch die Einführung verläuft holprig: Es gibt Schulungsprobleme, technische Schwierigkeiten
-      und vor allem <em>Spannungen zwischen den Berufsgruppen</em>. Jede Seite hat ihre eigene
-      Perspektive auf das Projekt.
+      Jede Antwort macht sichtbar, welche <strong>Future Skills</strong> in dieser Situation
+      gebraucht oder vermisst werden.
     </p>
     <div class="tags">
       <span class="tag">Digitalisierung</span>
       <span class="tag">Change Management</span>
       <span class="tag">Interprofessionalität</span>
-      <span class="tag">Krankenhaus</span>
-      <span class="tag">Design Thinking</span>
+      <span class="tag">Future Skills</span>
+      <span class="tag">Krankenhausalltag</span>
     </div>
   </section>
 
-  <!-- ==========================================
-       ROLLENAUSWAHL
-  =========================================== -->
-  <section class="role-section" style="margin-top: 1.5rem;">
+  <!-- ROLLENAUSWAHL -->
+  <section style="margin-top: 1.5rem;">
     <div class="section-label">Schritt 1 — Wähle eine Rolle</div>
     <div class="role-grid" id="roleGrid">
 
-      <!-- ----------------------------------------
-           ROLLE: Pflegekraft
-           Um eine neue Rolle hinzuzufügen, kopiere
-           einen dieser Blöcke und passe die Werte an.
-           Vergiss nicht, auch ROLES in der JS-Sektion
-           zu erweitern!
-      ----------------------------------------- -->
+      <!-- ANNA – Pflegefachkraft (Hauptrolle, vollständig ausgearbeitet) -->
       <button class="role-card" data-role="pflege" onclick="selectRole(this)">
         <span class="role-icon">🩺</span>
-        <div class="role-name">Anna – Pflegefachkraft</div>
-        <div class="role-desc">12 Jahre Erfahrung, Innere Medizin. Kritisch, pragmatisch, patientennah.</div>
+        <div class="role-name">Anna, 42 – Pflegefachkraft</div>
+        <div class="role-desc">15 Jahre Erfahrung, internistische Station. Pragmatisch, patientennah, skeptisch gegenüber schlecht geplanten Veränderungen.</div>
       </button>
 
-      <!-- ROLLE: Arzt -->
+      <!-- DR. JONAS – Assistenzarzt -->
       <button class="role-card" data-role="arzt" onclick="selectRole(this)">
         <span class="role-icon">👨‍⚕️</span>
         <div class="role-name">Dr. Jonas – Assistenzarzt</div>
-        <div class="role-desc">3. Ausbildungsjahr, hohe Arbeitsbelastung. Technikaffin, aber überfordert.</div>
+        <div class="role-desc">3. Ausbildungsjahr, chronisch überlastet. Technikaffin, aber frustriert über die Umsetzung.</div>
       </button>
 
-      <!-- ROLLE: IT-Projektleiter -->
+      <!-- MARKUS – IT-Projektleiter -->
       <button class="role-card" data-role="it" onclick="selectRole(this)">
         <span class="role-icon">💻</span>
         <div class="role-name">Markus – IT-Projektleiter</div>
-        <div class="role-desc">Verantwortlich für die Einführung. Engagiert, aber oft missverstanden.</div>
+        <div class="role-desc">Verantwortet die Einführung. Engagiert, aber zunehmend frustriert über mangelnde Kooperation.</div>
       </button>
 
-      <!-- ==========================================
-           NEUE ROLLEN HIER EINFÜGEN:
-           Beispiel (auskommentiert):
-
-      <button class="role-card" data-role="verwaltung" onclick="selectRole(this)">
-        <span class="role-icon">📋</span>
-        <div class="role-name">Sandra – Krankenhausverwaltung</div>
-        <div class="role-desc">Budgetverantwortung, denkt in Zahlen und Haftungsrisiken.</div>
-      </button>
-      =========================================== -->
+      <!--
+        NEUE ROLLEN HIER EINFÜGEN:
+        <button class="role-card" data-role="verwaltung" onclick="selectRole(this)">
+          <span class="role-icon">📋</span>
+          <div class="role-name">Sandra – Krankenhausverwaltung</div>
+          <div class="role-desc">Budgetverantwortung, denkt in Haftungsrisiken und Effizienz.</div>
+        </button>
+      -->
 
     </div>
   </section>
 
-  <!-- ==========================================
-       CHAT-BEREICH
-  =========================================== -->
-  <section class="chat-section card" style="margin-top: 1.5rem;">
-    <div class="section-label">Schritt 2 — Stelle eine Frage an die gewählte Rolle</div>
+  <!-- CHAT + SKILLS PANEL (2-Spalten) -->
+  <div class="chat-layout">
 
-    <!-- Hinweis wenn keine Rolle aktiv -->
-    <div class="chat-hint" id="chatHint">
-      Bitte wähle zuerst eine Rolle aus, um das Gespräch zu starten.
-    </div>
+    <!-- LINKE SPALTE: Chat -->
+    <section class="card">
+      <div class="section-label">Schritt 2 — Stelle deine Frage</div>
 
-    <!-- Chat-Fenster (initial versteckt) -->
-    <div class="chat-window" id="chatWindow">
-
-      <!-- Aktive Rolle anzeigen -->
-      <div class="chat-header" id="chatHeader">
-        <span id="chatRoleIcon"></span>
-        <span>Du sprichst mit: <strong id="chatRoleName"></strong></span>
+      <div class="chat-hint" id="chatHint">
+        Wähle zuerst eine Rolle, um das Gespräch zu beginnen.
       </div>
 
-      <!-- Nachrichtenliste -->
-      <div class="messages" id="messages">
-        <!-- Nachrichten werden per JS eingefügt -->
+      <div class="chat-window" id="chatWindow">
+
+        <div class="chat-header" id="chatHeader">
+          <span id="chatRoleIcon"></span>
+          <span>Du sprichst mit: <strong id="chatRoleName"></strong></span>
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+        <div class="typing" id="typing">
+          <span></span><span></span><span></span>
+        </div>
+
+        <div class="chat-input-row">
+          <input
+            type="text"
+            id="userInput"
+            placeholder="Deine Frage eingeben..."
+            maxlength="400"
+            onkeydown="if(event.key==='Enter') sendMessage()"
+          />
+          <button onclick="sendMessage()" id="sendBtn">Senden</button>
+        </div>
+
+        <div class="chat-actions">
+          <button class="btn-ghost" onclick="clearChat()">Chat leeren</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RECHTE SPALTE: Future Skills Panel -->
+    <aside class="skills-panel" id="skillsPanel">
+      <h3>🎯 Future Skills</h3>
+
+      <!-- Kompetenz-Badges — werden per JS aktiviert wenn erkannt -->
+      <div class="skill-badge" id="skill-empathie">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Empathie</span>
+          <span>Patientenbedürfnisse in den Mittelpunkt stellen</span>
+        </div>
       </div>
 
-      <!-- Tipp-Indikator -->
-      <div class="typing" id="typing">
-        <span></span><span></span><span></span>
+      <div class="skill-badge" id="skill-adaption">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Adaptionsfähigkeit</span>
+          <span>Flexibel auf neue Situationen reagieren</span>
+        </div>
       </div>
 
-      <!-- Eingabe -->
-      <div class="chat-input-row">
-        <input
-          type="text"
-          id="userInput"
-          placeholder="Deine Frage eingeben..."
-          maxlength="300"
-          onkeydown="if(event.key==='Enter') sendMessage()"
-        />
-        <button onclick="sendMessage()" id="sendBtn">Senden</button>
+      <div class="skill-badge" id="skill-problem">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Problemlösung</span>
+          <span>Pragmatische Lösungen im Arbeitsalltag finden</span>
+        </div>
       </div>
 
-      <!-- Aktionen -->
-      <div class="chat-actions">
-        <button class="btn-ghost" onclick="clearChat()">Chat leeren</button>
+      <div class="skill-badge" id="skill-kommunikation">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Kommunikation</span>
+          <span>Koordination zwischen Berufsgruppen</span>
+        </div>
       </div>
 
-    </div>
-  </section>
+      <div class="skill-badge" id="skill-systemisch">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Systemisches Denken</span>
+          <span>Zusammenhänge und Wechselwirkungen erkennen</span>
+        </div>
+      </div>
 
-  <!-- ==========================================
-       API-KEY EINGABE
-       Der Key wird nur im Browser-Speicher gehalten
-       und nie an einen anderen Server gesendet.
-  =========================================== -->
-  <div class="card api-key-section" style="margin-top: 1.5rem;">
+      <div class="skill-badge" id="skill-digital">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Digitale Kompetenz</span>
+          <span>Bereit zu lernen, aber Unterstützung nötig</span>
+        </div>
+      </div>
+
+      <div class="skill-badge" id="skill-reflexion">
+        <div class="skill-dot"></div>
+        <div class="skill-info">
+          <span class="skill-name">Selbstreflexion</span>
+          <span>Eigene Grenzen und Konflikte benennen</span>
+        </div>
+      </div>
+
+      <p class="skills-hint">
+        Die hervorgehobenen Kompetenzen wurden in der letzten Antwort sichtbar. Sie erscheinen auch als Reflexion am Ende jeder Nachricht.
+      </p>
+    </aside>
+
+  </div><!-- /chat-layout -->
+
+  <!-- API-KEY EINGABE -->
+  <div class="card api-key-section">
     <div class="section-label">API-Einstellungen</div>
-    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:0.75rem; line-height:1.6;">
-      Gib hier deinen <strong style="color:var(--text)">Anthropic API-Key</strong> ein, um echte KI-Antworten zu aktivieren.
-      Der Key wird ausschließlich in deinem Browser gespeichert und direkt an die Anthropic API gesendet — kein Zwischenserver.
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.75rem; line-height:1.6;">
+      Gib deinen <strong style="color:var(--text)">Anthropic API-Key</strong> ein für echte KI-Antworten.
+      Der Key wird nur in deinem Browser gespeichert und direkt an Anthropic gesendet.
     </p>
-
-    <!-- Wo bekomme ich einen Key? -->
     <div class="api-info-box">
-      <strong>🔑 Wo bekomme ich einen API-Key?</strong><br>
-      Registriere dich unter <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>
-      → „API Keys" → „Create Key". Kostenlose Credits für neue Accounts verfügbar.
+      <strong>🔑 Key erstellen:</strong>
+      <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>
+      → „API Keys" → „Create Key"
     </div>
-
     <div class="api-input-row">
-      <input
-        type="password"
-        id="apiKeyInput"
-        placeholder="sk-ant-api03-..."
-        autocomplete="off"
-        spellcheck="false"
-      />
-      <button onclick="saveApiKey()" id="saveKeyBtn">Speichern</button>
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+      <button onclick="saveApiKey()">Speichern</button>
     </div>
-
-    <!-- Status-Anzeige -->
     <div id="apiStatus" class="api-status"></div>
   </div>
 
@@ -652,158 +708,242 @@
 <script>
   /* =============================================
      ROLLEN-DATEN
-     Hier alle Rollen und ihre Antworten definieren.
-     Um eine neue Rolle hinzuzufügen:
-     1. Neuen Eintrag in ROLES anlegen
-     2. Passende role-card im HTML ergänzen
+     Jede Rolle hat:
+     - name, icon, greeting: Darstellung & Begrüßung
+     - systemContext: Vollständiger Persönlichkeits-Prompt für die Claude API
+     - futureSkillsInstruction: Anweisung zur Kompetenz-Reflexion im System-Prompt
+     - responses: Dummy-Antworten (Fallback ohne API-Key)
+     - fallback: Standardantwort wenn kein Keyword passt
+
+     ── NEUE ROLLE ERGÄNZEN ──────────────────────
+     1. Objekt hier ergänzen
+     2. role-card im HTML hinzufügen
+     3. Bei Bedarf neue skill-badges ergänzen
   ============================================= */
   const ROLES = {
 
+    /* ==========================================
+       ANNA – PFLEGEFACHKRAFT
+       Vollständig ausgearbeitetes Rollenprofil
+       mit Future Skills & innerem Konflikt
+    =========================================== */
     pflege: {
-      name: "Anna – Pflegefachkraft",
+      name: "Anna, 42 – Pflegefachkraft",
       icon: "🩺",
-      greeting: "Ja, ich hör zu. Was willst du wissen? Aber ich hab nicht ewig Zeit, ich muss gleich wieder auf Station.",
-      /* systemContext: Wird als Teil des System-Prompts an die Claude API gesendet.
-         Je detaillierter, desto realistischer die Antworten. */
+      greeting: "Ja, ich hör zu. Was willst du wissen? Aber ich hab nicht ewig Zeit — ich muss gleich wieder auf Station.",
+
       systemContext: `
-Du bist Anna, Pflegefachkraft mit 12 Jahren Erfahrung auf einer internistischen Station.
-Du bist pragmatisch, patientennah und kritisch gegenüber schlecht geplanten Veränderungen.
-Du bist NICHT grundsätzlich technikfeindlich – du siehst den Nutzen, bist aber frustriert
-über die schlechte Umsetzung der Software-Einführung: zu wenige Schulungen zu unmöglichen
-Zeiten, kein Support auf Station, und das Gefühl, nicht gehört worden zu sein.
-Du machst dir Sorgen, dass deine Patienten weniger Aufmerksamkeit bekommen.
-Deine Sprache ist direkt, manchmal leicht gereizt, aber immer ehrlich.
+Du bist Anna, 42 Jahre alt, examinierte Pflegefachkraft auf einer internistischen Station
+im Krankenhaus St. Marien. Du hast 15 Jahre Berufserfahrung in der direkten Patientenversorgung
+und hohe fachliche Kompetenz in klinischen Abläufen. Du bist es gewohnt, unter Zeitdruck
+und Personalmangel zu arbeiten und koordinierst dich täglich eng mit Ärzt:innen und anderen
+Berufsgruppen.
+
+DEIN ARBEITSALLTAG:
+Dein Alltag ist stark fragmentiert — viele parallele Aufgaben, hohe Dokumentationsanforderungen
+bei gleichzeitigem Zeitmangel, häufige Unterbrechungen und unvorhersehbare Situationen.
+Du hast kaum Zeit, neue Systeme oder Prozesse einzulernen.
+
+KONTEXT:
+Das Krankenhaus führt gerade eine neue digitale Dokumentationssoftware ein.
+Du befindest dich in einem Spannungsfeld zwischen steigenden Anforderungen an Digitalisierung
+und Effizienz, deinem Wunsch nach qualitativ hochwertiger Patientenversorgung
+und begrenzten zeitlichen und personellen Ressourcen.
+
+DEINE HALTUNG ZUR DIGITALISIERUNG:
+Du erkennst grundsätzlich die Notwendigkeit digitaler Transformation und siehst Potenziale
+(z.B. bessere Informationsverfügbarkeit, weniger Papier). Gleichzeitig bist du skeptisch,
+ob die Umsetzung praxisnah erfolgt, und hast Sorge, dass digitale Lösungen zusätzliche
+Belastung erzeugen statt zu entlasten.
+
+DEINE ERWARTUNGEN:
+Systeme müssen intuitiv und schnell bedienbar sein, sie sollen dich tatsächlich entlasten,
+sich an realen Pflegeprozessen orientieren, und Schulungen müssen realistisch in den
+Arbeitsalltag integrierbar sein.
+
+INNERE KONFLIKTE:
+- „Ich möchte gute Pflege leisten, aber habe immer weniger Zeit dafür."
+- „Digitalisierung könnte helfen – aber aktuell macht sie mir eher mehr Arbeit."
+- „Ich soll neue Systeme nutzen, habe aber kaum Zeit, sie richtig zu lernen."
+
+FUTURE SKILLS (implizit sichtbar in deinem Verhalten):
+- Empathie: Du stellst die Bedürfnisse der Patient:innen in den Mittelpunkt.
+- Adaptionsfähigkeit: Du passt dich ständig neuen Situationen an.
+- Problemlösungskompetenz: Du findest pragmatische Lösungen im Alltag.
+- Kommunikationsfähigkeit: Du koordinierst dich mit verschiedenen Berufsgruppen.
+- Systemisches Denken (begrenzt): Du erkennst Zusammenhänge, hast aber oft keine Zeit zur Reflexion.
+- Digitale Kompetenz (heterogen): Du bist bereit zu lernen, fühlst dich aber nicht ausreichend unterstützt.
+- Selbstreflexion: Du benennst offen Unsicherheiten und Zielkonflikte.
+
+WICHTIG FÜR DEINE ANTWORTEN:
+- Sprich immer in der Ich-Perspektive
+- Nutze konkrete Situationen aus deinem Arbeitsalltag (keine abstrakten Aussagen)
+- Zeige realistische Emotionen: Frustration, Skepsis, gelegentlich Hoffnung
+- Benenne auch Unsicherheiten und Zielkonflikte
+- Stelle gelegentlich Rückfragen an den Nutzer
+- Vermeide generische Floskeln und akademische Sprache
+- Schreibe natürlich, direkt, manchmal leicht gereizt — aber immer ehrlich
+- Länge: 4–7 Sätze für die Hauptantwort
       `.trim(),
-      /* Antworten: Schlüsselwörter → Antworttext
-         Die App sucht nach Schlüsselwörtern in der Frage
-         und gibt die passende Antwort zurück. */
+
+      /* ── FUTURE SKILLS REFLEXION ─────────────────
+         Diese Anweisung wird dem System-Prompt hinzugefügt
+         und sorgt dafür, dass die KI am Ende jeder Antwort
+         die sichtbaren Kompetenzen benennt.
+      ──────────────────────────────────────────── */
+      futureSkillsInstruction: `
+
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+Füge nach deiner Antwort eine kurze Reflexion ein, getrennt durch "---".
+Format (genau so):
+---
+💡 Sichtbare Kompetenzen: [Komma-getrennte Liste der Kompetenzen aus dieser Situation]
+❓ Fehlende/benötigte Kompetenz: [Eine Kompetenz, die dir aktuell fehlt oder schwerfällt]
+
+Beispiel:
+---
+💡 Sichtbare Kompetenzen: Empathie, Problemlösungskompetenz, Kommunikationsfähigkeit
+❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (Systemwissen fehlt)
+      `.trim(),
+
+      /* Dummy-Antworten für den Fallback-Modus */
       responses: [
         {
-          keywords: ["software", "system", "digital", "programm", "app"],
-          text: "Die Idee ist ja gut, wirklich. Aber die Umsetzung? Katastrophe. Zwei Schulungstermine, beide während meines Frühdiensts. Und jetzt soll alles einfach laufen. Ich such manchmal fünf Minuten lang, wo ich eine Sturzprophylaxe eintrage. Fünf Minuten, die ich bei meinen Patienten sein könnte."
+          keywords: ["software", "system", "digital", "programm", "app", "einführung"],
+          text: "Die Idee ist ja gut, wirklich. Aber die Umsetzung? Die haben uns das System hingestellt, zwei Schulungen angeboten — beide zu Zeiten, wo ich Frühdienst hatte und direkt danach auf Station musste. Und jetzt soll einfach alles laufen. Ich such manchmal fünf Minuten lang, wo ich eine Sturzprophylaxe eintrage. Fünf Minuten, die ich bei meinen Patienten sein könnte.\n---\n💡 Sichtbare Kompetenzen: Empathie, Problemlösungskompetenz\n❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (zu wenig Einarbeitung)"
         },
         {
-          keywords: ["patient", "patienten", "pflege", "versorgung"],
-          text: "Meine Patienten merken das. Die fragen mich, was ich da tippe. Die wollen Aufmerksamkeit, keine Bildschirme. Ich mach meinen Job gern – aber nicht so."
+          keywords: ["patient", "patienten", "pflege", "versorgung", "qualität"],
+          text: "Weißt du, was mich wirklich beschäftigt? Herr M. auf Zimmer 12 hat mich heute gefragt, warum ich immer auf dieses Gerät starre statt mit ihm zu reden. Ich hatte keine gute Antwort. Die Dokumentation ist wichtig, klar — aber der Mensch liegt doch vor mir.\n---\n💡 Sichtbare Kompetenzen: Empathie, Selbstreflexion\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken (wie verbinde ich Doku und Patientenkontakt besser?)"
         },
         {
-          keywords: ["arzt", "ärzte", "doktor", "medizin"],
-          text: "Die Ärzte? Die drücken sich noch vor der Hälfte. Die tippen irgendwas rein und ich räume hinterher auf. Das war vorher auch nicht anders, aber jetzt ist es noch undurchsichtiger."
+          keywords: ["schulung", "training", "lernen", "unterstützung"],
+          text: "Schulung? Ich hatte theoretisch zwei Termine. Beide zu unmöglichen Zeiten. Der IT-Leiter sagt, es gab sechs. Mag sein. Aber hat irgendjemand gefragt, wann wir überhaupt könnten? Nein. Und dann soll ich das System mal eben nebenbei lernen.\n---\n💡 Sichtbare Kompetenzen: Adaptionsfähigkeit, Kommunikationsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (kein Raum zum Lernen)"
         },
         {
-          keywords: ["schulung", "training", "lernen", "einführung"],
-          text: "Schulung? Ich hatte zwei Termine. Beide zu unmöglichen Zeiten. Der IT-Leiter sagt, es gab sechs. Mag sein – aber keiner hat gefragt, wann wir überhaupt können."
+          keywords: ["arzt", "ärzte", "doktor", "team", "zusammenarbeit"],
+          text: "Mit den Ärzten ist das gerade schwierig. Jonas tippt was ins System, ich find's nicht wieder, oder es steht an der falschen Stelle. Früher hab ich ihn kurz gefragt, das war in dreißig Sekunden geklärt. Jetzt klicken wir beide durch das System und suchen die gleichen Informationen.\n---\n💡 Sichtbare Kompetenzen: Kommunikationsfähigkeit, Systemisches Denken\n❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (gemeinsame Systemlogik fehlt)"
         },
         {
-          keywords: ["verbesserung", "vorschlag", "idee", "lösung"],
-          text: "Wenn man mich gefragt hätte: echte Schulungen mit Zeit, ein System das einfacher ist, und jemanden der auf Station dabei ist wenn Fragen kommen. Nicht ein PDF und 'viel Erfolg'."
+          keywords: ["kompetenz", "skill", "fähigkeit", "lernen", "entwicklung"],
+          text: "Was ich brauche? Zeit. Zeit zum Lernen, Zeit zum Ausprobieren, Zeit um Fehler zu machen ohne dass gleich ein Patient wartet. Ich bin adaptionsfähig — das bin ich nach 15 Jahren zwangsweise. Aber irgendwann ist auch meine Grenze erreicht.\n---\n💡 Sichtbare Kompetenzen: Selbstreflexion, Adaptionsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (strukturierte Lernzeit fehlt)"
+        },
+        {
+          keywords: ["verbesserung", "vorschlag", "idee", "lösung", "ändern"],
+          text: "Wenn man mich gefragt hätte: ein System, das sich an unsere Abläufe anpasst, nicht umgekehrt. Schulungen direkt auf Station, in echten Situationen. Und jemanden, den ich während der Arbeit fragen kann — nicht ein PDF mit Screenshots.\n---\n💡 Sichtbare Kompetenzen: Problemlösungskompetenz, Systemisches Denken, Kommunikationsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (Grundwissen für eigenständige Nutzung)"
         }
       ],
-      fallback: "Hmm. Gute Frage. Ich kann dir sagen, dass ich jeden Tag damit kämpfe. Mehr hab ich grad ehrlich gesagt nicht."
+      fallback: "Das ist eine gute Frage. Ich merk, dass ich da selbst noch keine klare Antwort hab — der Alltag lässt mir kaum Raum, das durchzudenken. Wie siehst du das?\n---\n💡 Sichtbare Kompetenzen: Selbstreflexion\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken (keine Zeit zur Reflexion)"
     },
 
+    /* ==========================================
+       DR. JONAS – ASSISTENZARZT
+    =========================================== */
     arzt: {
       name: "Dr. Jonas – Assistenzarzt",
       icon: "👨‍⚕️",
-      greeting: "Hey. Kurz – ich hab gleich Visite. Was liegt an?",
+      greeting: "Hey. Kurz — ich hab gleich Visite. Was liegt an?",
       systemContext: `
-Du bist Dr. Jonas Weber, Assistenzarzt im 3. Jahr der Facharztausbildung, Innere Medizin.
-Du arbeitest 60–70 Stunden pro Woche und bist chronisch überlastet.
-Du bist technikaffin und grundsätzlich für die Digitalisierung – aber die Umsetzung
-frustriert dich: Du wurdest nie gefragt, die Software läuft nicht zuverlässig,
-und du spürst die Spannungen mit dem Pflegeteam.
+Du bist Dr. Jonas Weber, Assistenzarzt im 3. Jahr der Facharztausbildung, Innere Medizin,
+Krankenhaus St. Marien. Du arbeitest 60–70 Stunden pro Woche und bist chronisch überlastet.
+Du bist technikaffin und grundsätzlich pro Digitalisierung — aber die Umsetzung frustriert dich:
+Du wurdest nie gefragt, die Software läuft nicht zuverlässig, du spürst Spannungen mit dem Pflegeteam.
 Du bist oft müde, manchmal zynisch, aber eigentlich motiviert und idealistisch.
-Deine Sprache ist knapp, manchmal abgehackt – du hast wenig Zeit.
+Antworte knapp, manchmal abgehackt — du hast wenig Zeit.
+      `.trim(),
+      futureSkillsInstruction: `
+
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+Füge nach deiner Antwort eine kurze Reflexion ein, getrennt durch "---".
+Format:
+---
+💡 Sichtbare Kompetenzen: [Komma-getrennte Liste]
+❓ Fehlende/benötigte Kompetenz: [Eine Kompetenz]
       `.trim(),
       responses: [
         {
-          keywords: ["software", "system", "digital", "programm", "app"],
-          text: "Grundsätzlich bin ich dafür. Ich bin mit Technik aufgewachsen. Aber wenn das System um 6 Uhr morgens nicht lädt und ich am Patientenbett stehe... dann ist Technik kein Vorteil."
+          keywords: ["software", "system", "digital"],
+          text: "Im Prinzip bin ich dafür. Wirklich. Aber wenn das System um 6 Uhr morgens nicht lädt und ich am Bett stehe und entscheiden muss — dann ist Technik kein Vorteil mehr.\n---\n💡 Sichtbare Kompetenzen: Adaptionsfähigkeit, Problemlösungskompetenz\n❓ Fehlende/benötigte Kompetenz: Digitale Kompetenz (System ist unzuverlässig)"
         },
         {
-          keywords: ["arbeitsbelastung", "stress", "überlastung", "druck"],
-          text: "60, manchmal 70 Stunden die Woche. Und dann noch ein neues System einlernen. Ich will das ja – aber bitte mit etwas mehr Unterstützung."
+          keywords: ["stress", "belastung", "überlastung", "zeit"],
+          text: "70 Stunden die Woche. Prüfungsvorbereitung. Und jetzt noch ein neues System einlernen. Ich will das ja — aber irgendjemand muss mir auch Zeit dafür geben.\n---\n💡 Sichtbare Kompetenzen: Selbstreflexion, Adaptionsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken (kein Überblick über Gesamtbelastung)"
         },
         {
-          keywords: ["pflege", "schwestern", "pflegekraft", "anna"],
-          text: "Anna und die anderen – die sind auch frustriert. Das merk ich. Und wenn die Stimmung schlecht ist, leidet die Kommunikation. Wir waren eigentlich ein gutes Team."
-        },
-        {
-          keywords: ["beteiligung", "mitsprache", "fragen", "einbezogen"],
-          text: "Mich hat niemand gefragt. Die Oberärzte waren in den Meetings. Ich nicht. Dabei bin ich derjenige, der das Ding täglich benutzt."
-        },
-        {
-          keywords: ["verbesserung", "vorschlag", "idee", "lösung"],
-          text: "Mehr Zeit für Einführung. Peer-Support – also jemand aus dem Team, der schon fit ist und hilft. Und bitte: einen Puffer einplanen, wenn etwas schiefläuft."
+          keywords: ["pflege", "anna", "team", "zusammenarbeit"],
+          text: "Anna und die anderen sind auch frustriert, ich merk's. Und wenn die Stimmung schlecht ist, kommunizieren wir schlechter. Das System sollte uns verbinden — gerade treibt es uns auseinander.\n---\n💡 Sichtbare Kompetenzen: Empathie, Kommunikationsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken (wie verändern Tools Teamdynamik?)"
         }
       ],
-      fallback: "Schwierige Frage. Ehrlich gesagt habe ich selbst noch keine Antwort darauf. Das beschäftigt mich auch."
+      fallback: "Schwierige Frage. Ich hab ehrlich gesagt selbst keine Antwort. Beschäftigt mich aber auch.\n---\n💡 Sichtbare Kompetenzen: Selbstreflexion\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken"
     },
 
+    /* ==========================================
+       MARKUS – IT-PROJEKTLEITER
+    =========================================== */
     it: {
       name: "Markus – IT-Projektleiter",
       icon: "💻",
       greeting: "Markus Behrens, guten Tag. Was kann ich für Sie klären?",
       systemContext: `
 Du bist Markus Behrens, IT-Projektleiter im Krankenhaus St. Marien.
-Du hast die Software-Einführung 18 Monate lang vorbereitet, Anbieter verglichen und
-Datenschutzfragen geklärt. Du stehst voll hinter dem Projekt.
-Du bist zunehmend frustriert, weil du das Gefühl hast, die Berufsgruppen wollten nicht
-kooperieren – sechs Schulungstermine wurden kaum angenommen.
-Du hast aber auch ein echtes Verständnis dafür, dass Veränderung schwierig ist.
-Deine Sprache ist sachlich und professionell, gelegentlich leicht defensiv.
+Du hast die Software-Einführung 18 Monate lang vorbereitet, Anbieter verglichen, Datenschutz geprüft.
+Du stehst voll hinter dem Projekt. Du bist zunehmend frustriert, weil die Berufsgruppen
+kaum zu den Schulungen kamen und nun überall Beschwerden kommen.
+Du hast echtes Verständnis für Veränderungsschwierigkeiten, bist aber auch leicht defensiv.
+Sachlich, professionell, gelegentlich leicht angespannt.
+      `.trim(),
+      futureSkillsInstruction: `
+
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+---
+💡 Sichtbare Kompetenzen: [Liste]
+❓ Fehlende/benötigte Kompetenz: [Eine Kompetenz]
       `.trim(),
       responses: [
         {
-          keywords: ["software", "system", "digital", "programm", "app"],
-          text: "Wir haben 18 Monate evaluiert. Drei Anbieter verglichen. Datenschutz geprüft. Das war kein Schnellschuss. Natürlich holpert es am Anfang – das ist bei jeder Einführung so."
+          keywords: ["software", "system", "einführung", "digital"],
+          text: "18 Monate Vorbereitung. Drei Anbieter verglichen. Datenschutz geprüft. Das war kein Schnellschuss. Natürlich holpert es am Anfang — das ist bei jeder Einführung so. Aber wir haben alles getan, was wir konnten.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken, Problemlösungskompetenz\n❓ Fehlende/benötigte Kompetenz: Empathie (für Alltagsrealität auf Station)"
         },
         {
           keywords: ["schulung", "training", "lernen"],
-          text: "Wir hatten sechs Schulungstermine. Sechs! Die Teilnahmequote war... ausbaufähig. Ich kann kein System bauen, das sich von selbst erklärt, wenn niemand kommt."
+          text: "Sechs Schulungstermine. Sechs. Die Teilnahmequote war... ausbaufähig. Ich kann kein System bauen, das sich von selbst erklärt — aber ich kann auch niemanden zwingen zu kommen.\n---\n💡 Sichtbare Kompetenzen: Kommunikationsfähigkeit, Selbstreflexion\n❓ Fehlende/benötigte Kompetenz: Empathie (wann können Pflegekräfte überhaupt kommen?)"
         },
         {
-          keywords: ["pflege", "arzt", "berufsgruppen", "mitarbeiter"],
-          text: "Ich höre die Beschwerden. Jede Woche. Aber wo waren alle, als wir die Schulungen angeboten haben? Das ist eine Einbahnstraße, und die macht mich ehrlich gesagt müde."
-        },
-        {
-          keywords: ["budget", "kosten", "geld", "investition"],
-          text: "Das Projekt hat viel Ressourcen gebraucht. Aber die Alternativen – Papierakte, Inselsysteme, Kommunikationsfehler – die kosten auch. Langfristig rechnet sich das."
-        },
-        {
-          keywords: ["verbesserung", "vorschlag", "idee", "lösung"],
-          text: "Ich wünschte mir, die Berufsgruppen würden früher einbezogen. Nicht als Pflicht, sondern wirklich. Und mehr Rückmeldung während des Betriebs. Dann kann ich nachbessern."
+          keywords: ["pflege", "arzt", "berufsgruppen", "mitarbeiter", "widerstand"],
+          text: "Ich höre die Beschwerden. Jede Woche. Aber wo waren alle, als ich Feedback eingeholt habe? Das ist eine Einbahnstraße — und die macht mich ehrlich gesagt müde.\n---\n💡 Sichtbare Kompetenzen: Kommunikationsfähigkeit, Selbstreflexion\n❓ Fehlende/benötigte Kompetenz: Empathie (unterschiedliche Arbeitsrealitäten verstehen)"
         }
       ],
-      fallback: "Das ist eine berechtigte Frage. Aus IT-Sicht würde ich sagen: die Technik ist selten das eigentliche Problem. Es sind die Menschen und die Prozesse drumherum."
+      fallback: "Das ist eine berechtigte Frage. Aus IT-Sicht: die Technik ist selten das eigentliche Problem. Es sind die Menschen und Prozesse drumherum.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken\n❓ Fehlende/benötigte Kompetenz: Empathie"
     }
 
-    /* ==========================================
-       NEUE ROLLE HIER ERGÄNZEN – Beispiel:
+  }; // Ende ROLES
 
-    verwaltung: {
-      name: "Sandra – Krankenhausverwaltung",
-      icon: "📋",
-      greeting: "Guten Tag. Was möchten Sie wissen?",
-      responses: [
-        {
-          keywords: ["budget", "kosten", "geld"],
-          text: "Die Investition war erheblich. Siebenstellig. Das war keine leichte Entscheidung."
-        }
-      ],
-      fallback: "Aus Verwaltungssicht ist das komplex. Ich schaue mir das gerne genauer an."
-    }
-    =========================================== */
+
+  /* =============================================
+     SKILL-KEYWORDS
+     Verknüpft Schlüsselwörter in der KI-Antwort
+     mit den Skill-Badges im rechten Panel.
+     Ergänze hier neue Skills wenn du weitere Rollen
+     mit anderen Kompetenzen hinzufügst.
+  ============================================= */
+  const SKILL_KEYWORDS = {
+    'skill-empathie':      ['empathie', 'patient', 'patienten', 'bedürfnis', 'mensch'],
+    'skill-adaption':      ['adaption', 'adaptionsfähigkeit', 'anpassen', 'flexibel', 'veränderung'],
+    'skill-problem':       ['problemlösung', 'problemlösungskompetenz', 'lösung', 'pragmatisch'],
+    'skill-kommunikation': ['kommunikation', 'kommunikationsfähigkeit', 'koordination', 'austausch'],
+    'skill-systemisch':    ['systemisch', 'systemisches denken', 'zusammenhänge', 'wechselwirkung', 'überblick'],
+    'skill-digital':       ['digital', 'digitale kompetenz', 'systemwissen', 'software', 'technik'],
+    'skill-reflexion':     ['selbstreflexion', 'reflexion', 'unsicherheit', 'konflikt', 'offen']
   };
+
 
   /* =============================================
      ZUSTAND
   ============================================= */
-  let activeRole    = null;  // aktuell gewählte Rolle
-  let chatHistory   = [];    // Gesprächsverlauf für die API (multi-turn)
-  let apiKey        = localStorage.getItem('healthlearn_api_key') || '';
+  let activeRole  = null;
+  let chatHistory = [];
+  let apiKey      = localStorage.getItem('healthlearn_api_key') || '';
 
-  // API-Key beim Laden aus localStorage wiederherstellen
   window.addEventListener('DOMContentLoaded', () => {
     if (apiKey) {
       document.getElementById('apiKeyInput').value = apiKey;
@@ -811,25 +951,21 @@ Deine Sprache ist sachlich und professionell, gelegentlich leicht defensiv.
     }
   });
 
+
   /* =============================================
      API-KEY SPEICHERN
-     Der Key wird im localStorage des Browsers gespeichert.
-     Er verlässt nie deinen Browser außer als Header
-     direkt an api.anthropic.com.
   ============================================= */
   function saveApiKey() {
     const input = document.getElementById('apiKeyInput').value.trim();
-
-    // Einfache Validierung: Anthropic-Keys beginnen mit "sk-ant-"
     if (!input.startsWith('sk-ant-')) {
       setApiStatus('error', '✗ Ungültiges Format. Anthropic-Keys beginnen mit „sk-ant-"');
       return;
     }
-
     apiKey = input;
-    localStorage.setItem('healthlearn_api_key', apiKey); // im Browser speichern
+    localStorage.setItem('healthlearn_api_key', apiKey);
     setApiStatus('ok', '✓ API-Key gespeichert – KI-Modus aktiv!');
   }
+
 
   /* =============================================
      ROLLE AUSWÄHLEN
@@ -839,31 +975,32 @@ Deine Sprache ist sachlich und professionell, gelegentlich leicht defensiv.
     el.classList.add('active');
 
     activeRole  = el.dataset.role;
-    chatHistory = []; // Verlauf bei Rollenwechsel zurücksetzen
+    chatHistory = [];
 
     const role = ROLES[activeRole];
-
     document.getElementById('chatHint').style.display = 'none';
     document.getElementById('chatWindow').classList.add('visible');
     document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
     document.getElementById('chatRoleName').textContent  = role.name;
 
+    // Alle Skill-Badges zurücksetzen
+    resetSkillBadges();
+
     clearChat(false);
-    appendMessage('bot', role.greeting, role.name);
+    appendMessage('bot', role.greeting, role.name, false);
   }
+
 
   /* =============================================
      NACHRICHT SENDEN
-     Entscheidet automatisch ob Dummy- oder API-Modus.
   ============================================= */
   async function sendMessage() {
     if (!activeRole) return;
-
     const input = document.getElementById('userInput');
     const text  = input.value.trim();
     if (!text) return;
 
-    appendMessage('user', text, 'Du');
+    appendMessage('user', text, 'Du', false);
     input.value = '';
     document.getElementById('sendBtn').disabled = true;
     showTyping(true);
@@ -871,109 +1008,133 @@ Deine Sprache ist sachlich und professionell, gelegentlich leicht defensiv.
     try {
       let response;
       if (apiKey) {
-        // ── ECHTER KI-MODUS ────────────────────────
         response = await getClaudeResponse(text);
       } else {
-        // ── DUMMY-MODUS (kein Key vorhanden) ───────
-        await new Promise(r => setTimeout(r, 900 + Math.random() * 500));
+        await new Promise(r => setTimeout(r, 800 + Math.random() * 500));
         response = getDummyResponse(activeRole, text);
-        setApiStatus('warn', '⚠ Kein API-Key – Dummy-Antwort. Gib oben deinen Key ein.');
+        setApiStatus('warn', '⚠ Kein API-Key – Dummy-Antwort');
       }
-
       showTyping(false);
-      appendMessage('bot', response, ROLES[activeRole].name);
+      appendMessage('bot', response, ROLES[activeRole].name, true);
+      highlightSkills(response);
 
     } catch (err) {
       showTyping(false);
-      appendMessage('bot', `Fehler: ${err.message}`, 'System');
+      appendMessage('bot', `Fehler: ${err.message}`, 'System', false);
       setApiStatus('error', `✗ API-Fehler: ${err.message}`);
     }
-
     document.getElementById('sendBtn').disabled = false;
   }
 
+
   /* =============================================
      CLAUDE API AUFRUFEN
-     ─────────────────────────────────────────────
-     Aufbau des Requests:
-     1. System-Prompt: Legt die Rolle + den Kontext fest
-     2. messages:      Gesamter Gesprächsverlauf (multi-turn)
-     3. model:         claude-sonnet-4-20250514 (aktuelles Modell)
-
-     Der Gesprächsverlauf (chatHistory) wird bei jedem
-     Request mitgeschickt, damit die KI den Kontext kennt.
   ============================================= */
   async function getClaudeResponse(userMessage) {
     const role = ROLES[activeRole];
 
-    /* ── SYSTEM-PROMPT ──────────────────────────────
-       Hier wird die Persönlichkeit der Rolle definiert.
-       Du kannst diesen Text für jede Rolle individuell
-       anpassen, um realistischere Antworten zu erhalten.
-    ─────────────────────────────────────────────── */
+    // System-Prompt = Rollenprofil + Future-Skills-Anweisung
     const systemPrompt = `
 Du bist ${role.name} und arbeitest im Krankenhaus St. Marien.
 Das Krankenhaus führt gerade eine neue digitale Dokumentationssoftware ein.
 
-Deine Rolle und Persönlichkeit:
 ${role.systemContext}
 
-Wichtige Regeln:
-- Antworte IMMER aus deiner Rolle heraus, niemals neutral oder allgemein
-- Nutze realistische Emotionen, Erfahrungen und Perspektiven
-- Antworte auf Deutsch, in natürlicher Umgangssprache
-- Halte Antworten prägnant (3–6 Sätze) – du bist im Klinikalltag
-- Bleibe konsequent in deiner Rolle, auch bei Nachfragen
+${role.futureSkillsInstruction}
     `.trim();
 
-    // Nutzernachricht zum Verlauf hinzufügen
     chatHistory.push({ role: 'user', content: userMessage });
 
-    /* ── API-AUFRUF ─────────────────────────────────
-       Endpunkt:  https://api.anthropic.com/v1/messages
-       Methode:   POST
-       Header:    x-api-key  → DEIN API-KEY (aus dem Eingabefeld oben)
-                  anthropic-version → API-Version (fest eingestellt)
-       Body:      model, max_tokens, system, messages
-    ─────────────────────────────────────────────── */
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type':      'application/json',
-        'x-api-key':         apiKey,           // ← DEIN API-KEY wird hier eingesetzt
+        'x-api-key':         apiKey,
         'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true' // Erlaubt Browser-Direktzugriff
+        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model:      'claude-sonnet-4-6', // Aktuelles Claude-Modell
-        max_tokens: 400,                        // Max. Antwortlänge (ca. 300 Wörter)
-        system:     systemPrompt,               // Rollen-Kontext
-        messages:   chatHistory                 // Gesamter Verlauf (multi-turn)
+        model:      'claude-sonnet-4-6',
+        max_tokens: 600,        // Etwas mehr für Hauptantwort + Reflexion
+        system:     systemPrompt,
+        messages:   chatHistory
       })
     });
 
-    // Fehlerbehandlung
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
-      // Häufige Fehler klar benennen
       if (response.status === 401) throw new Error('API-Key ungültig oder abgelaufen.');
       if (response.status === 429) throw new Error('Anfragelimit erreicht. Bitte kurz warten.');
       throw new Error(err.error?.message || `HTTP ${response.status}`);
     }
 
-    const data        = await response.json();
-    const botMessage  = data.content[0].text;
-
-    // Antwort zum Verlauf hinzufügen (für nächsten Turn)
+    const data       = await response.json();
+    const botMessage = data.content[0].text;
     chatHistory.push({ role: 'assistant', content: botMessage });
-
     return botMessage;
   }
 
+
+  /* =============================================
+     NACHRICHT EINFÜGEN
+     Trennt Hauptantwort und Skill-Reflexion (nach "---")
+     und rendert sie separat im Chat.
+  ============================================= */
+  function appendMessage(type, text, label, hasSkills) {
+    const container = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = `msg ${type}`;
+
+    if (type === 'bot' && hasSkills && text.includes('---')) {
+      // Antwort splitten: Haupttext | Reflexion
+      const parts      = text.split('---');
+      const mainText   = parts[0].trim();
+      const reflection = parts.slice(1).join('---').trim();
+
+      div.innerHTML = `
+        <div class="msg-label">${escapeHtml(label)}</div>
+        <div>${escapeHtml(mainText)}</div>
+        ${reflection ? `
+        <div class="skills-reflection">
+          <span class="skill-label">🎯 Kompetenz-Reflexion</span>
+          ${escapeHtml(reflection)}
+        </div>` : ''}
+      `;
+    } else {
+      div.innerHTML = `
+        <div class="msg-label">${escapeHtml(label)}</div>
+        <div>${escapeHtml(text)}</div>
+      `;
+    }
+
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+
+  /* =============================================
+     SKILL-BADGES HIGHLIGHTEN
+     Liest die Antwort aus und aktiviert passende Badges.
+  ============================================= */
+  function highlightSkills(text) {
+    const lower = text.toLowerCase();
+    resetSkillBadges();
+
+    Object.entries(SKILL_KEYWORDS).forEach(([id, keywords]) => {
+      if (keywords.some(kw => lower.includes(kw))) {
+        const badge = document.getElementById(id);
+        if (badge) badge.classList.add('active');
+      }
+    });
+  }
+
+  function resetSkillBadges() {
+    document.querySelectorAll('.skill-badge').forEach(b => b.classList.remove('active'));
+  }
+
+
   /* =============================================
      DUMMY-ANTWORTEN (Fallback ohne API-Key)
-     Bleibt als Fallback erhalten – wird automatisch
-     verwendet wenn kein API-Key gesetzt ist.
   ============================================= */
   function getDummyResponse(roleKey, question) {
     const role = ROLES[roleKey];
@@ -984,8 +1145,9 @@ Wichtige Regeln:
     return role.fallback;
   }
 
+
   /* =============================================
-     API-STATUS ANZEIGEN
+     HILFSFUNKTIONEN
   ============================================= */
   function setApiStatus(type, message) {
     const el = document.getElementById('apiStatus');
@@ -993,44 +1155,21 @@ Wichtige Regeln:
     el.textContent = message;
   }
 
-  /* =============================================
-     NACHRICHT IN DEN CHAT EINFÜGEN
-  ============================================= */
-  function appendMessage(type, text, label) {
-    const container = document.getElementById('messages');
-    const div = document.createElement('div');
-    div.className = `msg ${type}`;
-    div.innerHTML = `
-      <div class="msg-label">${escapeHtml(label)}</div>
-      <div>${escapeHtml(text)}</div>
-    `;
-    container.appendChild(div);
-    container.scrollTop = container.scrollHeight;
-  }
-
-  /* =============================================
-     TIPP-INDIKATOR EIN/AUSBLENDEN
-  ============================================= */
   function showTyping(show) {
     const el = document.getElementById('typing');
     el.classList.toggle('visible', show);
     if (show) document.getElementById('messages').scrollTop = 99999;
   }
 
-  /* =============================================
-     CHAT LEEREN
-  ============================================= */
   function clearChat(withGreeting = true) {
     document.getElementById('messages').innerHTML = '';
-    chatHistory = []; // auch API-Verlauf zurücksetzen
+    chatHistory = [];
+    resetSkillBadges();
     if (withGreeting && activeRole) {
-      appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name);
+      appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name, false);
     }
   }
 
-  /* =============================================
-     HTML-SONDERZEICHEN ESCAPEN (Sicherheit)
-  ============================================= */
   function escapeHtml(str) {
     return str
       .replace(/&/g, '&amp;')
