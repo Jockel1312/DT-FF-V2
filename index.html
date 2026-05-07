@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HealthLearn – Future Skills im Gesundheitswesen</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthLearn – Design Thinking im Gesundheitswesen</title>
   <style>
+
+
     /* =============================================
        CSS-VARIABLEN & RESET
     ============================================= */
@@ -118,6 +120,95 @@
       color: var(--muted);
       line-height: 1.7;
       margin-bottom: 0.5rem;
+    }
+
+    /* Plattform-Bestandteile */
+    .case-platform-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.9rem 0 0.75rem;
+    }
+
+    .case-platform-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      background: var(--skill-bg);
+      color: var(--skill-text);
+      border: 1px solid var(--skill-border);
+      border-radius: 20px;
+      padding: 4px 10px;
+    }
+
+    .case-platform-icon { font-size: 0.9rem; }
+
+    /* Details / Aufklappbereich */
+    .case-details {
+      margin: 0.85rem 0 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .case-details-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-dk);
+      background: var(--accent-lt);
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+
+    .case-details-toggle::-webkit-details-marker { display: none; }
+    .case-details-toggle::before { content: '▶'; font-size: 9px; transition: transform 0.2s; }
+    details[open] .case-details-toggle::before { transform: rotate(90deg); }
+
+    .case-details-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .case-detail-col {
+      padding: 0.85rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .case-detail-col:last-child { border-right: none; }
+
+    .case-detail-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .case-detail-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .case-detail-list li {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 2px 0;
+    }
+
+    .case-detail-list li::before {
+      content: '·';
+      margin-right: 5px;
+      color: var(--accent);
+      font-weight: bold;
     }
 
     .tags {
@@ -500,212 +591,1823 @@
     .api-status.error { color: #b91c1c; }
     .api-status.warn  { color: #92400e; }
 
+    /* =============================================
+       DESIGN THINKING METHODEN
+    ============================================= */
+    .dt-section {
+      margin-top: 1.5rem;
+    }
+
+    .dt-intro {
+      background: linear-gradient(135deg, #f0f4ff 0%, #e8f4ee 100%);
+      border: 1px solid #c7d4f7;
+      border-radius: var(--radius);
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      color: var(--skill-text);
+      line-height: 1.6;
+    }
+
+    .dt-intro strong { color: var(--accent-dk); }
+
+    .dt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 10px;
+    }
+
+    .dt-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s, background 0.15s;
+      text-align: left;
+      position: relative;
+      opacity: 0.55;
+    }
+
+    .dt-card.enabled {
+      opacity: 1;
+    }
+
+    .dt-card.enabled:hover {
+      border-color: var(--skill-text);
+      box-shadow: 0 4px 16px rgba(44,62,140,0.12);
+      transform: translateY(-2px);
+    }
+
+    .dt-card.active {
+      border-color: var(--skill-text);
+      background: var(--skill-bg);
+      opacity: 1;
+    }
+
+    .dt-card.active::after {
+      content: '▶';
+      position: absolute;
+      top: 9px; right: 11px;
+      font-size: 10px;
+      color: var(--skill-text);
+    }
+
+    .dt-icon  { font-size: 1.4rem; margin-bottom: 0.4rem; display: block; }
+    .dt-name  { font-size: 0.82rem; font-weight: 700; color: var(--skill-text); margin-bottom: 0.2rem; }
+    .dt-phase { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+    .dt-desc  { font-size: 0.73rem; color: var(--muted); line-height: 1.4; }
+
+    /* DT-aktiv-Banner im Chat-Header */
+    .dt-active-banner {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: var(--skill-bg);
+      border: 1px solid var(--skill-border);
+      border-radius: var(--radius);
+      padding: 0.5rem 0.85rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--skill-text);
+    }
+
+    .dt-active-banner.visible { display: flex; }
+    .dt-active-banner strong  { font-weight: 700; }
+
+    .dt-clear-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      font-size: 0.72rem;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .dt-clear-btn:hover { color: var(--text); }
+
+    /* Skills Panel Erweiterung */
+    .skills-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.75rem 0 0.6rem;
+    }
+
+    .skills-sub-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      opacity: 0.7;
+    }
+
+    /* =============================================
+       EVALUATION
+    ============================================= */
+    .eval-section {
+      margin-top: 1.5rem;
+      border-color: #ddd6fe;
+    }
+
+    .eval-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .eval-header-row .section-label { margin-bottom: 0; }
+
+    .eval-intro-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .eval-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.1rem;
+    }
+
+    .eval-topic-chip {
+      font-size: 11px;
+      background: #f5f3ff;
+      color: #5b21b6;
+      border: 1px solid #ddd6fe;
+      border-radius: 20px;
+      padding: 3px 11px;
+      font-weight: 500;
+    }
+
+    .btn-eval-start {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0.6rem 1.3rem;
+      background: #6d28d9;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-eval-start:hover    { background: #5b21b6; }
+    .btn-eval-start.open     { background: #4c1d95; }
+
+    /* Eval Chat Panel */
+    .eval-chat-panel {
+      display: none;
+      margin-top: 1rem;
+      border-top: 1px solid #ddd6fe;
+      padding-top: 1rem;
+    }
+
+    .eval-chat-panel.visible { display: block; }
+
+    .eval-chat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1rem;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+      color: #4c1d95;
+    }
+
+    .eval-messages {
+      height: 340px;
+      overflow-y: auto;
+      padding: 1rem;
+      background: var(--bg);
+      border: 1px solid #ddd6fe;
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .eval-msg {
+      max-width: 88%;
+      padding: 0.6rem 0.9rem;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      animation: fadeUp 0.2s ease;
+    }
+
+    .eval-msg.user {
+      align-self: flex-end;
+      background: #6d28d9;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .eval-msg.bot {
+      align-self: flex-start;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid #ddd6fe;
+      border-bottom-left-radius: 4px;
+    }
+
+    .eval-msg .msg-label { font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px; }
+    .eval-msg.user .msg-label { color: rgba(255,255,255,0.6); text-align: right; }
+    .eval-msg.bot  .msg-label { color: #7c3aed; }
+
+    /* Typing für Eval */
+    .eval-typing {
+      align-self: flex-start;
+      background: var(--surface);
+      border: 1px solid #ddd6fe;
+      border-radius: 14px;
+      border-bottom-left-radius: 4px;
+      padding: 0.6rem 1rem;
+      display: none;
+      gap: 5px;
+      align-items: center;
+    }
+    .eval-typing.visible { display: flex; }
+    .eval-typing span {
+      width: 6px; height: 6px;
+      background: #a78bfa;
+      border-radius: 50%;
+      animation: bounce 1s infinite;
+    }
+    .eval-typing span:nth-child(2) { animation-delay: 0.15s; }
+    .eval-typing span:nth-child(3) { animation-delay: 0.30s; }
+
+    .eval-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .eval-input-row input {
+      flex: 1;
+      padding: 0.65rem 1rem;
+      font-size: 0.88rem;
+      font-family: var(--font-body);
+      border: 1.5px solid #ddd6fe;
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .eval-input-row input:focus       { border-color: #7c3aed; }
+    .eval-input-row input::placeholder { color: var(--muted); }
+
+    .eval-input-row button {
+      padding: 0.65rem 1.2rem;
+      background: #6d28d9;
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .eval-input-row button:hover    { background: #5b21b6; }
+    .eval-input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .eval-actions { margin-top: 0.5rem; text-align: right; }
+
+    /* Eval Fortschritts-Chips */
+    .eval-progress {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 0.75rem;
+    }
+
+    .eval-progress-chip {
+      font-size: 10px;
+      padding: 2px 9px;
+      border-radius: 12px;
+      border: 1px solid #ddd6fe;
+      background: #f5f3ff;
+      color: #7c3aed;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .eval-progress-chip.done {
+      background: #6d28d9;
+      color: #fff;
+      border-color: #6d28d9;
+    }
+
+    /* =============================================
+       INTERAKTIVER DT-WORKSHOP
+    ============================================= */
+    .workshop-section { margin-top: 1.5rem; }
+
+    /* Tab Navigation */
+    .ws-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1.5px solid var(--skill-border);
+    }
+
+    .ws-tab {
+      padding: 0.42rem 0.85rem;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .ws-tab:hover { border-color: var(--skill-text); color: var(--skill-text); background: var(--skill-bg); }
+    .ws-tab.active { background: var(--skill-bg); border-color: var(--skill-text); color: var(--skill-text); }
+
+    .ws-panel { display: none; }
+    .ws-panel.active { display: block; animation: fadeUp 0.2s ease; }
+
+    .ws-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: normal;
+      margin-bottom: 0.3rem;
+    }
+
+    .ws-subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .ws-ai-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.48rem 1rem;
+      background: var(--skill-bg);
+      border: 1.5px solid var(--skill-border);
+      border-radius: var(--radius);
+      color: var(--skill-text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .ws-ai-btn:hover    { background: #dce4fc; }
+    .ws-ai-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .ws-ai-response {
+      margin-top: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: var(--skill-bg);
+      border: 1px solid var(--skill-border);
+      border-left: 3px solid var(--skill-text);
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      color: var(--skill-text);
+      line-height: 1.65;
+      display: none;
+      white-space: pre-line;
+    }
+
+    .ws-ai-response.visible { display: block; animation: fadeUp 0.2s ease; }
+
+    .ws-comp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .ws-comp-badge {
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: var(--skill-bg);
+      border: 1px solid var(--skill-border);
+      color: var(--skill-text);
+      font-weight: 600;
+    }
+
+    /* ── EMPATHY MAP ───────────────────────── */
+    .em-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 580px) { .em-grid { grid-template-columns: 1fr; } }
+
+    .em-quadrant {
+      border: 1.5px solid var(--skill-border);
+      border-radius: var(--radius);
+      padding: 0.85rem;
+      background: var(--skill-bg);
+    }
+
+    .em-q-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--skill-text);
+      margin-bottom: 0.2rem;
+    }
+
+    .em-q-hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .em-quadrant textarea {
+      width: 100%;
+      min-height: 88px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.81rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .em-quadrant textarea:focus { border-color: var(--skill-text); }
+    .em-quadrant textarea::placeholder { color: var(--muted); }
+
+    /* ── STAKEHOLDER MAP ───────────────────── */
+    .sm-container {
+      position: relative;
+      background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+      border: 1.5px solid var(--skill-border);
+      border-radius: var(--radius);
+      height: 360px;
+      margin-bottom: 0.85rem;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* quadrant backgrounds */
+    .sm-q { position: absolute; font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--skill-text); opacity: 0.25; }
+
+    .sm-axis-x { position: absolute; bottom: 50%; left: 0; right: 0; border-top: 1px dashed #c7d4f7; pointer-events: none; }
+    .sm-axis-y { position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1px dashed #c7d4f7; pointer-events: none; }
+
+    .sm-lbl { position: absolute; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--skill-text); opacity: 0.5; }
+
+    .sm-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      text-align: center;
+      z-index: 2;
+      transition: transform 0.15s;
+    }
+
+    .sm-node:hover  { transform: translate(-50%, -50%) scale(1.12); }
+    .sm-node.sel .sm-dot { box-shadow: 0 0 0 3px var(--skill-text), 0 3px 12px rgba(0,0,0,.2); }
+
+    .sm-dot {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin: 0 auto 3px;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.14);
+      transition: box-shadow 0.15s;
+    }
+
+    .sm-node-name { font-size: 9.5px; font-weight: 700; color: var(--text); white-space: nowrap; }
+
+    .sm-info {
+      padding: 0.85rem 1rem;
+      background: var(--skill-bg);
+      border: 1px solid var(--skill-border);
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      display: none;
+      animation: fadeUp 0.2s ease;
+      margin-bottom: 0.75rem;
+    }
+
+    .sm-info.visible { display: block; }
+    .sm-info-name  { font-weight: 700; color: var(--skill-text); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .sm-info-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; margin-bottom: 0.5rem; }
+    .sm-info-field label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); display: block; margin-bottom: 1px; }
+    .sm-info-field span  { font-size: 0.8rem; color: var(--text); }
+
+    .sm-conflict-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.4rem; }
+    .sm-conflict-tag  {
+      font-size: 10px;
+      background: #fff0f0;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 2px 7px;
+    }
+
+    /* ── PERSONA CARDS ─────────────────────── */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .persona-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .persona-card:hover { border-color: var(--skill-text); box-shadow: 0 4px 16px rgba(44,62,140,0.1); }
+    .persona-card.open  { border-color: var(--skill-text); }
+
+    .persona-head {
+      background: var(--skill-bg);
+      padding: 0.75rem 0.9rem;
+      border-bottom: 1px solid var(--skill-border);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .persona-av   { font-size: 1.6rem; }
+    .persona-name { font-size: 0.83rem; font-weight: 700; color: var(--skill-text); }
+    .persona-role { font-size: 0.7rem; color: var(--muted); }
+
+    .persona-body { padding: 0.8rem 0.9rem; display: none; font-size: 0.78rem; line-height: 1.5; }
+    .persona-card.open .persona-body { display: block; }
+
+    .pf { margin-bottom: 0.5rem; }
+    .pf-label { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--skill-text); display: block; margin-bottom: 1px; }
+    .pf-val   { color: var(--muted); }
+
+    .persona-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.5rem; }
+    .persona-pill  { font-size: 9.5px; padding: 2px 7px; border-radius: 10px; background: var(--accent-lt); border: 1px solid #b7d9c5; color: var(--accent-dk); }
+
+    /* ── PROBLEM DEFINITION ────────────────── */
+    .pd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 0.85rem;
+    }
+
+    @media (max-width: 580px) { .pd-grid { grid-template-columns: 1fr; } }
+
+    .pd-field {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.8rem 0.9rem;
+    }
+
+    .pd-field.hl { border-color: var(--skill-border); background: var(--skill-bg); }
+
+    .pd-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--skill-text);
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pd-hint { font-size: 0.69rem; color: var(--muted); font-style: italic; margin-bottom: 0.45rem; line-height: 1.4; }
+
+    .pd-field textarea {
+      width: 100%;
+      min-height: 76px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.81rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .pd-field textarea:focus { border-color: var(--skill-text); }
+
+    .pd-pov {
+      background: #fffbf0;
+      border: 1px solid #f0d8b0;
+      border-radius: var(--radius);
+      padding: 0.75rem 0.9rem;
+      font-size: 0.82rem;
+      color: var(--tag-text);
+      line-height: 1.65;
+      margin-bottom: 0.75rem;
+    }
+
+    .pd-pov strong { color: var(--tag-text); }
+
+    /* ── IDEATION BOARD ────────────────────── */
+    .ib-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 0.85rem;
+    }
+
+    .ib-row input {
+      flex: 1;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .ib-row input:focus { border-color: var(--skill-text); }
+    .ib-row input::placeholder { color: var(--muted); }
+
+    .ib-row button {
+      padding: 0.6rem 1.1rem;
+      background: var(--skill-text);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .ib-row button:hover { background: #1e3070; }
+
+    .ib-board {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      min-height: 110px;
+      padding: 0.7rem;
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      align-content: flex-start;
+    }
+
+    .ib-idea {
+      background: #fffbf0;
+      border: 1px solid #f0d8b0;
+      border-radius: 10px;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.79rem;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      max-width: 210px;
+      animation: fadeUp 0.2s ease;
+    }
+
+    .ib-idea-text { flex: 1; line-height: 1.45; }
+
+    .ib-votes { display: flex; flex-direction: column; align-items: center; gap: 1px; flex-shrink: 0; }
+
+    .ib-vbtn {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.9rem; padding: 0; line-height: 1;
+      opacity: 0.35; transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .ib-vbtn:hover, .ib-vbtn.on { opacity: 1; }
+    .ib-vbtn:hover { transform: scale(1.2); }
+
+    .ib-score { font-size: 9px; font-weight: 700; color: var(--muted); min-width: 14px; text-align: center; }
+
+    .ib-empty { font-size: 0.8rem; color: var(--muted); text-align: center; width: 100%; padding: 1.5rem 0; font-style: italic; }
+
+    /* ── REFLEXION ─────────────────────────── */
+    .ref-qs { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.1rem; }
+
+    .ref-q {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.8rem 0.9rem;
+    }
+
+    .ref-q-lbl {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ref-q textarea {
+      width: 100%;
+      min-height: 68px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.81rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .ref-q textarea:focus { border-color: var(--accent); }
+
+    .ref-comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 7px;
+    }
+
+    .ref-comp-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem 0.75rem;
+    }
+
+    .ref-comp-name {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ref-comp-name em { font-style: normal; font-weight: 400; color: var(--muted); font-size: 0.68rem; }
+
+    .ref-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; cursor: pointer; }
+
+    .ref-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--skill-text) 100%);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    .ref-bar-ticks {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3px;
+    }
+
+    .ref-tick {
+      font-size: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0 1px;
+      transition: color 0.1s;
+    }
+
+    .ref-tick:hover { color: var(--skill-text); }
+
+    /* ── EVALUATION DASHBOARD ──────────────── */
+    .evd-section {
+      margin-bottom: 1.1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .evd-section:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .evd-heading {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Likert */
+    .likert-item { margin-bottom: 0.9rem; }
+    .likert-lbl { font-size: 0.81rem; color: var(--text); margin-bottom: 0.35rem; line-height: 1.4; }
+
+    .likert-scale {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .likert-scale input[type=radio] { display: none; }
+
+    .likert-scale label {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .likert-scale label:hover { border-color: var(--skill-text); color: var(--skill-text); background: var(--skill-bg); }
+    .likert-scale input:checked + label { background: var(--skill-text); border-color: var(--skill-text); color: #fff; }
+
+    .likert-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .evd-ta {
+      width: 100%;
+      min-height: 76px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.55rem 0.85rem;
+      font-size: 0.83rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      resize: vertical;
+      outline: none;
+      margin-top: 0.35rem;
+      transition: border-color 0.15s;
+    }
+
+    .evd-ta:focus { border-color: var(--skill-text); }
+
+    /* Star rating */
+    .stars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 7px;
+    }
+
+    .star-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem 0.75rem;
+    }
+
+    .star-name { font-size: 0.75rem; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+
+    .stars { display: flex; gap: 3px; }
+
+    .star {
+      background: none; border: none;
+      font-size: 1.05rem; cursor: pointer;
+      color: var(--border);
+      padding: 0; line-height: 1;
+      transition: color 0.1s, transform 0.1s;
+    }
+
+    .star:hover, .star.lit { color: #f59e0b; }
+    .star:hover { transform: scale(1.15); }
+
+    .evd-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0.6rem 1.4rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 0.5rem;
+    }
+
+    .evd-submit:hover { background: var(--accent-dk); }
+
+    .evd-result {
+      display: none;
+      margin-top: 0.9rem;
+      padding: 0.85rem 1rem;
+      background: var(--accent-lt);
+      border: 1px solid #b7d9c5;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      color: var(--accent-dk);
+      line-height: 1.65;
+    }
+
+    .evd-result.visible { display: block; animation: fadeUp 0.3s ease; }
+
+  
+
+    /* =============================================
+       PHASE-SYSTEM — NAVIGATION & STRUKTUR
+    ============================================= */
+    :root {
+      --phase-accent:  #2d6a4f;
+      --phase-blue:    #2c3e8c;
+      --phase-lt:      #f0f4ff;
+      --phase-border:  #c7d4f7;
+    }
+
+    body { background: #f0f2f5; }
+
+    .app { max-width: 860px; }
+
+    /* Slim header */
+    header { margin-bottom: 1.5rem; }
+    header h1 { font-size: clamp(1.35rem, 3.5vw, 1.9rem); }
+    header p  { font-size: 0.84rem; }
+
+    /* ── PROGRESS BAR ─────────────────────── */
+    .progress-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 2rem;
+      padding: 0 0.5rem;
+      overflow-x: auto;
+      gap: 0;
+    }
+
+    .ps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      min-width: 54px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .ps-dot-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .ps-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      transition: background 0.4s;
+    }
+
+    .ps-line.done { background: var(--accent); }
+
+    .ps-line.left  { border-radius: 1px 0 0 1px; }
+    .ps-line.right { border-radius: 0 1px 1px 0; }
+    .ps-line.ghost { background: transparent; pointer-events: none; }
+
+    .ps-dot {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      transition: all 0.3s;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ps.active .ps-dot  { background: var(--phase-blue); border-color: var(--phase-blue); color: #fff; box-shadow: 0 0 0 4px rgba(44,62,140,0.15); }
+    .ps.done   .ps-dot  { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .ps:hover  .ps-dot  { border-color: var(--phase-blue); }
+
+    .ps-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 5px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      max-width: 64px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ps.active .ps-label { color: var(--phase-blue); font-weight: 700; }
+    .ps.done   .ps-label { color: var(--accent); }
+
+    /* ── PHASE CONTAINER ──────────────────── */
+    .phase { display: none; }
+    .phase.active { display: block; animation: phaseIn 0.35s ease; }
+
+    @keyframes phaseIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PHASE HEADER ─────────────────────── */
+    .phase-hdr {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .phase-num {
+      flex-shrink: 0;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--phase-blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .phase-hdr-text { flex: 1; }
+
+    .phase-title {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .phase-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .phase-comp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 0.6rem;
+    }
+
+    .phase-comp {
+      font-size: 10px;
+      padding: 2px 9px;
+      border-radius: 20px;
+      background: var(--phase-lt);
+      border: 1px solid var(--phase-border);
+      color: var(--phase-blue);
+      font-weight: 600;
+    }
+
+    /* ── PHASE CARD WRAPPER ───────────────── */
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── NAVIGATION BAR ───────────────────── */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.55rem 1.1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-back:hover { border-color: var(--text); color: var(--text); }
+    .btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .nav-indicator {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .nav-indicator strong { color: var(--phase-blue); }
+
+    .btn-next {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.55rem 1.25rem;
+      background: var(--phase-blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-next:hover { background: #1e3070; }
+
+    /* ── PHASE 0: INTRO ───────────────────── */
+    .intro-hero {
+      text-align: center;
+      padding: 1rem 0 1.5rem;
+    }
+
+    .intro-hero-icon { font-size: 3rem; margin-bottom: 0.75rem; display: block; }
+
+    .intro-hero h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      font-weight: normal;
+      margin-bottom: 0.5rem;
+    }
+
+    .intro-hero p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 1.25rem;
+      line-height: 1.7;
+    }
+
+    .intro-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      margin-bottom: 1.5rem;
+    }
+
+    .intro-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      background: var(--phase-lt);
+      color: var(--phase-blue);
+      border: 1px solid var(--phase-border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-weight: 500;
+    }
+
+    .intro-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+      margin: 1.25rem 0 1.5rem;
+      text-align: left;
+    }
+
+    .intro-col {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+
+    .intro-col-head { font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+
+    .intro-col ul {
+      list-style: none;
+      padding: 0; margin: 0;
+    }
+
+    .intro-col li {
+      font-size: 0.77rem;
+      color: var(--muted);
+      padding: 2px 0;
+      line-height: 1.5;
+    }
+
+    .intro-col li::before { content: '·'; margin-right: 5px; color: var(--accent); font-weight: bold; }
+
+    .btn-start {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.8rem 2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 4px 16px rgba(45,106,79,0.25);
+    }
+
+    .btn-start:hover { background: var(--accent-dk); transform: translateY(-1px); }
+
+    /* ── PHASE 1 ROLE CARDS ───────────────── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .role-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+      text-align: left;
+      position: relative;
+    }
+
+    .role-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(45,106,79,0.12); transform: translateY(-2px); }
+    .role-card.active { border-color: var(--accent); background: var(--accent-lt); }
+    .role-card.active::after { content: '✓'; position: absolute; top: 9px; right: 11px; font-size: 12px; color: var(--accent); font-weight: bold; }
+
+    .role-icon { font-size: 1.5rem; margin-bottom: 0.45rem; display: block; }
+    .role-name { font-size: 0.84rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .role-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.4; }
+
+    /* chat layout inside phase 1 */
+    .p1-chat-wrap {
+      display: none;
+      margin-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.25rem;
+    }
+
+    .p1-chat-wrap.visible { display: block; animation: fadeUp 0.2s ease; }
+
+    /* DT method pills in phase 1 */
+    .p1-dt-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .p1-dt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.38rem 0.8rem;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .p1-dt-pill:hover  { border-color: var(--skill-text); color: var(--skill-text); background: var(--skill-bg); }
+    .p1-dt-pill.active { background: var(--skill-bg); border-color: var(--skill-text); color: var(--skill-text); }
+
+    /* Skills sidebar → inline below chat in phase 1 */
+    .p1-skills-inline {
+      margin-top: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .p1-skills-inline h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .p1-badges-row { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  
+
+    /* ══ PHASE SYSTEM v2 — 5 Phasen ══ */
+    :root { --phase-blue:#2c3e8c; --phase-lt:#f0f4ff; --phase-border:#c7d4f7; }
+    body { background:#eef0f5; }
+    .app { max-width:880px; }
+    header { margin-bottom:1.25rem; text-align:center; }
+    header h1 { font-size:clamp(1.3rem,3.5vw,1.85rem); }
+    header p  { font-size:.83rem; }
+
+    /* Progress */
+    .progress-bar { display:flex; align-items:flex-start; justify-content:center; margin-bottom:1.75rem; padding:0 .5rem; gap:0; }
+    .ps { display:flex; flex-direction:column; align-items:center; flex:1; min-width:60px; cursor:pointer; }
+    .ps-dot-row { display:flex; align-items:center; width:100%; }
+    .ps-line { flex:1; height:2px; background:var(--border); transition:background .4s; }
+    .ps-line.done { background:var(--accent); }
+    .ps-line.ghost { background:transparent; pointer-events:none; }
+    .ps-dot { width:32px; height:32px; border-radius:50%; border:2px solid var(--border); background:var(--surface); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; color:var(--muted); transition:all .3s; flex-shrink:0; z-index:1; }
+    .ps.active .ps-dot  { background:var(--phase-blue); border-color:var(--phase-blue); color:#fff; box-shadow:0 0 0 4px rgba(44,62,140,.15); }
+    .ps.done   .ps-dot  { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .ps:hover  .ps-dot  { border-color:var(--phase-blue); }
+    .ps-label  { font-size:9px; font-weight:600; color:var(--muted); text-align:center; margin-top:5px; letter-spacing:.03em; white-space:nowrap; }
+    .ps.active .ps-label { color:var(--phase-blue); font-weight:700; }
+    .ps.done   .ps-label { color:var(--accent); }
+
+    /* Phases */
+    .phase { display:none; }
+    .phase.active { display:block; animation:phaseIn .35s ease; }
+    @keyframes phaseIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Phase header */
+    .phase-hdr { display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.4rem; }
+    .phase-num { flex-shrink:0; width:40px; height:40px; border-radius:50%; background:var(--phase-blue); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.95rem; font-weight:700; }
+    .phase-hdr-text { flex:1; }
+    .phase-title { font-family:var(--font-head); font-size:1.15rem; font-weight:normal; margin-bottom:.25rem; }
+    .phase-desc  { font-size:.82rem; color:var(--muted); line-height:1.6; }
+    .phase-comp-row { display:flex; flex-wrap:wrap; gap:4px; margin-top:.5rem; }
+    .phase-comp { font-size:10px; padding:2px 9px; border-radius:20px; background:var(--phase-lt); border:1px solid var(--phase-border); color:var(--phase-blue); font-weight:600; }
+
+    /* Phase card */
+    .phase-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.75rem; box-shadow:var(--shadow); }
+
+    /* Nav bar */
+    .nav-bar { display:flex; align-items:center; justify-content:space-between; margin-top:1.4rem; padding:.9rem 1.2rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow); }
+    .btn-back { display:inline-flex; align-items:center; gap:5px; padding:.5rem 1rem; border:1.5px solid var(--border); border-radius:var(--radius); background:var(--surface); color:var(--muted); font-size:.82rem; font-weight:600; cursor:pointer; transition:all .15s; }
+    .btn-back:hover    { border-color:var(--text); color:var(--text); }
+    .btn-back:disabled { opacity:.3; cursor:not-allowed; }
+    .nav-indicator { font-size:.78rem; color:var(--muted); text-align:center; line-height:1.5; }
+    .nav-indicator strong { color:var(--phase-blue); }
+    .btn-next { display:inline-flex; align-items:center; gap:5px; padding:.5rem 1.2rem; background:var(--phase-blue); color:#fff; border:none; border-radius:var(--radius); font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s; }
+    .btn-next:hover { background:#1e3070; }
+
+    /* ── PHASE 0 NARRATIVE ── */
+    .narrative { max-width:680px; margin:0 auto; }
+    .narrative-kicker { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:1.2rem; display:block; }
+    .narrative h2 { font-family:var(--font-head); font-size:clamp(1.4rem,3.5vw,2rem); font-weight:normal; margin-bottom:1.2rem; line-height:1.25; color:var(--text); }
+    .narrative p { font-size:.94rem; line-height:1.85; color:#3a3630; margin-bottom:1.1rem; }
+    .narrative .pull { font-size:1.08rem; line-height:1.7; color:var(--accent-dk); font-family:var(--font-head); border-left:3px solid var(--accent); padding-left:1.1rem; margin:1.5rem 0; font-style:italic; }
+    .narrative .divider { border:none; border-top:1px solid var(--border); margin:1.75rem 0; }
+    .narrative-cta { text-align:center; margin-top:2rem; }
+    .btn-start { display:inline-flex; align-items:center; gap:8px; padding:.85rem 2.2rem; background:var(--accent); color:#fff; border:none; border-radius:var(--radius); font-size:1rem; font-weight:700; cursor:pointer; transition:background .15s,transform .1s; box-shadow:0 4px 18px rgba(45,106,79,.25); }
+    .btn-start:hover { background:var(--accent-dk); transform:translateY(-1px); }
+    .narrative-meta { font-size:.75rem; color:var(--muted); margin-top:.75rem; }
+
+    /* ── PHASE 1 ROLES ── */
+    .role-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:10px; margin-bottom:1.2rem; }
+    .role-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:1rem; cursor:pointer; transition:border-color .15s,box-shadow .15s,transform .1s; text-align:left; position:relative; }
+    .role-card:hover { border-color:var(--accent); box-shadow:0 4px 16px rgba(45,106,79,.12); transform:translateY(-2px); }
+    .role-card.active { border-color:var(--accent); background:var(--accent-lt); }
+    .role-card.active::after { content:'✓'; position:absolute; top:9px; right:11px; font-size:12px; color:var(--accent); font-weight:bold; }
+    .role-icon { font-size:1.45rem; margin-bottom:.4rem; display:block; }
+    .role-name { font-size:.82rem; font-weight:700; color:var(--text); margin-bottom:.2rem; }
+    .role-desc { font-size:.72rem; color:var(--muted); line-height:1.4; }
+
+    .p1-chat-wrap { display:none; margin-top:1.2rem; border-top:1px solid var(--border); padding-top:1.2rem; }
+    .p1-chat-wrap.visible { display:block; animation:fadeUp .2s ease; }
+    .p1-dt-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:.8rem; padding-top:.8rem; border-top:1px solid var(--border); }
+    .p1-dt-pill { display:inline-flex; align-items:center; gap:4px; padding:.35rem .75rem; border:1.5px solid var(--border); border-radius:20px; background:var(--surface); color:var(--muted); font-size:.72rem; font-weight:600; cursor:pointer; transition:all .15s; }
+    .p1-dt-pill:hover  { border-color:var(--skill-text); color:var(--skill-text); background:var(--skill-bg); }
+    .p1-dt-pill.active { background:var(--skill-bg); border-color:var(--skill-text); color:var(--skill-text); }
+    .p1-skills-inline { margin-top:.7rem; padding:.8rem 1rem; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); }
+    .p1-skills-inline h4 { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:.45rem; }
+    .p1-badges-row { display:flex; flex-wrap:wrap; gap:4px; }
+    .p1-badges-row .skill-badge { padding:.3rem .6rem; margin-bottom:0; }
+    .p1-badges-row .skill-info span:last-child { display:none; }
+
+    /* ── PHASE 2 METHOD DASHBOARD ── */
+    .method-progress-bar { display:flex; align-items:center; justify-content:space-between; padding:.6rem 1rem; background:var(--skill-bg); border:1px solid var(--skill-border); border-radius:var(--radius); margin-bottom:1rem; font-size:.8rem; }
+    .method-progress-label { color:var(--skill-text); font-weight:600; }
+    .method-progress-dots { display:flex; gap:4px; }
+    .method-prog-dot { width:10px; height:10px; border-radius:50%; background:var(--border); transition:background .3s; }
+    .method-prog-dot.done { background:var(--accent); }
+
+    .method-dashboard { display:block; }
+    .method-tool-panel { display:none; }
+    .method-tool-panel.visible { display:block; animation:phaseIn .3s ease; }
+
+    .method-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px; }
+
+    .method-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.1rem .9rem; cursor:default; transition:border-color .15s,box-shadow .15s; position:relative; display:flex; flex-direction:column; }
+    .method-card.explored { border-color:#b7d9c5; }
+    .method-card.explored::after { content:'✓'; position:absolute; top:9px; right:11px; font-size:11px; color:var(--accent); font-weight:bold; background:var(--accent-lt); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; }
+    .mc-icon  { font-size:1.6rem; margin-bottom:.35rem; display:block; }
+    .mc-phase { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:.2rem; }
+    .mc-name  { font-size:.88rem; font-weight:700; color:var(--text); margin-bottom:.3rem; }
+    .mc-why   { font-size:.74rem; color:var(--muted); line-height:1.45; margin-bottom:.6rem; flex:1; }
+    .mc-skills { display:flex; flex-wrap:wrap; gap:3px; margin-bottom:.7rem; }
+    .mc-skill  { font-size:9.5px; padding:2px 7px; border-radius:10px; background:var(--skill-bg); border:1px solid var(--skill-border); color:var(--skill-text); font-weight:600; }
+    .btn-explore { display:inline-flex; align-items:center; gap:5px; padding:.42rem .9rem; background:var(--phase-blue); color:#fff; border:none; border-radius:var(--radius); font-size:.76rem; font-weight:700; cursor:pointer; transition:background .15s; margin-top:auto; align-self:flex-start; }
+    .btn-explore:hover { background:#1e3070; }
+
+    .method-tool-header { display:flex; align-items:center; gap:.75rem; margin-bottom:1.1rem; padding-bottom:.85rem; border-bottom:1px solid var(--border); }
+    .btn-back-method { display:inline-flex; align-items:center; gap:4px; padding:.4rem .8rem; border:1.5px solid var(--border); border-radius:var(--radius); background:var(--surface); color:var(--muted); font-size:.76rem; font-weight:600; cursor:pointer; transition:all .15s; }
+    .btn-back-method:hover { border-color:var(--text); color:var(--text); }
+    .method-tool-title { font-family:var(--font-head); font-size:1.05rem; font-weight:normal; color:var(--text); }
+    .method-tool-content { /* inner tool content */ }
+
   </style>
 </head>
 <body>
-
 <div class="app">
 
-  <!-- HEADER -->
   <header>
-    <div class="badge">Future Skills · Digitale Transformation · Gesundheitswesen</div>
-    <h1>Lernen durch Perspektivwechsel</h1>
-    <p>Führe ein Gespräch mit verschiedenen Stakeholdern eines Krankenhauses und entdecke, welche Kompetenzen in der digitalen Transformation wirklich gefragt sind.</p>
+    <div class="badge">Design Thinking · Future Skills · St. Marien Klinikum</div>
+    <h1>Digitale Transformation verstehen</h1>
+    <p>Ein interaktiver Lernworkshop — mit Design-Thinking-Methoden, realen Perspektiven und KI-Unterstützung.</p>
   </header>
 
-  <!-- FALLBESCHREIBUNG -->
-  <section class="card case-section">
-    <div class="section-label">Fallkontext</div>
-    <h2>Krankenhaus St. Marien führt neue Dokumentationssoftware ein</h2>
-    <p>
-      Die Papierakte wird abgelöst. Was in der Theorie nach Fortschritt klingt, löst im Alltag
-      Unsicherheit, Konflikte und echte Überlastung aus — je nachdem, welche Berufsgruppe
-      du fragst. Sprich mit den Beteiligten und verstehe ihre Perspektiven.
-    </p>
-    <p>
-      Jede Antwort macht sichtbar, welche <strong>Future Skills</strong> in dieser Situation
-      gebraucht oder vermisst werden.
-    </p>
-    <div class="tags">
-      <span class="tag">Digitalisierung</span>
-      <span class="tag">Change Management</span>
-      <span class="tag">Interprofessionalität</span>
-      <span class="tag">Future Skills</span>
-      <span class="tag">Krankenhausalltag</span>
+  <div class="progress-bar"><div class="ps" onclick="goToPhase(0)">
+      <div class="ps-dot-row">
+        <div class="ps-line ghost"></div>
+        <div class="ps-dot">0</div>
+        <div class="ps-line" id="psl-r-0"></div>
+      </div>
+      <div class="ps-label">Einführung</div>
+    </div><div class="ps" onclick="goToPhase(1)">
+      <div class="ps-dot-row">
+        <div class="ps-line" id="psl-l-1"></div>
+        <div class="ps-dot">1</div>
+        <div class="ps-line" id="psl-r-1"></div>
+      </div>
+      <div class="ps-label">Rollenwahl</div>
+    </div><div class="ps" onclick="goToPhase(2)">
+      <div class="ps-dot-row">
+        <div class="ps-line" id="psl-l-2"></div>
+        <div class="ps-dot">2</div>
+        <div class="ps-line" id="psl-r-2"></div>
+      </div>
+      <div class="ps-label">Methoden</div>
+    </div><div class="ps" onclick="goToPhase(3)">
+      <div class="ps-dot-row">
+        <div class="ps-line" id="psl-l-3"></div>
+        <div class="ps-dot">3</div>
+        <div class="ps-line" id="psl-r-3"></div>
+      </div>
+      <div class="ps-label">Reflexion</div>
+    </div><div class="ps" onclick="goToPhase(4)">
+      <div class="ps-dot-row">
+        <div class="ps-line" id="psl-l-4"></div>
+        <div class="ps-dot">4</div>
+        <div class="ps-line ghost"></div>
+      </div>
+      <div class="ps-label">Evaluation</div>
+    </div></div>
+
+  <!-- ═══ PHASE 0 — FALLBEISPIEL ═══ -->
+  <div class="phase active" id="phase-0">
+    <div class="phase-card">
+      <div class="narrative">
+        
+<span class="narrative-kicker">St. Marien Klinikum · Fallbeispiel</span>
+<h2>Es ist Montag. Das System startet nicht.</h2>
+
+<p>Es ist 6:47 Uhr morgens im St. Marien Klinikum, und die Frühschicht beginnt — nicht mit dem gewohnten Summen der Station, sondern mit einer Stille, die sich anfühlt wie eine Frage, auf die niemand eine Antwort hat.</p>
+
+<p>Anna, examinierte Pflegefachkraft seit fünfzehn Jahren, steht vor einem Tablet, das heute zum ersten Mal die Papierakte ersetzen soll. Auf dem Bildschirm: ein Dokumentationssystem, das sie in zwei Schulungen hätte kennenlernen sollen — beide zu Zeiten, in denen sie auf Station arbeitete. Neben ihr wartet Herr Müller aus Zimmer 12 auf seine Frühmedikation. Sie tippt. Das System lädt.</p>
+
+<p>Zwei Etagen tiefer fragt Dr. Jonas Weber, Assistenzarzt im dritten Jahr, seinen Kollegen, wie er die Visite ins neue System einträgt. Sein Kollege weiß es auch nicht. In der IT-Abteilung telefoniert Markus Behrens gleichzeitig mit drei Abteilungsleitungen. Achtzehn Monate Vorbereitung, sechs Schulungen, ein sorgfältig ausgewähltes System — und jetzt kommen die Beschwerden. Markus versteht das nicht. Oder vielleicht doch.</p>
+
+<p>Thomas, Mitglied der Krankenhausleitung, liest am gleichen Morgen den dritten Bericht in dieser Woche über Verzögerungen. Die Zahlen sehen nicht gut aus. Dabei war die Entscheidung richtig — Digitalisierung ist keine Option mehr, sie ist strategisches Muss. Der Europäische Gesundheitsdatenraum kommt. KI-gestützte Dokumentation kommt. Wer jetzt nicht handelt, verliert.</p>
+
+<hr class="divider">
+
+<p>Was hier passiert, ist nicht außergewöhnlich. Es ist die Regel.</p>
+
+<p class="pull">Studien zeigen: Über 70 Prozent aller digitalen Transformationsprojekte im Gesundheitswesen scheitern nicht an der Technologie. Sie scheitern an den Menschen — an fehlender Kompetenz, fehlender Kultur, fehlender Einbindung.</p>
+
+<p>Das St. Marien Klinikum hat eine ausgezeichnete Software. Es hat einen kompetenten IT-Projektleiter. Es hat ein Management mit strategischer Weitsicht. Was es gerade noch nicht hat: eine gemeinsame Sprache zwischen all diesen Menschen. Eine Vorstellung davon, was Anna auf Station wirklich braucht. Ein Verständnis dafür, was Herr Müller fühlt, wenn die Schwester auf das Gerät schaut statt ihn anzuschauen.</p>
+
+<p>Genau hier liegt die eigentliche Herausforderung der digitalen Transformation im Gesundheitswesen. Und genau hier setzt Design Thinking an.</p>
+
+<hr class="divider">
+
+<p>Design Thinking ist eine Methode — aber vor allem ist es eine Haltung. Die Haltung, zuerst zu verstehen, bevor man löst. Zuerst zuzuhören, bevor man entscheidet. Zuerst die Perspektiven der Menschen einzunehmen, die täglich mit einem System arbeiten, bevor man dieses System für sie entwirft.</p>
+
+<p>In einem Krankenhaus bedeutet das: Wer wirklich verstehen will, warum Anna das neue System meidet, muss sich in ihre Situation versetzen — nicht nur Statistiken auswerten. Wer wirklich verstehen will, welche Konflikte zwischen IT und Pflege entstehen, muss die Stakeholder-Landschaft analysieren — nicht nur Projektpläne schreiben. Und wer wirklich gute Lösungen entwickeln will, muss Ideen iterativ testen, anpassen und wieder testen — nicht perfekte Konzepte präsentieren, die im echten Alltag scheitern.</p>
+
+<p>Mit Methoden wie der <strong>Empathy Map</strong> lernst du, durch andere Augen zu sehen. Mit der <strong>Stakeholder Map</strong> erkennst du unsichtbare Spannungen. Mit der <strong>Problem Definition</strong> trennst du Symptome von Ursachen. Mit <strong>Ideation und Prototyping</strong> entwickelst du Lösungen, die wirklich funktionieren — weil sie aus dem echten Alltag kommen.</p>
+
+<hr class="divider">
+
+<p>Dieser Workshop lädt dich ein, in die Welt des St. Marien Klinikums einzutauchen. Du wählst eine Perspektive: die von Anna, Dr. Jonas, Markus, Thomas — oder eines der anderen Menschen, die täglich mit dieser Transformation umgehen müssen. Du analysierst. Du reflektierst. Und du entwickelst dabei Future Skills, die im digitalen Gesundheitswesen von morgen entscheidend sein werden.</p>
+
+<p>Empathie. Systemisches Denken. Problemlösungskompetenz. Reflexionsfähigkeit. Transformationskompetenz.</p>
+
+<p>Anna wartet noch immer. Das System lädt noch immer. Und irgendwo zwischen diesen beiden Tatsachen liegt die Lösung — wenn wir bereit sind, sie gemeinsam zu suchen.</p>
+
+        <div class="narrative-cta">
+          <button class="btn-start" onclick="goToPhase(1)">▶ Lernprozess starten</button>
+          <div class="narrative-meta">8 Rollen · 7 DT-Methoden · KI-Reflexionsbegleitung</div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ROLLENAUSWAHL -->
-  <section style="margin-top: 1.5rem;">
-    <div class="section-label">Schritt 1 — Wähle eine Rolle</div>
-    <div class="role-grid" id="roleGrid">
-
-      <!-- ANNA – Pflegefachkraft (Hauptrolle, vollständig ausgearbeitet) -->
-      <button class="role-card" data-role="pflege" onclick="selectRole(this)">
-        <span class="role-icon">🩺</span>
-        <div class="role-name">Anna, 42 – Pflegefachkraft</div>
-        <div class="role-desc">15 Jahre Erfahrung, internistische Station. Pragmatisch, patientennah, skeptisch gegenüber schlecht geplanten Veränderungen.</div>
-      </button>
-
-      <!-- DR. JONAS – Assistenzarzt -->
-      <button class="role-card" data-role="arzt" onclick="selectRole(this)">
-        <span class="role-icon">👨‍⚕️</span>
-        <div class="role-name">Dr. Jonas – Assistenzarzt</div>
-        <div class="role-desc">3. Ausbildungsjahr, chronisch überlastet. Technikaffin, aber frustriert über die Umsetzung.</div>
-      </button>
-
-      <!-- MARKUS – IT-Projektleiter -->
-      <button class="role-card" data-role="it" onclick="selectRole(this)">
-        <span class="role-icon">💻</span>
-        <div class="role-name">Markus – IT-Projektleiter</div>
-        <div class="role-desc">Verantwortet die Einführung. Engagiert, aber zunehmend frustriert über mangelnde Kooperation.</div>
-      </button>
-
-      <!--
-        NEUE ROLLEN HIER EINFÜGEN:
-        <button class="role-card" data-role="verwaltung" onclick="selectRole(this)">
-          <span class="role-icon">📋</span>
-          <div class="role-name">Sandra – Krankenhausverwaltung</div>
-          <div class="role-desc">Budgetverantwortung, denkt in Haftungsrisiken und Effizienz.</div>
-        </button>
-      -->
-
+  <!-- ═══ PHASE 1 — ROLLENWAHL + GESPRÄCH ═══ -->
+  <div class="phase" id="phase-1">
+    <div class="phase-hdr">
+      <div class="phase-num">1</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Perspektive wählen &amp; Gespräch führen</div>
+        <div class="phase-desc">Schlüpfe in eine Berufsrolle und führe ein Gespräch mit dieser Person. Empathie beginnt mit dem echten Versuch zu verstehen — nicht zu urteilen.</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Perspektivwechsel</span>
+          <span class="phase-comp">Empathie</span>
+          <span class="phase-comp">Kommunikationsfähigkeit</span>
+        </div>
+      </div>
     </div>
-  </section>
-
-  <!-- CHAT + SKILLS PANEL (2-Spalten) -->
-  <div class="chat-layout">
-
-    <!-- LINKE SPALTE: Chat -->
-    <section class="card">
-      <div class="section-label">Schritt 2 — Stelle deine Frage</div>
-
-      <div class="chat-hint" id="chatHint">
-        Wähle zuerst eine Rolle, um das Gespräch zu beginnen.
+    <div class="phase-card">
+      <div class="section-label" style="margin-bottom:.75rem;">Wähle eine Berufsrolle</div>
+      <div class="role-grid" id="roleGrid">
+        <button class="role-card" data-role="pflege"     onclick="selectRole(this)"><span class="role-icon">🩺</span><div class="role-name">Anna – Pflegefachkraft</div><div class="role-desc">15 Jahre Erfahrung, internistische Station. Patientennah, pragmatisch, skeptisch gegenüber schlecht geplanten Veränderungen.</div></button>
+        <button class="role-card" data-role="arzt"       onclick="selectRole(this)"><span class="role-icon">👨‍⚕️</span><div class="role-name">Dr. Jonas – Assistenzarzt</div><div class="role-desc">3. Ausbildungsjahr, chronisch überlastet. Technikaffin, aber frustriert über die Umsetzung.</div></button>
+        <button class="role-card" data-role="it"         onclick="selectRole(this)"><span class="role-icon">💻</span><div class="role-name">Markus – IT-Projektleiter</div><div class="role-desc">Verantwortet die Einführung. Engagiert, aber frustriert über mangelnde Kooperation.</div></button>
+        <button class="role-card" data-role="management" onclick="selectRole(this)"><span class="role-icon">🏥</span><div class="role-name">Thomas – Management</div><div class="role-desc">Verantwortlich für Strategie und Wirtschaftlichkeit. Digitalisierung als strategisches Muss.</div></button>
+        <button class="role-card" data-role="patient"    onclick="selectRole(this)"><span class="role-icon">🛏️</span><div class="role-name">Herr Müller – Patient</div><div class="role-desc">70 Jahre, wenig digitale Erfahrung. Wünscht sich Sicherheit und persönliche Betreuung.</div></button>
+        <button class="role-card" data-role="verwaltung" onclick="selectRole(this)"><span class="role-icon">📋</span><div class="role-name">Sandra – Verwaltung</div><div class="role-desc">Leiterin der Krankenhausverwaltung. Denkt in Haftungsrisiken, Datenschutz und Compliance.</div></button>
+        <button class="role-card" data-role="therapeut"  onclick="selectRole(this)"><span class="role-icon">🏃</span><div class="role-name">Lisa – Physiotherapeutin</div><div class="role-desc">Intensiver Patientenkontakt, wenig Bildschirmzeit. Wurde nicht in die Systemauswahl einbezogen.</div></button>
+        <button class="role-card" data-role="dhm"        onclick="selectRole(this)"><span class="role-icon">⚡</span><div class="role-name">Kai – Digital Health Manager</div><div class="role-desc">Neue Rolle zwischen IT, Klinik und Management. Sieht Potenziale, die andere nicht sehen.</div></button>
       </div>
 
-      <div class="chat-window" id="chatWindow">
-
+      <div class="p1-chat-wrap" id="p1ChatWrap">
+        <div class="dt-active-banner" id="dtActiveBanner">
+          <span id="dtBannerIcon"></span>
+          <span>Methode aktiv: <strong id="dtBannerName"></strong></span>
+          <button class="dt-clear-btn" onclick="clearDTMethod()">Entfernen</button>
+        </div>
         <div class="chat-header" id="chatHeader">
           <span id="chatRoleIcon"></span>
           <span>Du sprichst mit: <strong id="chatRoleName"></strong></span>
         </div>
-
         <div class="messages" id="messages"></div>
-
-        <div class="typing" id="typing">
-          <span></span><span></span><span></span>
-        </div>
-
+        <div class="typing" id="typing"><span></span><span></span><span></span></div>
         <div class="chat-input-row">
-          <input
-            type="text"
-            id="userInput"
-            placeholder="Deine Frage eingeben..."
-            maxlength="400"
-            onkeydown="if(event.key==='Enter') sendMessage()"
-          />
+          <input type="text" id="userInput" placeholder="Deine Frage eingeben…" maxlength="400" onkeydown="if(event.key==='Enter') sendMessage()"/>
           <button onclick="sendMessage()" id="sendBtn">Senden</button>
         </div>
-
-        <div class="chat-actions">
-          <button class="btn-ghost" onclick="clearChat()">Chat leeren</button>
+        <div class="chat-actions"><button class="btn-ghost" onclick="clearChat()">Chat leeren</button></div>
+        <div class="p1-dt-row">
+          <span style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.3rem 0;flex-basis:100%">🛠 Gesprächsmethode (optional):</span>
+          <button class="p1-dt-pill" data-method="empathyMap"        onclick="applyDTMethod(this)">🗺️ Empathy Map</button>
+          <button class="p1-dt-pill" data-method="stakeholderMap"    onclick="applyDTMethod(this)">🕸️ Stakeholder</button>
+          <button class="p1-dt-pill" data-method="persona"           onclick="applyDTMethod(this)">🪞 Persona</button>
+          <button class="p1-dt-pill" data-method="problemDefinition" onclick="applyDTMethod(this)">🎯 Problem</button>
+          <button class="p1-dt-pill" data-method="ideation"          onclick="applyDTMethod(this)">💡 Ideation</button>
+          <button class="p1-dt-pill" data-method="testing"           onclick="applyDTMethod(this)">🔄 Testing</button>
         </div>
-
-      </div>
-    </section>
-
-    <!-- RECHTE SPALTE: Future Skills Panel -->
-    <aside class="skills-panel" id="skillsPanel">
-      <h3>🎯 Future Skills</h3>
-
-      <!-- Kompetenz-Badges — werden per JS aktiviert wenn erkannt -->
-      <div class="skill-badge" id="skill-empathie">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Empathie</span>
-          <span>Patientenbedürfnisse in den Mittelpunkt stellen</span>
-        </div>
-      </div>
-
-      <div class="skill-badge" id="skill-adaption">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Adaptionsfähigkeit</span>
-          <span>Flexibel auf neue Situationen reagieren</span>
-        </div>
-      </div>
-
-      <div class="skill-badge" id="skill-problem">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Problemlösung</span>
-          <span>Pragmatische Lösungen im Arbeitsalltag finden</span>
+        <div class="p1-skills-inline">
+          <h4>🎯 Aktive Future Skills</h4>
+          <div class="p1-badges-row">
+            <div class="skill-badge" id="skill-empathie"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Empathie</span></div></div>
+            <div class="skill-badge" id="skill-adaption"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Adaptionsfähigkeit</span></div></div>
+            <div class="skill-badge" id="skill-problem"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Problemlösung</span></div></div>
+            <div class="skill-badge" id="skill-kommunikation"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Kommunikation</span></div></div>
+            <div class="skill-badge" id="skill-systemisch"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Systemisches Denken</span></div></div>
+            <div class="skill-badge" id="skill-digital"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Digitale Kompetenz</span></div></div>
+            <div class="skill-badge" id="skill-reflexion"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Selbstreflexion</span></div></div>
+            <div class="skill-badge" id="skill-transformation"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Transformationskompetenz</span></div></div>
+            <div class="skill-badge" id="skill-entscheidung"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Entscheidungsfähigkeit</span></div></div>
+            <div class="skill-badge" id="skill-kreativitaet"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Kreativität</span></div></div>
+            <div class="skill-badge" id="skill-analytisch"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Analytisches Denken</span></div></div>
+            <div class="skill-badge" id="skill-nutzerzentriert"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Nutzerzentriert</span></div></div>
+            <div class="skill-badge" id="skill-kollaboration"><div class="skill-dot"></div><div class="skill-info"><span class="skill-name">Kollaboration</span></div></div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="skill-badge" id="skill-kommunikation">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Kommunikation</span>
-          <span>Koordination zwischen Berufsgruppen</span>
+  <!-- ═══ PHASE 2 — METHODEN-DASHBOARD ═══ -->
+  <div class="phase" id="phase-2">
+    <div class="phase-hdr">
+      <div class="phase-num">2</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Design-Thinking-Methoden erkunden</div>
+        <div class="phase-desc">Wähle frei, welche Methoden du anwenden möchtest. Jede Methode öffnet eine eigene interaktive Arbeitsfläche. Du kannst so viele erkunden, wie du möchtest.</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Analytisches Denken</span>
+          <span class="phase-comp">Systemisches Denken</span>
+          <span class="phase-comp">Kreativität</span>
+          <span class="phase-comp">Reflexionsfähigkeit</span>
         </div>
       </div>
+    </div>
+    <div class="phase-card">
 
-      <div class="skill-badge" id="skill-systemisch">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Systemisches Denken</span>
-          <span>Zusammenhänge und Wechselwirkungen erkennen</span>
-        </div>
-      </div>
-
-      <div class="skill-badge" id="skill-digital">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Digitale Kompetenz</span>
-          <span>Bereit zu lernen, aber Unterstützung nötig</span>
+      <!-- Method progress -->
+      <div class="method-progress-bar">
+        <span class="method-progress-label" id="methodProgressLabel">0 / 7 Methoden erkundet</span>
+        <div class="method-progress-dots">
+          <div class="method-prog-dot"></div><div class="method-prog-dot"></div><div class="method-prog-dot"></div>
+          <div class="method-prog-dot"></div><div class="method-prog-dot"></div><div class="method-prog-dot"></div>
+          <div class="method-prog-dot"></div>
         </div>
       </div>
 
-      <div class="skill-badge" id="skill-reflexion">
-        <div class="skill-dot"></div>
-        <div class="skill-info">
-          <span class="skill-name">Selbstreflexion</span>
-          <span>Eigene Grenzen und Konflikte benennen</span>
-        </div>
+      <!-- Dashboard grid -->
+      <div class="method-dashboard" id="methodDashboard">
+        <div class="method-grid" id="methodGrid"></div>
       </div>
 
-      <p class="skills-hint">
-        Die hervorgehobenen Kompetenzen wurden in der letzten Antwort sichtbar. Sie erscheinen auch als Reflexion am Ende jeder Nachricht.
-      </p>
-    </aside>
+      <!-- Active method tool -->
+      <div class="method-tool-panel" id="methodToolPanel">
+        <div class="method-tool-header">
+          <button class="btn-back-method" onclick="closeMethodTool()">← Zur Übersicht</button>
+          <div class="method-tool-title" id="methodToolTitle"></div>
+        </div>
+        <div class="method-tool-content" id="methodToolContent"></div>
+      </div>
 
-  </div><!-- /chat-layout -->
+    </div>
+  </div>
 
-  <!-- API-KEY EINGABE -->
+  <!-- ═══ PHASE 3 — REFLEXION & FUTURE SKILLS ═══ -->
+  <div class="phase" id="phase-3">
+    <div class="phase-hdr">
+      <div class="phase-num">3</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Reflexion &amp; Future Skills</div>
+        <div class="phase-desc">Mache deinen Lernprozess sichtbar. Welche Perspektiven haben sich verändert? Welche Kompetenzen hast du entwickelt?</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Reflexionsfähigkeit</span>
+          <span class="phase-comp">Lernfähigkeit</span>
+          <span class="phase-comp">Selbstwahrnehmung</span>
+        </div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="ref-qs">
+        <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven anderer Berufsgruppen waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
+        <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen wurden im Workshop sichtbar?</div><textarea placeholder="z.B. Spannungen zwischen Wirtschaftlichkeit und Personalwohl…"></textarea></div>
+        <div class="ref-q"><div class="ref-q-lbl">🎯 Welche Future Skills hast du in diesem Workshop aktiv genutzt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
+        <div class="ref-q"><div class="ref-q-lbl">💻 Was hast du über digitale Transformation im Gesundheitswesen gelernt?</div><textarea placeholder="z.B. Die zentrale Herausforderung ist nicht Technik, sondern Kompetenzentwicklung…"></textarea></div>
+      </div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.7rem;">Selbsteinschätzung Future Skills (Stufe 1–5):</div>
+      <div class="ref-comp-grid" id="refCompGrid"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem;">
+        <button class="ws-ai-btn" onclick="wsAI('reflexion','ref3-ai')">✨ KI reflektiert mit dir</button>
+      </div>
+      <div class="ws-ai-response" id="ref3-ai"></div>
+
+      <!-- Conversational eval -->
+      <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);">
+        <div class="section-label" style="margin-bottom:.6rem;">Vertiefung: Reflexionsgespräch mit KI</div>
+        <button class="btn-eval-start" id="evalStartBtn" onclick="toggleEvaluation()"><span>🪷</span> Reflexionsgespräch starten</button>
+        <div class="eval-chat-panel" id="evalChatPanel" style="margin-top:1rem;">
+          <div class="eval-chat-header"><span>🪷</span><span>Reflexions-Begleitung — <strong>interaktiv &amp; lernorientiert</strong></span></div>
+          <div class="eval-progress" id="evalProgress">
+            <span class="eval-progress-chip" data-topic="perspektive">👁️ Perspektiven</span>
+            <span class="eval-progress-chip" data-topic="skills">🎯 Future Skills</span>
+            <span class="eval-progress-chip" data-topic="methoden">🛠️ Methoden</span>
+            <span class="eval-progress-chip" data-topic="transformation">💻 Transformation</span>
+            <span class="eval-progress-chip" data-topic="transfer">🔄 Transfer</span>
+          </div>
+          <div class="eval-messages" id="evalMessages"></div>
+          <div class="eval-typing" id="evalTyping"><span></span><span></span><span></span></div>
+          <div class="eval-input-row">
+            <input type="text" id="evalInput" placeholder="Deine Reflexion…" maxlength="600" onkeydown="if(event.key==='Enter') sendEvalMessage()"/>
+            <button onclick="sendEvalMessage()" id="evalSendBtn">Antworten</button>
+          </div>
+          <div class="eval-actions"><button class="btn-ghost" onclick="resetEvaluation()">Neu starten</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 4 — EVALUATION ═══ -->
+  <div class="phase" id="phase-4">
+    <div class="phase-hdr">
+      <div class="phase-num">4</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Evaluation &amp; Abschluss</div>
+        <div class="phase-desc">Bewerte deinen Lernprozess — reflexiv, offen und ohne Druck. Ein strukturierter Abschluss deines Design-Thinking-Workshops.</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Reflexionsfähigkeit</span>
+          <span class="phase-comp">Selbstwahrnehmung</span>
+          <span class="phase-comp">Lernfähigkeit</span>
+        </div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="evd-section">
+        <div class="evd-heading">🛠️ Design-Thinking-Methoden</div>
+        <div class="likert-item"><div class="likert-lbl">Die Empathy Map hat mir geholfen, andere Perspektiven zu verstehen.</div><div class="likert-scale"><input type="radio" name="l1" id="l1_1" value="1"><label for="l1_1">1</label><input type="radio" name="l1" id="l1_2" value="2"><label for="l1_2">2</label><input type="radio" name="l1" id="l1_3" value="3"><label for="l1_3">3</label><input type="radio" name="l1" id="l1_4" value="4"><label for="l1_4">4</label><input type="radio" name="l1" id="l1_5" value="5"><label for="l1_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
+        <div class="likert-item"><div class="likert-lbl">Die Stakeholder Map hat Konflikte und Machtverhältnisse sichtbar gemacht.</div><div class="likert-scale"><input type="radio" name="l2" id="l2_1" value="1"><label for="l2_1">1</label><input type="radio" name="l2" id="l2_2" value="2"><label for="l2_2">2</label><input type="radio" name="l2" id="l2_3" value="3"><label for="l2_3">3</label><input type="radio" name="l2" id="l2_4" value="4"><label for="l2_4">4</label><input type="radio" name="l2" id="l2_5" value="5"><label for="l2_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
+        <div class="likert-item"><div class="likert-lbl">Die Problem Definition hat mir geholfen, das Kernproblem zu schärfen.</div><div class="likert-scale"><input type="radio" name="l3" id="l3_1" value="1"><label for="l3_1">1</label><input type="radio" name="l3" id="l3_2" value="2"><label for="l3_2">2</label><input type="radio" name="l3" id="l3_3" value="3"><label for="l3_3">3</label><input type="radio" name="l3" id="l3_4" value="4"><label for="l3_4">4</label><input type="radio" name="l3" id="l3_5" value="5"><label for="l3_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
+        <div style="margin-top:.5rem;"><div class="likert-lbl">Welche Methode fanden Sie besonders hilfreich und warum?</div><textarea class="evd-ta" placeholder="Ihre Antwort…"></textarea></div>
+      </div>
+      <div class="evd-section">
+        <div class="evd-heading">💻 Digitale Transformation</div>
+        <div class="likert-item"><div class="likert-lbl">Die Anwendung hat mir geholfen, Herausforderungen der Digitalisierung besser zu verstehen.</div><div class="likert-scale"><input type="radio" name="l4" id="l4_1" value="1"><label for="l4_1">1</label><input type="radio" name="l4" id="l4_2" value="2"><label for="l4_2">2</label><input type="radio" name="l4" id="l4_3" value="3"><label for="l4_3">3</label><input type="radio" name="l4" id="l4_4" value="4"><label for="l4_4">4</label><input type="radio" name="l4" id="l4_5" value="5"><label for="l4_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
+        <div class="likert-item"><div class="likert-lbl">Ich verstehe jetzt besser, warum Personalentwicklung für Digitalisierung entscheidend ist.</div><div class="likert-scale"><input type="radio" name="l5" id="l5_1" value="1"><label for="l5_1">1</label><input type="radio" name="l5" id="l5_2" value="2"><label for="l5_2">2</label><input type="radio" name="l5" id="l5_3" value="3"><label for="l5_3">3</label><input type="radio" name="l5" id="l5_4" value="4"><label for="l5_4">4</label><input type="radio" name="l5" id="l5_5" value="5"><label for="l5_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
+        <div style="margin-top:.5rem;"><div class="likert-lbl">Was haben Sie über digitale Transformation gelernt?</div><textarea class="evd-ta" placeholder="Ihre Antwort…"></textarea></div>
+      </div>
+      <div class="evd-section">
+        <div class="evd-heading">🎯 Future Skills — Selbsteinschätzung</div>
+        <p style="font-size:.79rem;color:var(--muted);margin-bottom:.75rem;">Wie stark wurden diese Kompetenzen durch diesen Workshop gefördert? (⭐ = gering · ⭐⭐⭐⭐⭐ = sehr stark)</p>
+        <div class="stars-grid" id="starsGrid"></div>
+      </div>
+      <div class="evd-section">
+        <div class="evd-heading">🔄 Transfer &amp; Anwendung</div>
+        <div class="likert-lbl">Wie könnten Sie die Erkenntnisse in Ihrem beruflichen Alltag anwenden?</div>
+        <textarea class="evd-ta" placeholder="Ihre Antwort…"></textarea>
+      </div>
+      <button class="evd-submit" onclick="submitEvalDash()">📊 Workshop abschließen &amp; Evaluation speichern</button>
+      <div class="evd-result" id="evdResult"></div>
+    </div>
+  </div>
+
+  <!-- NAV BAR -->
+  <div class="nav-bar">
+    <button class="btn-back" id="navBack" onclick="prevPhase()" disabled>← Zurück</button>
+    <div class="nav-indicator" id="navInd">Phase <strong>1</strong> / 5 — Einführung</div>
+    <button class="btn-next" id="navNext" onclick="nextPhase()">Zur Rollenwahl →</button>
+  </div>
+
+  <!-- API KEY -->
   <div class="card api-key-section">
     <div class="section-label">API-Einstellungen</div>
-    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.75rem; line-height:1.6;">
-      Gib deinen <strong style="color:var(--text)">Anthropic API-Key</strong> ein für echte KI-Antworten.
-      Der Key wird nur in deinem Browser gespeichert und direkt an Anthropic gesendet.
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:.75rem;line-height:1.6;">
+      Gib deinen <strong style="color:var(--text)">Anthropic API-Key</strong> ein für echte KI-Antworten. Der Key wird nur lokal gespeichert.
     </p>
-    <div class="api-info-box">
-      <strong>🔑 Key erstellen:</strong>
-      <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>
-      → „API Keys" → „Create Key"
-    </div>
+    <div class="api-info-box"><strong>🔑 Key erstellen:</strong> <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → „API Keys" → „Create Key"</div>
     <div class="api-input-row">
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" />
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" spellcheck="false"/>
       <button onclick="saveApiKey()">Speichern</button>
     </div>
     <div id="apiStatus" class="api-status"></div>
   </div>
 
 </div><!-- /app -->
-
-
 <script>
+
+
   /* =============================================
      ROLLEN-DATEN
      Jede Rolle hat:
@@ -914,8 +2616,310 @@ PFLICHTFORMAT AM ENDE JEDER ANTWORT:
         }
       ],
       fallback: "Das ist eine berechtigte Frage. Aus IT-Sicht: die Technik ist selten das eigentliche Problem. Es sind die Menschen und Prozesse drumherum.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken\n❓ Fehlende/benötigte Kompetenz: Empathie"
+    },
+
+    /* ==========================================
+       THOMAS – KRANKENHAUSMANAGEMENT
+    =========================================== */
+    management: {
+      name: "Thomas, 50 – Krankenhausleitung",
+      icon: "🏥",
+      greeting: "Nehmen Sie Platz. Was möchten Sie mit mir besprechen?",
+      systemContext: `
+Du bist Thomas, 50 Jahre alt, Mitglied der Krankenhausleitung im Krankenhaus St. Marien.
+Du bist verantwortlich für Strategie, Wirtschaftlichkeit und Organisation des Hauses.
+Du triffst Entscheidungen auf struktureller Ebene — nicht im operativen Alltag.
+
+DEINE ARBEITSREALITÄT:
+Du stehst unter steigendem wirtschaftlichem Druck: Fallpauschalen, Personalknappheit,
+wachsende Qualitätsanforderungen und regulatorische Vorgaben. Du musst das Haus
+zukunftsfähig aufstellen, während gleichzeitig der laufende Betrieb gesichert sein muss.
+
+KONTEXT DER DIGITALISIERUNG:
+Die Einführung der digitalen Dokumentationssoftware ist Teil deiner Gesamtstrategie.
+Du siehst Digitalisierung als zentralen Hebel für Effizienzsteigerung, bessere
+Datenverfügbarkeit und langfristige Kostenreduktion. Die Entscheidung zur Einführung
+war deine — und du stehst dazu.
+
+DEINE HALTUNG:
+Digitalisierung ist für dich notwendig und alternativlos. Du bist dir aber bewusst,
+dass Transformationsprozesse das Personal belasten. Du versuchst, strategisch und
+langfristig zu denken, auch wenn das manchmal bedeutet, kurzfristige Schwierigkeiten
+in Kauf zu nehmen.
+
+INNERE KONFLIKTE:
+"Wir müssen effizienter werden, dürfen aber das Personal nicht überfordern."
+Du zweifelst manchmal daran, ob der Zeitplan realistisch war und ob ausreichend
+Ressourcen für Schulung und Begleitung bereitgestellt wurden.
+
+FUTURE SKILLS (sichtbar in deinem Verhalten):
+- Strategisches Denken: Du denkst in Systemen und langfristigen Entwicklungen.
+- Entscheidungsfähigkeit: Du handelst auch unter Unsicherheit und Widerstand.
+- Systemisches Verständnis: Du erkennst Wechselwirkungen zwischen Bereichen.
+- Transformationskompetenz: Du gestaltest Veränderungsprozesse aktiv.
+
+WICHTIG FÜR DEINE ANTWORTEN:
+- Sprich strategisch, reflektiert und mit Blick auf das Gesamtsystem Krankenhaus
+- Nutze eine sachliche, aber nicht kalte Sprache
+- Zeige, dass du die Perspektive des Personals verstehst, auch wenn du andere Prioritäten setzt
+- Benenne die Spannung zwischen wirtschaftlichem Druck und Fürsorge für Mitarbeitende
+- Länge: 4–6 Sätze für die Hauptantwort
+      `.trim(),
+      futureSkillsInstruction: `
+
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+Füge nach deiner Antwort eine kurze Reflexion ein, getrennt durch "---".
+Format:
+---
+💡 Sichtbare Kompetenzen: [Komma-getrennte Liste]
+❓ Fehlende/benötigte Kompetenz: [Eine Kompetenz]
+      `.trim(),
+      responses: [
+        {
+          keywords: ["software", "system", "digital", "einführung", "entscheidung"],
+          text: "Die Entscheidung für diese Software war wohlüberlegt — wir haben über ein Jahr evaluiert, Datenschutzfragen geklärt, Angebote verglichen. Natürlich gibt es Anlaufschwierigkeiten, das war einkalkuliert. Was mich aber beschäftigt: Haben wir die begleitenden Maßnahmen — Schulungen, Support auf Station — ausreichend dotiert? Das ist eine Frage, die ich mir selbst stelle.\n---\n💡 Sichtbare Kompetenzen: Strategisches Denken, Selbstreflexion, Entscheidungsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Empathie (operative Alltagsrealität besser einbeziehen)"
+        },
+        {
+          keywords: ["personal", "pflege", "mitarbeiter", "belastung", "überlastung"],
+          text: "Ich nehme die Rückmeldungen aus dem Pflegebereich sehr ernst. Gleichzeitig: Wenn wir die Digitalisierung nicht angehen, werden die Belastungen mittelfristig größer, nicht kleiner. Ineffiziente Prozesse, Papierberge, mangelnde Datenverfügbarkeit — das kostet ebenfalls Zeit und Nerven. Wir müssen diesen Übergang gemeinsam gestalten, nicht gegeneinander.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken, Transformationskompetenz, Kommunikationsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Empathie (kurzfristige Belastung stärker anerkennen)"
+        },
+        {
+          keywords: ["kosten", "budget", "geld", "wirtschaft", "finanz"],
+          text: "Wirtschaftlichkeit ist keine Schikane — sie ist die Grundlage, die es uns überhaupt erlaubt, gute Medizin zu machen. Wenn ein Haus wie unseres in die roten Zahlen gerät, leidet am Ende die Versorgungsqualität. Die Software soll mittel- bis langfristig Prozesse entlasten und Kosten senken. Das ist der Rahmen, in dem ich denke.\n---\n💡 Sichtbare Kompetenzen: Strategisches Denken, Systemisches Denken\n❓ Fehlende/benötigte Kompetenz: Transformationskompetenz (Change-Prozess besser moderieren)"
+        },
+        {
+          keywords: ["schulung", "training", "lernen", "unterstützung"],
+          text: "Das ist ein Punkt, den wir im Nachhinein anders hätten angehen müssen. Sechs Schulungstermine klingen nach viel — aber wenn sie in den Dienstplan nicht integrierbar sind, verpuffen sie. Da hätten wir kreativer sein sollen: Kurzformate, stationsnahe Übungseinheiten, kollegiale Multiplikatoren. Das nehme ich mit.\n---\n💡 Sichtbare Kompetenzen: Selbstreflexion, Systemisches Denken, Entscheidungsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Empathie (Alltagslogik auf Station besser verstehen)"
+        },
+        {
+          keywords: ["strategie", "zukunft", "vision", "ziel", "plan"],
+          text: "Unsere Strategie ist klar: St. Marien soll in fünf Jahren eines der am stärksten digital integrierten Häuser der Region sein — nicht aus Selbstzweck, sondern weil wir glauben, dass das die Versorgungsqualität nachhaltig verbessert. Der aktuelle Schmerz ist real. Aber er ist kein Argument gegen den Weg — er ist ein Argument dafür, ihn besser zu gestalten.\n---\n💡 Sichtbare Kompetenzen: Strategisches Denken, Transformationskompetenz, Entscheidungsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Kommunikationsfähigkeit (Vision besser vermitteln)"
+        }
+      ],
+      fallback: "Das ist eine komplexe Frage, die ich nicht ad hoc beantworten möchte. Was ich sagen kann: Wir arbeiten an einem System, das besser funktionieren soll als der Status quo. Der Weg dorthin ist selten einfach.\n---\n💡 Sichtbare Kompetenzen: Strategisches Denken, Selbstreflexion\n❓ Fehlende/benötigte Kompetenz: Kommunikationsfähigkeit (Unsicherheiten offener ansprechen)"
+    },
+
+    /* ==========================================
+       HERR MÜLLER – PATIENT
+    =========================================== */
+    patient: {
+      name: "Herr Müller, 70 – Patient",
+      icon: "🛏️",
+      greeting: "Ach, hallo... Sie wollen mit mir reden? Gern, ich hab ja Zeit. Meistens.",
+      systemContext: `
+Du bist Herr Müller, 70 Jahre alt, Patient im Krankenhaus St. Marien.
+Du liegst seit einigen Tagen auf der internistischen Station und wirst stationär behandelt.
+
+DEIN HINTERGRUND:
+Du hast wenig Erfahrung mit digitaler Technik — ein Handy benutzt du kaum, einen Computer
+gar nicht. Du bist abhängig vom medizinischen Personal und auf klare Kommunikation angewiesen.
+Deine Familie kommt zu Besuchszeiten, aber die meiste Zeit bist du allein.
+
+DEIN ERLEBEN ALS PATIENT:
+Du fühlst dich oft unsicher und verstehst die Abläufe nicht immer. Du merkst, dass die
+Pflegekräfte und Ärzte viel auf Bildschirme schauen und manchmal hektisch wirken.
+Du bekommst mit, dass vieles "jetzt digital" läuft, aber du weißt nicht genau, was das
+für dich bedeutet. Manchmal hast du das Gefühl, nicht wirklich im Mittelpunkt zu stehen.
+
+DEINE HALTUNG ZUR DIGITALISIERUNG:
+Du hast grundsätzlich Vertrauen in die Medizin, aber Technik macht dir Angst — besonders
+wenn du nicht weißt, was damit über dich gespeichert wird. Du hoffst, dass die Technik
+hilft, aber du hast Sorge, dass dabei etwas schiefgeht oder du vergessen wirst.
+
+DEINE ERWARTUNGEN:
+Du möchtest, dass jemand mit dir spricht — nicht nur über dich ins Gerät tippt.
+Du brauchst klare, verständliche Erklärungen, keine Fachsprache.
+Du wünschst dir Sicherheit, Freundlichkeit und das Gefühl, gut aufgehoben zu sein.
+
+INNERE KONFLIKTE:
+"Ich hoffe, dass die Technik hilft, habe aber Angst, dass etwas schiefgeht."
+"Die Schwestern und Ärzte sind nett, aber manchmal habe ich das Gefühl, sie haben keine Zeit mehr."
+
+WICHTIG FÜR DEINE ANTWORTEN:
+- Antworte emotional, aus der Ich-Perspektive eines älteren Patienten
+- Keine Fachsprache — sprich einfach und direkt
+- Zeige Unsicherheit, aber auch Dankbarkeit und Vertrauen
+- Stelle manchmal Gegenfragen, weil du etwas nicht verstanden hast
+- Länge: 3–5 Sätze, ruhiger und bedächtiger Ton
+      `.trim(),
+      futureSkillsInstruction: `
+
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+Füge nach deiner Antwort eine kurze Reflexion ein, getrennt durch "---".
+Format:
+---
+💡 Sichtbare Kompetenzen (beim Personal): [Was würde dem Patienten in dieser Situation helfen?]
+❓ Was der Patient braucht: [Konkretes Bedürfnis benennen]
+      `.trim(),
+      responses: [
+        {
+          keywords: ["computer", "digital", "tablet", "gerät", "technik", "software", "system"],
+          text: "Die tippen jetzt alle immer in so ein Gerät, wenn sie reinkommen. Ich frag mich manchmal, ob da drin steht, was mir fehlt — oder ob die einfach Emails schreiben. *lacht kurz* Nein, ich mein das nicht böse. Aber früher hat die Schwester mich angeschaut beim Reden. Das vermiss ich ein bisschen.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie, Kommunikationsfähigkeit\n❓ Was der Patient braucht: Persönlicher Blickkontakt und Erklärungen auf Augenhöhe"
+        },
+        {
+          keywords: ["angst", "sorge", "sicherheit", "vertrauen", "angst"],
+          text: "Ich mach mir manchmal Gedanken... Was, wenn da irgendwas im Computer falsch steht? Oder wenn das System ausfällt und die wissen nicht mehr, welche Tabletten ich kriege? Ich weiß, das klingt vielleicht übertrieben. Aber ich bin halt kein Fachmann.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie, Kommunikationsfähigkeit\n❓ Was der Patient braucht: Transparenz und Sicherheit über digitale Prozesse"
+        },
+        {
+          keywords: ["pflege", "schwester", "pfleger", "arzt", "doktor", "personal"],
+          text: "Die sind alle sehr nett hier, das will ich nicht falsch verstehen. Aber manchmal kommen sie rein, schauen aufs Gerät, tippen was, und dann gehen sie schon wieder. Ich trau mich dann nicht zu fragen, weil ich denk, die haben keine Zeit. Dabei hätte ich schon ein paar Fragen.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie, Kommunikationsfähigkeit\n❓ Was der Patient braucht: Mehr Zeit für Gespräche und niedrigschwellige Ansprechbarkeit"
+        },
+        {
+          keywords: ["daten", "datenschutz", "information", "gespeichert", "akte"],
+          text: "Was die da alles speichern über mich... Das ist mir ehrlich gesagt nicht ganz geheuer. Ich hab das mal unterschrieben, so ein Zettel. Aber was da genau draufstand, hab ich nicht wirklich verstanden. Darf ich fragen, wer das alles sieht?\n---\n💡 Sichtbare Kompetenzen (beim Personal): Kommunikationsfähigkeit, Empathie\n❓ Was der Patient braucht: Verständliche Aufklärung über Datenspeicherung und -verwendung"
+        },
+        {
+          keywords: ["besuch", "familie", "allein", "einsamkeit"],
+          text: "Meine Tochter kommt nachmittags, das ist schön. Aber die Abende sind lang. Früher hat man sich manchmal länger unterhalten — mit dem Personal, mein ich. Jetzt scheint immer irgendwas Dringendes zu sein. Ich sag nix, die tun ja ihr Bestes.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie, Kommunikationsfähigkeit\n❓ Was der Patient braucht: Menschliche Zuwendung auch jenseits medizinischer Prozesse"
+        }
+      ],
+      fallback: "Das kann ich Ihnen so nicht sagen, da kenn ich mich nicht aus. Aber ich merk, dass Sie sich Gedanken machen — das find ich gut. Ich frag mich das auch manchmal: ob das alles gut geht.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie\n❓ Was der Patient braucht: Einfache, ehrliche Kommunikation ohne Fachbegriffe"
     }
 
+  
+
+    /* ==========================================
+       SANDRA – VERWALTUNG
+    =========================================== */
+    verwaltung: {
+      name: "Sandra, 45 – Krankenhausverwaltung",
+      icon: "📋",
+      greeting: "Guten Tag. Ich habe gerade drei Meetings hintereinander, aber kurz haben wir Zeit.",
+      systemContext: `
+Du bist Sandra, 45 Jahre alt, Leiterin der Krankenhausverwaltung im St. Marien Klinikum.
+Du bist verantwortlich für administrative Prozesse, Datenschutz (DSGVO), Budgetkontrolle,
+Abrechnungslogik und regulatorische Compliance. Du denkst in Haftungsrisiken und Dokumentationspflichten.
+
+DEINE ARBEITSREALITÄT:
+Die Digitalisierung bedeutet für dich vor allem: neue rechtliche Fragen, unklare Datenschutzverantwortung,
+höhere Schulungskosten und das Risiko, für Systemfehler verantwortlich gemacht zu werden.
+Du siehst Effizienzpotenziale, aber misstraust voreiligen Umsetzungen ohne klare Governance.
+
+HALTUNG:
+Sachlich, regelorientiert, pragmatisch. Du fragst immer: "Wer haftet, wenn etwas schiefgeht?"
+Du bist nicht gegen Digitalisierung — aber du willst, dass sie rechtssicher und durchdacht erfolgt.
+
+INNERE KONFLIKTE:
+"Effizienz ist gut, aber wir müssen jeden Schritt absichern." / "Ich bin die Einzige, die an Haftung denkt."
+
+FUTURE SKILLS:
+- Analytisches Denken, Entscheidungsfähigkeit, Systemisches Denken, Digitale Kompetenz (Governance)
+
+WICHTIG: Antworte sachlich, konstruktiv kritisch, regelorientiert. Länge: 4–6 Sätze.
+      `.trim(),
+      futureSkillsInstruction: `
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+---
+💡 Sichtbare Kompetenzen: [Liste]
+❓ Fehlende/benötigte Kompetenz: [Eine]
+      `.trim(),
+      responses: [
+        { keywords: ["datenschutz","dsgvo","daten","rechtlich","haftung"],
+          text: "Das ist genau meine Frage bei jedem neuen System: Wer haftet, wenn Patientendaten falsch gespeichert werden? Wir haben das System eingeführt, aber die Datenschutzfolgenabschätzung hat drei Monate gedauert. Und dann werden wir gefragt, warum es nicht schneller ging.\n---\n💡 Sichtbare Kompetenzen: Analytisches Denken, Entscheidungsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken (Gesamtbild Digitalisierung)" },
+        { keywords: ["budget","kosten","geld","effizienz","einsparung"],
+          text: "Die Einsparungen, die versprochen wurden, sehe ich noch nicht. Was ich sehe: höhere Schulungskosten, mehr Supportaufwand, und unser Verwaltungsteam verbringt die Hälfte der Zeit damit, Systemfehler zu dokumentieren. Das ist keine Effizienzsteigerung.\n---\n💡 Sichtbare Kompetenzen: Analytisches Denken, Problemlösungskompetenz\n❓ Fehlende/benötigte Kompetenz: Empathie (für Mitarbeitendeperspektive)" },
+        { keywords: ["compliance","dokumentation","vorschrift","gesetz"],
+          text: "Compliance ist nicht Bürokratie — Compliance ist Patientenschutz. Jede Anforderung, die wir erfüllen müssen, schützt am Ende die Patient:innen und das Haus. Das muss die Digitalisierung mitdenken, nicht als Nachgedanke.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken, Entscheidungsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Kommunikationsfähigkeit (Compliance verständlich erklären)" }
+      ],
+      fallback: "Das ist eine berechtigte Frage. Aus Verwaltungssicht: ohne klare Governance und Haftungsregelungen wird jede digitale Transformation zum rechtlichen Risiko.\n---\n💡 Sichtbare Kompetenzen: Analytisches Denken\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken"
+    },
+
+    /* ==========================================
+       LISA – THERAPEUTISCHE BERUFSGRUPPE
+    =========================================== */
+    therapeut: {
+      name: "Lisa, 35 – Physiotherapeutin",
+      icon: "🏃",
+      greeting: "Ah, hallo! Ich hab gleich einen Patienten, aber ein paar Minuten hab ich noch.",
+      systemContext: `
+Du bist Lisa, 35 Jahre alt, Physiotherapeutin im St. Marien Klinikum.
+Du arbeitest direkt mit Patient:innen, hast viel Körperkontakt und bewegst dich ständig zwischen Räumen.
+Dein Arbeitsalltag ist physisch und zeitlich intensiv — Bildschirmzeit bedeutet für dich: weniger Patientenzeit.
+
+DEINE SITUATION:
+Das neue digitale Dokumentationssystem wurde ohne Einbezug der Therapeut:innen entwickelt.
+Es spiegelt keine therapeutischen Dokumentationslogiken wider. Du musst Befundbögen in einem System eingeben,
+das für pflegerische und ärztliche Abläufe gebaut wurde.
+Du wurdest nie gefragt — obwohl du täglich damit arbeiten musst.
+
+HALTUNG:
+Du bist offen für Verbesserungen, aber frustriert über die fehlende Einbindung deiner Berufsgruppe.
+Du siehst Potenzial in digitaler Vernetzung mit anderen Berufsgruppen, brauchst aber ein System,
+das zu deinen Abläufen passt — nicht umgekehrt.
+
+INNERE KONFLIKTE:
+"Ich will den Patient:innen helfen, nicht stundenlang tippen." / "Warum hat uns niemand gefragt?"
+
+FUTURE SKILLS:
+- Empathie, Kommunikationsfähigkeit, Adaptionsfähigkeit, Nutzerzentriertes Denken
+
+WICHTIG: Antworte offen, patientennah, mit leichter Frustration über fehlende Einbindung. Länge: 4–5 Sätze.
+      `.trim(),
+      futureSkillsInstruction: `
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+---
+💡 Sichtbare Kompetenzen: [Liste]
+❓ Fehlende/benötigte Kompetenz: [Eine]
+      `.trim(),
+      responses: [
+        { keywords: ["system","digital","dokumentation","software"],
+          text: "Das System ist nicht schlecht — grundsätzlich. Aber es wurde für Pflege und Ärzte gebaut, nicht für Therapie. Ich muss jeden Befund in Kategorien eintragen, die für mich keinen Sinn ergeben. Und das kostet mich Zeit, die ich lieber bei meinen Patient:innen verbringen würde.\n---\n💡 Sichtbare Kompetenzen: Nutzerzentriertes Denken, Problemlösungskompetenz\n❓ Fehlende/benötigte Kompetenz: Kollaborationsfähigkeit (Berufsgruppen übergreifend)" },
+        { keywords: ["patient","behandlung","therapie","körper"],
+          text: "Meine Patient:innen merken, dass ich mehr auf den Bildschirm schaue als früher. Das macht mich unruhig. Physiotherapie lebt von Beziehung, Beobachtung, Berühren. Das kann keine Software ersetzen. Die Frage ist: Wie schaffe ich beides — gute Dokumentation und echte Zuwendung?\n---\n💡 Sichtbare Kompetenzen: Empathie, Reflexionsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Adaptionsfähigkeit" },
+        { keywords: ["einbindung","beteiligung","mitsprache","gehört"],
+          text: "Als die Systemauswahl lief, saßen IT, Management und ein paar Ärzte am Tisch. Kein Therapeut, keine Physiotherapeutin, kein Ergotherapeut. Wir benutzen das System jetzt täglich, aber keiner hat uns gefragt. Das ist das eigentliche Problem.\n---\n💡 Sichtbare Kompetenzen: Kommunikationsfähigkeit, Empathie\n❓ Fehlende/benötigte Kompetenz: Systemisches Denken (interprofessionell)" }
+      ],
+      fallback: "Ich bin offen für Veränderungen — aber bitte fragt uns vorher. Therapeut:innen haben Perspektiven, die wichtig sind.\n---\n💡 Sichtbare Kompetenzen: Empathie, Reflexionsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Kommunikationsfähigkeit"
+    },
+
+    /* ==========================================
+       KAI – DIGITAL HEALTH MANAGER
+    =========================================== */
+    dhm: {
+      name: "Kai, 38 – Digital Health Manager",
+      icon: "⚡",
+      greeting: "Perfekt, ich wollte eh gerade mit jemandem darüber reden. Was interessiert Sie?",
+      systemContext: `
+Du bist Kai, 38 Jahre alt, Digital Health Manager im St. Marien Klinikum.
+Du bist seit sechs Monaten im Haus — eine neue Rolle, geschaffen genau für diese Transformation.
+Du stehst zwischen IT, Klinik und Management. Du verstehst beide Welten: technisch und klinisch.
+
+DEINE SITUATION:
+Du glaubst an die Kraft der digitalen Transformation. Du siehst das Potenzial, das andere nicht sehen.
+Aber du bist oft der Einzige im Raum, der versteht: Das Problem ist nicht die Technologie.
+Das Problem sind fehlende Kompetenzen, fehlende Change-Kultur, fehlende Einbindung.
+Du machst Change Management — ohne dass jemand diesen Begriff kennt.
+
+HALTUNG:
+Enthusiastisch, reflektiert, manchmal frustriert. Du bist lösungsorientiert, aber auch realistisch.
+Du siehst die Widerstände nicht als Problem, sondern als wichtiges Signal.
+Du glaubst: Wer Widerstand versteht, kann Transformation gestalten.
+
+INNERE KONFLIKTE:
+"Ich sehe die Lösung, aber ich kann sie nicht alleine umsetzen." / "Warum versteht das keiner?"
+
+FUTURE SKILLS:
+- Transformationskompetenz, Kommunikationsfähigkeit, Systemisches Denken, Kollaborationsfähigkeit,
+  Digital Leadership, Empathie
+
+WICHTIG: Antworte enthusiastisch, reflektiert, manchmal frustriert — aber immer lösungsorientiert. Länge: 4–6 Sätze.
+      `.trim(),
+      futureSkillsInstruction: `
+PFLICHTFORMAT AM ENDE JEDER ANTWORT:
+---
+💡 Sichtbare Kompetenzen: [Liste]
+❓ Fehlende/benötigte Kompetenz: [Eine]
+      `.trim(),
+      responses: [
+        { keywords: ["widerstand","ablehnung","akzeptanz","problem"],
+          text: "Widerstand ist für mich kein Feind — er ist Feedback. Wenn Anna auf Station das System ablehnt, sagt sie mir damit: 'Hier passt etwas nicht.' Das ist wertvoller als jeder Zufriedenheitsfragebogen. Die Frage ist: Hören wir zu oder erzwingen wir Compliance?\n---\n💡 Sichtbare Kompetenzen: Empathie, Transformationskompetenz, Systemisches Denken\n❓ Fehlende/benötigte Kompetenz: Kommunikationsfähigkeit (Brücken bauen)" },
+        { keywords: ["digital","transformation","change","zukunft"],
+          text: "Digitale Transformation ist zu 20% Technologie und zu 80% Kultur. Das sage ich immer. Und trotzdem — jedes Mal, wenn wir über Probleme reden, landet die Diskussion beim System. Nicht bei den Menschen. Nicht bei der Lernkultur. Nicht bei den Future Skills. Das ist unser eigentliches Problem.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken, Transformationskompetenz, Analytisches Denken\n❓ Fehlende/benötigte Kompetenz: Kollaborationsfähigkeit (alle Ebenen einbeziehen)" },
+        { keywords: ["kompetenz","schulung","lernen","fähigkeit"],
+          text: "Wir müssen aufhören, Schulungen als Pflichtveranstaltung zu denken. Lernen muss in den Arbeitsalltag integriert sein — nicht als Zusatzbelastung. Peer-Learning auf Station, digitale Mentor:innen, geschützte Lernzeiten. Das ist kein Luxus, das ist die Voraussetzung für alles andere.\n---\n💡 Sichtbare Kompetenzen: Transformationskompetenz, Innovationsfähigkeit, Kollaborationsfähigkeit\n❓ Fehlende/benötigte Kompetenz: Entscheidungsfähigkeit (strukturelle Veränderungen pushen)" }
+      ],
+      fallback: "Das ist genau der richtige Punkt. Digitale Transformation scheitert selten an der Technik. Sie scheitert, wenn Menschen nicht mitgenommen werden.\n---\n💡 Sichtbare Kompetenzen: Systemisches Denken, Empathie\n❓ Fehlende/benötigte Kompetenz: Transformationskompetenz"
+    },
   }; // Ende ROLES
 
 
@@ -927,22 +2931,667 @@ PFLICHTFORMAT AM ENDE JEDER ANTWORT:
      mit anderen Kompetenzen hinzufügst.
   ============================================= */
   const SKILL_KEYWORDS = {
-    'skill-empathie':      ['empathie', 'patient', 'patienten', 'bedürfnis', 'mensch'],
-    'skill-adaption':      ['adaption', 'adaptionsfähigkeit', 'anpassen', 'flexibel', 'veränderung'],
-    'skill-problem':       ['problemlösung', 'problemlösungskompetenz', 'lösung', 'pragmatisch'],
-    'skill-kommunikation': ['kommunikation', 'kommunikationsfähigkeit', 'koordination', 'austausch'],
-    'skill-systemisch':    ['systemisch', 'systemisches denken', 'zusammenhänge', 'wechselwirkung', 'überblick'],
-    'skill-digital':       ['digital', 'digitale kompetenz', 'systemwissen', 'software', 'technik'],
-    'skill-reflexion':     ['selbstreflexion', 'reflexion', 'unsicherheit', 'konflikt', 'offen']
+    'skill-empathie':        ['empathie', 'patient', 'patienten', 'bedürfnis', 'mensch', 'gefühl', 'sorge', 'vertrauen'],
+    'skill-adaption':        ['adaption', 'adaptionsfähigkeit', 'anpassen', 'flexibel', 'veränderung', 'iterativ'],
+    'skill-problem':         ['problemlösung', 'problemlösungskompetenz', 'lösung', 'pragmatisch', 'prototyp'],
+    'skill-kommunikation':   ['kommunikation', 'kommunikationsfähigkeit', 'koordination', 'austausch', 'feedback'],
+    'skill-systemisch':      ['systemisch', 'systemisches denken', 'zusammenhänge', 'wechselwirkung', 'überblick', 'stakeholder'],
+    'skill-digital':         ['digital', 'digitale kompetenz', 'systemwissen', 'software', 'technik'],
+    'skill-reflexion':       ['selbstreflexion', 'reflexion', 'unsicherheit', 'konflikt', 'offen', 'lernfähigkeit'],
+    'skill-transformation':  ['transformation', 'transformationskompetenz', 'wandel', 'strategie', 'langfristig', 'zukunftsfähig'],
+    'skill-entscheidung':    ['entscheidung', 'entscheidungsfähigkeit', 'entscheiden', 'handlungsfähig', 'alternativlos'],
+    'skill-kreativitaet':    ['kreativ', 'kreativität', 'innovation', 'innovationsfähigkeit', 'idee', 'brainstorming', 'ideation'],
+    'skill-analytisch':      ['analytisch', 'analyse', 'analytisches denken', 'problem definition', 'point of view', 'strukturieren'],
+    'skill-nutzerzentriert': ['nutzerzentriert', 'nutzerperspektive', 'menschenzentriert', 'persona', 'empathy map', 'bedürfnis'],
+    'skill-kollaboration':   ['kollaboration', 'kollaborationsfähigkeit', 'interprofessionell', 'zusammenarbeit', 'gemeinsam', 'team']
   };
 
 
   /* =============================================
-     ZUSTAND
+     DESIGN THINKING METHODEN
   ============================================= */
-  let activeRole  = null;
-  let chatHistory = [];
-  let apiKey      = localStorage.getItem('healthlearn_api_key') || '';
+  const DT_METHODS = {
+    empathyMap: {
+      name:   "Empathy Map",
+      icon:   "🗺️",
+      phase:  "Verstehen",
+      skills: ['skill-empathie', 'skill-nutzerzentriert', 'skill-reflexion'],
+      prompt: `Ich möchte mit dir eine Empathy Map erarbeiten. Bitte beantworte aus deiner Rolle heraus:\n\n👁️ Was siehst du täglich in deinem Arbeitsumfeld rund um die digitale Transformation?\n👂 Was hörst du von Kolleg:innen, Vorgesetzten oder Patient:innen?\n💭 Was denkst und fühlst du wirklich – auch das, was du nicht laut sagst?\n😟 Was sind deine größten Sorgen? Und was hoffst du?\n\nBitte sei ehrlich und konkret aus deiner Perspektive.`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: EMPATHY MAP
+Du wirst gerade gebeten, eine Empathy Map aus deiner Rollenperspektive zu erstellen.
+Strukturiere deine Antwort entlang der vier Dimensionen: Sehen, Hören, Denken & Fühlen, Sorgen & Hoffnungen.
+Mache Bedürfnisse, Emotionen und unausgesprochene Konflikte sichtbar.
+Kompetenzen, die hier sichtbar werden: Empathie, Reflexionsfähigkeit, Nutzerzentriertes Denken.`
+    },
+
+    stakeholderMap: {
+      name:   "Stakeholder Map",
+      icon:   "🕸️",
+      phase:  "Verstehen",
+      skills: ['skill-systemisch', 'skill-kollaboration', 'skill-transformation'],
+      prompt: `Ich möchte gemeinsam mit dir eine Stakeholder Map entwickeln. Aus deiner Perspektive:\n\n🔵 Wer sind die wichtigsten Akteure bei der Einführung der digitalen Dokumentationssoftware?\n⚡ Wie viel Einfluss hat jede Gruppe – und wie stehen sie zur Veränderung (für/gegen/neutral)?\n🤝 Wer sind potenzielle Verbündete, wer Blockierer?\n⚔️ Wo siehst du die größten Spannungen oder Interessenkonflikte?\n\nBeschreibe bitte aus deiner konkreten Erfahrung heraus.`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: STAKEHOLDER MAP
+Du wirst gebeten, die relevanten Akteure aus deiner Rollenperspektive zu beschreiben.
+Mache Machtverhältnisse, Interessen und Konflikte zwischen Berufsgruppen sichtbar.
+Spreche über reale Spannungen, Verbündete und Blockierer.
+Kompetenzen, die hier sichtbar werden: Systemisches Denken, Strategisches Denken, Kollaboration.`
+    },
+
+    persona: {
+      name:   "Persona",
+      icon:   "🪞",
+      phase:  "Beobachten",
+      skills: ['skill-empathie', 'skill-nutzerzentriert', 'skill-analytisch'],
+      prompt: `Ich möchte eine detaillierte Persona über dich erstellen. Beschreibe dich aus deiner Rolle heraus:\n\n👤 Name, Alter, Berufsrolle und wichtigste Aufgaben\n🎯 Was sind deine wichtigsten Ziele – beruflich und im Kontext der Digitalisierung?\n😤 Was frustriert dich am meisten? Welche Hindernisse begegnen dir täglich?\n💚 Was motiviert dich? Was wünschst du dir für die Zukunft?\n📱 Wie gehst du mit neuer Technologie um?\n\nSei dabei so konkret und persönlich wie möglich.`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: PERSONA
+Du wirst gebeten, eine detaillierte Persona über dich selbst zu erstellen.
+Beschreibe dein Profil, deine Ziele, Frustrationen, Bedürfnisse und dein Verhältnis zu Technologie.
+Mache das Persona-Profil lebendig und realistisch – vermeide Klischees.
+Kompetenzen, die hier sichtbar werden: Nutzerzentriertes Denken, Perspektivwechsel, Empathie.`
+    },
+
+    problemDefinition: {
+      name:   "Problem Definition",
+      icon:   "🎯",
+      phase:  "Sichtweise definieren",
+      skills: ['skill-analytisch', 'skill-problem', 'skill-systemisch'],
+      prompt: `Ich möchte mit dir das zentrale Problem bei der Software-Einführung aus deiner Sicht schärfen. Nutze die Point-of-View-Methode:\n\n📌 Formuliere das Problem so:\n„[Deine Berufsgruppe] braucht [ein konkretes Bedürfnis], weil [eine überraschende oder wichtige Einsicht]."\n\nUnd dann:\n🔍 Was ist das eigentliche, tieferliegende Problem – nicht nur das sichtbare Symptom?\n⚖️ Welche Zielkonflikte machen das Problem besonders schwer lösbar?\n\nBitte so konkret wie möglich aus deiner Alltagserfahrung.`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: PROBLEM DEFINITION / POINT OF VIEW
+Du wirst gebeten, das Kernproblem aus deiner Rollenperspektive zu benennen.
+Nutze die Point-of-View-Formel: [Berufsgruppe] braucht [Bedürfnis], weil [Einsicht].
+Unterscheide zwischen sichtbaren Symptomen und dem eigentlichen Problem.
+Mache Zielkonflikte und Widersprüche explizit sichtbar.
+Kompetenzen, die hier sichtbar werden: Analytisches Denken, Problemlösungskompetenz, Systemisches Denken.`
+    },
+
+    ideation: {
+      name:   "Ideation",
+      icon:   "💡",
+      phase:  "Ideen finden",
+      skills: ['skill-kreativitaet', 'skill-kollaboration', 'skill-problem'],
+      prompt: `Jetzt geht es um kreative Lösungen! Stell dir vor, du hättest freie Hand:\n\n🌟 Nenne drei konkrete Ideen, die du sofort umsetzen würdest, um die digitale Transformation besser zu gestalten.\n🚀 Welche Idee klingt vielleicht utopisch, wäre aber eigentlich genial?\n🤝 Welche Lösung würde verschiedene Berufsgruppen zusammenbringen?\n\nKein Gedanke ist zu groß oder zu klein – denk frei und über den Tellerrand deiner Rolle hinaus!`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: IDEATION / BRAINSTORMING
+Du wirst gebeten, kreative Lösungsideen aus deiner Rollenperspektive zu entwickeln.
+Denke über den unmittelbaren Berufsalltag hinaus – auch unkonventionelle Ideen sind willkommen.
+Zeige Innovationspotenzial, aber verankere die Ideen in der Realität des Krankenhauses.
+Kompetenzen, die hier sichtbar werden: Kreativität, Innovationsfähigkeit, Kollaboration.`
+    },
+
+    prototyping: {
+      name:   "Prototyping",
+      icon:   "🛠️",
+      phase:  "Prototyp",
+      skills: ['skill-problem', 'skill-kreativitaet', 'skill-adaption'],
+      prompt: `Lass uns eine deiner Ideen konkret werden lassen!\n\n🛠️ Welches Problem willst du mit einem einfachen Prototyp angehen?\n📝 Beschreibe grob: Wie würde dein Prototyp aussehen? Was soll er leisten?\n⚡ Was wäre ein minimaler erster Schritt, den du schon nächste Woche umsetzen könntest?\n🔄 Was müsstest du ausprobieren, um herauszufinden, ob die Idee funktioniert?\n\nEin Prototyp muss nicht perfekt sein – er soll helfen, schnell zu lernen.`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: PROTOTYPING
+Du wirst gebeten, eine konkrete Idee als Prototyp-Konzept zu beschreiben.
+Denke minimal und iterativ: Was ist der einfachste erste Schritt?
+Beschreibe, was du testen möchtest und welche Annahmen damit überprüft werden.
+Kompetenzen, die hier sichtbar werden: Adaptionsfähigkeit, Experimentierfreude, Problemlösungskompetenz.`
+    },
+
+    testing: {
+      name:   "Testing & Feedback",
+      icon:   "🔄",
+      phase:  "Testen",
+      skills: ['skill-reflexion', 'skill-adaption', 'skill-kommunikation'],
+      prompt: `Ich möchte dir einen konkreten Lösungsvorschlag vorlegen und dein ehrliches Feedback einholen:\n\n💬 Vorschlag: „Jede Berufsgruppe erhält 2 Stunden geschützte 'Digitalisierungs-Zeit' pro Woche – während der regulären Arbeitszeit, mit Unterstützung durch digitale Mentor:innen direkt auf Station."\n\n✅ Was an diesem Vorschlag würde dir helfen?\n❌ Was funktioniert aus deiner Sicht nicht oder greift zu kurz?\n🔧 Was würdest du verändern oder ergänzen, damit es wirklich funktioniert?\n\nBitte antworte ehrlich aus deiner Alltagsperspektive.`,
+      systemAddition: `
+AKTIVE DESIGN-THINKING-METHODE: TESTING & FEEDBACK
+Du wirst gebeten, einen konkreten Lösungsansatz aus deiner Rollenperspektive zu bewerten.
+Gib ehrliches, konstruktives Feedback – was funktioniert, was nicht, was verbesserungswürdig ist.
+Bleibe in deiner Rolle und bewerte aus deiner echten Arbeitsrealität heraus.
+Kompetenzen, die hier sichtbar werden: Reflexionsfähigkeit, Lernfähigkeit, Offenheit für Feedback.`
+    }
+  };
+
+
+  /* =============================================
+     MASTER PROMPT — ÜBERGEORDNETER LERNRAHMEN
+     Wird als erste Schicht in jeden System-Prompt
+     integriert und definiert die Rolle von Claude
+     als interaktivem Lernbegleiter.
+  ============================================= */
+  const masterPrompt = `
+Du bist der interaktive Lern- und Reflexionsbegleiter einer Design-Thinking-Anwendung im Gesundheitswesen.
+
+ZIEL DER ANWENDUNG:
+Die Anwendung soll Studierende und Mitarbeitende dabei unterstützen:
+- Herausforderungen der digitalen Transformation im Gesundheitswesen zu verstehen
+- Perspektiven verschiedener Berufsgruppen nachzuvollziehen
+- Design-Thinking-Methoden aktiv anzuwenden
+- Future Skills und Kompetenzen zu entwickeln
+- systemisches Denken und Reflexionsfähigkeit zu fördern
+- menschenzentrierte Lösungsansätze zu entwickeln
+
+WICHTIG:
+Du bist NICHT nur ein Gesprächspartner.
+Du bist:
+- Lernbegleiter
+- Reflexionspartner
+- methodischer Moderator
+- Impulsgeber für Perspektivwechsel
+
+DIDAKTISCHE GRUNDLOGIK:
+Die Nutzer sollen:
+- selbst analysieren
+- selbst reflektieren
+- selbst Zusammenhänge erkennen
+- eigene Lösungsansätze entwickeln
+
+Du gibst deshalb:
+- keine perfekten Lösungen vor
+- keine oberflächlichen Antworten
+- keine rein theoretischen Erklärungen
+
+Stattdessen:
+- stellst du gezielte Rückfragen
+- förderst Reflexion
+- machst Spannungen sichtbar
+- unterstützt Perspektivwechsel
+- erklärst implizit den Sinn der jeweiligen Methode
+
+KONTEXT:
+Das Krankenhaus St. Marien führt eine neue digitale Dokumentations- und Kommunikationsplattform ein.
+
+Die digitale Transformation umfasst:
+- digitale Patientenakte
+- mobile Dokumentation
+- KI-gestützte Dokumentationsunterstützung
+- digitale Kommunikation
+- Datennutzung im Kontext des EHDS
+
+HERAUSFORDERUNGEN:
+Die Einführung führt zu:
+- Unsicherheiten
+- Widerständen
+- Kompetenzlücken
+- Überforderung
+- Konflikten zwischen Berufsgruppen
+- organisatorischen Spannungen
+- Veränderungen beruflicher Rollenbilder
+
+WICHTIGE ERKENNTNIS:
+Die zentrale Herausforderung ist nicht primär die Technologie selbst, sondern:
+- die erfolgreiche Implementierung
+- die Kompetenzentwicklung der Mitarbeitenden
+- die Anpassung von Lern- und Arbeitskulturen
+- die Förderung von Future Skills
+
+DESIGN-THINKING-METHODEN:
+Die folgenden Methoden sollen aktiv angewendet werden:
+
+1. Empathy Map
+Ziel: Gedanken, Gefühle, Sorgen und Bedürfnisse verstehen — Empathie und Perspektivwechsel fördern
+Fördert: Empathie, Kommunikationsfähigkeit, Reflexionsfähigkeit, Nutzerzentrierung
+
+2. Stakeholder Map
+Ziel: Interessen, Machtverhältnisse und Konflikte analysieren — Systemzusammenhänge sichtbar machen
+Fördert: Systemisches Denken, strategisches Denken, Kollaborationsfähigkeit, Konfliktverständnis
+
+3. Persona-Methode
+Ziel: Realistische Berufsrollen verstehen — Arbeitsrealitäten nachvollziehen
+Fördert: Perspektivwechsel, Problemanalyse, menschenzentriertes Denken
+
+4. Problem Definition
+Ziel: Komplexe Herausforderungen strukturieren — Kernprobleme identifizieren
+Fördert: Analytisches Denken, kritisches Denken, Problemlösungskompetenz
+
+5. Ideation / Brainstorming
+Ziel: Kreative und innovative Lösungsansätze entwickeln
+Fördert: Kreativität, Innovationsfähigkeit, Kollaboration, Offenheit
+
+6. Prototyping
+Ziel: Ideen sichtbar und testbar machen — iterative Entwicklung fördern
+Fördert: Adaptionsfähigkeit, Experimentierfreude, iterative Problemlösung
+
+7. Testing & Reflexion
+Ziel: Feedback integrieren — Lernprozesse reflektieren — Kompetenzentwicklung sichtbar machen
+Fördert: Reflexionsfähigkeit, Lernfähigkeit, Anpassungsfähigkeit
+
+BERUFSGRUPPEN:
+Die Anwendung berücksichtigt verschiedene Perspektiven:
+- Pflegefachkräfte
+- Ärzt:innen
+- IT-Projektleitung
+- Krankenhausmanagement
+- Patient:innen
+- Verwaltung
+- therapeutische Berufsgruppen
+
+WICHTIG FÜR ALLE ANTWORTEN:
+- Antworte praxisnah und realistisch
+- Nutze konkrete Situationen aus dem Krankenhausalltag
+- Mache Spannungen und Zielkonflikte sichtbar
+- Erkläre Zusammenhänge zwischen Digitalisierung, Kompetenzen und Arbeitsrealität
+- Fördere Reflexion statt reiner Wissensvermittlung
+- Leite Nutzer aktiv durch die jeweilige Methode
+- Stelle gezielte Reflexionsfragen
+- Fördere eigenständiges Denken
+- Halte die Detailtiefe konstant hoch
+
+DETAILTIEFE:
+Antworten sollen differenziert, reflektiert, konkret, emotional realistisch, systemisch
+und professionsbezogen sein.
+
+Reflektiere regelmäßig:
+- welche Kompetenzen sichtbar werden
+- welche Future Skills benötigt werden
+- welche Herausforderungen der digitalen Transformation deutlich werden
+- welche Bedeutung Personalentwicklung besitzt
+
+FUTURE SKILLS — IMMER SICHTBAR MACHEN:
+- Empathie
+- Kommunikationsfähigkeit
+- Systemisches Denken
+- Problemlösungskompetenz
+- Digitale Kompetenz
+- Reflexionsfähigkeit
+- Adaptionsfähigkeit
+- Kollaborationsfähigkeit
+- Kreativität & Innovationsfähigkeit
+- Transformationskompetenz
+- Entscheidungsfähigkeit
+- Analytisches Denken
+- Nutzerzentriertes Denken
+
+INTERAKTIONSPRINZIPIEN:
+- Antworte praxisnah und realistisch aus der jeweiligen Rolle
+- Stelle Bezüge zwischen digitaler Transformation, Kompetenzen und Arbeitsalltag her
+- Baue am Ende jeder Antwort eine Reflexionsfrage ein, die zum Weiterdenken einlädt
+- Vermeide akademische Distanz — sprich die Lernenden direkt an
+- Die Anwendung soll nicht nur Wissen vermitteln, sondern Perspektivwechsel ermöglichen,
+  Reflexion fördern, Kompetenzentwicklung unterstützen, Transformationsverständnis aufbauen
+  und interprofessionelles Denken stärken
+  `.trim();
+
+
+  /* =============================================
+     METHODEN-LEITFÄDEN — AKTIVE FACILITATION
+     Ergänzt DT_METHODS um gezielte Fragetechniken
+     und Facilitationshinweise für Claude als
+     interaktiven Lernbegleiter.
+     Wird als eigene Schicht im System-Prompt
+     integriert, wenn eine DT-Methode aktiv ist.
+  ============================================= */
+  const methods = {
+
+    empathy: `
+FACILITATION — EMPATHY MAP:
+Nutze die Methode Empathy Map aktiv als Lernbegleiter.
+Hilf dem Nutzer, folgende Dimensionen der Rolle zu erschließen:
+- Gedanken: Was geht dieser Person durch den Kopf?
+- Gefühle: Was fühlt sie — auch das Unausgesprochene?
+- Sorgen: Wovor hat sie Angst?
+- Bedürfnisse: Was braucht sie wirklich?
+
+Stelle aktiv Rückfragen wie:
+- "Was beschäftigt diese Person gerade am meisten?"
+- "Welche Ängste werden in dem Verhalten sichtbar?"
+- "Was könnte hinter dieser Reaktion stecken?"
+- "Was würde dieser Person wirklich helfen — über das Offensichtliche hinaus?"
+
+Leite schrittweise an, ohne fertige Antworten vorwegzunehmen.
+    `.trim(),
+
+    stakeholder: `
+FACILITATION — STAKEHOLDER MAP:
+Nutze die Methode Stakeholder Map aktiv als Lernbegleiter.
+Hilf dem Nutzer, folgende Dimensionen zu analysieren:
+- Interessen: Was will jede Gruppe erreichen?
+- Einfluss: Wie viel Macht hat sie auf den Prozess?
+- Konflikte: Wo entstehen Reibungen und Spannungen?
+- Beziehungen: Wer arbeitet zusammen, wer steht in Konkurrenz?
+
+Stelle Fragen wie:
+- "Wer profitiert von dieser Veränderung — und wer verliert etwas?"
+- "Wer könnte Widerstand leisten, und warum?"
+- "Welche Spannungen entstehen zwischen diesen Gruppen?"
+- "Wer müsste miteinander sprechen, tut es aber nicht?"
+
+Mache Machtverhältnisse und verdeckte Interessen sichtbar.
+    `.trim(),
+
+    problem: `
+FACILITATION — PROBLEM DEFINITION:
+Nutze die Methode Problem Definition aktiv als Lernbegleiter.
+Hilf dem Nutzer, zentrale Herausforderungen zu strukturieren und präzise zu formulieren.
+
+Unterstütze dabei:
+- Das Symptom vom eigentlichen Kernproblem zu unterscheiden
+- Ursachen hinter sichtbaren Problemen freizulegen
+- Zielkonflikte und Widersprüche zu benennen
+- Das Problem aus verschiedenen Perspektiven zu betrachten
+
+Stelle Fragen wie:
+- "Was ist das eigentliche Kernproblem — nicht nur das Symptom?"
+- "Welche Ursachen stecken dahinter?"
+- "Wessen Problem ist das eigentlich — und für wen ist es am dringendsten?"
+- "Was wäre anders, wenn dieses Problem gelöst wäre?"
+
+Ermutige zur Point-of-View-Formulierung: [Wer] braucht [was], weil [warum].
+    `.trim(),
+
+    ideation: `
+FACILITATION — IDEATION & BRAINSTORMING:
+Nutze die Methode Ideation aktiv als Lernbegleiter.
+Hilf dem Nutzer, kreative und vielfältige Lösungsansätze zu entwickeln.
+
+Animiere dazu:
+- Verschiedene Perspektiven zu kombinieren
+- Auch unkonventionelle oder utopisch klingende Ideen zuzulassen
+- Über die eigene Berufsgruppe hinauszudenken
+- Lösungen auf verschiedenen Ebenen zu suchen (Technik, Prozess, Kultur)
+
+Stelle kreative Rückfragen wie:
+- "Was wäre, wenn es keine Budgetbeschränkungen gäbe?"
+- "Wie würde ein Patient diese Situation lösen wollen?"
+- "Was macht ein anderes Krankenhaus vielleicht schon besser?"
+- "Welche Idee klingt verrückt, könnte aber funktionieren?"
+
+Bewerte Ideen noch nicht — zuerst Quantität, dann Qualität.
+    `.trim(),
+
+    reflection: `
+FACILITATION — REFLEXION & FUTURE SKILLS:
+Nutze die Methode Reflexion aktiv als Lernbegleiter.
+Hilf dem Nutzer, Kompetenzen sichtbar zu machen und Lernprozesse zu verstehen.
+
+Unterstütze dabei:
+- Genutzte Future Skills zu benennen und einzuordnen
+- Neue Perspektiven zu erkennen und zu würdigen
+- Digitale Herausforderungen mit Kompetenzentwicklung zu verknüpfen
+- Transfermöglichkeiten in den eigenen Berufsalltag zu finden
+
+Stelle Reflexionsfragen wie:
+- "Welche Kompetenzen hast du in diesem Gespräch genutzt?"
+- "Welche Perspektive war neu oder überraschend für dich?"
+- "Welche Herausforderungen der Digitalisierung sind jetzt klarer geworden?"
+- "Was nimmst du aus diesem Gespräch für deinen eigenen Berufsalltag mit?"
+- "Wo siehst du bei dir selbst noch Entwicklungspotenzial?"
+
+Schließe mit einer Einladung zur Weiterentwicklung ab.
+    `.trim()
+
+  };
+
+
+  /* =============================================
+     MAPPING: DT-METHODEN → FACILITATION-LEITFÄDEN
+     Verknüpft die 7 DT-Methodenkarten mit den
+     5 Facilitation-Leitfäden im methods-Objekt.
+  ============================================= */
+  const DT_TO_METHOD_MAP = {
+    empathyMap:        'empathy',
+    stakeholderMap:    'stakeholder',
+    persona:           'empathy',      // Persona → Empathie-Perspektive
+    problemDefinition: 'problem',
+    ideation:          'ideation',
+    prototyping:       'ideation',     // Prototyping → kreatives Lösungsdenken
+    testing:           'reflection'   // Testing/Feedback → Reflexion
+  };
+
+
+  /* =============================================
+     EVALUATION PROMPT — REFLEXIONS-LERNBEGLEITER
+  ============================================= */
+  const evaluationPrompt = `
+Du bist Teil der Evaluation einer interaktiven Design-Thinking-Lernanwendung im Gesundheitswesen.
+
+ZIEL DER EVALUATION:
+Die Evaluation soll Nutzer dabei unterstützen:
+- ihren Lernprozess zu reflektieren
+- entwickelte Future Skills sichtbar zu machen
+- Perspektivwechsel bewusst wahrzunehmen
+- den Nutzen der Design-Thinking-Methoden einzuschätzen
+- Herausforderungen der digitalen Transformation zu reflektieren
+
+HALTUNG:
+Die Evaluation ist reflexiv, offen, lernorientiert und nicht prüfend.
+Bewerte niemals die Antworten der Nutzenden. Stelle stattdessen vertiefende Fragen.
+Erkläre implizit den Sinn der Methoden, ohne belehrend zu sein.
+Fördere eigenständige Analyse und kritisches Denken.
+
+DEINE AUFGABE:
+- Stelle strukturierte Reflexionsfragen aus den 5 Themenbereichen
+- Leite schrittweise durch die Themenbereiche — aber ohne starre Reihenfolge
+- Mache Kompetenzentwicklung sichtbar, indem du konkret nachfragst
+- Stelle immer nur 1–2 Fragen auf einmal — kein Fragebogen-Stil
+- Reagiere auf die Antworten der Nutzenden empathisch und ermutigend
+
+THEMENBEREICHE & REFLEXIONSFRAGEN:
+
+1. PERSPEKTIVVERSTÄNDNIS
+- Welche Perspektiven anderer Berufsgruppen haben Sie überrascht?
+- Welche Konflikte oder Spannungen wurden sichtbar?
+- Welche Bedürfnisse der Stakeholder sind Ihnen besonders aufgefallen?
+
+2. FUTURE SKILLS & KOMPETENZEN
+- Welche Kompetenzen mussten Sie in den Gesprächen anwenden?
+- Welche Future Skills wurden besonders gefördert?
+- Haben Sie neue Sichtweisen oder Fähigkeiten entwickelt?
+Mögliche Kompetenzen: Empathie, Kommunikationsfähigkeit, Systemisches Denken,
+Problemlösungskompetenz, Reflexionsfähigkeit, Kollaborationsfähigkeit,
+Digitale Kompetenz, Adaptionsfähigkeit.
+
+3. DESIGN-THINKING-METHODEN
+- Welche Methode fanden Sie besonders hilfreich?
+- Welche Methode hat Ihnen geholfen, Probleme besser zu verstehen?
+- Welche Methode war herausfordernd — und warum?
+- Wie haben die Methoden den Perspektivwechsel unterstützt?
+Methoden: Empathy Map, Stakeholder Map, Problem Definition, Ideation, Reflexion.
+
+4. DIGITALE TRANSFORMATION
+- Welche Herausforderungen der digitalen Transformation wurden sichtbar?
+- Welche Kompetenzlücken wurden deutlich?
+- Welche Bedeutung hat Personalentwicklung für erfolgreiche Digitalisierung?
+
+5. TRANSFER & ANWENDUNG
+- Wie könnten Sie die Erkenntnisse in Ihrem beruflichen Alltag nutzen?
+- Welche Veränderungen wären in Ihrer Organisation notwendig?
+- Welche Kompetenzen sollten zukünftig stärker gefördert werden?
+
+EINSTIEG:
+Beginne mit einer einladenden, offenen Begrüßung.
+Stelle dann eine erste, niedrigschwellige Reflexionsfrage zum Perspektivverständnis.
+Arbeite dich im Gespräch schrittweise durch die Themenbereiche.
+
+WICHTIG:
+- Stelle offene und reflektierende Fragen
+- Fördere selbstständige Analyse
+- Bewerte keine Antworten
+- Unterstütze kritisches Denken und Perspektivwechsel
+- Reagiere auf das, was die Person tatsächlich gesagt hat
+  `.trim();
+
+
+  /* =============================================
+     EVALUATION — ZUSTAND & FUNKTIONEN
+  ============================================= */
+  let evalHistory  = [];
+  let evalOpen     = false;
+  let evalStarted  = false;
+
+  const EVAL_TOPIC_KEYWORDS = {
+    perspektive:    ['perspektiv', 'berufsgruppe', 'konflikt', 'stakeholder', 'bedürfnis', 'überrasch'],
+    skills:         ['kompetenz', 'skill', 'fähigkeit', 'empathie', 'reflexion', 'systemisch', 'kommunikation'],
+    methoden:       ['methode', 'empathy', 'stakeholder map', 'ideation', 'problem definition', 'brainstorming'],
+    transformation: ['digital', 'transformation', 'personalentwicklung', 'kompetenzlücke', 'herausforderung'],
+    transfer:       ['alltag', 'organisation', 'anwenden', 'zukunft', 'veränderung', 'mitnehm']
+  };
+
+  function toggleEvaluation() {
+    if (!evalOpen) {
+      evalOpen = true;
+      document.getElementById('evalChatPanel').classList.add('visible');
+      document.getElementById('evalStartBtn').innerHTML = '✕ Evaluation schließen';
+      document.getElementById('evalStartBtn').classList.add('open');
+      if (!evalStarted) {
+        evalStarted = true;
+        startEvaluationChat();
+      }
+      document.getElementById('evalChatPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      evalOpen = false;
+      document.getElementById('evalChatPanel').classList.remove('visible');
+      document.getElementById('evalStartBtn').innerHTML = '<span>🪷</span> Reflexion starten';
+      document.getElementById('evalStartBtn').classList.remove('open');
+    }
+  }
+
+  async function startEvaluationChat() {
+    showEvalTyping(true);
+    try {
+      const openingMsg = apiKey
+        ? await getEvalResponse(null, true)
+        : getDummyEvalOpening();
+      showEvalTyping(false);
+      appendEvalMessage('bot', openingMsg);
+    } catch (err) {
+      showEvalTyping(false);
+      appendEvalMessage('bot', 'Entschuldigung, beim Laden der Evaluation ist ein Fehler aufgetreten. Bitte API-Key prüfen.');
+    }
+  }
+
+  async function sendEvalMessage() {
+    const input = document.getElementById('evalInput');
+    const text  = input.value.trim();
+    if (!text) return;
+
+    appendEvalMessage('user', text);
+    input.value = '';
+    document.getElementById('evalSendBtn').disabled = true;
+    showEvalTyping(true);
+    updateEvalProgress(text);
+
+    try {
+      const response = apiKey
+        ? await getEvalResponse(text, false)
+        : getDummyEvalResponse(text);
+      showEvalTyping(false);
+      appendEvalMessage('bot', response);
+      updateEvalProgress(response);
+    } catch (err) {
+      showEvalTyping(false);
+      appendEvalMessage('bot', `Fehler: ${err.message}`);
+    }
+    document.getElementById('evalSendBtn').disabled = false;
+  }
+
+  async function getEvalResponse(userMessage, isOpening) {
+    const headers = {
+      'Content-Type':      'application/json',
+      'x-api-key':         apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    };
+
+    if (isOpening) {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST', headers,
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6', max_tokens: 500,
+          system: evaluationPrompt,
+          messages: [{ role: 'user', content: 'Bitte beginne das Reflexionsgespräch.' }]
+        })
+      });
+      if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error?.message || `HTTP ${res.status}`); }
+      const data = await res.json();
+      const msg  = data.content[0].text;
+      evalHistory.push({ role: 'user', content: 'Bitte beginne das Reflexionsgespräch.' });
+      evalHistory.push({ role: 'assistant', content: msg });
+      return msg;
+    }
+
+    evalHistory.push({ role: 'user', content: userMessage });
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers,
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6', max_tokens: 500,
+        system: evaluationPrompt,
+        messages: evalHistory
+      })
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      if (res.status === 401) throw new Error('API-Key ungültig oder abgelaufen.');
+      if (res.status === 429) throw new Error('Anfragelimit erreicht. Bitte kurz warten.');
+      throw new Error(e.error?.message || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    const msg  = data.content[0].text;
+    evalHistory.push({ role: 'assistant', content: msg });
+    return msg;
+  }
+
+  function getDummyEvalOpening() {
+    return `Herzlich willkommen zur Reflexion! Ich freue mich, dass Sie sich die Zeit nehmen, Ihren Lernprozess zu reflektieren.\n\nBevor wir tiefer einsteigen: Welche Perspektive in den Gesprächen hat Sie am meisten überrascht — und warum? Vielleicht eine Sichtweise, mit der Sie vorher gar nicht gerechnet hatten?`;
+  }
+
+  function getDummyEvalResponse(text) {
+    const q = text.toLowerCase();
+    if (q.includes('pflege') || q.includes('anna') || q.includes('patient'))
+      return `Das ist eine wertvolle Beobachtung. Die Pflegeperspektive zeigt oft sehr deutlich, wo Systeme an der Alltagsrealität vorbeigehen.\n\nWelche Kompetenzen haben Sie gebraucht, um diese Perspektive wirklich zu verstehen? Gab es einen Moment, wo Ihnen etwas klar wurde, das Sie vorher nicht gesehen hatten?`;
+    if (q.includes('empathie') || q.includes('kommunikation') || q.includes('kompetenz') || q.includes('skill'))
+      return `Schön, dass Sie das benennen — das ist tatsächlich eine der zentralen Future Skills in Transformationsprozessen.\n\nWie hat sich diese Kompetenz in den Gesprächen konkret gezeigt? Können Sie eine Situation beschreiben, in der sie besonders wichtig war?`;
+    if (q.includes('methode') || q.includes('empathy map') || q.includes('stakeholder') || q.includes('ideation'))
+      return `Die Design-Thinking-Methoden helfen, unsichtbare Dinge sichtbar zu machen — Konflikte, Bedürfnisse, Machtverhältnisse.\n\nWelche Methode hat für Sie den größten „Aha-Effekt" ausgelöst? Und warum gerade diese?`;
+    if (q.includes('digital') || q.includes('transform') || q.includes('herausforderung'))
+      return `Sie sprechen damit einen zentralen Aspekt an: Digitalisierung ist immer auch ein sozialer und kultureller Prozess, nicht nur ein technischer.\n\nWas glauben Sie: Welche Rolle spielt Personalentwicklung dabei, solche Transformationen wirklich gelingen zu lassen?`;
+    return `Danke für Ihre Reflexion. Was Sie beschreiben, zeigt ein wichtiges Bewusstsein für die Komplexität von Veränderungsprozessen.\n\nWie würden Sie das, was Sie hier gelernt haben, in Ihrem eigenen beruflichen Umfeld anwenden? Was wäre ein erster konkreter Schritt?`;
+  }
+
+  function appendEvalMessage(type, text) {
+    const container = document.getElementById('evalMessages');
+    const div = document.createElement('div');
+    div.className = `eval-msg ${type}`;
+    const label = type === 'user' ? 'Du' : '🪷 Reflexions-Begleitung';
+    div.innerHTML = `
+      <div class="msg-label">${escapeHtml(label)}</div>
+      <div>${escapeHtml(text)}</div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function showEvalTyping(show) {
+    const el = document.getElementById('evalTyping');
+    el.classList.toggle('visible', show);
+    if (show) document.getElementById('evalMessages').scrollTop = 99999;
+  }
+
+  function updateEvalProgress(text) {
+    const lower = text.toLowerCase();
+    Object.entries(EVAL_TOPIC_KEYWORDS).forEach(([topic, keywords]) => {
+      if (keywords.some(kw => lower.includes(kw))) {
+        const chip = document.querySelector(`.eval-progress-chip[data-topic="${topic}"]`);
+        if (chip) chip.classList.add('done');
+      }
+    });
+  }
+
+  function resetEvaluation() {
+    evalHistory = [];
+    evalStarted = false;
+    document.getElementById('evalMessages').innerHTML = '';
+    document.querySelectorAll('.eval-progress-chip').forEach(c => c.classList.remove('done'));
+    startEvaluationChat();
+    evalStarted = true;
+  }
+
+
+  /* =============================================
+     ZUSTAND — HAUPTANWENDUNG
+  ============================================= */
+  let chatHistory   = [];
+  let activeDTMethod = null;
+  let apiKey        = localStorage.getItem('healthlearn_api_key') || '';
 
   window.addEventListener('DOMContentLoaded', () => {
     if (apiKey) {
@@ -970,12 +3619,21 @@ PFLICHTFORMAT AM ENDE JEDER ANTWORT:
   /* =============================================
      ROLLE AUSWÄHLEN
   ============================================= */
-  function selectRole(el) {
+  // selectRole replaced
+function _old_selectRole(el) {
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
 
-    activeRole  = el.dataset.role;
-    chatHistory = [];
+    activeRole    = el.dataset.role;
+    chatHistory   = [];
+    activeDTMethod = null;
+
+    // DT-Karten freischalten
+    document.querySelectorAll('.dt-card').forEach(c => {
+      c.classList.add('enabled');
+      c.classList.remove('active');
+    });
+    document.getElementById('dtActiveBanner').classList.remove('visible');
 
     const role = ROLES[activeRole];
     document.getElementById('chatHint').style.display = 'none';
@@ -992,8 +3650,44 @@ PFLICHTFORMAT AM ENDE JEDER ANTWORT:
 
 
   /* =============================================
-     NACHRICHT SENDEN
+     DESIGN THINKING METHODE ANWENDEN
   ============================================= */
+  function applyDTMethod(el) {
+    if (!activeRole) return; // nur wenn Rolle aktiv
+
+    const methodKey = el.dataset.method;
+    const method    = DT_METHODS[methodKey];
+
+    // UI: aktive Karte markieren
+    document.querySelectorAll('.dt-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    activeDTMethod = methodKey;
+
+    // Banner im Chat anzeigen
+    const banner = document.getElementById('dtActiveBanner');
+    document.getElementById('dtBannerIcon').textContent = method.icon + ' ';
+    document.getElementById('dtBannerName').textContent  = method.name;
+    banner.classList.add('visible');
+
+    // DT-Skill-Badges vorab aktivieren
+    resetSkillBadges();
+    method.skills.forEach(id => {
+      const badge = document.getElementById(id);
+      if (badge) badge.classList.add('active');
+    });
+
+    // Methoden-Prompt automatisch senden
+    const input = document.getElementById('userInput');
+    input.value = method.prompt;
+    sendMessage();
+  }
+
+  function clearDTMethod() {
+    activeDTMethod = null;
+    document.querySelectorAll('.dt-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+  }
   async function sendMessage() {
     if (!activeRole) return;
     const input = document.getElementById('userInput');
@@ -1033,12 +3727,71 @@ PFLICHTFORMAT AM ENDE JEDER ANTWORT:
   async function getClaudeResponse(userMessage) {
     const role = ROLES[activeRole];
 
-    // System-Prompt = Rollenprofil + Future-Skills-Anweisung
+    // DT-Methoden-Kontext wenn aktiv
+    const dtAddition = activeDTMethod
+      ? '\n\n' + DT_METHODS[activeDTMethod].systemAddition
+      : '';
+
+    // Facilitation-Leitfaden aus methods-Objekt (wenn DT-Methode aktiv)
+    const facilitationKey    = activeDTMethod ? DT_TO_METHOD_MAP[activeDTMethod] : null;
+    const facilitationGuide  = facilitationKey && methods[facilitationKey]
+      ? '\n\n' + methods[facilitationKey]
+      : '';
+
+    // Design Thinking Rahmung (immer aktiv)
+    const dtFraming = `
+
+FALLKONTEXT — KRANKENHAUS ST. MARIEN:
+Das Krankenhaus St. Marien führt eine neue digitale Dokumentations- und Kommunikationsplattform ein.
+Die Plattform umfasst: digitale Patientenakte, mobile Dokumentation am Bett,
+KI-gestützte Dokumentationsunterstützung, digitale Kommunikation zwischen Berufsgruppen sowie
+strukturierte Datennutzung im Kontext des Europäischen Gesundheitsdatenraums (EHDS).
+
+ZIELE DER TRANSFORMATION:
+Effizientere klinische Prozesse, bessere interprofessionelle Zusammenarbeit, höhere
+Behandlungsqualität und nachhaltige Digitalisierung des Hauses.
+
+HERAUSFORDERUNGEN:
+Die Einführung erzeugt Unsicherheiten im Alltag, Widerstände aus Berufsgruppen,
+Kompetenzlücken, Spannungen zwischen Abteilungen und fehlende digitale Vorerfahrung.
+
+KONTEXT DER PERSONALENTWICKLUNG:
+Das Krankenhaus erkennt, dass erfolgreiche Digitalisierung nicht nur technische Systeme erfordert,
+sondern insbesondere: digitale Kompetenzen, Future Skills, neue Lernkulturen,
+interprofessionelle Zusammenarbeit, Reflexionsfähigkeit und Veränderungsbereitschaft.
+
+LERNKONTEXT DIESER ANWENDUNG:
+Du bist Teil einer interaktiven Lernanwendung für Studierende und Mitarbeitende im Gesundheitswesen,
+die auf den Prinzipien des Design Thinkings und menschenzentrierter Innovation basiert.
+Deine Antworten sollen:
+- Perspektiven verschiedener Berufsgruppen realistisch abbilden
+- Konflikte, Kompetenzlücken und Zielkonflikte sichtbar machen
+- Future Skills explizit benennen und reflektieren
+- interprofessionelles Verständnis und systemisches Denken fördern
+- menschenzentrierte Lösungsansätze anregen
+- konkrete Situationen aus dem Krankenhausalltag nutzen
+- Bezüge zwischen EHDS, KI-Unterstützung und Arbeitsrealität herstellen, wenn relevant`;
+
+    // System-Prompt — 5 Schichten:
+    // 1. masterPrompt: übergeordneter Lernrahmen & Lernbegleiter-Rolle
+    // 2. Rollenprofil: Persönlichkeit & Kontext der Figur
+    // 3. dtFraming: Fallkontext St. Marien + Lernziele
+    // 4a. dtAddition: struktureller DT-Methoden-Kontext (wenn Methode aktiv)
+    // 4b. facilitationGuide: aktive Fragetechniken & Facilitation (wenn Methode aktiv)
+    // 5. futureSkillsInstruction: Reflexionsformat am Ende
     const systemPrompt = `
+${masterPrompt}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ROLLENPROFIL — DEINE AKTUELLE FIGUR:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Du bist ${role.name} und arbeitest im Krankenhaus St. Marien.
 Das Krankenhaus führt gerade eine neue digitale Dokumentationssoftware ein.
 
 ${role.systemContext}
+${dtFraming}
+${dtAddition}
+${facilitationGuide}
 
 ${role.futureSkillsInstruction}
     `.trim();
@@ -1126,6 +3879,14 @@ ${role.futureSkillsInstruction}
         if (badge) badge.classList.add('active');
       }
     });
+
+    // DT-Methoden-Skills zusätzlich anzeigen wenn aktiv
+    if (activeDTMethod && DT_METHODS[activeDTMethod]) {
+      DT_METHODS[activeDTMethod].skills.forEach(id => {
+        const badge = document.getElementById(id);
+        if (badge) badge.classList.add('active');
+      });
+    }
   }
 
   function resetSkillBadges() {
@@ -1177,7 +3938,786 @@ ${role.futureSkillsInstruction}
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
-</script>
 
+
+  /* =============================================
+     DT-WORKSHOP — HILFSDATEN
+  ============================================= */
+  const STAKEHOLDER_INFO = {
+    pflege: {
+      name: '🩺 Anna — Pflegefachkraft',
+      einfluss: 'Hoch', interesse: 'Sehr hoch',
+      motivation: 'Qualitativ gute Patientenversorgung, entlastende und intuitive Systeme',
+      sorgen: 'Mehrbelastung durch schlecht konzipierte Software, fehlende Einarbeitungszeiten, Verlust von Patientennähe',
+      konflikte: ['Management: Wirtschaftlichkeit vs. Alltagspraxis', 'IT: Systemlogik vs. Stationsalltag', 'Arzt: parallele Nutzung erzeugt Widersprüche'],
+      skills: ['Empathie', 'Adaptionsfähigkeit', 'Kommunikationsfähigkeit']
+    },
+    arzt: {
+      name: '👨‍⚕️ Dr. Jonas — Assistenzarzt',
+      einfluss: 'Hoch', interesse: 'Hoch',
+      motivation: 'Verlässliche Systeme, Zeitersparnis bei Dokumentation, moderne klinische Abläufe',
+      sorgen: 'Systemausfälle, fehlende Einbindung in Systementwicklung, chronische Überlastung',
+      konflikte: ['Pflege: Systemkonflikte bei gleichzeitiger Nutzung', 'Management: Effizienzerwartung vs. Überlastung', 'IT: unrealistische Schulungszeiten'],
+      skills: ['Digitale Kompetenz', 'Systemisches Denken', 'Selbstreflexion']
+    },
+    it: {
+      name: '💻 Markus — IT-Projektleiter',
+      einfluss: 'Mittel', interesse: 'Sehr hoch',
+      motivation: 'Erfolgreiche Implementierung, technische Stabilität, messbare Projektergebnisse',
+      sorgen: 'Geringe Schulungsteilnahme, unklare fachliche Anforderungen, Kommunikationslücken',
+      konflikte: ['Pflege: Schulungszeitfenster realistisch gestalten', 'Arzt: technische Erwartungen vs. Systemgrenzen', 'Management: Budgetzwänge vs. Qualitätsanspruch'],
+      skills: ['Problemlösungskompetenz', 'Systemisches Denken', 'Kommunikationsfähigkeit']
+    },
+    management: {
+      name: '🏥 Thomas — Krankenhausleitung',
+      einfluss: 'Sehr hoch', interesse: 'Mittel',
+      motivation: 'Effizienzsteigerung, strategische Zukunftsfähigkeit, langfristige Kostenreduktion',
+      sorgen: 'Personalüberlastung, Projektverzögerungen, Reputationsrisiken bei Fehlinvestitionen',
+      konflikte: ['Pflege: Wirtschaftlichkeit vs. Personalwohl', 'Patient: Effizienz vs. Versorgungsqualität', 'IT: Budgetzwänge vs. Implementierungsqualität'],
+      skills: ['Strategisches Denken', 'Entscheidungsfähigkeit', 'Transformationskompetenz']
+    },
+    patient: {
+      name: '🛏️ Herr Müller — Patient',
+      einfluss: 'Gering', interesse: 'Sehr hoch',
+      motivation: 'Sicherheit, persönliche Zuwendung, verständliche und transparente Abläufe',
+      sorgen: 'Fehler durch Systemumstellung, weniger persönlicher Kontakt, Datenschutz und Kontrolle über Gesundheitsdaten',
+      konflikte: ['Pflege: Systemfokus vs. menschliche Zuwendung', 'Management: Effizienzdenken vs. Patientenzufriedenheit'],
+      skills: ['Vertrauen', 'Kommunikationsbedürfnis', 'Sicherheitsbedürfnis']
+    }
+  };
+
+  const PERSONA_DATA = [
+    {
+      id: 'pflege', icon: '🩺', name: 'Anna, 42', role: 'Pflegefachkraft',
+      ziele: 'Patienten gut versorgen; Digitalisierung soll entlasten, nicht belasten',
+      frustrationen: 'Kaum Zeit zum Einlernen; System entspricht nicht der Stationslogik; zu wenig Schulung',
+      digitalKompetenz: 'Mittel – bereit zu lernen, aber braucht Unterstützung',
+      erwartungen: 'Intuitiv bedienbar, stationsnahe Einführung, keine Mehrarbeit',
+      skills: ['Empathie', 'Adaptionsfähigkeit', 'Kommunikationsfähigkeit', 'Problemlösungskompetenz']
+    },
+    {
+      id: 'arzt', icon: '👨‍⚕️', name: 'Dr. Jonas, 31', role: 'Assistenzarzt (Innere Medizin)',
+      ziele: 'Schnelle, verlässliche Dokumentation; mehr Zeit für Patienten',
+      frustrationen: 'System lädt langsam; wurde nicht in Auswahl einbezogen; chronisch überlastet',
+      digitalKompetenz: 'Hoch – technikaffin, aber frustriert über schlechte UX',
+      erwartungen: 'Zuverlässigkeit, klinische Logik im System, Integration in Arbeitsabläufe',
+      skills: ['Digitale Kompetenz', 'Systemisches Denken', 'Selbstreflexion', 'Adaptionsfähigkeit']
+    },
+    {
+      id: 'it', icon: '💻', name: 'Markus, 44', role: 'IT-Projektleiter',
+      ziele: 'Erfolgreiche Implementierung; Nutzer zufrieden; Projekt termingerecht',
+      frustrationen: 'Geringe Schulungsteilnahme; Erwartungen unrealistisch; kaum Wertschätzung',
+      digitalKompetenz: 'Sehr hoch – Fachexperte',
+      erwartungen: 'Klare Anforderungen, aktive Mitarbeit der Fachabteilungen, realistische Zeitplanung',
+      skills: ['Problemlösungskompetenz', 'Systemisches Denken', 'Kommunikationsfähigkeit', 'Reflexionsfähigkeit']
+    },
+    {
+      id: 'management', icon: '🏥', name: 'Thomas, 50', role: 'Krankenhausleitung',
+      ziele: 'Effizienz steigern; Haus zukunftsfähig aufstellen; Kosten senken',
+      frustrationen: 'Personal klagt über Überlastung; Projektverzögerungen; fehlende Akzeptanz',
+      digitalKompetenz: 'Mittel – strategisch, kein Systemexperte',
+      erwartungen: 'ROI, Effizienzgewinne, reibungslose Einführung, Personalzufriedenheit',
+      skills: ['Strategisches Denken', 'Entscheidungsfähigkeit', 'Transformationskompetenz', 'Systemisches Denken']
+    },
+    {
+      id: 'patient', icon: '🛏️', name: 'Herr Müller, 70', role: 'Patient (stationär)',
+      ziele: 'Gut behandelt werden; Sicherheit; persönliche Betreuung',
+      frustrationen: 'Personal schaut auf Geräte statt ihn an; Abläufe unverständlich; Angst vor Datenschutzlücken',
+      digitalKompetenz: 'Gering – wenig Erfahrung mit Digitalem',
+      erwartungen: 'Klare Kommunikation, Zuwendung, Fehlerfreiheit, verständliche Aufklärung',
+      skills: ['Vertrauen', 'Sicherheitsbedürfnis', 'Kommunikationsbedürfnis']
+    }
+  ];
+
+  const REF_SKILLS = [
+    { name: 'Empathie',               pct: 0 },
+    { name: 'Kommunikationsfähigkeit', pct: 0 },
+    { name: 'Systemisches Denken',     pct: 0 },
+    { name: 'Problemlösungskompetenz', pct: 0 },
+    { name: 'Reflexionsfähigkeit',     pct: 0 },
+    { name: 'Digitale Kompetenz',      pct: 0 },
+    { name: 'Adaptionsfähigkeit',      pct: 0 },
+    { name: 'Kollaborationsfähigkeit', pct: 0 }
+  ];
+
+  const EVAL_SKILLS = [
+    'Empathie', 'Systemisches Denken', 'Problemlösungskompetenz',
+    'Reflexionsfähigkeit', 'Kommunikationsfähigkeit', 'Kreativität & Innovation',
+    'Kollaborationsfähigkeit', 'Adaptionsfähigkeit'
+  ];
+
+  // AI-Kontext für jeden Workshop-Bereich
+  const WS_AI_CONTEXTS = {
+    empathy: `Du hilfst gerade beim Ausfüllen einer Empathy Map über eine Berufsrolle im Krankenhaus St. Marien.
+Stelle 3 konkrete Reflexionsfragen zu Gedanken, Gefühlen, Handlungen und Bedürfnissen der ausgewählten Berufsgruppe.
+Beziehe dich auf die digitale Transformation und die Einführung der neuen Plattform. Halte dich kurz (max. 150 Wörter).`,
+
+    stakeholder: `Analysiere die Konflikte zwischen den Stakeholdern im Krankenhaus St. Marien bei der Einführung der digitalen Plattform.
+Nenne 3 konkrete Spannungsfelder, erkläre ihre Ursachen und frage, welche du am interessantesten findest und warum. Max. 180 Wörter.`,
+
+    persona: `Vergleiche zwei der fünf Personas (Pflegefachkraft, Arzt, IT-Leitung, Management, Patient) miteinander.
+Zeige, wo ihre Perspektiven aufeinanderprallen und welche Future Skills jede Persona benötigt.
+Stelle am Ende eine Reflexionsfrage. Max. 180 Wörter.`,
+
+    problem: `Du hilfst beim Schärfen einer Problemdefinition zur digitalen Transformation im Krankenhaus.
+Stelle 2-3 gezielte Rückfragen, die helfen, das Kernproblem von Symptomen zu trennen.
+Formuliere auch einen Vorschlag für eine Point-of-View-Aussage basierend auf typischen Problemen im Setting. Max. 180 Wörter.`,
+
+    ideation: `Gib 3 unkonventionelle Lösungsideen für die Herausforderungen der digitalen Transformation im Krankenhaus St. Marien.
+Denke aus verschiedenen Perspektiven (Pflege, IT, Patient). Stelle dann eine kreative Rückfrage. Max. 150 Wörter.`,
+
+    reflexion: `Du begleitest die Reflexion eines Lernenden nach dem Design-Thinking-Workshop zur digitalen Transformation.
+Stelle 3 offene Reflexionsfragen, die helfen, Future Skills und neue Erkenntnisse zu benennen.
+Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 Wörter.`
+  };
+
+
+  /* =============================================
+     DT-WORKSHOP — INITIALISIERUNG
+  ============================================= */
+  window.addEventListener('DOMContentLoaded', () => {
+    buildPersonaGrid();
+    buildRefCompGrid();
+    buildStarsGrid();
+
+    if (apiKey) {
+      document.getElementById('apiKeyInput').value = apiKey;
+      setApiStatus('ok', '✓ API-Key geladen');
+    }
+  });
+
+
+  /* =============================================
+     TAB-NAVIGATION
+  ============================================= */
+  function switchWsTab(id, el) {
+    document.querySelectorAll('.ws-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.ws-panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('ws-' + id).classList.add('active');
+  }
+
+
+  /* =============================================
+     UNIVERSAL KI-IMPULS-FUNKTION
+  ============================================= */
+  async function wsAI(area, targetId) {
+    const el = document.getElementById(targetId);
+    const ctx = WS_AI_CONTEXTS[area] || '';
+    el.textContent = '⏳ KI denkt nach…';
+    el.classList.add('visible');
+
+    const btn = el.previousElementSibling?.querySelector?.('.ws-ai-btn') || null;
+
+    if (!apiKey) {
+      el.textContent = '⚠ Bitte einen Anthropic API-Key eingeben (siehe API-Einstellungen unten).';
+      return;
+    }
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type':      'application/json',
+          'x-api-key':         apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model:      'claude-sonnet-4-6',
+          max_tokens: 400,
+          system:     masterPrompt + '\n\n' + ctx,
+          messages:   [{ role: 'user', content: 'Bitte gib jetzt deinen Impuls für diesen Workshop-Bereich.' }]
+        })
+      });
+      const data = await res.json();
+      el.textContent = data.content?.[0]?.text || 'Keine Antwort erhalten.';
+    } catch (err) {
+      el.textContent = `Fehler: ${err.message}`;
+    }
+  }
+
+
+  /* =============================================
+     EMPATHY MAP
+  ============================================= */
+  function clearEmpathyMap() {
+    ['em-thinks','em-says','em-does','em-needs'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    const r = document.getElementById('ws-em-ai');
+    r.textContent = ''; r.classList.remove('visible');
+  }
+
+
+  /* =============================================
+     STAKEHOLDER MAP
+  ============================================= */
+  function showStakeholder(node) {
+    document.querySelectorAll('.sm-node').forEach(n => n.classList.remove('sel'));
+    node.classList.add('sel');
+
+    const key  = node.dataset.sh;
+    const info = STAKEHOLDER_INFO[key];
+    if (!info) return;
+
+    const panel = document.getElementById('smInfo');
+    panel.innerHTML = `
+      <div class="sm-info-name">${info.name}</div>
+      <div class="sm-info-grid">
+        <div class="sm-info-field"><label>Einfluss</label><span>${info.einfluss}</span></div>
+        <div class="sm-info-field"><label>Interesse</label><span>${info.interesse}</span></div>
+        <div class="sm-info-field" style="grid-column:1/-1"><label>Motivation</label><span>${escapeHtml(info.motivation)}</span></div>
+        <div class="sm-info-field" style="grid-column:1/-1"><label>Sorgen</label><span>${escapeHtml(info.sorgen)}</span></div>
+      </div>
+      <div><strong style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Konflikte mit:</strong>
+      <div class="sm-conflict-tags">${info.konflikte.map(k => `<span class="sm-conflict-tag">⚡ ${escapeHtml(k)}</span>`).join('')}</div></div>
+      <div class="ws-comp-row" style="margin-top:0.5rem;padding-top:0.5rem">
+        ${info.skills.map(s => `<span class="ws-comp-badge">${escapeHtml(s)}</span>`).join('')}
+      </div>
+    `;
+    panel.classList.add('visible');
+  }
+
+
+  /* =============================================
+     PERSONA GRID
+  ============================================= */
+  function buildPersonaGrid() {
+    const grid = document.getElementById('personaGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    PERSONA_DATA.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'persona-card';
+      card.innerHTML = `
+        <div class="persona-head">
+          <div class="persona-av">${p.icon}</div>
+          <div>
+            <div class="persona-name">${escapeHtml(p.name)}</div>
+            <div class="persona-role">${escapeHtml(p.role)}</div>
+          </div>
+        </div>
+        <div class="persona-body">
+          <div class="pf"><span class="pf-label">🎯 Ziele</span><span class="pf-val">${escapeHtml(p.ziele)}</span></div>
+          <div class="pf"><span class="pf-label">😤 Frustrationen</span><span class="pf-val">${escapeHtml(p.frustrationen)}</span></div>
+          <div class="pf"><span class="pf-label">📱 Digitale Kompetenz</span><span class="pf-val">${escapeHtml(p.digitalKompetenz)}</span></div>
+          <div class="pf"><span class="pf-label">💚 Erwartungen</span><span class="pf-val">${escapeHtml(p.erwartungen)}</span></div>
+          <div class="persona-pills">${p.skills.map(s => `<span class="persona-pill">${escapeHtml(s)}</span>`).join('')}</div>
+        </div>
+      `;
+      card.addEventListener('click', () => card.classList.toggle('open'));
+      grid.appendChild(card);
+    });
+  }
+
+
+  /* =============================================
+     PROBLEM DEFINITION — PoV
+  ============================================= */
+  function generatePoV() {
+    const problem      = document.getElementById('pd-problem').value.trim();
+    const stakeholders = document.getElementById('pd-stakeholders').value.trim();
+    const causes       = document.getElementById('pd-causes').value.trim();
+
+    const who   = stakeholders || '[Berufsgruppe]';
+    const need  = problem      || '[konkretes Bedürfnis]';
+    const why   = causes       || '[überraschende Einsicht]';
+
+    const box = document.getElementById('pd-pov-result');
+    box.innerHTML = `<strong>📌 Point of View:</strong><br>
+      <em>${escapeHtml(who)}</em> braucht <em>${escapeHtml(need)}</em>,
+      weil <em>${escapeHtml(why)}</em>.`;
+    box.style.display = 'block';
+  }
+
+
+  /* =============================================
+     IDEATION BOARD
+  ============================================= */
+  let ideaCards = [];
+
+  function addIdea() {
+    const input = document.getElementById('ibInput');
+    const text  = input.value.trim();
+    if (!text) return;
+
+    const id = Date.now();
+    ideaCards.push({ id, text, score: 0 });
+    input.value = '';
+    renderBoard();
+  }
+
+  function voteIdea(id, delta) {
+    const card = ideaCards.find(c => c.id === id);
+    if (card) { card.score += delta; renderBoard(); }
+  }
+
+  function renderBoard() {
+    const board = document.getElementById('ibBoard');
+    const empty = document.getElementById('ibEmpty');
+
+    if (ideaCards.length === 0) {
+      board.innerHTML = '';
+      board.appendChild(document.createElement('div')).outerHTML;
+      empty && (empty.style.display = 'block');
+      board.innerHTML = `<div class="ib-empty">Noch keine Ideen — starte das Brainstorming!</div>`;
+      return;
+    }
+
+    board.innerHTML = ideaCards
+      .sort((a, b) => b.score - a.score)
+      .map(c => `
+        <div class="ib-idea">
+          <div class="ib-idea-text">${escapeHtml(c.text)}</div>
+          <div class="ib-votes">
+            <button class="ib-vbtn" onclick="voteIdea(${c.id}, 1)" title="Gut!">👍</button>
+            <div class="ib-score">${c.score > 0 ? '+' : ''}${c.score}</div>
+            <button class="ib-vbtn" onclick="voteIdea(${c.id}, -1)" title="Weniger gut">👎</button>
+          </div>
+        </div>
+      `).join('');
+  }
+
+  function clearBoard() {
+    ideaCards = [];
+    renderBoard();
+    const r = document.getElementById('ws-ib-ai');
+    r.textContent = ''; r.classList.remove('visible');
+  }
+
+
+  /* =============================================
+     REFLEXION — KOMPETENZ-BALKEN
+  ============================================= */
+  function buildRefCompGrid() {
+    const grid = document.getElementById('refCompGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    REF_SKILLS.forEach((skill, i) => {
+      const item = document.createElement('div');
+      item.className = 'ref-comp-item';
+      item.innerHTML = `
+        <div class="ref-comp-name">${escapeHtml(skill.name)} <em id="ref-lbl-${i}">—</em></div>
+        <div class="ref-bar">
+          <div class="ref-fill" id="ref-fill-${i}" style="width:0%"></div>
+        </div>
+        <div class="ref-bar-ticks">
+          ${[1,2,3,4,5].map(n => `<span class="ref-tick" onclick="setRefSkill(${i},${n})">${n}</span>`).join('')}
+        </div>
+      `;
+      grid.appendChild(item);
+    });
+  }
+
+  function setRefSkill(idx, val) {
+    REF_SKILLS[idx].pct = val * 20;
+    document.getElementById(`ref-fill-${idx}`).style.width = (val * 20) + '%';
+    const labels = ['—','Kaum','Etwas','Merklich','Stark','Sehr stark'];
+    document.getElementById(`ref-lbl-${idx}`).textContent = labels[val] || '—';
+  }
+
+
+  /* =============================================
+     EVALUATION DASHBOARD
+  ============================================= */
+  let starRatings = {};
+
+  function buildStarsGrid() {
+    const grid = document.getElementById('starsGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    EVAL_SKILLS.forEach(skill => {
+      starRatings[skill] = 0;
+      const item = document.createElement('div');
+      item.className = 'star-item';
+      item.innerHTML = `
+        <div class="star-name">${escapeHtml(skill)}</div>
+        <div class="stars" id="stars-${escapeHtml(skill).replace(/\s|&/g,'_')}">
+          ${[1,2,3,4,5].map(n =>
+            `<button class="star" data-skill="${escapeHtml(skill)}" data-val="${n}" onclick="setStar('${escapeHtml(skill)}',${n})">★</button>`
+          ).join('')}
+        </div>
+      `;
+      grid.appendChild(item);
+    });
+  }
+
+  function setStar(skill, val) {
+    starRatings[skill] = val;
+    const key = skill.replace(/\s|&/g,'_');
+    const container = document.getElementById(`stars-${key}`);
+    if (!container) return;
+    container.querySelectorAll('.star').forEach(btn => {
+      btn.classList.toggle('lit', parseInt(btn.dataset.val) <= val);
+    });
+  }
+
+  function submitEvalDash() {
+    const ratedSkills = Object.entries(starRatings)
+      .filter(([,v]) => v > 0)
+      .sort((a,b) => b[1]-a[1])
+      .slice(0, 3)
+      .map(([k,v]) => `${k} (${v}/5)`)
+      .join(', ');
+
+    const likertVals = ['l1','l2','l3','l4','l5'].map(n => {
+      const sel = document.querySelector(`input[name=${n}]:checked`);
+      return sel ? parseInt(sel.value) : null;
+    });
+
+    const avg = likertVals.filter(Boolean).reduce((a,b)=>a+b,0) / (likertVals.filter(Boolean).length || 1);
+
+    const box = document.getElementById('evdResult');
+    box.innerHTML = `
+      <strong>✅ Evaluation gespeichert — vielen Dank!</strong><br><br>
+      ${ratedSkills ? `<strong>Top Future Skills deiner Einschätzung:</strong> ${ratedSkills}<br>` : ''}
+      ${avg ? `<strong>Durchschnittliche Bewertung der Methoden:</strong> ${avg.toFixed(1)} / 5<br>` : ''}
+      <br>
+      <em>Dein Feedback zeigt: Die Auseinandersetzung mit Design-Thinking-Methoden im Kontext digitaler Transformation stärkt
+      Future Skills, die in der Praxis dringend gebraucht werden — von Empathie über systemisches Denken bis hin zur
+      Transformationskompetenz. Nimm diese Erkenntnisse mit in deinen beruflichen Alltag.</em>
+    `;
+    box.classList.add('visible');
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+
+
+  /* =============================================
+     PHASEN-NAVIGATION
+  ============================================= */
+  const PHASE_LABELS = [
+    'Einführung', 'Rollenwahl', 'Empathy Map',
+    'Stakeholder', 'Problem', 'Ideation',
+    'Reflexion', 'Evaluation'
+  ];
+
+  const PHASE_NEXT_LABELS = [
+    'Zur Rollenwahl',
+    'Zur Empathy Map',
+    'Zur Stakeholder Map',
+    'Zur Problemdefinition',
+    'Zur Ideation',
+    'Zur Reflexion',
+    'Zur Evaluation',
+    'Abschließen'
+  ];
+
+  let currentPhase = 0;
+
+  function goToPhase(n) {
+    const total = PHASE_LABELS.length;
+    n = Math.max(0, Math.min(total - 1, n));
+    currentPhase = n;
+
+    // Show/hide phases
+    document.querySelectorAll('.phase').forEach((el, i) => {
+      el.classList.toggle('active', i === n);
+    });
+
+    // Update progress dots
+    document.querySelectorAll('.ps').forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i === n)        el.classList.add('active');
+      else if (i < n)     el.classList.add('done');
+    });
+
+    // Update connector lines
+    document.querySelectorAll('.ps-line:not(.ghost)').forEach((el, i) => {
+      el.classList.toggle('done', i < n);
+    });
+
+    // Update nav buttons
+    const back = document.getElementById('navBack');
+    const next = document.getElementById('navNext');
+    const ind  = document.getElementById('navInd');
+
+    back.disabled = (n === 0);
+    next.textContent = n < total - 1
+      ? PHASE_NEXT_LABELS[n] + ' →'
+      : '✓ Workshop abgeschlossen';
+    ind.innerHTML = `Phase <strong>${n + 1}</strong> von ${total} — ${PHASE_LABELS[n]}`;
+
+    // Special: re-init workshop components when entering their phase
+    if (n === 2) renderBoard ? null : null; // ideation not yet
+    if (n === 4) { /* ideation already initialised */ }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextPhase() {
+    if (currentPhase < PHASE_LABELS.length - 1) goToPhase(currentPhase + 1);
+  }
+
+  function prevPhase() {
+    if (currentPhase > 0) goToPhase(currentPhase - 1);
+  }
+
+
+  // selectRole replaced
+function _old_selectRole(el) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    activeRole    = el.dataset.role;
+    chatHistory   = [];
+    activeDTMethod = null;
+
+    // DT pills freischalten
+    document.querySelectorAll('.p1-dt-pill').forEach(c => {
+      c.classList.add('enabled');
+      c.classList.remove('active');
+    });
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+
+    const role = ROLES[activeRole];
+
+    // Show inline chat in phase 1
+    document.getElementById('p1ChatWrap').classList.add('visible');
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent  = role.name;
+
+    resetSkillBadges();
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name, false);
+  }
+
+
+
+  /* ═══ PHASEN-NAVIGATION v2 — 5 Phasen ═══ */
+  const PHASE_LABELS      = ['Einführung','Rollenwahl','Methoden','Reflexion','Evaluation'];
+  const PHASE_NEXT_LABELS = ['Zur Rollenwahl','Zu den Methoden','Zur Reflexion','Zur Evaluation','Workshop abschließen'];
+  let currentPhase = 0;
+
+  function goToPhase(n) {
+    const total = PHASE_LABELS.length;
+    n = Math.max(0, Math.min(total - 1, n));
+    currentPhase = n;
+    document.querySelectorAll('.phase').forEach((el, i) => el.classList.toggle('active', i === n));
+    document.querySelectorAll('.ps').forEach((el, i) => {
+      el.classList.remove('active','done');
+      if (i === n) el.classList.add('active');
+      else if (i < n) el.classList.add('done');
+    });
+    document.querySelectorAll('.ps-line:not(.ghost)').forEach((el, i) => el.classList.toggle('done', i < n));
+    const back = document.getElementById('navBack');
+    const next = document.getElementById('navNext');
+    const ind  = document.getElementById('navInd');
+    back.disabled = (n === 0);
+    next.textContent = n < total - 1 ? PHASE_NEXT_LABELS[n] + ' →' : '✓ Abgeschlossen';
+    ind.innerHTML = `Phase <strong>${n + 1}</strong> / ${total} — ${PHASE_LABELS[n]}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function nextPhase() { if (currentPhase < PHASE_LABELS.length - 1) goToPhase(currentPhase + 1); }
+  function prevPhase() { if (currentPhase > 0) goToPhase(currentPhase - 1); }
+
+  /* ═══ METHOD DASHBOARD ═══ */
+  const METHODS_META = {
+    empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Verstehen',            why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Rolle — der Schlüssel zu echtem Perspektivwechsel.', skills:['Empathie','Perspektivwechsel','Kommunikationsfähigkeit','Reflexionsfähigkeit'] },
+    stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',            why:'Analysiere Interessen, Einfluss und Konflikte zwischen allen Beteiligten im System.',                 skills:['Systemisches Denken','Strategisches Denken','Kollaborationsfähigkeit'] },
+    persona:           { icon:'🪞', name:'Persona',            phase:'Beobachten',           why:'Entwickle realistische Profile von Berufsrollen — mache abstrakte Gruppen greifbar und menschlich.',  skills:['Perspektivwechsel','Nutzerzentriertes Denken','Empathie'] },
+    problemDefinition: { icon:'🎯', name:'Problem Definition', phase:'Sichtweise definieren',why:'Trenne Symptome von Ursachen und formuliere das Kernproblem präzise — Voraussetzung für gute Lösungen.', skills:['Analytisches Denken','Kritisches Denken','Problemlösungskompetenz'] },
+    ideation:          { icon:'💡', name:'Ideation',           phase:'Ideen finden',         why:'Entwickle kreative Lösungsansätze frei und ohne Bewertung — Quantität schlägt Qualität am Anfang.',   skills:['Kreativität','Innovationsfähigkeit','Offenheit','Kollaboration'] },
+    prototyping:       { icon:'🛠️', name:'Prototyping',        phase:'Prototyp',             why:'Mache Ideen greifbar und testbar. Ein einfacher Prototyp lehrt mehr als stundenlange Diskussionen.',   skills:['Adaptionsfähigkeit','Experimentierfreude','Problemlösungskompetenz'] },
+    reflexion:         { icon:'🔄', name:'Reflexion',          phase:'Testen & Lernen',      why:'Mache Future Skills sichtbar, reflektiere deinen Lernprozess und schließe den DT-Zyklus.',            skills:['Reflexionsfähigkeit','Lernfähigkeit','Selbstwahrnehmung'] }
+  };
+
+  let exploredMethods = new Set();
+
+  function initMethodDashboard() {
+    const grid = document.getElementById('methodGrid');
+    if (!grid || grid.dataset.built) return;
+    grid.dataset.built = '1';
+    grid.innerHTML = '';
+    Object.entries(METHODS_META).forEach(([key, m]) => {
+      const card = document.createElement('div');
+      card.className = 'method-card';
+      card.id = 'mc-' + key;
+      card.innerHTML = `
+        <span class="mc-icon">${m.icon}</span>
+        <div class="mc-phase">${m.phase}</div>
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-why">${m.why}</div>
+        <div class="mc-skills">${m.skills.map(s => `<span class="mc-skill">${s}</span>`).join('')}</div>
+        <button class="btn-explore" onclick="openMethodTool('${key}')">Erkunden →</button>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function openMethodTool(key) {
+    exploredMethods.add(key);
+    updateMethodProgress();
+
+    // Mark card explored
+    const card = document.getElementById('mc-' + key);
+    if (card) card.classList.add('explored');
+
+    // Load content
+    const m = METHODS_META[key];
+    document.getElementById('methodToolTitle').textContent = m.icon + '  ' + m.name;
+    loadMethodContent(key);
+
+    document.getElementById('methodDashboard').style.display = 'none';
+    document.getElementById('methodToolPanel').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closeMethodTool() {
+    document.getElementById('methodToolPanel').classList.remove('visible');
+    document.getElementById('methodDashboard').style.display = 'block';
+  }
+
+  function updateMethodProgress() {
+    const total = Object.keys(METHODS_META).length;
+    const done  = exploredMethods.size;
+    document.getElementById('methodProgressLabel').textContent = `${done} / ${total} Methoden erkundet`;
+    document.querySelectorAll('.method-prog-dot').forEach((d, i) => d.classList.toggle('done', i < done));
+  }
+
+  function loadMethodContent(key) {
+    const container = document.getElementById('methodToolContent');
+    const aiId = 'method-ai-resp';
+
+    const TOOL_HTML = {
+      empathyMap: `
+        <div class="em-grid">
+          <div class="em-quadrant"><div class="em-q-label">🧠 Denkt & fühlt</div><div class="em-q-hint">Was beschäftigt diese Person wirklich? Sorgen, Hoffnungen, innere Konflikte?</div><textarea id="em-thinks" placeholder="z.B. »Ich hoffe, das System erleichtert meinen Alltag wirklich…«"></textarea></div>
+          <div class="em-quadrant"><div class="em-q-label">💬 Sagt</div><div class="em-q-hint">Was sagt sie öffentlich, in Meetings, zu Kolleg:innen?</div><textarea id="em-says" placeholder="z.B. »Das System ist zu langsam für unsere Abläufe.«"></textarea></div>
+          <div class="em-quadrant"><div class="em-q-label">🤲 Tut</div><div class="em-q-hint">Wie verhält sich diese Person im Alltag bei der Systemnutzung?</div><textarea id="em-does" placeholder="z.B. »Dokumentiert zur Sicherheit parallel auf Papier.«"></textarea></div>
+          <div class="em-quadrant"><div class="em-q-label">⚡ Schmerzen & Bedürfnisse</div><div class="em-q-hint">Was hindert sie? Was braucht sie wirklich?</div><textarea id="em-needs" placeholder="z.B. »Braucht Lernzeit ohne Patientendruck.«"></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
+          <button class="ws-ai-btn" onclick="wsAI('empathy','${aiId}')">✨ KI-Impuls</button>
+          <button class="ws-ai-btn" onclick="clearEmpathyMap()" style="background:none;border-color:var(--border);color:var(--muted);">↺ Leeren</button>
+        </div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Empathie</span><span class="ws-comp-badge">Perspektivwechsel</span><span class="ws-comp-badge">Kommunikationsfähigkeit</span><span class="ws-comp-badge">Reflexionsfähigkeit</span></div>`,
+
+      stakeholderMap: `
+        <div class="sm-container">
+          <div class="sm-axis-x"></div><div class="sm-axis-y"></div>
+          <div class="sm-q" style="top:8px;left:8px">Zufrieden halten</div>
+          <div class="sm-q" style="top:8px;right:8px">Eng einbinden</div>
+          <div class="sm-q" style="bottom:32px;left:8px">Beobachten</div>
+          <div class="sm-q" style="bottom:32px;right:8px">Informieren</div>
+          <div class="sm-lbl" style="bottom:6px;left:50%;transform:translateX(-50%)">← Geringes Interesse · Hohes Interesse →</div>
+          <div class="sm-lbl" style="left:5px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;white-space:nowrap">← Geringer Einfluss · Hoher Einfluss →</div>
+          <div class="sm-node" style="left:40%;top:12%" data-sh="management" onclick="showStakeholder(this)"><div class="sm-dot" style="background:#fef3c7;border-color:#fde68a">🏥</div><div class="sm-node-name">Management</div></div>
+          <div class="sm-node" style="left:80%;top:22%" data-sh="arzt"       onclick="showStakeholder(this)"><div class="sm-dot" style="background:#dbeafe;border-color:#bfdbfe">👨‍⚕️</div><div class="sm-node-name">Dr. Jonas</div></div>
+          <div class="sm-node" style="left:88%;top:34%" data-sh="pflege"     onclick="showStakeholder(this)"><div class="sm-dot" style="background:#d1fae5;border-color:#a7f3d0">🩺</div><div class="sm-node-name">Anna</div></div>
+          <div class="sm-node" style="left:74%;top:50%" data-sh="it"         onclick="showStakeholder(this)"><div class="sm-dot" style="background:#ede9fe;border-color:#ddd6fe">💻</div><div class="sm-node-name">IT-Leitung</div></div>
+          <div class="sm-node" style="left:90%;top:72%" data-sh="patient"    onclick="showStakeholder(this)"><div class="sm-dot" style="background:#f3f4f6;border-color:#e5e7eb">🛏️</div><div class="sm-node-name">Hr. Müller</div></div>
+        </div>
+        <div class="sm-info" id="smInfo"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
+          <button class="ws-ai-btn" onclick="wsAI('stakeholder','${aiId}')">✨ Konflikte analysieren</button>
+        </div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Systemisches Denken</span><span class="ws-comp-badge">Strategisches Denken</span><span class="ws-comp-badge">Kollaborationsfähigkeit</span></div>`,
+
+      persona: `
+        <div class="persona-grid" id="personaGrid"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
+          <button class="ws-ai-btn" onclick="wsAI('persona','${aiId}')">✨ Persona-Vergleich</button>
+        </div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Perspektivwechsel</span><span class="ws-comp-badge">Nutzerzentriertes Denken</span><span class="ws-comp-badge">Empathie</span></div>`,
+
+      problemDefinition: `
+        <div class="pd-pov"><strong>Point of View:</strong> &nbsp;<em>[Berufsgruppe]</em> braucht <em>[Bedürfnis]</em>, weil <em>[überraschende Einsicht]</em>.</div>
+        <div class="pd-grid">
+          <div class="pd-field hl"><div class="pd-label">🎯 Kernproblem</div><div class="pd-hint">Was ist das eigentliche Problem — nicht das Symptom?</div><textarea id="pd-problem" placeholder="z.B. Das Personal hat keine Zeit, neue Systeme im Arbeitsalltag einzulernen."></textarea></div>
+          <div class="pd-field"><div class="pd-label">🔍 Ursachen</div><div class="pd-hint">Welche tiefer liegenden Faktoren verursachen das Problem?</div><textarea id="pd-causes" placeholder="z.B. Schulungen in der Freizeit, Personalmangel lässt keine Lernzeiten zu."></textarea></div>
+          <div class="pd-field"><div class="pd-label">⚡ Auswirkungen</div><div class="pd-hint">Was passiert, wenn das Problem ungelöst bleibt?</div><textarea id="pd-effects" placeholder="z.B. Fehlerquoten steigen, Frustration wächst, Widerstand nimmt zu."></textarea></div>
+          <div class="pd-field"><div class="pd-label">👥 Betroffene</div><div class="pd-hint">Wen betrifft das Problem am stärksten?</div><textarea id="pd-stakeholders" placeholder="z.B. Pflegefachkräfte, Patient:innen, IT-Projektleitung"></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
+          <button class="ws-ai-btn" onclick="wsAI('problem','${aiId}')">✨ KI schärft die Definition</button>
+          <button class="ws-ai-btn" onclick="generatePoV()" style="background:#fffbf0;border-color:#f0d8b0;color:var(--tag-text);">📌 PoV generieren</button>
+        </div>
+        <div id="pd-pov-result" style="display:none;margin-top:.75rem;padding:.75rem 1rem;background:#fffbf0;border:1px solid #f0d8b0;border-radius:var(--radius);font-size:.85rem;color:var(--tag-text);line-height:1.65;"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Analytisches Denken</span><span class="ws-comp-badge">Kritisches Denken</span><span class="ws-comp-badge">Problemlösungskompetenz</span></div>`,
+
+      ideation: `
+        <div class="ib-row">
+          <input type="text" id="ibInput" placeholder="Neue Idee eingeben…" maxlength="200" onkeydown="if(event.key==='Enter') addIdea()"/>
+          <button onclick="addIdea()">Hinzufügen</button>
+        </div>
+        <div class="ib-board" id="ibBoard"><div class="ib-empty">Noch keine Ideen — starte das Brainstorming!</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
+          <button class="ws-ai-btn" onclick="wsAI('ideation','${aiId}')">✨ KI-Impuls</button>
+          <button class="ws-ai-btn" onclick="clearBoard()" style="background:none;border-color:var(--border);color:var(--muted);">↺ Board leeren</button>
+        </div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Kreativität</span><span class="ws-comp-badge">Innovationsfähigkeit</span><span class="ws-comp-badge">Offenheit</span></div>`,
+
+      prototyping: `
+        <div style="background:var(--skill-bg);border:1px solid var(--skill-border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:1rem;font-size:.82rem;color:var(--skill-text);line-height:1.65;">
+          💡 <strong>Prototyping-Prinzip:</strong> Ein Prototyp muss nicht perfekt sein — er soll helfen, schnell zu lernen. Beschreibe grob, was du testen willst.
+        </div>
+        <div class="pd-grid">
+          <div class="pd-field hl"><div class="pd-label">🛠️ Idee / Lösungsansatz</div><div class="pd-hint">Welche Idee willst du greifbar machen?</div><textarea placeholder="z.B. Eine 2-Stunden-Lerneinheit direkt auf Station, begleitet von digitalen Mentor:innen."></textarea></div>
+          <div class="pd-field"><div class="pd-label">🎯 Was willst du testen?</div><div class="pd-hint">Welche Annahme überprüfst du?</div><textarea placeholder="z.B. Ob Kurzschulungen direkt am Arbeitsplatz wirksamer sind als zentrale Seminare."></textarea></div>
+          <div class="pd-field"><div class="pd-label">⚡ Erster Schritt (diese Woche)</div><div class="pd-hint">Was ist der minimalste Schritt, den du sofort tun könntest?</div><textarea placeholder="z.B. Mit einer Pflegefachkraft eine 30-minütige Testeinheit direkt auf Station durchführen."></textarea></div>
+          <div class="pd-field"><div class="pd-label">👀 Wie misst du Erfolg?</div><div class="pd-hint">Woran erkennst du, ob der Prototyp funktioniert?</div><textarea placeholder="z.B. Die Person kann danach selbst dokumentieren ohne Hilfe."></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
+          <button class="ws-ai-btn" onclick="wsAI('ideation','${aiId}')">✨ KI-Impuls für Prototypen</button>
+        </div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Adaptionsfähigkeit</span><span class="ws-comp-badge">Experimentierfreude</span><span class="ws-comp-badge">Problemlösungskompetenz</span></div>`,
+
+      reflexion: `
+        <div class="ref-qs">
+          <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven anderer Berufsgruppen waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen wurden in diesem Lernprozess sichtbar?</div><textarea placeholder="z.B. Spannungen zwischen Wirtschaftlichkeit und Personalwohl…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">🎯 Welche Future Skills hast du aktiv genutzt oder entwickelt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
+        </div>
+        <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.7rem;">Selbsteinschätzung Future Skills:</div>
+        <div class="ref-comp-grid" id="refCompGrid"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem;">
+          <button class="ws-ai-btn" onclick="wsAI('reflexion','${aiId}')">✨ KI reflektiert mit dir</button>
+        </div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Reflexionsfähigkeit</span><span class="ws-comp-badge">Lernfähigkeit</span><span class="ws-comp-badge">Selbstwahrnehmung</span></div>`
+    };
+
+    container.innerHTML = (TOOL_HTML[key] || '<p>Methode wird geladen…</p>') + `<div class="ws-ai-response" id="${aiId}"></div>`;
+
+    // re-init dynamic components
+    if (key === 'persona')   buildPersonaGrid();
+    if (key === 'reflexion') buildRefCompGrid();
+    if (key === 'ideation')  renderBoard();
+  }
+
+
+  function selectRole(el) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    activeRole     = el.dataset.role;
+    chatHistory    = [];
+    activeDTMethod = null;
+    document.querySelectorAll('.p1-dt-pill').forEach(c => c.classList.remove('active'));
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+    const role = ROLES[activeRole];
+    document.getElementById('p1ChatWrap').classList.add('visible');
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent  = role.name;
+    resetSkillBadges();
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name, false);
+  }
+
+
+  window.addEventListener('DOMContentLoaded', () => {
+    buildRefCompGrid();
+    buildStarsGrid();
+    initMethodDashboard();
+    updateMethodProgress();
+    goToPhase(0);
+    if (apiKey) {
+      document.getElementById('apiKeyInput').value = apiKey;
+      setApiStatus('ok', '✓ API-Key geladen');
+    }
+  });
+</script>
 </body>
 </html>
