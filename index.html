@@ -2774,9 +2774,7 @@ Format:
         }
       ],
       fallback: "Das kann ich Ihnen so nicht sagen, da kenn ich mich nicht aus. Aber ich merk, dass Sie sich Gedanken machen — das find ich gut. Ich frag mich das auch manchmal: ob das alles gut geht.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie\n❓ Was der Patient braucht: Einfache, ehrliche Kommunikation ohne Fachbegriffe"
-    }
-
-  
+    },
 
     /* ==========================================
        SANDRA – VERWALTUNG
@@ -3589,17 +3587,10 @@ WICHTIG:
   /* =============================================
      ZUSTAND — HAUPTANWENDUNG
   ============================================= */
+  /* activeRole wird über STATE.selectedRole verwaltet (siehe STATE-Objekt und Object.defineProperty unten) */
   let chatHistory   = [];
   let activeDTMethod = null;
   let apiKey        = localStorage.getItem('healthlearn_api_key') || '';
-
-  window.addEventListener('DOMContentLoaded', () => {
-    if (apiKey) {
-      document.getElementById('apiKeyInput').value = apiKey;
-      setApiStatus('ok', '✓ API-Key geladen');
-    }
-  });
-
 
   /* =============================================
      API-KEY SPEICHERN
@@ -3616,44 +3607,14 @@ WICHTIG:
   }
 
 
-  /* =============================================
-     ROLLE AUSWÄHLEN
-  ============================================= */
-  // selectRole replaced
-function _old_selectRole(el) {
-    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-
-    activeRole    = el.dataset.role;
-    chatHistory   = [];
-    activeDTMethod = null;
-
-    // DT-Karten freischalten
-    document.querySelectorAll('.dt-card').forEach(c => {
-      c.classList.add('enabled');
-      c.classList.remove('active');
-    });
-    document.getElementById('dtActiveBanner').classList.remove('visible');
-
-    const role = ROLES[activeRole];
-    document.getElementById('chatHint').style.display = 'none';
-    document.getElementById('chatWindow').classList.add('visible');
-    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
-    document.getElementById('chatRoleName').textContent  = role.name;
-
-    // Alle Skill-Badges zurücksetzen
-    resetSkillBadges();
-
-    clearChat(false);
-    appendMessage('bot', role.greeting, role.name, false);
-  }
+  /* canonical selectRole is defined further below */
 
 
   /* =============================================
      DESIGN THINKING METHODE ANWENDEN
   ============================================= */
   function applyDTMethod(el) {
-    if (!activeRole) return; // nur wenn Rolle aktiv
+    if (!STATE.selectedRole) return; // nur wenn Rolle aktiv
 
     const methodKey = el.dataset.method;
     const method    = DT_METHODS[methodKey];
@@ -3689,7 +3650,7 @@ function _old_selectRole(el) {
     document.getElementById('dtActiveBanner').classList.remove('visible');
   }
   async function sendMessage() {
-    if (!activeRole) return;
+    if (!STATE.selectedRole) return;
     const input = document.getElementById('userInput');
     const text  = input.value.trim();
     if (!text) return;
@@ -3705,11 +3666,11 @@ function _old_selectRole(el) {
         response = await getClaudeResponse(text);
       } else {
         await new Promise(r => setTimeout(r, 800 + Math.random() * 500));
-        response = getDummyResponse(activeRole, text);
+        response = getDummyResponse(STATE.selectedRole, text);
         setApiStatus('warn', '⚠ Kein API-Key – Dummy-Antwort');
       }
       showTyping(false);
-      appendMessage('bot', response, ROLES[activeRole].name, true);
+      appendMessage('bot', response, ROLES[STATE.selectedRole].name, true);
       highlightSkills(response);
 
     } catch (err) {
@@ -3725,7 +3686,7 @@ function _old_selectRole(el) {
      CLAUDE API AUFRUFEN
   ============================================= */
   async function getClaudeResponse(userMessage) {
-    const role = ROLES[activeRole];
+    const role = ROLES[STATE.selectedRole];
 
     // DT-Methoden-Kontext wenn aktiv
     const dtAddition = activeDTMethod
@@ -3926,8 +3887,8 @@ ${role.futureSkillsInstruction}
     document.getElementById('messages').innerHTML = '';
     chatHistory = [];
     resetSkillBadges();
-    if (withGreeting && activeRole) {
-      appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name, false);
+    if (withGreeting && STATE.selectedRole) {
+      appendMessage('bot', ROLES[STATE.selectedRole].greeting, ROLES[STATE.selectedRole].name, false);
     }
   }
 
@@ -4075,16 +4036,7 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
   /* =============================================
      DT-WORKSHOP — INITIALISIERUNG
   ============================================= */
-  window.addEventListener('DOMContentLoaded', () => {
-    buildPersonaGrid();
-    buildRefCompGrid();
-    buildStarsGrid();
-
-    if (apiKey) {
-      document.getElementById('apiKeyInput').value = apiKey;
-      setApiStatus('ok', '✓ API-Key geladen');
-    }
-  });
+  /* buildPersonaGrid / buildRefCompGrid / buildStarsGrid called in canonical DOMContentLoaded below */
 
 
   /* =============================================
@@ -4386,135 +4338,296 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
 
 
 
-  /* =============================================
+  /* first _old_selectRole block removed — canonical versions below */
+
+
+
+  /* ═══════════════════════════════════════════════════════════════════
+     ZENTRALER APP-STATE
+     Einzige Wahrheitsquelle für den gesamten Lernfortschritt.
+     Alle Phasen, Rollen, Methoden und Reflexionsdaten laufen hier zusammen.
+  ═══════════════════════════════════════════════════════════════════ */
+  const appState = {
+    currentPhase:         0,          // aktive Phase (0–4)
+    selectedRole:         null,       // z.B. "pflege", "arzt", ...
+    selectedRolePrompt:   "",         // systemContext der gewählten Rolle
+    selectedMethod:       null,       // z.B. "empathyMap", "ideation", ...
+    selectedMethodPrompt: "",         // systemAddition der gewählten Methode
+    reflections:          [],         // gespeicherte Reflexionsantworten
+    evaluations:          []          // gespeicherte Evaluationsdaten
+  };
+
+  /* Rückwärtskompatibilität: STATE zeigt auf appState */
+  const STATE = appState;
+
+  /* ═══════════════════════════════════════════════════════════════════
+     PHASEN-KONFIGURATION
+     Wird automatisch aus den tatsächlich vorhandenen .phase-Divs
+     im DOM abgeleitet — keine manuelle Synchronisation nötig.
+  ═══════════════════════════════════════════════════════════════════ */
+  const PHASE_CONFIG = [
+    { label: 'Einführung',  nextLabel: 'Zur Rollenwahl'  },
+    { label: 'Rollenwahl',  nextLabel: 'Zu den Methoden' },
+    { label: 'Methoden',    nextLabel: 'Zur Reflexion'   },
+    { label: 'Reflexion',   nextLabel: 'Zur Evaluation'  },
+    { label: 'Evaluation',  nextLabel: '✓ Abschließen'   }
+  ];
+
+  /* ═══════════════════════════════════════════════════════════════════
      PHASEN-NAVIGATION
-  ============================================= */
-  const PHASE_LABELS = [
-    'Einführung', 'Rollenwahl', 'Empathy Map',
-    'Stakeholder', 'Problem', 'Ideation',
-    'Reflexion', 'Evaluation'
-  ];
-
-  const PHASE_NEXT_LABELS = [
-    'Zur Rollenwahl',
-    'Zur Empathy Map',
-    'Zur Stakeholder Map',
-    'Zur Problemdefinition',
-    'Zur Ideation',
-    'Zur Reflexion',
-    'Zur Evaluation',
-    'Abschließen'
-  ];
-
-  let currentPhase = 0;
-
+     goToPhase(n)   — springe direkt zu Phase n
+     nextPhase()    — eine Phase vorwärts
+     prevPhase()    — eine Phase zurück
+     previousPhase()— Alias für prevPhase
+     showPhase(n)   — Alias für goToPhase (Anforderungsdokument)
+  ═══════════════════════════════════════════════════════════════════ */
   function goToPhase(n) {
-    const total = PHASE_LABELS.length;
+    const phases = document.querySelectorAll('.phase');
+    const total  = Math.min(phases.length, PHASE_CONFIG.length);
     n = Math.max(0, Math.min(total - 1, n));
-    currentPhase = n;
+    appState.currentPhase = n;
 
-    // Show/hide phases
-    document.querySelectorAll('.phase').forEach((el, i) => {
+    // 1 — Phasen sichtbar schalten (display:block / display:none)
+    phases.forEach((el, i) => {
+      el.style.display = (i === n) ? 'block' : 'none';
       el.classList.toggle('active', i === n);
     });
 
-    // Update progress dots
+    // 2 — Progress-Bar aktualisieren
     document.querySelectorAll('.ps').forEach((el, i) => {
-      el.classList.remove('active', 'done');
-      if (i === n)        el.classList.add('active');
-      else if (i < n)     el.classList.add('done');
+      el.classList.toggle('active', i === n);
+      el.classList.toggle('done',   i < n);
+      if (i === n || i < n) {
+        el.classList.remove(i === n ? 'done' : 'active');
+      }
     });
-
-    // Update connector lines
     document.querySelectorAll('.ps-line:not(.ghost)').forEach((el, i) => {
       el.classList.toggle('done', i < n);
     });
 
-    // Update nav buttons
-    const back = document.getElementById('navBack');
-    const next = document.getElementById('navNext');
-    const ind  = document.getElementById('navInd');
+    // 3 — Navigations-Buttons beschriften
+    const btnBack = document.getElementById('navBack');
+    const btnNext = document.getElementById('navNext');
+    const navInd  = document.getElementById('navInd');
+    const cfg     = PHASE_CONFIG[n] || {};
 
-    back.disabled = (n === 0);
-    next.textContent = n < total - 1
-      ? PHASE_NEXT_LABELS[n] + ' →'
-      : '✓ Workshop abgeschlossen';
-    ind.innerHTML = `Phase <strong>${n + 1}</strong> von ${total} — ${PHASE_LABELS[n]}`;
+    if (btnBack) btnBack.disabled = (n === 0);
+    if (btnNext) {
+      btnNext.textContent = (n >= total - 1)
+        ? (cfg.nextLabel || '✓ Abschließen')
+        : (cfg.nextLabel || 'Weiter') + ' →';
+      btnNext.disabled = false;
+    }
+    if (navInd) {
+      navInd.innerHTML = `Phase <strong>${n + 1}</strong> / ${total} — ${cfg.label || ''}`;
+    }
 
-    // Special: re-init workshop components when entering their phase
-    if (n === 2) renderBoard ? null : null; // ideation not yet
-    if (n === 4) { /* ideation already initialised */ }
-
+    // 4 — Nach oben scrollen
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 5 — Phasen-spezifische Initialisierungen
+    _onPhaseEnter(n);
   }
 
   function nextPhase() {
-    if (currentPhase < PHASE_LABELS.length - 1) goToPhase(currentPhase + 1);
+    const total = Math.min(
+      document.querySelectorAll('.phase').length,
+      PHASE_CONFIG.length
+    );
+    if (appState.currentPhase < total - 1) goToPhase(appState.currentPhase + 1);
   }
 
-  function prevPhase() {
-    if (currentPhase > 0) goToPhase(currentPhase - 1);
+  function prevPhase()     { if (appState.currentPhase > 0) goToPhase(appState.currentPhase - 1); }
+  function previousPhase() { prevPhase(); }
+  function showPhase(n)    { goToPhase(n); }
+
+  /* Phasen-spezifische Initialisierungen beim Betreten */
+  function _onPhaseEnter(n) {
+    if (n === 2) {
+      if (typeof initMethodDashboard  === 'function') initMethodDashboard();
+      if (typeof updateMethodProgress === 'function') updateMethodProgress();
+    }
+    if (n === 3) {
+      if (typeof buildRefCompGrid === 'function') buildRefCompGrid();
+    }
+    if (n === 4) {
+      if (typeof buildStarsGrid === 'function') buildStarsGrid();
+    }
   }
 
+  /* Rückwärtskompatibilität: currentPhase als window-Property */
+  Object.defineProperty(window, 'currentPhase', {
+    get: () => appState.currentPhase,
+    set: (v) => { appState.currentPhase = v; }
+  });
 
-  // selectRole replaced
-function _old_selectRole(el) {
+  /* ═══════════════════════════════════════════════════════════════════
+     ROLLENLOGIK
+     selectRole(el)  — Rolle aus data-role auslesen, in appState speichern,
+                       Rollenprompt setzen, Chat starten.
+     Die vollständigen Rollenprompts aus dem ROLES-Objekt werden direkt
+     in appState.selectedRolePrompt geschrieben und beim nächsten
+     API-Call als Teil des systemPrompt verwendet.
+  ═══════════════════════════════════════════════════════════════════ */
+  function selectRole(el) {
+    if (!el) return;
+
+    // Alle Karten deaktivieren, gewählte markieren
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
 
-    activeRole    = el.dataset.role;
-    chatHistory   = [];
-    activeDTMethod = null;
+    // appState aktualisieren
+    appState.selectedRole = el.dataset.role;
+    chatHistory           = [];
+    activeDTMethod        = null;
+    appState.selectedMethod       = null;
+    appState.selectedMethodPrompt = "";
 
-    // DT pills freischalten
-    document.querySelectorAll('.p1-dt-pill').forEach(c => {
-      c.classList.add('enabled');
-      c.classList.remove('active');
-    });
-    document.getElementById('dtActiveBanner').classList.remove('visible');
+    // Rollenprompt in appState übertragen
+    const role = ROLES[appState.selectedRole];
+    if (!role) {
+      console.warn('selectRole: Unbekannte Rolle:', appState.selectedRole);
+      return;
+    }
+    appState.selectedRolePrompt = role.systemContext || "";
 
-    const role = ROLES[activeRole];
+    // DT-Pills und Banner zurücksetzen
+    document.querySelectorAll('.p1-dt-pill').forEach(c => c.classList.remove('active'));
+    const banner = document.getElementById('dtActiveBanner');
+    if (banner) banner.classList.remove('visible');
 
-    // Show inline chat in phase 1
-    document.getElementById('p1ChatWrap').classList.add('visible');
-    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
-    document.getElementById('chatRoleName').textContent  = role.name;
+    // Chat-Bereich einblenden und initialisieren
+    const chatWrap = document.getElementById('p1ChatWrap');
+    if (chatWrap) chatWrap.classList.add('visible');
 
-    resetSkillBadges();
-    clearChat(false);
-    appendMessage('bot', role.greeting, role.name, false);
+    const iconEl = document.getElementById('chatRoleIcon');
+    const nameEl = document.getElementById('chatRoleName');
+    if (iconEl) iconEl.textContent = role.icon + ' ';
+    if (nameEl) nameEl.textContent  = role.name;
+
+    if (typeof resetSkillBadges === 'function') resetSkillBadges();
+    if (typeof clearChat        === 'function') clearChat(false);
+    if (typeof appendMessage    === 'function') appendMessage('bot', role.greeting, role.name, false);
   }
 
+  /* ═══════════════════════════════════════════════════════════════════
+     METHODENLOGIK
+     applyDTMethod(el)   — Methode aus data-method setzen,
+                           Methodenprompt in appState speichern,
+                           Prompt automatisch an Claude senden.
+     openMethodTool(key) — Methoden-Dashboard → Arbeitsfläche wechseln,
+                           Methodenprompt in appState speichern.
+  ═══════════════════════════════════════════════════════════════════ */
+  function applyDTMethod(el) {
+    if (!appState.selectedRole) return;
 
+    const methodKey = el.dataset.method;
+    const method    = DT_METHODS[methodKey];
+    if (!method) return;
 
-  /* ═══ PHASEN-NAVIGATION v2 — 5 Phasen ═══ */
-  const PHASE_LABELS      = ['Einführung','Rollenwahl','Methoden','Reflexion','Evaluation'];
-  const PHASE_NEXT_LABELS = ['Zur Rollenwahl','Zu den Methoden','Zur Reflexion','Zur Evaluation','Workshop abschließen'];
-  let currentPhase = 0;
+    // State aktualisieren
+    appState.selectedMethod       = methodKey;
+    appState.selectedMethodPrompt = method.systemAddition || "";
+    activeDTMethod                = methodKey;
 
-  function goToPhase(n) {
-    const total = PHASE_LABELS.length;
-    n = Math.max(0, Math.min(total - 1, n));
-    currentPhase = n;
-    document.querySelectorAll('.phase').forEach((el, i) => el.classList.toggle('active', i === n));
-    document.querySelectorAll('.ps').forEach((el, i) => {
-      el.classList.remove('active','done');
-      if (i === n) el.classList.add('active');
-      else if (i < n) el.classList.add('done');
+    // UI aktualisieren
+    document.querySelectorAll('.dt-card, .p1-dt-pill').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    const banner = document.getElementById('dtActiveBanner');
+    const iconEl = document.getElementById('dtBannerIcon');
+    const nameEl = document.getElementById('dtBannerName');
+    if (banner && iconEl && nameEl) {
+      iconEl.textContent = method.icon + ' ';
+      nameEl.textContent  = method.name;
+      banner.classList.add('visible');
+    }
+
+    // Skill-Badges vorausmarkieren
+    if (typeof resetSkillBadges === 'function') resetSkillBadges();
+    method.skills.forEach(id => {
+      const badge = document.getElementById(id);
+      if (badge) badge.classList.add('active');
     });
-    document.querySelectorAll('.ps-line:not(.ghost)').forEach((el, i) => el.classList.toggle('done', i < n));
-    const back = document.getElementById('navBack');
-    const next = document.getElementById('navNext');
-    const ind  = document.getElementById('navInd');
-    back.disabled = (n === 0);
-    next.textContent = n < total - 1 ? PHASE_NEXT_LABELS[n] + ' →' : '✓ Abgeschlossen';
-    ind.innerHTML = `Phase <strong>${n + 1}</strong> / ${total} — ${PHASE_LABELS[n]}`;
+
+    // Methoden-Prompt automatisch senden
+    const input = document.getElementById('userInput');
+    if (input) { input.value = method.prompt; sendMessage(); }
+  }
+
+  /* Methoden-Arbeitsfläche öffnen (aus Methoden-Dashboard) */
+  const _origOpenMethodTool = typeof openMethodTool !== 'undefined' ? openMethodTool : null;
+  function openMethodTool(key) {
+    // appState aktualisieren
+    appState.selectedMethod = key;
+    if (DT_METHODS && DT_METHODS[key]) {
+      appState.selectedMethodPrompt = DT_METHODS[key].systemAddition || "";
+      activeDTMethod = key;
+    } else if (METHODS_META && METHODS_META[key]) {
+      appState.selectedMethodPrompt = "";
+      activeDTMethod = key;
+    }
+
+    // exploredMethods (Set) befüllen
+    if (typeof exploredMethods !== 'undefined') exploredMethods.add(key);
+    if (typeof updateMethodProgress === 'function') updateMethodProgress();
+
+    const card = document.getElementById('mc-' + key);
+    if (card) card.classList.add('explored');
+
+    const m = (METHODS_META && METHODS_META[key]) || (DT_METHODS && DT_METHODS[key]);
+    if (m) {
+      const titleEl = document.getElementById('methodToolTitle');
+      if (titleEl) titleEl.textContent = (m.icon || '') + '  ' + (m.name || key);
+    }
+
+    if (typeof loadMethodContent === 'function') loadMethodContent(key);
+
+    const dashboard = document.getElementById('methodDashboard');
+    const toolPanel = document.getElementById('methodToolPanel');
+    if (dashboard) dashboard.style.display = 'none';
+    if (toolPanel) toolPanel.classList.add('visible');
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  function nextPhase() { if (currentPhase < PHASE_LABELS.length - 1) goToPhase(currentPhase + 1); }
-  function prevPhase() { if (currentPhase > 0) goToPhase(currentPhase - 1); }
 
-  /* ═══ METHOD DASHBOARD ═══ */
+  function clearDTMethod() {
+    activeDTMethod                = null;
+    appState.selectedMethod       = null;
+    appState.selectedMethodPrompt = "";
+    document.querySelectorAll('.dt-card, .p1-dt-pill').forEach(c => c.classList.remove('active'));
+    const banner = document.getElementById('dtActiveBanner');
+    if (banner) banner.classList.remove('visible');
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     INITIALISIERUNG
+  ═══════════════════════════════════════════════════════════════════ */
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof buildPersonaGrid    === 'function') buildPersonaGrid();
+    if (typeof buildRefCompGrid    === 'function') buildRefCompGrid();
+    if (typeof buildStarsGrid      === 'function') buildStarsGrid();
+    if (typeof initMethodDashboard === 'function') initMethodDashboard();
+    if (typeof updateMethodProgress=== 'function') updateMethodProgress();
+
+    // API-Key wiederherstellen
+    const keyInput = document.getElementById('apiKeyInput');
+    if (apiKey && keyInput) {
+      keyInput.value = apiKey;
+      if (typeof setApiStatus === 'function') setApiStatus('ok', '✓ API-Key geladen');
+    }
+
+    // Anwendung auf Phase 0 starten
+    goToPhase(0);
+
+    // Sicherheitsnetz: fehlende onclick-Funktionen in der Konsole anzeigen
+    document.querySelectorAll('[onclick]').forEach(el => {
+      const m = el.getAttribute('onclick').match(/^(\w+)\(/);
+      if (m && typeof window[m[1]] === 'undefined') {
+        console.warn('⚠ Funktion nicht definiert:', m[1], el);
+      }
+    });
+  });
   const METHODS_META = {
     empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Verstehen',            why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Rolle — der Schlüssel zu echtem Perspektivwechsel.', skills:['Empathie','Perspektivwechsel','Kommunikationsfähigkeit','Reflexionsfähigkeit'] },
     stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',            why:'Analysiere Interessen, Einfluss und Konflikte zwischen allen Beteiligten im System.',                 skills:['Systemisches Denken','Strategisches Denken','Kollaborationsfähigkeit'] },
@@ -4689,35 +4802,10 @@ function _old_selectRole(el) {
   }
 
 
-  function selectRole(el) {
-    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    activeRole     = el.dataset.role;
-    chatHistory    = [];
-    activeDTMethod = null;
-    document.querySelectorAll('.p1-dt-pill').forEach(c => c.classList.remove('active'));
-    document.getElementById('dtActiveBanner').classList.remove('visible');
-    const role = ROLES[activeRole];
-    document.getElementById('p1ChatWrap').classList.add('visible');
-    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
-    document.getElementById('chatRoleName').textContent  = role.name;
-    resetSkillBadges();
-    clearChat(false);
-    appendMessage('bot', role.greeting, role.name, false);
-  }
+  /* selectRole und openMethodTool sind im appState-Block oben definiert */
 
 
-  window.addEventListener('DOMContentLoaded', () => {
-    buildRefCompGrid();
-    buildStarsGrid();
-    initMethodDashboard();
-    updateMethodProgress();
-    goToPhase(0);
-    if (apiKey) {
-      document.getElementById('apiKeyInput').value = apiKey;
-      setApiStatus('ok', '✓ API-Key geladen');
-    }
-  });
+  /* DOMContentLoaded ist im appState-Block oben definiert */
 </script>
 </body>
 </html>
