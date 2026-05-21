@@ -2070,6 +2070,1118 @@
     .method-tool-title { font-family:var(--font-head); font-size:1.05rem; font-weight:normal; color:var(--text); }
     .method-tool-content { /* inner tool content */ }
 
+    /* ╔═══════════════════════════════════════════════════════╗
+       ║  DESIGN SYSTEM v4 — MODERN, RUHIG, PROFESSIONELL      ║
+       ║  Überschreibt Variablen & verfeinert Visuals.         ║
+       ║  Funktionalität bleibt vollständig erhalten.          ║
+       ╚═══════════════════════════════════════════════════════╝ */
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap');
+
+    :root {
+      /* === Surfaces === */
+      --bg:            #f5f7fa;
+      --bg-subtle:     #eef1f6;
+      --surface:       #ffffff;
+      --surface-soft:  #fafbfc;
+
+      /* === Primary — kühles, ruhiges Blau === */
+      --primary:        #2563eb;
+      --primary-dk:     #1d4ed8;
+      --primary-lt:     #eff6ff;
+      --primary-border: #bfdbfe;
+      --primary-text:   #1e40af;
+
+      /* === Accent — dezentes Grün für Success === */
+      --accent:    #059669;
+      --accent-dk: #047857;
+      --accent-lt: #f0fdf4;
+
+      /* === Text & Border === */
+      --text:           #0f172a;
+      --text-secondary: #334155;
+      --muted:          #64748b;
+      --muted-lt:       #94a3b8;
+      --border:         #e2e8f0;
+      --border-strong:  #cbd5e1;
+
+      /* === Tag-Farben (für Warmton-Hinweise) === */
+      --tag-text: #92400e;
+
+      /* === Aliase für Rückwärtskompatibilität === */
+      --skill-bg:     var(--primary-lt);
+      --skill-border: var(--primary-border);
+      --skill-text:   var(--primary-text);
+      --phase-blue:   var(--primary);
+      --phase-lt:     var(--primary-lt);
+      --phase-border: var(--primary-border);
+
+      /* === Typography === */
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-head: 'Lora', Georgia, 'Times New Roman', serif;
+
+      /* === Radii === */
+      --radius-sm: 8px;
+      --radius:    12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+
+      /* === Shadows — layered für Tiefe === */
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+      --shadow:    0 4px 6px -2px rgba(15, 23, 42, 0.04), 0 12px 28px -8px rgba(15, 23, 42, 0.07);
+      --shadow-md: 0 8px 16px -4px rgba(15, 23, 42, 0.06), 0 20px 36px -8px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.08), 0 32px 56px -16px rgba(15, 23, 42, 0.12);
+    }
+
+    /* === Body & Base === */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* === Header === */
+    header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    header .badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.1rem;
+    }
+
+    header h1 {
+      font-family: var(--font-head);
+      font-size: clamp(1.85rem, 4.2vw, 2.6rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.15;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* === STICKY PROGRESS BAR === */
+    .progress-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 247, 250, 0.88);
+      -webkit-backdrop-filter: saturate(160%) blur(14px);
+      backdrop-filter: saturate(160%) blur(14px);
+      margin: 0 -1.5rem 2rem;
+      padding: 1rem 1.5rem 0.95rem;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    }
+
+    .ps-dot {
+      width: 34px;
+      height: 34px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: var(--surface);
+      border: 2px solid var(--border-strong);
+      color: var(--muted);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ps.active .ps-dot {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.13);
+      transform: scale(1.05);
+    }
+
+    .ps.done .ps-dot {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .ps:hover .ps-dot {
+      border-color: var(--primary);
+    }
+
+    .ps-line {
+      height: 2px;
+      background: var(--border-strong);
+      opacity: 0.6;
+    }
+
+    .ps-line.done {
+      background: var(--accent);
+      opacity: 1;
+    }
+
+    .ps-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--muted);
+      margin-top: 7px;
+    }
+
+    .ps.active .ps-label {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* === PHASE HEADERS === */
+    .phase-hdr {
+      margin-bottom: 1.75rem;
+      gap: 1.1rem;
+    }
+
+    .phase-num {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dk) 100%);
+      font-size: 1.05rem;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .phase-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.3rem, 2.5vw, 1.55rem);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+      line-height: 1.25;
+    }
+
+    .phase-desc {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .phase-comp {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      padding: 3px 10px;
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+    }
+
+    /* === PHASE CARD === */
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* === NAV BAR === */
+    .nav-bar {
+      margin-top: 1.75rem;
+      padding: 1rem 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-back {
+      padding: 0.55rem 1.1rem;
+      border: 1.5px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover { border-color: var(--text); color: var(--text); background: var(--surface-soft); }
+
+    .btn-next {
+      padding: 0.6rem 1.4rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-next:hover {
+      background: var(--primary-dk);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    }
+
+    .nav-indicator {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .nav-indicator strong { color: var(--primary); font-weight: 700; }
+
+    /* === NARRATIVE (Phase 0) === */
+    .narrative { max-width: 700px; }
+
+    .narrative-kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      color: var(--primary);
+      margin-bottom: 1.3rem;
+    }
+
+    .narrative h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3.8vw, 2.3rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 1.4rem;
+    }
+
+    .narrative p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+    }
+
+    .narrative .pull {
+      font-family: var(--font-head);
+      font-size: 1.18rem;
+      line-height: 1.65;
+      color: var(--primary-text);
+      border-left: 4px solid var(--primary);
+      padding: 0.6rem 0 0.6rem 1.5rem;
+      margin: 2rem 0;
+      font-style: normal;
+      font-weight: 500;
+      background: linear-gradient(90deg, var(--primary-lt) 0%, transparent 80%);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .narrative .divider {
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .narrative-cta { margin-top: 2.5rem; }
+
+    .btn-start {
+      padding: 0.95rem 2.4rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius);
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.28), 0 2px 6px rgba(37, 99, 235, 0.12);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-start:hover {
+      background: var(--primary-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.35), 0 4px 12px rgba(37, 99, 235, 0.18);
+    }
+
+    /* === ROLE CARDS === */
+    .role-grid { gap: 12px; }
+
+    .role-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.15rem;
+      background: var(--surface);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .role-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .role-card.active {
+      border-color: var(--primary);
+      background: var(--primary-lt);
+    }
+
+    .role-card.active::after {
+      content: '✓';
+      color: var(--primary);
+      background: var(--surface);
+      border-radius: 50%;
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      top: 10px; right: 10px;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+    }
+
+    .role-icon { font-size: 1.55rem; margin-bottom: 0.5rem; }
+    .role-name { font-size: 0.86rem; font-weight: 700; letter-spacing: -0.005em; }
+    .role-desc { font-size: 0.76rem; line-height: 1.5; }
+
+    /* === METHOD DASHBOARD === */
+    .method-grid { gap: 12px; }
+
+    .method-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem;
+      background: var(--surface);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .method-card:hover {
+      border-color: var(--primary-border);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .method-card.explored {
+      border-color: #a7f3d0;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--accent-lt) 100%);
+    }
+
+    .method-card.explored::after {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+    }
+
+    .mc-icon { font-size: 1.7rem; margin-bottom: 0.45rem; }
+
+    .mc-phase {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .mc-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.4rem;
+    }
+
+    .mc-why { font-size: 0.78rem; line-height: 1.55; }
+
+    .mc-skill {
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+    }
+
+    .btn-explore {
+      padding: 0.5rem 1rem;
+      background: var(--primary);
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+      transition: all 0.2s;
+    }
+
+    .btn-explore:hover {
+      background: var(--primary-dk);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.28);
+    }
+
+    .method-progress-bar {
+      padding: 0.75rem 1.15rem;
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+    }
+
+    .method-progress-label {
+      color: var(--primary-text);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    .method-prog-dot {
+      width: 11px; height: 11px;
+      background: var(--surface);
+      border: 1.5px solid var(--primary-border);
+    }
+
+    .method-prog-dot.done {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* === EMPATHY QUADRANT === */
+    .em-quadrant {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem;
+    }
+
+    .em-q-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-text);
+      letter-spacing: -0.005em;
+    }
+
+    .em-q-hint { font-size: 0.74rem; line-height: 1.5; }
+
+    .em-quadrant textarea {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.75rem;
+      font-size: 0.83rem;
+      font-family: var(--font-body);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .em-quadrant textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* === ALL TEXTAREAS === */
+    textarea, input[type=text], input[type=password] {
+      font-family: var(--font-body);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea:focus, input[type=text]:focus, input[type=password]:focus {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      outline: none;
+    }
+
+    /* === WORKSHOP AI BUTTON === */
+    .ws-ai-btn {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .ws-ai-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.22);
+    }
+
+    .ws-ai-response {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      color: var(--primary-text);
+      font-size: 0.86rem;
+      padding: 0.9rem 1.1rem;
+    }
+
+    /* === STAKEHOLDER MAP === */
+    .sm-container {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--primary-lt) 100%);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-lg);
+    }
+
+    .sm-dot {
+      box-shadow: var(--shadow-sm), 0 0 0 0 transparent;
+      transition: box-shadow 0.25s, transform 0.2s;
+    }
+
+    .sm-node:hover .sm-dot {
+      box-shadow: var(--shadow-md), 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .sm-info {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+    }
+
+    /* === PERSONA CARDS === */
+    .persona-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      transition: all 0.25s;
+    }
+
+    .persona-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .persona-head {
+      background: var(--primary-lt);
+      border-bottom: 1px solid var(--primary-border);
+      padding: 0.85rem 1rem;
+    }
+
+    .persona-name {
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--primary-text);
+    }
+
+    /* === PROBLEM DEFINITION === */
+    .pd-field {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.95rem 1.05rem;
+      background: var(--surface);
+    }
+
+    .pd-field.hl {
+      background: var(--primary-lt);
+      border-color: var(--primary-border);
+    }
+
+    .pd-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary-text);
+    }
+
+    .pd-pov {
+      background: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
+      border: 1px solid #fde68a;
+      border-left: 3px solid #f59e0b;
+      border-radius: var(--radius);
+      padding: 0.9rem 1.1rem;
+      color: var(--tag-text);
+      font-size: 0.88rem;
+    }
+
+    /* === IDEATION === */
+    .ib-row input {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      font-size: 0.88rem;
+    }
+
+    .ib-row button {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 0.7rem 1.3rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+      transition: all 0.2s;
+    }
+
+    .ib-row button:hover {
+      background: var(--primary-dk);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.28);
+    }
+
+    .ib-board {
+      background: var(--bg-subtle);
+      border: 1.5px dashed var(--border-strong);
+      border-radius: var(--radius);
+    }
+
+    .ib-idea {
+      background: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-xs);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .ib-idea:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* === SKILL BADGES === */
+    .skill-badge {
+      border-radius: var(--radius);
+      transition: all 0.25s;
+    }
+
+    .skill-badge.active {
+      background: var(--primary-lt);
+      border-color: var(--primary-border);
+    }
+
+    .skill-badge.active .skill-dot {
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    /* === CHAT MESSAGES === */
+    .msg.user {
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius) var(--radius) var(--radius-sm) var(--radius);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+    }
+
+    .msg.bot {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius) var(--radius) var(--radius) var(--radius-sm);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .chat-header {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      border-radius: var(--radius);
+    }
+
+    .chat-input-row input {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+    }
+
+    .chat-input-row button {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 0.7rem 1.3rem;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+    }
+
+    .chat-input-row button:hover {
+      background: var(--primary-dk);
+    }
+
+    /* === LIKERT === */
+    .likert-scale label {
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid var(--border-strong);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .likert-scale label:hover {
+      border-color: var(--primary);
+      background: var(--primary-lt);
+      color: var(--primary);
+      transform: scale(1.05);
+    }
+
+    .likert-scale input:checked + label {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    /* === STAR RATING === */
+    .star.lit { color: #f59e0b; }
+
+    /* === EVALUATION DASHBOARD === */
+    .evd-submit {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 0.85rem 1.8rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      transition: all 0.25s;
+    }
+
+    .evd-submit:hover {
+      background: var(--primary-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.32);
+    }
+
+    .evd-result {
+      background: linear-gradient(135deg, var(--accent-lt) 0%, #d1fae5 100%);
+      border: 1px solid #a7f3d0;
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      color: var(--accent-dk);
+    }
+
+    /* === EVAL CHAT (Reflexion) === */
+    .btn-eval-start {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 0.65rem 1.3rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+      transition: all 0.2s;
+    }
+
+    .btn-eval-start:hover { background: var(--primary-dk); }
+
+    .eval-chat-header {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      border-radius: var(--radius);
+    }
+
+    .eval-msg.user {
+      background: var(--primary);
+      border-radius: var(--radius) var(--radius) var(--radius-sm) var(--radius);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+    }
+
+    .eval-msg.bot {
+      background: var(--surface);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius) var(--radius) var(--radius) var(--radius-sm);
+    }
+
+    /* === API KEY SECTION === */
+    .api-key-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      margin-top: 2rem;
+    }
+
+    .api-info-box {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+    }
+
+    .api-input-row input {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      font-family: 'Inter', monospace;
+    }
+
+    .api-input-row button {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 0.7rem 1.3rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18);
+    }
+
+    .api-input-row button:hover { background: var(--primary-dk); }
+
+    /* === SECTION LABELS === */
+    .section-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+
+    /* === DT METHODE BANNER (in P1) === */
+    .dt-active-banner {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      color: var(--primary-text);
+      border-radius: var(--radius);
+    }
+
+    /* === P1 DT PILLS === */
+    .p1-dt-pill {
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .p1-dt-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-lt);
+    }
+
+    .p1-dt-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+    }
+
+    /* === REFLEXION COMP GRID === */
+    .ref-comp-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 0.85rem;
+      transition: border-color 0.2s;
+    }
+
+    .ref-comp-item:hover { border-color: var(--primary-border); }
+
+    .ref-fill {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    }
+
+    /* === ANIMATIONS — sanfter === */
+    @keyframes phaseIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === COMP BADGE (in workshop) === */
+    .ws-comp-badge {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      font-weight: 600;
+    }
+
+    /* === SCROLLBAR — minimal === */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted-lt); }
+
+    /* === SELECTION === */
+    ::selection { background: var(--primary-lt); color: var(--primary-text); }
+
+
+    /* ── GLOSSAR PHASE ─────────────────────────── */
+    .glossar-section { margin-bottom: 2rem; }
+    .glossar-section + .glossar-section { margin-top: 2.25rem; }
+    .gs-title {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: -.015em;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .gs-intro {
+      font-size: .92rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+    /* Text blocks */
+    .gs-text {
+      font-size: .93rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    .gs-text + .gs-text { margin-top: .9rem; }
+    .gs-text strong { color: var(--text); font-weight: 600; }
+    /* Info boxes */
+    .gs-infobox {
+      display: flex;
+      gap: 1rem;
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin: 1.25rem 0;
+    }
+    .gs-infobox-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .gs-infobox-text { font-size: .87rem; color: var(--primary-text); line-height: 1.65; }
+    .gs-infobox-text strong { font-weight: 700; }
+    /* Bullet lists */
+    .gs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      gap: 8px;
+      margin: 1rem 0;
+    }
+    .gs-list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .65rem .85rem;
+      font-size: .82rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .gs-list-item::before {
+      content: '✦';
+      color: var(--primary);
+      font-size: .65rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    /* Phase preview */
+    .gs-phase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    .gs-phase-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: .85rem 1rem;
+      font-size: .82rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .gs-phase-card:hover { border-color: var(--primary-border); transform: translateY(-2px); }
+    .gs-phase-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 8px;
+      font-size: .75rem;
+      font-weight: 700;
+      margin-bottom: .45rem;
+    }
+    .gs-phase-name { font-weight: 700; color: var(--text); margin-bottom: .25rem; font-size: .84rem; }
+    .gs-phase-desc { color: var(--muted); line-height: 1.45; }
+    /* Glossary */
+    .glossary-search-wrap { margin-bottom: 1rem; position: relative; }
+    .glossary-search {
+      width: 100%;
+      padding: .75rem 1rem .75rem 2.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: .9rem;
+      font-family: var(--font-body);
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .glossary-search:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.1); outline: none; }
+    .glossary-search::placeholder { color: var(--muted); }
+    .gs-search-icon { position: absolute; left: .9rem; top: 50%; transform: translateY(-50%); font-size: 1rem; opacity: .4; pointer-events: none; }
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 8px;
+    }
+    .glossary-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .glossary-card:hover { border-color: var(--primary-border); box-shadow: var(--shadow-sm); }
+    .gc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .8rem 1rem;
+      cursor: pointer;
+      gap: .75rem;
+    }
+    .gc-term { font-weight: 700; font-size: .88rem; color: var(--text); margin-bottom: .15rem; }
+    .gc-short { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+    .gc-arrow { font-size: 1.3rem; color: var(--muted); transition: transform .25s; flex-shrink: 0; }
+    .gc-arrow.open { transform: rotate(90deg); color: var(--primary); }
+    .gc-body {
+      padding: 0 1rem .9rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+    .gc-def {
+      font-size: .83rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-top: .7rem;
+      margin-bottom: .6rem;
+    }
+    .gc-relevance {
+      font-size: .78rem;
+      color: var(--primary-text);
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-sm);
+      padding: .45rem .75rem;
+      line-height: 1.5;
+    }
+    .gc-rel-label { font-weight: 700; }
+    .glossary-empty { text-align: center; font-size: .85rem; color: var(--muted); padding: 2rem 0; font-style: italic; display: none; }
+    /* Resources */
+    .resources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+    .res-card {
+      display: flex;
+      align-items: flex-start;
+      gap: .85rem;
+      padding: .9rem 1rem;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all .2s cubic-bezier(.4,0,.2,1);
+    }
+    .res-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .res-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .res-body { flex: 1; }
+    .res-name { font-size: .85rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .res-desc { font-size: .76rem; color: var(--muted); line-height: 1.45; }
+    .res-arrow { font-size: 1rem; color: var(--primary); opacity: .6; flex-shrink: 0; margin-top: .1rem; transition: opacity .2s; }
+    .res-card:hover .res-arrow { opacity: 1; }
+
   </style>
 </head>
 <body>
@@ -2081,42 +3193,56 @@
     <p>Ein interaktiver Lernworkshop — mit Design-Thinking-Methoden, realen Perspektiven und KI-Unterstützung.</p>
   </header>
 
-  <div class="progress-bar"><div class="ps" onclick="goToPhase(0)">
+  <div class="progress-bar">
+    <div class="ps" onclick="goToPhase(0)">
       <div class="ps-dot-row">
         <div class="ps-line ghost"></div>
         <div class="ps-dot">0</div>
         <div class="ps-line" id="psl-r-0"></div>
       </div>
       <div class="ps-label">Einführung</div>
-    </div><div class="ps" onclick="goToPhase(1)">
+    </div>
+    <div class="ps" onclick="goToPhase(1)">
       <div class="ps-dot-row">
         <div class="ps-line" id="psl-l-1"></div>
         <div class="ps-dot">1</div>
         <div class="ps-line" id="psl-r-1"></div>
       </div>
-      <div class="ps-label">Rollenwahl</div>
-    </div><div class="ps" onclick="goToPhase(2)">
+      <div class="ps-label">Grundlagen</div>
+    </div>
+    <div class="ps" onclick="goToPhase(2)">
       <div class="ps-dot-row">
         <div class="ps-line" id="psl-l-2"></div>
         <div class="ps-dot">2</div>
         <div class="ps-line" id="psl-r-2"></div>
       </div>
-      <div class="ps-label">Methoden</div>
-    </div><div class="ps" onclick="goToPhase(3)">
+      <div class="ps-label">Rollenwahl</div>
+    </div>
+    <div class="ps" onclick="goToPhase(3)">
       <div class="ps-dot-row">
         <div class="ps-line" id="psl-l-3"></div>
         <div class="ps-dot">3</div>
         <div class="ps-line" id="psl-r-3"></div>
       </div>
-      <div class="ps-label">Reflexion</div>
-    </div><div class="ps" onclick="goToPhase(4)">
+      <div class="ps-label">Methoden</div>
+    </div>
+    <div class="ps" onclick="goToPhase(4)">
       <div class="ps-dot-row">
         <div class="ps-line" id="psl-l-4"></div>
         <div class="ps-dot">4</div>
+        <div class="ps-line" id="psl-r-4"></div>
+      </div>
+      <div class="ps-label">Reflexion</div>
+    </div>
+    <div class="ps" onclick="goToPhase(5)">
+      <div class="ps-dot-row">
+        <div class="ps-line" id="psl-l-5"></div>
+        <div class="ps-dot">5</div>
         <div class="ps-line ghost"></div>
       </div>
       <div class="ps-label">Evaluation</div>
-    </div></div>
+    </div>
+  </div>
 
   <!-- ═══ PHASE 0 — FALLBEISPIEL ═══ -->
   <div class="phase active" id="phase-0">
@@ -2167,6 +3293,382 @@
       </div>
     </div>
   </div>
+
+
+  <!-- ═══ PHASE 1 — GRUNDLAGEN & DESIGN THINKING EINFÜHRUNG ═══ -->
+  <div class="phase" id="phase-glossar">
+    <div class="phase-hdr">
+      <div class="phase-num" style="background:linear-gradient(135deg,#6366f1,#4f46e5);font-size:.9rem;">📖</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Grundlagen — Design Thinking &amp; Future Skills</div>
+        <div class="phase-desc">Bevor du in eine Berufsrolle schlüpfst, erhältst du hier den theoretischen Rahmen. Was ist Design Thinking? Warum brauchen wir Future Skills? Und was erwartet dich im Workshop?</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Fachliches Grundverständnis</span>
+          <span class="phase-comp">Methodische Orientierung</span>
+          <span class="phase-comp">Motivation &amp; Vorbereitung</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+
+      <!-- ── ABSCHNITT 1: DESIGN THINKING ── -->
+      <div class="glossar-section">
+        <div class="gs-title">Was ist Design Thinking — und warum jetzt?</div>
+        <div class="gs-infobox">
+          <div class="gs-infobox-icon">💡</div>
+          <div class="gs-infobox-text"><strong>Design Thinking ist keine Methode. Es ist eine Haltung.</strong> Die Haltung, Probleme zuerst zu verstehen — aus der Perspektive der Menschen, die täglich damit leben.</div>
+        </div>
+        <p class="gs-text">In einer Welt zunehmender Komplexität versagen klassische lineare Lösungsansätze oft. Man definiert ein Problem, entwickelt eine Lösung, implementiert sie — und stellt am Ende fest, dass die Nutzer:innen sie nicht annehmen. Oder schlimmer: dass man das falsche Problem gelöst hat.</p>
+        <p class="gs-text">Design Thinking entstand in den 1970er Jahren an der Stanford University und wurde später u.a. durch IDEO und das Hasso-Plattner-Institut (HPI) weltweit verbreitet. Es folgt einem iterativen Kreislauf aus <strong>Verstehen, Beobachten, Sichtweisen definieren, Ideen entwickeln, Prototypen bauen und Testen</strong> — und beginnt immer mit der gleichen Frage: Wer ist diese Person, für die ich etwas entwickle? Was fühlt sie? Was braucht sie wirklich?</p>
+        <p class="gs-text">Im Gesundheitswesen gewinnt Design Thinking besondere Bedeutung. Dort treffen hochspezialisierte Fachkulturen, chronischer Zeitdruck, regulatorische Komplexität und menschliche Verletzlichkeit aufeinander. Lineare Lösungen — neue Software kaufen, schulen, einführen — scheitern regelmäßig. Nicht an der Technologie. An den Menschen. An fehlender Einbindung. An nicht verstandenen Bedürfnissen. An mangelnder Akzeptanz.</p>
+        <p class="gs-text">Studien zeigen: <strong>Bis zu 70 % digitaler Transformationsprojekte im Gesundheitswesen verfehlen ihre Ziele</strong> — und die häufigste Ursache ist nicht die Technologie, sondern der Mensch. Widerstand, mangelnde Kompetenz, fehlende Partizipation. Design Thinking adressiert genau das.</p>
+        <div class="gs-list">
+          <div class="gs-list-item">Nutzerperspektiven werden systematisch eingeholt — nicht vermutet</div>
+          <div class="gs-list-item">Probleme werden präzise definiert, bevor Lösungen entwickelt werden</div>
+          <div class="gs-list-item">Prototypen ermöglichen frühe, kostengünstige Lernprozesse</div>
+          <div class="gs-list-item">Iteration ersetzt die Illusion der perfekten Erstlösung</div>
+          <div class="gs-list-item">Empathie wird zur methodischen Grundlage jeder Entscheidung</div>
+          <div class="gs-list-item">Interdisziplinäre Teams entwickeln robustere Lösungen</div>
+        </div>
+      </div>
+
+      <!-- ── ABSCHNITT 2: FUTURE SKILLS & PERSONALENTWICKLUNG ── -->
+      <div class="glossar-section">
+        <div class="gs-title">Fast Forward — Kompetenzen für die digitale Transformation</div>
+        <div class="gs-infobox">
+          <div class="gs-infobox-icon">🚀</div>
+          <div class="gs-infobox-text"><strong>Digitale Transformation ist zu 20 % Technologie und zu 80 % Kulturwandel.</strong> Future Skills sind das Herzstück dieses Wandels — und Personalentwicklung wird zur strategischen Kernaufgabe.</div>
+        </div>
+        <p class="gs-text">Der Begriff <strong>Future Skills</strong> beschreibt Kompetenzen, die in einer digitalen, vernetzten und komplexen Arbeitswelt zunehmend an Bedeutung gewinnen. Sie umfassen nicht nur technische Fähigkeiten, sondern vor allem menschliche: Empathie, kritisches Denken, Reflexionsfähigkeit, Adaptionsfähigkeit, Kollaborationsfähigkeit.</p>
+        <p class="gs-text">Im Gesundheitswesen sind diese Kompetenzen besonders relevant — und besonders selten explizit entwickelt. Ausbildungen fokussieren auf Fachkompetenz. Der Umgang mit digitalen Systemen, mit Veränderungsprozessen, mit interprofessionellen Konflikten wird kaum gelehrt. <strong>Fast Forward</strong> ist das Konzept, mit dem Organisationen diesen Wandel proaktiv gestalten können: durch gezielte Lernkulturen, durch Reflexion im Alltag, durch Führung, die Unsicherheit als Lernchance begreift.</p>
+        <p class="gs-text">Design Thinking ist dabei kein Selbstzweck. Es ist ein Lernvehikel. Wer eine Empathy Map ausfüllt, entwickelt Empathie — nicht als Persönlichkeitsmerkmal, sondern als anwendbare Kompetenz. Wer eine Stakeholder Map analysiert, schärft systemisches Denken. Wer im Ideation-Board arbeitet, trainiert Kreativität und Offenheit.</p>
+        <div class="gs-list">
+          <div class="gs-list-item">Empathie als anwendbare Kompetenz — nicht nur als Haltung</div>
+          <div class="gs-list-item">Systemisches Denken für komplexe interprofessionelle Kontexte</div>
+          <div class="gs-list-item">Reflexionsfähigkeit als Grundlage kontinuierlichen Lernens</div>
+          <div class="gs-list-item">Adaptionsfähigkeit in einem sich schnell verändernden Arbeitsumfeld</div>
+          <div class="gs-list-item">Kommunikationsfähigkeit über Berufsgruppengrenzen hinweg</div>
+          <div class="gs-list-item">Digitale Kompetenz — nicht nur Bedienung, sondern kritische Nutzung</div>
+          <div class="gs-list-item">Transformationskompetenz: Veränderung aktiv mitgestalten</div>
+          <div class="gs-list-item">Kollaborationsfähigkeit: Gemeinsam stärker als allein</div>
+        </div>
+      </div>
+
+      <!-- ── ABSCHNITT 3: LERNPROZESS ── -->
+      <div class="glossar-section">
+        <div class="gs-title">Was erwartet Sie im weiteren Lernprozess?</div>
+        <p class="gs-intro">In diesem Workshop durchlaufen Sie einen vollständigen Design-Thinking-Zyklus — eingebettet in das Fallbeispiel des St. Marien Klinikums. Es geht nicht darum, die perfekte Lösung zu finden. Es geht darum, Perspektiven zu verstehen, Methoden anzuwenden und Kompetenzen zu entwickeln.</p>
+        <div class="gs-phase-grid">
+          <div class="gs-phase-card"><div class="gs-phase-num">2</div><div class="gs-phase-name">Rollenwahl</div><div class="gs-phase-desc">Sie schlüpfen in eine Berufsrolle und führen ein tiefes Gespräch mit dieser Person über ihre Erfahrungen mit der Digitalisierung.</div></div>
+          <div class="gs-phase-card"><div class="gs-phase-num">3–8</div><div class="gs-phase-name">DT-Methoden</div><div class="gs-phase-desc">Sie wählen frei, welche Methoden Sie anwenden: Empathy Map, Stakeholder Map, Problem Definition, Ideation und mehr.</div></div>
+          <div class="gs-phase-card"><div class="gs-phase-num">8</div><div class="gs-phase-name">Reflexion</div><div class="gs-phase-desc">Sie reflektieren Ihren Lernprozess, benennen Future Skills und führen ein Gespräch mit der KI-Lernbegleitung.</div></div>
+          <div class="gs-phase-card"><div class="gs-phase-num">9</div><div class="gs-phase-name">Evaluation</div><div class="gs-phase-desc">Sie bewerten die Lernerfahrung, schätzen sich selbst ein und schließen den Workshop strukturiert ab.</div></div>
+        </div>
+        <div class="gs-infobox" style="margin-top:1.25rem;">
+          <div class="gs-infobox-icon">🧭</div>
+          <div class="gs-infobox-text"><strong>Keine perfekten Lösungen erwartet.</strong> Der Fokus liegt auf Prozess, Reflexion und Perspektivwechsel — nicht auf dem Ergebnis. Jede Erkenntnis, jede Frage, jede Überraschung ist wertvoll.</div>
+        </div>
+      </div>
+
+      <!-- ── ABSCHNITT 4: GLOSSAR ── -->
+      <div class="glossar-section">
+        <div class="gs-title">Interaktives Glossar — Schlüsselbegriffe</div>
+        <div class="glossary-search-wrap">
+          <span class="gs-search-icon">🔍</span>
+          <input class="glossary-search" type="text" placeholder="Begriff suchen, z.B. »Empathy Map«, »Future Skills«…" oninput="filterGlossary(this.value)"/>
+        </div>
+        <div class="glossary-grid" id="glossaryGrid">
+          
+        <div class="glossary-card" id="gc-dt">
+          <div class="gc-header" onclick="toggleGlossaryCard('dt')">
+            <div>
+              <div class="gc-term">Design Thinking</div>
+              <div class="gc-short">Eine human-zentrierte Innovationsmethode, die komplexe Probleme durch Empathie, kreatives Denken und iterative Prozesse löst.</div>
+            </div>
+            <div class="gc-arrow" id="gca-dt">›</div>
+          </div>
+          <div class="gc-body" id="gcb-dt" style="display:none">
+            <div class="gc-def">Design Thinking stellt den Menschen — seine Bedürfnisse, Frustrationen und Ziele — in den Mittelpunkt jedes Entwicklungsprozesses. Statt lineare Lösungspfade zu verfolgen, iteriert DT zwischen Verstehen, Beobachten, Sichtweisen definieren, Ideen entwickeln, Prototypen bauen und Testen.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Im Gesundheitswesen scheitern viele Digitalisierungsprojekte, weil technische Lösungen entwickelt werden, ohne die tatsächlichen Nutzerbedürfnisse zu kennen. DT setzt dem entgegen.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-ff">
+          <div class="gc-header" onclick="toggleGlossaryCard('ff')">
+            <div>
+              <div class="gc-term">Fast Forward</div>
+              <div class="gc-short">Ein Personalentwicklungsansatz, der Mitarbeitende auf die Anforderungen der digitalen Transformation vorbereitet.</div>
+            </div>
+            <div class="gc-arrow" id="gca-ff">›</div>
+          </div>
+          <div class="gc-body" id="gcb-ff" style="display:none">
+            <div class="gc-def">Fast Forward beschreibt die gezielte Kompetenzentwicklung von Mitarbeitenden im Kontext digitaler Transformation. Es geht darum, Lernkulturen zu schaffen, die Reflexion, Adaptionsfähigkeit und kollaboratives Arbeiten fördern — als strategische Antwort auf den Wandel.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Digitalisierung im Gesundheitswesen erfordert nicht nur neue Systeme, sondern neue Denkweisen. Fast Forward ist der Rahmen dafür.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-fs">
+          <div class="gc-header" onclick="toggleGlossaryCard('fs')">
+            <div>
+              <div class="gc-term">Future Skills</div>
+              <div class="gc-short">Kompetenzen, die in einer digitalen, vernetzten und komplexen Arbeitswelt zunehmend an Bedeutung gewinnen.</div>
+            </div>
+            <div class="gc-arrow" id="gca-fs">›</div>
+          </div>
+          <div class="gc-body" id="gcb-fs" style="display:none">
+            <div class="gc-def">Future Skills umfassen sowohl digitale Fähigkeiten (z.B. Datenkompetenz, Technologieverständnis) als auch soziale und kognitive Fähigkeiten: Empathie, kritisches Denken, Kollaborationsfähigkeit, Problemlösungskompetenz, Reflexionsfähigkeit und Adaptionsfähigkeit.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: In diesem Workshop entwickelst du Future Skills durch die aktive Auseinandersetzung mit realen Szenarien der digitalen Transformation.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-em">
+          <div class="gc-header" onclick="toggleGlossaryCard('em')">
+            <div>
+              <div class="gc-term">Empathy Map</div>
+              <div class="gc-short">Ein visuelles Werkzeug, das hilft, die Gedanken, Gefühle, Aussagen und Handlungen einer Person zu strukturieren.</div>
+            </div>
+            <div class="gc-arrow" id="gca-em">›</div>
+          </div>
+          <div class="gc-body" id="gcb-em" style="display:none">
+            <div class="gc-def">Die Empathy Map teilt das Erleben einer Person in vier Quadranten: Was denkt und fühlt sie? Was sagt sie? Was tut sie? Welche Schmerzen und Bedürfnisse hat sie? Durch dieses Strukturierungswerkzeug wird Empathie systematisch entwickelt.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Bevor Probleme gelöst werden, müssen sie verstanden werden — aus der Perspektive der Betroffenen.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-sm">
+          <div class="gc-header" onclick="toggleGlossaryCard('sm')">
+            <div>
+              <div class="gc-term">Stakeholder Map</div>
+              <div class="gc-short">Eine visuelle Matrix zur Analyse von Akteuren, ihrem Einfluss, ihren Interessen und ihren Beziehungen zueinander.</div>
+            </div>
+            <div class="gc-arrow" id="gca-sm">›</div>
+          </div>
+          <div class="gc-body" id="gcb-sm" style="display:none">
+            <div class="gc-def">Die Stakeholder Map positioniert Akteure auf einer Einfluss-Interesse-Matrix. So werden sichtbar: Wer hat Macht? Wer ist stark betroffen? Wo entstehen Konflikte? Wen muss man einbinden, informieren oder überzeugen?</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Digitale Transformation im Krankenhaus betrifft viele Berufsgruppen mit unterschiedlichen Interessen — die Stakeholder Map macht diese Komplexität sichtbar.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-persona">
+          <div class="gc-header" onclick="toggleGlossaryCard('persona')">
+            <div>
+              <div class="gc-term">Persona</div>
+              <div class="gc-short">Ein fiktives, aber realistisches Profil einer Benutzergruppe, das auf echter Forschung basiert.</div>
+            </div>
+            <div class="gc-arrow" id="gca-persona">›</div>
+          </div>
+          <div class="gc-body" id="gcb-persona" style="display:none">
+            <div class="gc-def">Eine Persona fasst typische Merkmale einer Nutzergruppe zusammen: Name, Alter, Beruf, Ziele, Frustrationen, digitale Kompetenz. Sie wird genutzt, um abstrakte Zielgruppen menschlich und greifbar zu machen — und Entscheidungen an echten Menschen auszurichten.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Personas verhindern, dass wir für imaginäre Durchschnittsnutzer:innen entwickeln, die in der Realität nicht existieren.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-pd">
+          <div class="gc-header" onclick="toggleGlossaryCard('pd')">
+            <div>
+              <div class="gc-term">Problem Definition</div>
+              <div class="gc-short">Der Prozess, ein komplexes Problem präzise zu formulieren — als Grundlage für kreative Lösungen.</div>
+            </div>
+            <div class="gc-arrow" id="gca-pd">›</div>
+          </div>
+          <div class="gc-body" id="gcb-pd" style="display:none">
+            <div class="gc-def">Die Problem Definition (Point of View) folgt dem Muster: [Berufsgruppe] braucht [Bedürfnis], weil [überraschende Einsicht]. Sie trennt Symptome von Ursachen und verhindert, das falsche Problem zu lösen.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Viele Digitalisierungsprojekte lösen das falsche Problem. Eine präzise Problemdefinition ist entscheidend.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-ideation">
+          <div class="gc-header" onclick="toggleGlossaryCard('ideation')">
+            <div>
+              <div class="gc-term">Ideation</div>
+              <div class="gc-short">Die kreative Phase im Design Thinking, in der möglichst viele Ideen entwickelt werden — ohne Bewertung.</div>
+            </div>
+            <div class="gc-arrow" id="gca-ideation">›</div>
+          </div>
+          <div class="gc-body" id="gcb-ideation" style="display:none">
+            <div class="gc-def">Ideation folgt dem Prinzip: Quantität vor Qualität. In Brainstorming-Sessions werden alle Ideen willkommen geheißen — auch die absurden. Erst danach erfolgt die Bewertung und Selektion vielversprechender Ansätze.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Im Krankenhausalltag werden Ideen oft zu früh bewertet und verworfen. Ideation schafft bewusst Raum für Kreativität.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-proto">
+          <div class="gc-header" onclick="toggleGlossaryCard('proto')">
+            <div>
+              <div class="gc-term">Prototyping</div>
+              <div class="gc-short">Die frühe, kostengünstige Materialisierung einer Idee — um schnell zu lernen, bevor viel investiert wird.</div>
+            </div>
+            <div class="gc-arrow" id="gca-proto">›</div>
+          </div>
+          <div class="gc-body" id="gcb-proto" style="display:none">
+            <div class="gc-def">Ein Prototyp kann ein Papierskizze, ein einfaches digitales Mockup oder ein kurzes Rollenspiel sein. Er dient nicht der Perfektion, sondern dem Lernen: Was funktioniert? Was nicht? Was überraschte uns?</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Iteratives Testen verhindert teure Fehlinvestitionen in Lösungen, die am Ende nicht funktionieren.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-ref">
+          <div class="gc-header" onclick="toggleGlossaryCard('ref')">
+            <div>
+              <div class="gc-term">Reflexion</div>
+              <div class="gc-short">Der strukturierte Prozess, Lernerfahrungen bewusst wahrzunehmen, zu benennen und in Kompetenz umzuwandeln.</div>
+            </div>
+            <div class="gc-arrow" id="gca-ref">›</div>
+          </div>
+          <div class="gc-body" id="gcb-ref" style="display:none">
+            <div class="gc-def">Reflexion ist mehr als Nachdenken. Sie fragt: Was habe ich erlebt? Was hat mich überrascht? Was bedeutet das für meine Praxis? Welche Kompetenzen habe ich genutzt oder entwickelt? Reflexion macht unsichtbares Lernen sichtbar.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Future Skills entwickeln sich durch Reflexion — nicht allein durch Erfahrung.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-ehds">
+          <div class="gc-header" onclick="toggleGlossaryCard('ehds')">
+            <div>
+              <div class="gc-term">EHDS</div>
+              <div class="gc-short">European Health Data Space — der geplante europäische Rahmen für den sicheren Austausch von Gesundheitsdaten.</div>
+            </div>
+            <div class="gc-arrow" id="gca-ehds">›</div>
+          </div>
+          <div class="gc-body" id="gcb-ehds" style="display:none">
+            <div class="gc-def">Der EHDS ermöglicht es Bürger:innen, ihre Gesundheitsdaten europaweit nutzen zu können. Für Krankenhäuser bedeutet das: neue Anforderungen an Datensicherheit, Interoperabilität und digitale Infrastruktur.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Das St. Marien Klinikum muss seine Digitalisierung EHDS-kompatibel gestalten — das ist strategische Pflicht.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-dk">
+          <div class="gc-header" onclick="toggleGlossaryCard('dk')">
+            <div>
+              <div class="gc-term">Digitale Kompetenz</div>
+              <div class="gc-short">Die Fähigkeit, digitale Technologien sicher, kritisch und kreativ zu nutzen — für Arbeit, Lernen und Kommunikation.</div>
+            </div>
+            <div class="gc-arrow" id="gca-dk">›</div>
+          </div>
+          <div class="gc-body" id="gcb-dk" style="display:none">
+            <div class="gc-def">Digitale Kompetenz umfasst mehr als Technologiebedienung: Sie beinhaltet digitale Informationskompetenz, Datenschutzbewusstsein, die Fähigkeit zur digitalen Zusammenarbeit und kritische Medienkompetenz.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Fehlende digitale Kompetenz ist einer der häufigsten Gründe, warum Digitalisierungsprojekte im Gesundheitswesen scheitern.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-nz">
+          <div class="gc-header" onclick="toggleGlossaryCard('nz')">
+            <div>
+              <div class="gc-term">Nutzerzentrierung</div>
+              <div class="gc-short">Das Designprinzip, alle Entwicklungsentscheidungen an den tatsächlichen Bedürfnissen und Erfahrungen der Nutzer:innen auszurichten.</div>
+            </div>
+            <div class="gc-arrow" id="gca-nz">›</div>
+          </div>
+          <div class="gc-body" id="gcb-nz" style="display:none">
+            <div class="gc-def">Nutzerzentrierung (Human-Centered Design) fragt nicht: 'Was können wir bauen?' sondern: 'Was brauchen unsere Nutzer:innen wirklich?' Sie erfordert aktives Zuhören, Beobachten und Testen mit echten Menschen.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Systeme, die nicht nutzerzentriert entwickelt werden, werden nicht genutzt — egal wie technisch ausgereift sie sind.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-cm">
+          <div class="gc-header" onclick="toggleGlossaryCard('cm')">
+            <div>
+              <div class="gc-term">Change Management</div>
+              <div class="gc-short">Die systematische Gestaltung und Begleitung von Veränderungsprozessen in Organisationen.</div>
+            </div>
+            <div class="gc-arrow" id="gca-cm">›</div>
+          </div>
+          <div class="gc-body" id="gcb-cm" style="display:none">
+            <div class="gc-def">Change Management umfasst Kommunikation, Beteiligung, Schulung und Führung — mit dem Ziel, Widerstände zu reduzieren und Akzeptanz für Veränderungen zu fördern. Es unterscheidet zwischen technischen und menschlichen Aspekten des Wandels.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Digitale Transformation ohne Change Management produziert teure Systeme, die ignoriert werden.
+            </div>
+          </div>
+        </div>
+        <div class="glossary-card" id="gc-dhm">
+          <div class="gc-header" onclick="toggleGlossaryCard('dhm')">
+            <div>
+              <div class="gc-term">Digital Health Manager</div>
+              <div class="gc-short">Eine neue Berufsrolle, die als Brücke zwischen IT, klinischer Praxis und Managemententscheidungen fungiert.</div>
+            </div>
+            <div class="gc-arrow" id="gca-dhm">›</div>
+          </div>
+          <div class="gc-body" id="gcb-dhm" style="display:none">
+            <div class="gc-def">Der Digital Health Manager versteht sowohl technische als auch klinische und organisationale Logiken. Er begleitet digitale Transformationsprozesse, macht Widerstände sichtbar und fördert die Akzeptanz neuer Systeme — durch Kommunikation, Schulung und partizipative Ansätze.</div>
+            <div class="gc-relevance">
+              <span class="gc-rel-label">↳ Im Workshop:</span> Warum relevant: Ohne diese Brückenrolle fehlt die Verbindung zwischen technischer Möglichkeit und klinischer Realität.
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="glossary-empty" id="glossaryEmpty">Kein Begriff gefunden. Versuche einen anderen Suchbegriff.</div>
+      </div>
+
+      <!-- ── ABSCHNITT 5: RESSOURCEN ── -->
+      <div class="glossar-section">
+        <div class="gs-title">Weiterführende Lernressourcen</div>
+        <p class="gs-intro">Für alle, die tiefer einsteigen möchten — kuratierte externe Quellen zu Design Thinking, Future Skills und digitaler Gesundheitstransformation.</p>
+        <div class="resources-grid">
+          
+        <a class="res-card" href="https://hpi.de/school-of-design-thinking/" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">🎓</div>
+          <div class="res-body">
+            <div class="res-name">HPI School of Design Thinking</div>
+            <div class="res-desc">Das führende europäische Zentrum für Design Thinking — mit Kursen, Videos und Forschung.</div>
+          </div>
+          <div class="res-arrow">↗</div>
+        </a>
+        <a class="res-card" href="https://designthinking.ideo.com/" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">💡</div>
+          <div class="res-body">
+            <div class="res-name">IDEO Design Thinking</div>
+            <div class="res-desc">Die Wiege des modernen Design Thinkings. Mit umfassenden Guides, Toolkits und Fallstudien.</div>
+          </div>
+          <div class="res-arrow">↗</div>
+        </a>
+        <a class="res-card" href="https://www.nngroup.com/" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">📊</div>
+          <div class="res-body">
+            <div class="res-name">Nielsen Norman Group</div>
+            <div class="res-desc">Wissenschaftlich fundierte Forschung zu UX und nutzerzentriertem Design — ein Referenz-Archiv.</div>
+          </div>
+          <div class="res-arrow">↗</div>
+        </a>
+        <a class="res-card" href="https://www.design-thinking-playbook.com/" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">📖</div>
+          <div class="res-body">
+            <div class="res-name">Design Thinking Playbook</div>
+            <div class="res-desc">Das umfassende Playbook für Design Thinking — mit Methoden, Prinzipien und Fallbeispielen.</div>
+          </div>
+          <div class="res-arrow">↗</div>
+        </a>
+        <a class="res-card" href="https://www.who.int/health-topics/digital-health" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">🌐</div>
+          <div class="res-body">
+            <div class="res-name">WHO Digital Health Overview</div>
+            <div class="res-desc">Die WHO zu digitaler Gesundheit und globaler Transformation im Gesundheitssystem.</div>
+          </div>
+          <div class="res-arrow">↗</div>
+        </a>
+        <a class="res-card" href="https://www.bertelsmann-stiftung.de/" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">🔬</div>
+          <div class="res-body">
+            <div class="res-name">Bertelsmann Stiftung — Future Skills</div>
+            <div class="res-desc">Forschung und Praxisberichte zu Future Skills, Personalentwicklung und digitaler Transformation.</div>
+          </div>
+          <div class="res-arrow">↗</div>
+        </a>
+        </div>
+      </div>
+
+    </div><!-- /phase-card -->
+  </div>
+  <!-- ═════════════════════════════════════════════════════ -->
 
   <!-- ═══ PHASE 1 — ROLLENWAHL + GESPRÄCH ═══ -->
   <div class="phase" id="phase-1">
@@ -2385,7 +3887,7 @@
 
   <!-- NAV BAR -->
   <div class="nav-bar">
-    <button class="btn-back" id="navBack" onclick="prevPhase()" disabled>← Zurück</button>
+    <button class="btn-back" id="navBack" onclick="previousPhase()" disabled>← Zurück</button>
     <div class="nav-indicator" id="navInd">Phase <strong>1</strong> / 5 — Einführung</div>
     <button class="btn-next" id="navNext" onclick="nextPhase()">Zur Rollenwahl →</button>
   </div>
@@ -2406,6 +3908,84 @@
 
 </div><!-- /app -->
 <script>
+  /* ═══════════════════════════════════════════════
+     ZENTRALE PHASEN-NAVIGATION — v4 (repariert)
+     6 Phasen in korrekter DOM-Reihenfolge
+  ═══════════════════════════════════════════════ */
+
+  const appState = {
+    currentPhase: 0,
+    selectedRole: null,
+    selectedMethod: null,
+    reflections: [],
+    evaluations: []
+  };
+
+  const PHASE_LABELS = ['Einführung', 'Grundlagen', 'Rollenwahl', 'Methoden', 'Reflexion', 'Evaluation'];
+
+  const PHASE_NEXT_LABELS = [
+    'Zu den Grundlagen',
+    'Zur Rollenwahl',
+    'Zu den Methoden',
+    'Zur Reflexion',
+    'Zur Evaluation',
+    '✓ Workshop abgeschlossen'
+  ];
+
+  /* Alle .phase-Elemente in DOM-Reihenfolge */
+  function getAllPhases() {
+    return Array.from(document.querySelectorAll('.phase'));
+  }
+
+  /* ── showPhase / goToPhase ── */
+  function showPhase(n) {
+    const phases = getAllPhases();
+    if (n < 0 || n >= phases.length) return;
+
+    phases.forEach((el, i) => {
+      el.classList.toggle('active', i === n);
+    });
+
+    appState.currentPhase = n;
+
+    /* Progress dots */
+    document.querySelectorAll('.ps').forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if      (i === n) el.classList.add('active');
+      else if (i <  n)  el.classList.add('done');
+    });
+    document.querySelectorAll('.ps-line:not(.ghost)').forEach((el, i) => {
+      el.classList.toggle('done', i < n);
+    });
+
+    /* Nav bar */
+    const back = document.getElementById('navBack');
+    const next = document.getElementById('navNext');
+    const ind  = document.getElementById('navInd');
+
+    if (back) back.disabled = (n === 0);
+    if (next) {
+      next.textContent = n < phases.length - 1
+        ? (PHASE_NEXT_LABELS[n] || 'Weiter') + ' →'
+        : '✓ Workshop abgeschlossen';
+    }
+    if (ind) {
+      ind.innerHTML = 'Phase <strong>' + (n + 1) + '</strong> / ' +
+        phases.length + ' — ' + (PHASE_LABELS[n] || '');
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* Alias für onclick="goToPhase(n)" */
+  function goToPhase(n) { showPhase(n); }
+
+  /* Alias für Rückwärtskompatibilität */
+  function previousPhase() { if (appState.currentPhase > 0) showPhase(appState.currentPhase - 1); }
+  function prevPhase()     { previousPhase(); }
+  function nextPhase()     { if (appState.currentPhase < getAllPhases().length - 1) showPhase(appState.currentPhase + 1); }
+
+
 
 
   /* =============================================
@@ -2775,6 +4355,8 @@ Format:
       ],
       fallback: "Das kann ich Ihnen so nicht sagen, da kenn ich mich nicht aus. Aber ich merk, dass Sie sich Gedanken machen — das find ich gut. Ich frag mich das auch manchmal: ob das alles gut geht.\n---\n💡 Sichtbare Kompetenzen (beim Personal): Empathie\n❓ Was der Patient braucht: Einfache, ehrliche Kommunikation ohne Fachbegriffe"
     },
+
+  
 
     /* ==========================================
        SANDRA – VERWALTUNG
@@ -3587,10 +5169,12 @@ WICHTIG:
   /* =============================================
      ZUSTAND — HAUPTANWENDUNG
   ============================================= */
-  /* activeRole wird über STATE.selectedRole verwaltet (siehe STATE-Objekt und Object.defineProperty unten) */
   let chatHistory   = [];
   let activeDTMethod = null;
   let apiKey        = localStorage.getItem('healthlearn_api_key') || '';
+
+  
+
 
   /* =============================================
      API-KEY SPEICHERN
@@ -3607,14 +5191,43 @@ WICHTIG:
   }
 
 
-  /* canonical selectRole is defined further below */
+  /* =============================================
+     ROLLE AUSWÄHLEN
+  ============================================= */
+  function _old_selectRole(el) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    activeRole    = el.dataset.role;
+    chatHistory   = [];
+    activeDTMethod = null;
+
+    // DT-Karten freischalten
+    document.querySelectorAll('.dt-card').forEach(c => {
+      c.classList.add('enabled');
+      c.classList.remove('active');
+    });
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+
+    const role = ROLES[activeRole];
+    document.getElementById('chatHint').style.display = 'none';
+    document.getElementById('chatWindow').classList.add('visible');
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent  = role.name;
+
+    // Alle Skill-Badges zurücksetzen
+    resetSkillBadges();
+
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name, false);
+  }
 
 
   /* =============================================
      DESIGN THINKING METHODE ANWENDEN
   ============================================= */
   function applyDTMethod(el) {
-    if (!STATE.selectedRole) return; // nur wenn Rolle aktiv
+    if (!activeRole) return; // nur wenn Rolle aktiv
 
     const methodKey = el.dataset.method;
     const method    = DT_METHODS[methodKey];
@@ -3650,7 +5263,7 @@ WICHTIG:
     document.getElementById('dtActiveBanner').classList.remove('visible');
   }
   async function sendMessage() {
-    if (!STATE.selectedRole) return;
+    if (!activeRole) return;
     const input = document.getElementById('userInput');
     const text  = input.value.trim();
     if (!text) return;
@@ -3666,11 +5279,11 @@ WICHTIG:
         response = await getClaudeResponse(text);
       } else {
         await new Promise(r => setTimeout(r, 800 + Math.random() * 500));
-        response = getDummyResponse(STATE.selectedRole, text);
+        response = getDummyResponse(activeRole, text);
         setApiStatus('warn', '⚠ Kein API-Key – Dummy-Antwort');
       }
       showTyping(false);
-      appendMessage('bot', response, ROLES[STATE.selectedRole].name, true);
+      appendMessage('bot', response, ROLES[activeRole].name, true);
       highlightSkills(response);
 
     } catch (err) {
@@ -3686,7 +5299,7 @@ WICHTIG:
      CLAUDE API AUFRUFEN
   ============================================= */
   async function getClaudeResponse(userMessage) {
-    const role = ROLES[STATE.selectedRole];
+    const role = ROLES[activeRole];
 
     // DT-Methoden-Kontext wenn aktiv
     const dtAddition = activeDTMethod
@@ -3887,8 +5500,8 @@ ${role.futureSkillsInstruction}
     document.getElementById('messages').innerHTML = '';
     chatHistory = [];
     resetSkillBadges();
-    if (withGreeting && STATE.selectedRole) {
-      appendMessage('bot', ROLES[STATE.selectedRole].greeting, ROLES[STATE.selectedRole].name, false);
+    if (withGreeting && activeRole) {
+      appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name, false);
     }
   }
 
@@ -4036,7 +5649,7 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
   /* =============================================
      DT-WORKSHOP — INITIALISIERUNG
   ============================================= */
-  /* buildPersonaGrid / buildRefCompGrid / buildStarsGrid called in canonical DOMContentLoaded below */
+  
 
 
   /* =============================================
@@ -4338,296 +5951,45 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
 
 
 
-  /* first _old_selectRole block removed — canonical versions below */
-
-
-
-  /* ═══════════════════════════════════════════════════════════════════
-     ZENTRALER APP-STATE
-     Einzige Wahrheitsquelle für den gesamten Lernfortschritt.
-     Alle Phasen, Rollen, Methoden und Reflexionsdaten laufen hier zusammen.
-  ═══════════════════════════════════════════════════════════════════ */
-  const appState = {
-    currentPhase:         0,          // aktive Phase (0–4)
-    selectedRole:         null,       // z.B. "pflege", "arzt", ...
-    selectedRolePrompt:   "",         // systemContext der gewählten Rolle
-    selectedMethod:       null,       // z.B. "empathyMap", "ideation", ...
-    selectedMethodPrompt: "",         // systemAddition der gewählten Methode
-    reflections:          [],         // gespeicherte Reflexionsantworten
-    evaluations:          []          // gespeicherte Evaluationsdaten
-  };
-
-  /* Rückwärtskompatibilität: STATE zeigt auf appState */
-  const STATE = appState;
-
-  /* ═══════════════════════════════════════════════════════════════════
-     PHASEN-KONFIGURATION
-     Wird automatisch aus den tatsächlich vorhandenen .phase-Divs
-     im DOM abgeleitet — keine manuelle Synchronisation nötig.
-  ═══════════════════════════════════════════════════════════════════ */
-  const PHASE_CONFIG = [
-    { label: 'Einführung',  nextLabel: 'Zur Rollenwahl'  },
-    { label: 'Rollenwahl',  nextLabel: 'Zu den Methoden' },
-    { label: 'Methoden',    nextLabel: 'Zur Reflexion'   },
-    { label: 'Reflexion',   nextLabel: 'Zur Evaluation'  },
-    { label: 'Evaluation',  nextLabel: '✓ Abschließen'   }
-  ];
-
-  /* ═══════════════════════════════════════════════════════════════════
+  /* =============================================
      PHASEN-NAVIGATION
-     goToPhase(n)   — springe direkt zu Phase n
-     nextPhase()    — eine Phase vorwärts
-     prevPhase()    — eine Phase zurück
-     previousPhase()— Alias für prevPhase
-     showPhase(n)   — Alias für goToPhase (Anforderungsdokument)
-  ═══════════════════════════════════════════════════════════════════ */
-  function goToPhase(n) {
-    const phases = document.querySelectorAll('.phase');
-    const total  = Math.min(phases.length, PHASE_CONFIG.length);
-    n = Math.max(0, Math.min(total - 1, n));
-    appState.currentPhase = n;
+  ============================================= */
+  
 
-    // 1 — Phasen sichtbar schalten (display:block / display:none)
-    phases.forEach((el, i) => {
-      el.style.display = (i === n) ? 'block' : 'none';
-      el.classList.toggle('active', i === n);
-    });
 
-    // 2 — Progress-Bar aktualisieren
-    document.querySelectorAll('.ps').forEach((el, i) => {
-      el.classList.toggle('active', i === n);
-      el.classList.toggle('done',   i < n);
-      if (i === n || i < n) {
-        el.classList.remove(i === n ? 'done' : 'active');
-      }
-    });
-    document.querySelectorAll('.ps-line:not(.ghost)').forEach((el, i) => {
-      el.classList.toggle('done', i < n);
-    });
-
-    // 3 — Navigations-Buttons beschriften
-    const btnBack = document.getElementById('navBack');
-    const btnNext = document.getElementById('navNext');
-    const navInd  = document.getElementById('navInd');
-    const cfg     = PHASE_CONFIG[n] || {};
-
-    if (btnBack) btnBack.disabled = (n === 0);
-    if (btnNext) {
-      btnNext.textContent = (n >= total - 1)
-        ? (cfg.nextLabel || '✓ Abschließen')
-        : (cfg.nextLabel || 'Weiter') + ' →';
-      btnNext.disabled = false;
-    }
-    if (navInd) {
-      navInd.innerHTML = `Phase <strong>${n + 1}</strong> / ${total} — ${cfg.label || ''}`;
-    }
-
-    // 4 — Nach oben scrollen
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // 5 — Phasen-spezifische Initialisierungen
-    _onPhaseEnter(n);
-  }
-
-  function nextPhase() {
-    const total = Math.min(
-      document.querySelectorAll('.phase').length,
-      PHASE_CONFIG.length
-    );
-    if (appState.currentPhase < total - 1) goToPhase(appState.currentPhase + 1);
-  }
-
-  function prevPhase()     { if (appState.currentPhase > 0) goToPhase(appState.currentPhase - 1); }
-  function previousPhase() { prevPhase(); }
-  function showPhase(n)    { goToPhase(n); }
-
-  /* Phasen-spezifische Initialisierungen beim Betreten */
-  function _onPhaseEnter(n) {
-    if (n === 2) {
-      if (typeof initMethodDashboard  === 'function') initMethodDashboard();
-      if (typeof updateMethodProgress === 'function') updateMethodProgress();
-    }
-    if (n === 3) {
-      if (typeof buildRefCompGrid === 'function') buildRefCompGrid();
-    }
-    if (n === 4) {
-      if (typeof buildStarsGrid === 'function') buildStarsGrid();
-    }
-  }
-
-  /* Rückwärtskompatibilität: currentPhase als window-Property */
-  Object.defineProperty(window, 'currentPhase', {
-    get: () => appState.currentPhase,
-    set: (v) => { appState.currentPhase = v; }
-  });
-
-  /* ═══════════════════════════════════════════════════════════════════
-     ROLLENLOGIK
-     selectRole(el)  — Rolle aus data-role auslesen, in appState speichern,
-                       Rollenprompt setzen, Chat starten.
-     Die vollständigen Rollenprompts aus dem ROLES-Objekt werden direkt
-     in appState.selectedRolePrompt geschrieben und beim nächsten
-     API-Call als Teil des systemPrompt verwendet.
-  ═══════════════════════════════════════════════════════════════════ */
-  function selectRole(el) {
-    if (!el) return;
-
-    // Alle Karten deaktivieren, gewählte markieren
+  function _old_selectRole(el) {
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
 
-    // appState aktualisieren
-    appState.selectedRole = el.dataset.role;
-    chatHistory           = [];
-    activeDTMethod        = null;
-    appState.selectedMethod       = null;
-    appState.selectedMethodPrompt = "";
+    activeRole    = el.dataset.role;
+    chatHistory   = [];
+    activeDTMethod = null;
 
-    // Rollenprompt in appState übertragen
-    const role = ROLES[appState.selectedRole];
-    if (!role) {
-      console.warn('selectRole: Unbekannte Rolle:', appState.selectedRole);
-      return;
-    }
-    appState.selectedRolePrompt = role.systemContext || "";
-
-    // DT-Pills und Banner zurücksetzen
-    document.querySelectorAll('.p1-dt-pill').forEach(c => c.classList.remove('active'));
-    const banner = document.getElementById('dtActiveBanner');
-    if (banner) banner.classList.remove('visible');
-
-    // Chat-Bereich einblenden und initialisieren
-    const chatWrap = document.getElementById('p1ChatWrap');
-    if (chatWrap) chatWrap.classList.add('visible');
-
-    const iconEl = document.getElementById('chatRoleIcon');
-    const nameEl = document.getElementById('chatRoleName');
-    if (iconEl) iconEl.textContent = role.icon + ' ';
-    if (nameEl) nameEl.textContent  = role.name;
-
-    if (typeof resetSkillBadges === 'function') resetSkillBadges();
-    if (typeof clearChat        === 'function') clearChat(false);
-    if (typeof appendMessage    === 'function') appendMessage('bot', role.greeting, role.name, false);
-  }
-
-  /* ═══════════════════════════════════════════════════════════════════
-     METHODENLOGIK
-     applyDTMethod(el)   — Methode aus data-method setzen,
-                           Methodenprompt in appState speichern,
-                           Prompt automatisch an Claude senden.
-     openMethodTool(key) — Methoden-Dashboard → Arbeitsfläche wechseln,
-                           Methodenprompt in appState speichern.
-  ═══════════════════════════════════════════════════════════════════ */
-  function applyDTMethod(el) {
-    if (!appState.selectedRole) return;
-
-    const methodKey = el.dataset.method;
-    const method    = DT_METHODS[methodKey];
-    if (!method) return;
-
-    // State aktualisieren
-    appState.selectedMethod       = methodKey;
-    appState.selectedMethodPrompt = method.systemAddition || "";
-    activeDTMethod                = methodKey;
-
-    // UI aktualisieren
-    document.querySelectorAll('.dt-card, .p1-dt-pill').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-
-    const banner = document.getElementById('dtActiveBanner');
-    const iconEl = document.getElementById('dtBannerIcon');
-    const nameEl = document.getElementById('dtBannerName');
-    if (banner && iconEl && nameEl) {
-      iconEl.textContent = method.icon + ' ';
-      nameEl.textContent  = method.name;
-      banner.classList.add('visible');
-    }
-
-    // Skill-Badges vorausmarkieren
-    if (typeof resetSkillBadges === 'function') resetSkillBadges();
-    method.skills.forEach(id => {
-      const badge = document.getElementById(id);
-      if (badge) badge.classList.add('active');
+    // DT pills freischalten
+    document.querySelectorAll('.p1-dt-pill').forEach(c => {
+      c.classList.add('enabled');
+      c.classList.remove('active');
     });
+    document.getElementById('dtActiveBanner').classList.remove('visible');
 
-    // Methoden-Prompt automatisch senden
-    const input = document.getElementById('userInput');
-    if (input) { input.value = method.prompt; sendMessage(); }
+    const role = ROLES[activeRole];
+
+    // Show inline chat in phase 1
+    document.getElementById('p1ChatWrap').classList.add('visible');
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent  = role.name;
+
+    resetSkillBadges();
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name, false);
   }
 
-  /* Methoden-Arbeitsfläche öffnen (aus Methoden-Dashboard) */
-  const _origOpenMethodTool = typeof openMethodTool !== 'undefined' ? openMethodTool : null;
-  function openMethodTool(key) {
-    // appState aktualisieren
-    appState.selectedMethod = key;
-    if (DT_METHODS && DT_METHODS[key]) {
-      appState.selectedMethodPrompt = DT_METHODS[key].systemAddition || "";
-      activeDTMethod = key;
-    } else if (METHODS_META && METHODS_META[key]) {
-      appState.selectedMethodPrompt = "";
-      activeDTMethod = key;
-    }
 
-    // exploredMethods (Set) befüllen
-    if (typeof exploredMethods !== 'undefined') exploredMethods.add(key);
-    if (typeof updateMethodProgress === 'function') updateMethodProgress();
 
-    const card = document.getElementById('mc-' + key);
-    if (card) card.classList.add('explored');
+  /* ═══ PHASEN-NAVIGATION v2 — 5 Phasen ═══ */
+  
 
-    const m = (METHODS_META && METHODS_META[key]) || (DT_METHODS && DT_METHODS[key]);
-    if (m) {
-      const titleEl = document.getElementById('methodToolTitle');
-      if (titleEl) titleEl.textContent = (m.icon || '') + '  ' + (m.name || key);
-    }
-
-    if (typeof loadMethodContent === 'function') loadMethodContent(key);
-
-    const dashboard = document.getElementById('methodDashboard');
-    const toolPanel = document.getElementById('methodToolPanel');
-    if (dashboard) dashboard.style.display = 'none';
-    if (toolPanel) toolPanel.classList.add('visible');
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function clearDTMethod() {
-    activeDTMethod                = null;
-    appState.selectedMethod       = null;
-    appState.selectedMethodPrompt = "";
-    document.querySelectorAll('.dt-card, .p1-dt-pill').forEach(c => c.classList.remove('active'));
-    const banner = document.getElementById('dtActiveBanner');
-    if (banner) banner.classList.remove('visible');
-  }
-
-  /* ═══════════════════════════════════════════════════════════════════
-     INITIALISIERUNG
-  ═══════════════════════════════════════════════════════════════════ */
-  window.addEventListener('DOMContentLoaded', () => {
-    if (typeof buildPersonaGrid    === 'function') buildPersonaGrid();
-    if (typeof buildRefCompGrid    === 'function') buildRefCompGrid();
-    if (typeof buildStarsGrid      === 'function') buildStarsGrid();
-    if (typeof initMethodDashboard === 'function') initMethodDashboard();
-    if (typeof updateMethodProgress=== 'function') updateMethodProgress();
-
-    // API-Key wiederherstellen
-    const keyInput = document.getElementById('apiKeyInput');
-    if (apiKey && keyInput) {
-      keyInput.value = apiKey;
-      if (typeof setApiStatus === 'function') setApiStatus('ok', '✓ API-Key geladen');
-    }
-
-    // Anwendung auf Phase 0 starten
-    goToPhase(0);
-
-    // Sicherheitsnetz: fehlende onclick-Funktionen in der Konsole anzeigen
-    document.querySelectorAll('[onclick]').forEach(el => {
-      const m = el.getAttribute('onclick').match(/^(\w+)\(/);
-      if (m && typeof window[m[1]] === 'undefined') {
-        console.warn('⚠ Funktion nicht definiert:', m[1], el);
-      }
-    });
-  });
+  /* ═══ METHOD DASHBOARD ═══ */
   const METHODS_META = {
     empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Verstehen',            why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Rolle — der Schlüssel zu echtem Perspektivwechsel.', skills:['Empathie','Perspektivwechsel','Kommunikationsfähigkeit','Reflexionsfähigkeit'] },
     stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',            why:'Analysiere Interessen, Einfluss und Konflikte zwischen allen Beteiligten im System.',                 skills:['Systemisches Denken','Strategisches Denken','Kollaborationsfähigkeit'] },
@@ -4802,10 +6164,73 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
   }
 
 
-  /* selectRole und openMethodTool sind im appState-Block oben definiert */
+  function selectRole(el) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    activeRole     = el.dataset.role;
+    chatHistory    = [];
+    activeDTMethod = null;
+    document.querySelectorAll('.p1-dt-pill').forEach(c => c.classList.remove('active'));
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+    const role = ROLES[activeRole];
+    document.getElementById('p1ChatWrap').classList.add('visible');
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent  = role.name;
+    resetSkillBadges();
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name, false);
+  }
 
 
-  /* DOMContentLoaded ist im appState-Block oben definiert */
+  
+
+  /* ═══ GLOSSAR FUNKTIONEN ═══ */
+  function toggleGlossaryCard(id) {
+    const body  = document.getElementById('gcb-' + id);
+    const arrow = document.getElementById('gca-' + id);
+    if (!body) return;
+    const open = body.style.display !== 'none';
+    body.style.display  = open ? 'none' : 'block';
+    arrow.classList.toggle('open', !open);
+    if (!open) body.style.animation = 'fadeUp .2s ease';
+  }
+
+  function filterGlossary(q) {
+    const query = q.toLowerCase().trim();
+    let visible = 0;
+    document.querySelectorAll('.glossary-card').forEach(card => {
+      const match = !query || card.textContent.toLowerCase().includes(query);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    const empty = document.getElementById('glossaryEmpty');
+    if (empty) empty.style.display = visible ? 'none' : 'block';
+  }
+
+
+
+  /* ─── Initialisierung beim Laden ─────────────────── */
+  window.addEventListener('DOMContentLoaded', () => {
+    /* Phase-Inhalte initialisieren */
+    if (typeof buildRefCompGrid === 'function')   buildRefCompGrid();
+    if (typeof buildStarsGrid   === 'function')   buildStarsGrid();
+    if (typeof initMethodDashboard === 'function') initMethodDashboard();
+    if (typeof updateMethodProgress === 'function') updateMethodProgress();
+
+    /* API Key laden */
+    const stored = localStorage.getItem('anthropic_api_key') ||
+                   localStorage.getItem('apiKey') ||
+                   localStorage.getItem('api_key');
+    if (stored) {
+      apiKey = stored;
+      const inp = document.getElementById('apiKeyInput');
+      if (inp) inp.value = stored;
+      if (typeof setApiStatus === 'function') setApiStatus('ok', '✓ API-Key geladen');
+    }
+
+    /* Startphase anzeigen */
+    showPhase(0);
+  });
 </script>
 </body>
 </html>
