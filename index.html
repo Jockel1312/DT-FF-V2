@@ -3182,9 +3182,119 @@
     .res-arrow { font-size: 1rem; color: var(--primary); opacity: .6; flex-shrink: 0; margin-top: .1rem; transition: opacity .2s; }
     .res-card:hover .res-arrow { opacity: 1; }
 
+    /* ── STICKY API-KEY TOP BAR ─────────────────────────── */
+    .api-top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      height: 40px;
+      background: rgba(15, 23, 42, 0.93);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 1.5rem;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .api-top-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .api-top-input {
+      width: 230px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-family: 'Inter', monospace;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.85);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      letter-spacing: 0.03em;
+    }
+
+    .api-top-input::placeholder { color: rgba(255,255,255,0.3); font-size: 11px; }
+    .api-top-input:focus {
+      border-color: rgba(37,99,235,0.7);
+      background: rgba(37,99,235,0.12);
+    }
+
+    .api-top-btn {
+      padding: 4px 12px;
+      background: rgba(37,99,235,0.75);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .api-top-btn:hover { background: rgba(37,99,235,1); }
+
+    .api-top-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .api-top-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+
+    .api-top-dot.active { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.6); }
+    .api-top-dot.error  { background: #ef4444; }
+
+    .api-top-status span { color: rgba(255,255,255,0.45); font-size: 10px; }
+    .api-top-status.ok span  { color: #86efac; }
+    .api-top-status.err span { color: #fca5a5; }
+
+    /* Push app content below the top bar */
+    body { padding-top: 40px; }
+
   </style>
 </head>
 <body>
+
+<!-- ── STICKY API-KEY BAR (immer sichtbar) ─────────────────────── -->
+<div class="api-top-bar" id="apiTopBar">
+  <div class="api-top-label">🔑 API-Key</div>
+  <input
+    class="api-top-input"
+    type="password"
+    id="topApiKeyInput"
+    placeholder="sk-ant-…"
+    autocomplete="off"
+    spellcheck="false"
+    onkeydown="if(event.key==='Enter') saveApiKeyTop()"
+  />
+  <button class="api-top-btn" onclick="saveApiKeyTop()">Speichern</button>
+  <div class="api-top-status" id="topApiStatus">
+    <div class="api-top-dot" id="topApiDot"></div>
+    <span id="topApiLabel">Kein Key</span>
+  </div>
+</div>
 <div class="app">
 
   <header>
@@ -6184,7 +6294,65 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
 
   
 
-  /* ═══ GLOSSAR FUNKTIONEN ═══ */
+  /* ═══ API-KEY PERSISTENZ — Top Bar ════════════════════════
+     Speichert unter 'healthlearn_api_key' (einheitlicher Key).
+     Synchronisiert Top-Bar-Input ↔ Bottom-Section-Input.
+  ════════════════════════════════════════════════════════════ */
+
+  function updateTopBarStatus(active, errMsg) {
+    const dot   = document.getElementById('topApiDot');
+    const label = document.getElementById('topApiLabel');
+    const wrap  = document.getElementById('topApiStatus');
+    if (!dot) return;
+    if (active) {
+      dot.className   = 'api-top-dot active';
+      wrap.className  = 'api-top-status ok';
+      label.textContent = 'KI aktiv';
+    } else if (errMsg) {
+      dot.className   = 'api-top-dot error';
+      wrap.className  = 'api-top-status err';
+      label.textContent = errMsg;
+    } else {
+      dot.className   = 'api-top-dot';
+      wrap.className  = 'api-top-status';
+      label.textContent = 'Kein Key';
+    }
+  }
+
+  function saveApiKeyTop() {
+    const topInput    = document.getElementById('topApiKeyInput');
+    const bottomInput = document.getElementById('apiKeyInput');
+    const val = (topInput ? topInput.value.trim() : '');
+    if (!val) { updateTopBarStatus(false, 'Leer'); return; }
+    if (!val.startsWith('sk-ant-')) {
+      updateTopBarStatus(false, 'Ungültig');
+      setApiStatus('error', '✗ Key muss mit sk-ant- beginnen');
+      return;
+    }
+    apiKey = val;
+    localStorage.setItem('healthlearn_api_key', val);
+    if (bottomInput) bottomInput.value = val;
+    updateTopBarStatus(true);
+    setApiStatus('ok', '✓ API-Key gespeichert – KI aktiv!');
+  }
+
+  /* Patche saveApiKey() damit beide Inputs synchron bleiben */
+  const _origSaveApiKey = typeof saveApiKey === 'function' ? saveApiKey : null;
+  function saveApiKey() {
+    const bottomInput = document.getElementById('apiKeyInput');
+    const topInput    = document.getElementById('topApiKeyInput');
+    const val = bottomInput ? bottomInput.value.trim() : '';
+    if (!val.startsWith('sk-ant-')) {
+      setApiStatus('error', '✗ Ungültiges Format. Keys beginnen mit „sk-ant-"');
+      return;
+    }
+    apiKey = val;
+    localStorage.setItem('healthlearn_api_key', val);
+    if (topInput) topInput.value = val;
+    updateTopBarStatus(true);
+    setApiStatus('ok', '✓ API-Key gespeichert – KI-Modus aktiv!');
+  }
+
   function toggleGlossaryCard(id) {
     const body  = document.getElementById('gcb-' + id);
     const arrow = document.getElementById('gca-' + id);
@@ -6217,15 +6385,16 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
     if (typeof initMethodDashboard === 'function') initMethodDashboard();
     if (typeof updateMethodProgress === 'function') updateMethodProgress();
 
-    /* API Key laden */
-    const stored = localStorage.getItem('anthropic_api_key') ||
-                   localStorage.getItem('apiKey') ||
-                   localStorage.getItem('api_key');
-    if (stored) {
+    /* API Key laden — korrekter Key-Name */
+    const stored = localStorage.getItem('healthlearn_api_key');
+    if (stored && stored.startsWith('sk-ant-')) {
       apiKey = stored;
       const inp = document.getElementById('apiKeyInput');
       if (inp) inp.value = stored;
-      if (typeof setApiStatus === 'function') setApiStatus('ok', '✓ API-Key geladen');
+      const topInp = document.getElementById('topApiKeyInput');
+      if (topInp) topInp.value = stored;
+      if (typeof setApiStatus === 'function') setApiStatus('ok', '✓ API-Key aktiv');
+      updateTopBarStatus(true);
     }
 
     /* Startphase anzeigen */
