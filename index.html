@@ -3273,6 +3273,1542 @@
     /* Push app content below the top bar */
     body { padding-top: 40px; }
 
+
+    /* ══ EVALUATION SYSTEM v1 ══════════════════════════════════════
+       Pre-Reflexion · Prozess-Reflexion · Post-Reflexion
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* Shared eval card */
+    .eval-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 1.85rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Section headers */
+    .eval-section-hd {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .eval-section-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .eval-section-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .eval-section-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── Likert rows ── */
+    .likert-row {
+      margin-bottom: 1.15rem;
+    }
+    .likert-row-q {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+    .likert-row-scale {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .likert-row-scale .lbl {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .likert-row-scale .btns {
+      display: flex;
+      gap: 5px;
+    }
+    .likert-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.4,0,0.2,1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .likert-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-lt); transform: scale(1.08); }
+    .likert-btn.selected { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 3px 10px rgba(37,99,235,0.25); transform: scale(1.08); }
+
+    /* ── Slider rows ── */
+    .slider-row { margin-bottom: 1.2rem; }
+    .slider-row-q { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.55rem; line-height: 1.5; }
+    .slider-wrap  { display: flex; align-items: center; gap: 10px; }
+    .slider-wrap input[type=range] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 5px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--primary) var(--pct, 0%), var(--border) var(--pct, 0%));
+      outline: none;
+      cursor: pointer;
+    }
+    .slider-wrap input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .slider-wrap input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    .slider-val {
+      min-width: 28px;
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3px;
+    }
+    .slider-labels span { font-size: 9.5px; color: var(--muted); }
+
+    /* ── Chip select ── */
+    .chip-q { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.5; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.15rem; }
+    .eval-chip {
+      padding: 6px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .eval-chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-lt); }
+    .eval-chip.sel  { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 2px 8px rgba(37,99,235,0.2); }
+
+    /* ── Open text ── */
+    .eval-open-q { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.45rem; line-height: 1.5; }
+    .eval-textarea {
+      width: 100%;
+      min-height: 72px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-bottom: 1rem;
+    }
+    .eval-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.09); }
+
+    /* ── Pre-reflexion phase layout ── */
+    .pre-ref-sections { display: flex; flex-direction: column; gap: 1.5rem; }
+    .pre-ref-block {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.2rem;
+    }
+    .pre-ref-block-hd {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Process reflection (after each method) ── */
+    .proc-ref-card {
+      margin-top: 1.25rem;
+      padding: 1.1rem 1.25rem;
+      background: linear-gradient(135deg, #f0f9ff 0%, #eff6ff 100%);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      animation: fadeUp 0.3s ease;
+    }
+    .proc-ref-hd {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-text);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .proc-ref-q {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+    }
+    .proc-ref-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.45rem 0.7rem;
+      font-size: 0.82rem;
+      font-family: var(--font-body);
+      background: var(--surface);
+      color: var(--text);
+      resize: none;
+      outline: none;
+      margin-bottom: 0.6rem;
+      min-height: 58px;
+      transition: border-color 0.2s;
+    }
+    .proc-ref-input:focus { border-color: var(--primary); }
+    .proc-ref-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.42rem 0.9rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .proc-ref-save:hover { background: var(--primary-dk); }
+    .proc-ref-saved {
+      display: none;
+      font-size: 0.76rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .proc-ref-saved.visible { display: inline; }
+
+    /* ── Post-reflexion compare ── */
+    .post-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 10px;
+      margin: 1rem 0;
+    }
+    .compare-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 0.9rem;
+    }
+    .compare-skill { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .compare-bars { display: flex; flex-direction: column; gap: 5px; }
+    .compare-bar-row { display: flex; align-items: center; gap: 8px; font-size: 10.5px; }
+    .compare-bar-lbl { width: 32px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
+    .compare-bar-track { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .compare-bar-fill { height: 100%; border-radius: 4px; transition: width 0.7s ease; }
+    .compare-bar-fill.pre  { background: var(--border-strong); }
+    .compare-bar-fill.post { background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); }
+    .compare-delta {
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .compare-delta.up   { color: var(--accent); }
+    .compare-delta.same { color: var(--muted); }
+    .compare-delta.down { color: #ef4444; }
+
+    /* ── Skill progress in post-ref ── */
+    .skill-prog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+      margin: 0.75rem 0 1rem;
+    }
+    .skill-prog-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.65rem 0.85rem;
+    }
+    .skill-prog-name {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .skill-prog-name .score { color: var(--primary); font-weight: 700; }
+    .skill-prog-bar { height: 6px; background: var(--border); border-radius: 3px; cursor: pointer; }
+    .skill-prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.55s ease; }
+    .skill-prog-ticks { display: flex; justify-content: space-between; margin-top: 3px; }
+    .skill-prog-tick { font-size: 9px; color: var(--muted); cursor: pointer; padding: 0 1px; }
+    .skill-prog-tick:hover { color: var(--primary); }
+
+    /* ── Eval section dividers ── */
+    .eval-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    /* ── Submit button ── */
+    .eval-final-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.85rem 1.8rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(5,150,105,0.25);
+    }
+    .eval-final-btn:hover { background: var(--accent-dk); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(5,150,105,0.3); }
+
+    .eval-complete-box {
+      display: none;
+      margin-top: 1.25rem;
+      padding: 1.1rem 1.25rem;
+      background: linear-gradient(135deg, var(--accent-lt) 0%, #d1fae5 100%);
+      border: 1px solid #a7f3d0;
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      animation: fadeUp 0.35s ease;
+    }
+    .eval-complete-box.visible { display: block; }
+    .eval-complete-box p { font-size: 0.88rem; color: var(--accent-dk); line-height: 1.7; margin: 0; }
+    .eval-complete-box strong { font-weight: 700; }
+
+    /* ╔══════════════════════════════════════════════════════════════╗
+       ║  HYBRID VISUAL SYSTEM                                        ║
+       ║  Layer 1: Digital Health Workshop  (nav, eval, roles)        ║
+       ║  Layer 2: Creative DT Lab          (method workspaces)       ║
+       ╚══════════════════════════════════════════════════════════════╝ */
+
+    /* ── METHOD PALETTE ─────────────────────────────────────────────
+       Each method gets its own pastel accent colour,
+       applied via data-method on #methodToolPanel.
+    ─────────────────────────────────────────────────────────────────*/
+    :root {
+      --m-empathy-bg:   #fffde7; --m-empathy-border: #fde68a; --m-empathy-text: #92400e; --m-empathy-accent: #f59e0b;
+      --m-stk-bg:       #f5f3ff; --m-stk-border:    #c4b5fd; --m-stk-text:    #5b21b6; --m-stk-accent:    #7c3aed;
+      --m-persona-bg:   #fdf2f8; --m-persona-border:#f9a8d4; --m-persona-text:#9d174d; --m-persona-accent:#db2777;
+      --m-problem-bg:   #fff7ed; --m-problem-border:#fed7aa; --m-problem-text:#c2410c; --m-problem-accent:#ea580c;
+      --m-ideation-bg:  #f0fdfa; --m-ideation-border:#6ee7b7; --m-ideation-text:#065f46; --m-ideation-accent:#059669;
+      --m-proto-bg:     #eff6ff; --m-proto-border:  #bfdbfe; --m-proto-text:  #1e40af; --m-proto-accent:  #2563eb;
+      --m-ref-bg:       #f0fdf4; --m-ref-border:    #86efac; --m-ref-text:    #14532d; --m-ref-accent:    #16a34a;
+    }
+
+    /* ── ENHANCED HEADER ─────────────────────────────────────────── */
+    header h1 {
+      background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── PHASE CARDS — subtle depth ──────────────────────────────── */
+    .phase-card {
+      border: 1px solid rgba(226,232,240,0.7);
+      box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.05);
+      transition: box-shadow 0.3s;
+    }
+
+    /* ── NARRATIVE PHASE ─────────────────────────────────────────── */
+    .phase-card:has(.narrative) {
+      background: linear-gradient(160deg, #ffffff 0%, #f8faff 100%);
+    }
+
+    /* ── ROLE CARDS — enhanced ───────────────────────────────────── */
+    .role-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .role-card:hover::before,
+    .role-card.active::before { opacity: 1; }
+
+    .role-card.active::before {
+      background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+    }
+
+    /* ── METHOD GRID CARDS ───────────────────────────────────────── */
+    .method-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .method-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 0 0 var(--radius) var(--radius);
+      transition: opacity 0.25s;
+      opacity: 0;
+    }
+
+    #mc-empathyMap::after        { background: var(--m-empathy-accent); }
+    #mc-stakeholderMap::after    { background: var(--m-stk-accent); }
+    #mc-persona::after           { background: var(--m-persona-accent); }
+    #mc-problemDefinition::after { background: var(--m-problem-accent); }
+    #mc-ideation::after          { background: var(--m-ideation-accent); }
+    #mc-prototyping::after       { background: var(--m-proto-accent); }
+    #mc-reflexion::after         { background: var(--m-ref-accent); }
+
+    .method-card:hover::after, .method-card.explored::after { opacity: 1; }
+
+    /* ── METHOD TOOL PANEL — themed by data-method ───────────────── */
+    #methodToolPanel { transition: background 0.3s; }
+
+    /* Tool header accent strip */
+    .method-tool-header {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .method-tool-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 4px;
+      border-radius: 2px 0 0 2px;
+    }
+
+    #methodToolPanel[data-method="empathyMap"]        .method-tool-header::before { background: var(--m-empathy-accent); }
+    #methodToolPanel[data-method="stakeholderMap"]    .method-tool-header::before { background: var(--m-stk-accent); }
+    #methodToolPanel[data-method="persona"]           .method-tool-header::before { background: var(--m-persona-accent); }
+    #methodToolPanel[data-method="problemDefinition"] .method-tool-header::before { background: var(--m-problem-accent); }
+    #methodToolPanel[data-method="ideation"]          .method-tool-header::before { background: var(--m-ideation-accent); }
+    #methodToolPanel[data-method="prototyping"]       .method-tool-header::before { background: var(--m-proto-accent); }
+    #methodToolPanel[data-method="reflexion"]         .method-tool-header::before { background: var(--m-ref-accent); }
+
+    /* ────────────────────────────────────────────────────────────────
+       ██  CREATIVE DT LAB  ██
+       Applied to method workspaces via data-method on panel
+    ────────────────────────────────────────────────────────────────*/
+
+    /* ── EMPATHY MAP — Whiteboard / Sticky Notes ─────────────────── */
+    #methodToolPanel[data-method="empathyMap"] .em-grid {
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 27px,
+        rgba(99,102,241,0.06) 27px, rgba(99,102,241,0.06) 28px
+      ),
+      repeating-linear-gradient(
+        90deg, transparent, transparent 27px,
+        rgba(99,102,241,0.04) 27px, rgba(99,102,241,0.04) 28px
+      );
+      background-color: #fafaf9;
+      padding: 1.25rem;
+      border-radius: 14px;
+      gap: 14px;
+    }
+
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant {
+      background: #fffde7;
+      border: none;
+      border-radius: 4px;
+      padding: 1.1rem 1.1rem 1.2rem;
+      box-shadow:
+        2px 3px 8px rgba(0,0,0,0.10),
+        -1px -1px 3px rgba(0,0,0,0.04),
+        inset 0 -3px 0 rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant:nth-child(2) { background: #fff3e0; }
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant:nth-child(3) { background: #fce4ec; }
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant:nth-child(4) { background: #e8f5e9; }
+
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant:hover {
+      transform: translateY(-2px) rotate(0.3deg);
+      box-shadow: 4px 6px 14px rgba(0,0,0,0.13), inset 0 -3px 0 rgba(0,0,0,0.08);
+    }
+
+    #methodToolPanel[data-method="empathyMap"] .em-q-label {
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      font-size: 0.8rem;
+    }
+
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px dashed rgba(0,0,0,0.15);
+      border-radius: 0;
+      font-size: 0.84rem;
+      line-height: 1.7;
+      padding: 0.4rem 0;
+      resize: none;
+    }
+
+    #methodToolPanel[data-method="empathyMap"] .em-quadrant textarea:focus {
+      border-bottom-color: rgba(0,0,0,0.35);
+      box-shadow: none;
+    }
+
+    /* ── STAKEHOLDER MAP — Strategic Analytical ──────────────────── */
+    #methodToolPanel[data-method="stakeholderMap"] .sm-container {
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(37,99,235,0.06) 0%, transparent 60%),
+        linear-gradient(145deg, #f8f7ff 0%, #f0edff 100%);
+      border: 1.5px solid var(--m-stk-border);
+    }
+
+    #methodToolPanel[data-method="stakeholderMap"] .sm-node-dot {
+      border: 2.5px solid rgba(255,255,255,0.9);
+    }
+
+    #methodToolPanel[data-method="stakeholderMap"] .sm-dot {
+      box-shadow: 0 3px 12px rgba(109,40,217,0.2), 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    #methodToolPanel[data-method="stakeholderMap"] .sm-info {
+      background: var(--m-stk-bg);
+      border-color: var(--m-stk-border);
+      border-left-color: var(--m-stk-accent);
+      color: var(--m-stk-text);
+    }
+
+    /* ── PERSONA — Editorial / Storytelling ──────────────────────── */
+    #methodToolPanel[data-method="persona"] .persona-head {
+      background: linear-gradient(135deg, var(--m-persona-bg) 0%, #fdf4ff 100%);
+      border-bottom-color: var(--m-persona-border);
+    }
+
+    #methodToolPanel[data-method="persona"] .persona-name {
+      color: var(--m-persona-text);
+    }
+
+    #methodToolPanel[data-method="persona"] .persona-card:hover {
+      border-color: var(--m-persona-border);
+      box-shadow: 0 6px 20px rgba(219,39,119,0.12);
+    }
+
+    #methodToolPanel[data-method="persona"] .persona-pill {
+      background: var(--m-persona-bg);
+      border-color: var(--m-persona-border);
+      color: var(--m-persona-text);
+    }
+
+    /* ── PROBLEM DEFINITION — Focused / Analytical ───────────────── */
+    #methodToolPanel[data-method="problemDefinition"] .pd-field.hl {
+      background: var(--m-problem-bg);
+      border-color: var(--m-problem-border);
+    }
+
+    #methodToolPanel[data-method="problemDefinition"] .pd-label {
+      color: var(--m-problem-text);
+    }
+
+    #methodToolPanel[data-method="problemDefinition"] .pd-pov {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border-left-color: var(--m-problem-accent);
+      border-color: var(--m-problem-border);
+    }
+
+    /* ── IDEATION — Creative Canvas ──────────────────────────────── */
+    #methodToolPanel[data-method="ideation"] .ib-board {
+      background-image: radial-gradient(circle, rgba(6,182,212,0.12) 1px, transparent 1px);
+      background-size: 22px 22px;
+      background-color: #f0fdfb;
+      border: 2px dashed var(--m-ideation-border);
+      min-height: 140px;
+    }
+
+    #methodToolPanel[data-method="ideation"] .ib-idea {
+      background: linear-gradient(135deg, #fffde7 0%, #fef9c3 100%);
+      border: none;
+      border-radius: 4px;
+      box-shadow: 2px 3px 10px rgba(0,0,0,.09), inset 0 -2px 0 rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #methodToolPanel[data-method="ideation"] .ib-idea:hover {
+      transform: translateY(-2px) rotate(-0.4deg);
+      box-shadow: 4px 6px 16px rgba(0,0,0,0.12);
+    }
+
+    #methodToolPanel[data-method="ideation"] .ib-idea:nth-child(3n)   { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #e0f2fe 100%); }
+    #methodToolPanel[data-method="ideation"] .ib-idea:nth-child(3n+2) { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 50%, #fce7f3 100%); }
+
+    #methodToolPanel[data-method="ideation"] .ib-row button {
+      background: var(--m-ideation-accent);
+      box-shadow: 0 3px 10px rgba(5,150,105,0.25);
+    }
+
+    #methodToolPanel[data-method="ideation"] .ib-row button:hover {
+      background: var(--m-ideation-text);
+    }
+
+    /* ── PROTOTYPING — Wireframe / Blueprint ─────────────────────── */
+    #methodToolPanel[data-method="prototyping"] .pd-field {
+      border-style: dashed;
+      border-color: var(--m-proto-border);
+      background: var(--m-proto-bg);
+    }
+
+    #methodToolPanel[data-method="prototyping"] .pd-field.hl {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 30%, #eff6ff 100%);
+      border-color: var(--m-proto-accent);
+    }
+
+    #methodToolPanel[data-method="prototyping"] .pd-label {
+      color: var(--m-proto-text);
+    }
+
+    /* ── REFLEXION in DT Lab ─────────────────────────────────────── */
+    #methodToolPanel[data-method="reflexion"] .ref-q {
+      background: var(--m-ref-bg);
+      border-color: var(--m-ref-border);
+    }
+
+    #methodToolPanel[data-method="reflexion"] .ref-q-lbl { color: var(--m-ref-text); }
+
+    #methodToolPanel[data-method="reflexion"] .ref-fill {
+      background: linear-gradient(90deg, var(--m-ref-accent) 0%, var(--primary) 100%);
+    }
+
+    /* ── WS AI BUTTON — themed ───────────────────────────────────── */
+    #methodToolPanel[data-method="empathyMap"]        .ws-ai-btn { border-color: var(--m-empathy-border); color: var(--m-empathy-text); background: var(--m-empathy-bg); }
+    #methodToolPanel[data-method="stakeholderMap"]    .ws-ai-btn { border-color: var(--m-stk-border);     color: var(--m-stk-text);     background: var(--m-stk-bg); }
+    #methodToolPanel[data-method="persona"]           .ws-ai-btn { border-color: var(--m-persona-border); color: var(--m-persona-text); background: var(--m-persona-bg); }
+    #methodToolPanel[data-method="problemDefinition"] .ws-ai-btn { border-color: var(--m-problem-border); color: var(--m-problem-text); background: var(--m-problem-bg); }
+    #methodToolPanel[data-method="ideation"]          .ws-ai-btn { border-color: var(--m-ideation-border);color: var(--m-ideation-text);background: var(--m-ideation-bg); }
+    #methodToolPanel[data-method="prototyping"]       .ws-ai-btn { border-color: var(--m-proto-border);   color: var(--m-proto-text);   background: var(--m-proto-bg); }
+    #methodToolPanel[data-method="reflexion"]         .ws-ai-btn { border-color: var(--m-ref-border);     color: var(--m-ref-text);     background: var(--m-ref-bg); }
+
+    #methodToolPanel .ws-ai-btn:hover {
+      filter: brightness(0.94);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    /* ── WS AI RESPONSE — themed ─────────────────────────────────── */
+    #methodToolPanel[data-method="empathyMap"]        .ws-ai-response { background: var(--m-empathy-bg); border-color: var(--m-empathy-border); border-left-color: var(--m-empathy-accent); color: var(--m-empathy-text); }
+    #methodToolPanel[data-method="stakeholderMap"]    .ws-ai-response { background: var(--m-stk-bg);     border-color: var(--m-stk-border);     border-left-color: var(--m-stk-accent);     color: var(--m-stk-text); }
+    #methodToolPanel[data-method="persona"]           .ws-ai-response { background: var(--m-persona-bg); border-color: var(--m-persona-border); border-left-color: var(--m-persona-accent); color: var(--m-persona-text); }
+    #methodToolPanel[data-method="problemDefinition"] .ws-ai-response { background: var(--m-problem-bg); border-color: var(--m-problem-border); border-left-color: var(--m-problem-accent); color: var(--m-problem-text); }
+    #methodToolPanel[data-method="ideation"]          .ws-ai-response { background: var(--m-ideation-bg);border-color: var(--m-ideation-border);border-left-color: var(--m-ideation-accent);color: var(--m-ideation-text); }
+    #methodToolPanel[data-method="prototyping"]       .ws-ai-response { background: var(--m-proto-bg);   border-color: var(--m-proto-border);   border-left-color: var(--m-proto-accent);   color: var(--m-proto-text); }
+
+    /* ── PROCESS REFLEXION CARD — themed ─────────────────────────── */
+    #methodToolPanel[data-method="empathyMap"]        .proc-ref-card { background: linear-gradient(135deg, var(--m-empathy-bg), #fff8dc); border-color: var(--m-empathy-border); border-left-color: var(--m-empathy-accent); }
+    #methodToolPanel[data-method="stakeholderMap"]    .proc-ref-card { background: linear-gradient(135deg, var(--m-stk-bg), #f0ebff);     border-color: var(--m-stk-border);     border-left-color: var(--m-stk-accent); }
+    #methodToolPanel[data-method="persona"]           .proc-ref-card { background: linear-gradient(135deg, var(--m-persona-bg), #fdf0f8); border-color: var(--m-persona-border); border-left-color: var(--m-persona-accent); }
+    #methodToolPanel[data-method="problemDefinition"] .proc-ref-card { background: linear-gradient(135deg, var(--m-problem-bg), #fff3e0); border-color: var(--m-problem-border); border-left-color: var(--m-problem-accent); }
+    #methodToolPanel[data-method="ideation"]          .proc-ref-card { background: linear-gradient(135deg, var(--m-ideation-bg), #e8fff9);border-color: var(--m-ideation-border);border-left-color: var(--m-ideation-accent); }
+    #methodToolPanel[data-method="prototyping"]       .proc-ref-card { background: linear-gradient(135deg, var(--m-proto-bg), #ebf4ff);   border-color: var(--m-proto-border);   border-left-color: var(--m-proto-accent); }
+
+    /* ── METHOD TOOL TITLE — themed ──────────────────────────────── */
+    #methodToolPanel[data-method="empathyMap"]        .method-tool-title { color: var(--m-empathy-text); }
+    #methodToolPanel[data-method="stakeholderMap"]    .method-tool-title { color: var(--m-stk-text); }
+    #methodToolPanel[data-method="persona"]           .method-tool-title { color: var(--m-persona-text); }
+    #methodToolPanel[data-method="problemDefinition"] .method-tool-title { color: var(--m-problem-text); }
+    #methodToolPanel[data-method="ideation"]          .method-tool-title { color: var(--m-ideation-text); }
+    #methodToolPanel[data-method="prototyping"]       .method-tool-title { color: var(--m-proto-text); }
+    #methodToolPanel[data-method="reflexion"]         .method-tool-title { color: var(--m-ref-text); }
+
+    /* ── PHASE TRANSITIONS — smoother ────────────────────────────── */
+    @keyframes phaseIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    @keyframes methodOpen {
+      from { opacity: 0; transform: translateX(-8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .method-tool-panel.visible {
+      animation: methodOpen 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── GLOSSAR — Academic clean ────────────────────────────────── */
+    .gs-title {
+      background: linear-gradient(90deg, var(--text) 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      padding-right: 2px;
+    }
+
+    .glossary-card:hover .gc-term {
+      color: var(--primary);
+    }
+
+    /* ── PRE-REFLEXION — warm purple accent ──────────────────────── */
+    #phase-prereflexion .phase-num {
+      box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+    }
+
+    .pre-ref-block {
+      border-left: 3px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .pre-ref-block:focus-within {
+      border-left-color: var(--primary);
+      background: #fafbff;
+    }
+
+    /* ── POST-REFLEXION / EVAL — calm professional ───────────────── */
+    .eval-card .eval-section-hd { margin-top: 0.25rem; }
+
+    .compare-bar-fill.post {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    }
+
+    /* ── SKILL PROGRESS — coloured fills ─────────────────────────── */
+    .skill-prog-fill {
+      background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+    }
+
+    /* ── CHAT MESSAGES — bubble polish ───────────────────────────── */
+    .msg.user {
+      background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+      box-shadow: 0 3px 10px rgba(37,99,235,0.22);
+    }
+
+    .msg.bot {
+      background: var(--surface);
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    }
+
+    /* ── NAV BAR — elevated ──────────────────────────────────────── */
+    .nav-bar {
+      background: rgba(255,255,255,0.95);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(226,232,240,0.7);
+    }
+
+    /* ── SCROLL ENHANCEMENT ──────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+
+    /* ── EVAL CARDS — academic depth ─────────────────────────────── */
+    .eval-card {
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.04);
+    }
+
+    /* ── LIKERT BUTTONS — smoother ───────────────────────────────── */
+    .likert-btn {
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .likert-btn.selected {
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    }
+
+    /* ── METHOD PROGRESS DOTS — polished ─────────────────────────── */
+    .method-prog-dot {
+      border-radius: 50%;
+      transition: background 0.4s, transform 0.2s;
+    }
+
+    .method-prog-dot.done {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    /* ── COMP BADGE TAGS ─────────────────────────────────────────── */
+    .ws-comp-badge {
+      letter-spacing: 0.02em;
+      font-size: 10px;
+    }
+
+    /* ── PHASE NUM HEADER — per phase accent ─────────────────────── */
+    #phase-3 .phase-num {
+      box-shadow: 0 4px 14px rgba(8,145,178,0.3);
+    }
+
+    #phase-4 .phase-num {
+      box-shadow: 0 4px 14px rgba(5,150,105,0.3);
+    }
+
+
+    /* ══ THEORY / COMPETENCY SECTION ════════════════════════════════ */
+
+    /* Section wrapper */
+    .theory-divider {
+      border: none;
+      border-top: 2px solid var(--primary-border);
+      margin: 2.25rem 0 2rem;
+      position: relative;
+    }
+
+    .theory-divider::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface);
+      padding: 0 12px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    /* Concept cards grid */
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .concept-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    .concept-card:hover {
+      border-color: var(--primary-border);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .concept-card.open { border-color: var(--primary); }
+
+    .concept-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .concept-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .concept-title { font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .concept-tag   { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+
+    .concept-short {
+      font-size: 0.79rem;
+      color: var(--muted);
+      line-height: 1.45;
+      padding: 0 1rem 0.85rem;
+    }
+
+    .concept-body {
+      display: none;
+      padding: 0 1rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .concept-card.open .concept-body { display: block; animation: fadeUp 0.22s ease; }
+
+    .concept-def {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-top: 0.7rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .concept-examples-hd {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .concept-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .concept-chip {
+      font-size: 10.5px;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .concept-practice {
+      background: var(--primary-lt);
+      border: 1px solid var(--primary-border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.79rem;
+      color: var(--primary-text);
+      line-height: 1.55;
+    }
+
+    /* Comparison banner */
+    .compare-banner {
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      margin: 1rem 0 1.5rem;
+    }
+
+    @media (max-width: 560px) {
+      .compare-banner { grid-template-columns: 1fr; }
+      .compare-vs { display: none; }
+    }
+
+    .compare-side { }
+    .compare-side-hd {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 0.4rem;
+    }
+
+    .compare-side ul {
+      list-style: none;
+      padding: 0; margin: 0;
+    }
+
+    .compare-side li {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 2px 0;
+      display: flex;
+      gap: 6px;
+    }
+
+    .compare-side li::before {
+      content: '→';
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .compare-vs {
+      text-align: center;
+      font-size: 1.2rem;
+      opacity: 0.25;
+    }
+
+    /* PE section */
+    .pe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+      gap: 10px;
+      margin: 1rem 0;
+    }
+
+    .pe-point {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+
+    .pe-point:hover { border-color: var(--primary-border); }
+
+    .pe-point-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pe-point-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .pe-point-text {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Method-competency map */
+    .method-comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      margin: 1rem 0;
+    }
+
+    .method-comp-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .method-comp-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .method-comp-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .method-comp-icon { font-size: 1.15rem; }
+
+    .method-comp-body { padding: 0.5rem 0.9rem 0.85rem; }
+
+    .method-comp-lbl {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .method-comp-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .method-comp-chip {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* Key insight box */
+    .key-insight {
+      background: linear-gradient(135deg, var(--primary-lt) 0%, #f0fdf4 100%);
+      border: 1px solid var(--primary-border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin: 1.25rem 0;
+    }
+
+    .key-insight-hd {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-text);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .key-insight p {
+      font-size: 0.84rem;
+      color: var(--primary-text);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* Accordion toggle */
+    .concept-card .toggle-arrow {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 1.1rem;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+
+    .concept-card.open .toggle-arrow { transform: rotate(90deg); color: var(--primary); }
+
+
+    /* ══ ENHANCED METHOD CANVASES ════════════════════════════════════ */
+
+    /* Canvas header strip */
+    .dt-canvas-hd {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.1rem;
+      background: var(--surface-soft);
+      border-radius: var(--radius);
+      margin-bottom: 1.2rem;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .dt-canvas-icon { font-size: 1.75rem; flex-shrink: 0; margin-top: 2px; }
+
+    .dt-canvas-title {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .dt-canvas-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .dt-canvas-badge {
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border: 1px solid;
+      border-radius: 20px;
+      padding: 4px 11px;
+      white-space: nowrap;
+    }
+
+    /* Tool actions row */
+    .dt-tool-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0.9rem 0 0.5rem;
+    }
+
+    .btn-ghost-muted {
+      background: none !important;
+      border-color: var(--border) !important;
+      color: var(--muted) !important;
+    }
+
+    .btn-ghost-muted:hover {
+      border-color: var(--text) !important;
+      color: var(--text) !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ── EMPATHY MAP 6-ZONE ──────────────────────────────────────── */
+    .em-persona-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(245,158,11,0.06);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: var(--radius-sm);
+    }
+
+    .em-persona-lbl {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--tag-text);
+      white-space: nowrap;
+    }
+
+    .em-persona-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      outline: none;
+      font-style: italic;
+    }
+
+    .em-persona-input::placeholder { color: var(--muted); font-style: italic; }
+
+    .em6-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 560px) { .em6-grid { grid-template-columns: 1fr; } }
+
+    .em6-quad {
+      border: none;
+      border-radius: 5px;
+      padding: 1rem 1rem 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    /* Sticky note colours */
+    .sticky-yellow { background: #fef9c3; box-shadow: 2px 4px 10px rgba(0,0,0,.09), inset 0 -3px 0 rgba(0,0,0,.07); }
+    .sticky-orange { background: #fed7aa; box-shadow: 2px 4px 10px rgba(0,0,0,.09), inset 0 -3px 0 rgba(0,0,0,.07); }
+    .sticky-blue   { background: #bfdbfe; box-shadow: 2px 4px 10px rgba(0,0,0,.09), inset 0 -3px 0 rgba(0,0,0,.07); }
+    .sticky-green  { background: #bbf7d0; box-shadow: 2px 4px 10px rgba(0,0,0,.09), inset 0 -3px 0 rgba(0,0,0,.07); }
+
+    .em6-quad:hover { transform: translateY(-2px) rotate(0.3deg); box-shadow: 4px 7px 18px rgba(0,0,0,.12); }
+
+    .em6-pain {
+      background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+      border: 1px dashed #fca5a5;
+      border-radius: 5px;
+      padding: 1rem 1rem 1.1rem;
+    }
+
+    .em6-gain {
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+      border: 1px dashed #86efac;
+      border-radius: 5px;
+      padding: 1rem 1rem 1.1rem;
+    }
+
+    .em6-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: rgba(0,0,0,0.6);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .em6-icon { font-size: 0.9rem; }
+
+    .em6-hint {
+      font-size: 0.69rem;
+      color: rgba(0,0,0,0.45);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .em6-quad textarea, .em6-pain textarea, .em6-gain textarea {
+      width: 100%;
+      min-height: 80px;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px dashed rgba(0,0,0,0.18);
+      border-radius: 0;
+      padding: 0.35rem 0;
+      font-size: 0.82rem;
+      font-family: var(--font-body);
+      color: rgba(0,0,0,0.75);
+      resize: none;
+      outline: none;
+      transition: border-bottom-color 0.2s;
+      line-height: 1.65;
+    }
+
+    .em6-quad textarea:focus { border-bottom-color: rgba(0,0,0,0.4); box-shadow: none; }
+
+    /* ── STAKEHOLDER MAP ─────────────────────────────────────────── */
+    .sm-matrix-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .sm-matrix-inner { position: relative; }
+    .sm-axis-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: center;
+      padding: 2px 0;
+    }
+
+    .sm-connections line {
+      stroke-width: 2;
+      stroke-dasharray: 5 4;
+      opacity: 0.5;
+    }
+
+    .sm-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 0.5rem 0 0.75rem;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .sm-legend-item { display: flex; align-items: center; font-weight: 600; }
+
+    /* ── PROBLEM DEFINITION — ICEBERG ────────────────────────────── */
+    .pd-iceberg { border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
+
+    .pd-iceberg-top {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1.5px solid #fed7aa;
+      border-bottom: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 1rem 1.1rem;
+    }
+
+    .pd-iceberg-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #c2410c;
+      margin-bottom: 0.6rem;
+    }
+
+    .pd-iceberg-divider {
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 100%);
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pd-iceberg-divider-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .pd-iceberg-bottom {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+      border: 1.5px solid #fde68a;
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1rem 1.1rem;
+    }
+
+    .pd-grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 560px) { .pd-grid2 { grid-template-columns: 1fr; } }
+
+    .pd-field-hl {
+      background: rgba(255,255,255,0.6);
+      border: 1.5px solid rgba(234,88,12,0.3);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+    }
+
+    .pd-field {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(253,230,138,0.6);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+    }
+
+    .pd-label  { font-size: 0.78rem; font-weight: 700; color: #c2410c; margin-bottom: 3px; }
+    .pd-hint   { font-size: 0.7rem; color: rgba(194,65,12,0.6); font-style: italic; margin-bottom: 0.4rem; line-height: 1.4; }
+
+    .pd-field textarea, .pd-field-hl textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px dashed rgba(234,88,12,0.25);
+      border-radius: 0;
+      padding: 0.3rem 0;
+      font-size: 0.82rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      resize: none;
+      outline: none;
+      min-height: 64px;
+      transition: border-bottom-color 0.2s;
+    }
+
+    .pd-field textarea:focus, .pd-field-hl textarea:focus {
+      border-bottom-color: rgba(234,88,12,0.5);
+      box-shadow: none;
+    }
+
+    /* PoV builder */
+    .pov-builder {
+      margin: 1rem 0;
+      padding: 0.9rem 1.1rem;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1px solid #fde68a;
+      border-left: 3px solid #f59e0b;
+      border-radius: var(--radius);
+    }
+
+    .pov-builder-hd {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--tag-text);
+      margin-bottom: 0.6rem;
+    }
+
+    .pov-template {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .pov-fill {
+      display: inline-block;
+      min-width: 80px;
+      border-bottom: 2px solid #f59e0b;
+      padding: 0 4px 1px;
+      color: #92400e;
+      font-weight: 600;
+      font-style: italic;
+      cursor: text;
+      transition: border-color 0.2s;
+    }
+
+    .pov-fill:focus { outline: none; border-color: #b45309; }
+    .pov-fill-wide { min-width: 160px; }
+    .pov-connector { color: var(--muted); font-size: 0.82rem; }
+
+    /* ── IDEATION ─────────────────────────────────────────────────── */
+    .ib-impulse-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 0.85rem;
+    }
+
+    .ib-impulse {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      user-select: none;
+    }
+
+    .ib-impulse:hover     { border-color: var(--m-ideation-border); color: var(--m-ideation-text); background: var(--m-ideation-bg); }
+    .ib-impulse.active-cat{ background: var(--m-ideation-accent); border-color: var(--m-ideation-accent); color: #fff; }
+
+    /* ── PROTOTYPING — BLUEPRINT ─────────────────────────────────── */
+    .proto-canvas {
+      background: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(37,99,235,0.06) 27px, rgba(37,99,235,0.06) 28px),
+                  repeating-linear-gradient(90deg, transparent, transparent 27px, rgba(37,99,235,0.04) 27px, rgba(37,99,235,0.04) 28px);
+      background-color: #f8faff;
+      border: 1.5px dashed var(--m-proto-border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .proto-iteration {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--m-proto-text);
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .proto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 560px) { .proto-grid { grid-template-columns: 1fr; } }
+
+    .proto-field-main { grid-column: 1 / -1; }
+
+    .proto-field {
+      background: rgba(255,255,255,0.7);
+      border: 1.5px dashed rgba(37,99,235,0.25);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.85rem;
+    }
+
+    .proto-field-hd  { font-size: 0.79rem; font-weight: 700; color: var(--m-proto-text); margin-bottom: 2px; }
+    .proto-field-sub { font-size: 0.69rem; color: rgba(30,64,175,0.55); font-style: italic; margin-bottom: 0.4rem; }
+
+    .proto-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px dashed rgba(37,99,235,0.2);
+      border-radius: 0;
+      padding: 0.3rem 0;
+      font-size: 0.82rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      resize: none;
+      outline: none;
+      min-height: 64px;
+      transition: border-bottom-color 0.2s;
+    }
+
+    .proto-field textarea:focus { border-bottom-color: rgba(37,99,235,0.45); box-shadow: none; }
+
   </style>
 </head>
 <body>
@@ -3326,7 +4862,7 @@
         <div class="ps-dot">2</div>
         <div class="ps-line" id="psl-r-2"></div>
       </div>
-      <div class="ps-label">Rollenwahl</div>
+      <div class="ps-label">Pre-Reflexion</div>
     </div>
     <div class="ps" onclick="goToPhase(3)">
       <div class="ps-dot-row">
@@ -3334,7 +4870,7 @@
         <div class="ps-dot">3</div>
         <div class="ps-line" id="psl-r-3"></div>
       </div>
-      <div class="ps-label">Methoden</div>
+      <div class="ps-label">Rollenwahl</div>
     </div>
     <div class="ps" onclick="goToPhase(4)">
       <div class="ps-dot-row">
@@ -3342,12 +4878,20 @@
         <div class="ps-dot">4</div>
         <div class="ps-line" id="psl-r-4"></div>
       </div>
-      <div class="ps-label">Reflexion</div>
+      <div class="ps-label">Methoden</div>
     </div>
     <div class="ps" onclick="goToPhase(5)">
       <div class="ps-dot-row">
         <div class="ps-line" id="psl-l-5"></div>
         <div class="ps-dot">5</div>
+        <div class="ps-line" id="psl-r-5"></div>
+      </div>
+      <div class="ps-label">Post-Reflexion</div>
+    </div>
+    <div class="ps" onclick="goToPhase(6)">
+      <div class="ps-dot-row">
+        <div class="ps-line" id="psl-l-6"></div>
+        <div class="ps-dot">6</div>
         <div class="ps-line ghost"></div>
       </div>
       <div class="ps-label">Evaluation</div>
@@ -3776,9 +5320,530 @@
         </div>
       </div>
 
-    </div><!-- /phase-card -->
+    
+      <!-- ═══════════════════════════════════════════════════════════
+           NEUER ABSCHNITT: KOMPETENZEN, FUTURE SKILLS & PE
+           ══════════════════════════════════════════════════════════= -->
+
+      <hr class="theory-divider" data-label="Wissenschaftliche Grundlagen"/>
+
+      <!-- ── A: Begriffsdifferenzierung ─────────────────────────── -->
+      <div class="glossar-section">
+        <div class="gs-title">Kompetenzen, Future Skills &amp; Personalentwicklung</div>
+        <p class="gs-intro">Diese drei Begriffe werden im Diskurs häufig synonym verwendet — und doch bezeichnen sie unterschiedliche Dinge. Eine präzise Differenzierung ist Voraussetzung für gelingende Personalentwicklung.</p>
+
+        <div class="gs-infobox">
+          <div class="gs-infobox-icon">🧭</div>
+          <div class="gs-infobox-text"><strong>Leitgedanke:</strong> Kompetenzen entstehen nicht durch Wissenstransfer allein. Sie entwickeln sich durch Erfahrung, Reflexion und die Auseinandersetzung mit konkreten Situationen — genau das, was Design Thinking in diesem Workshop ermöglicht.</div>
+        </div>
+
+        <!-- Concept cards -->
+        <div class="concept-grid">
+
+          <!-- Kompetenzen -->
+          <div class="concept-card" onclick="toggleConcept(this)">
+            <div class="concept-head">
+              <div class="concept-icon" style="background:#eff6ff">🏋️</div>
+              <div>
+                <div class="concept-title">Kompetenzen</div>
+                <div class="concept-tag" style="color:var(--primary)">Handlungsorientiert</div>
+              </div>
+              <span class="toggle-arrow">›</span>
+            </div>
+            <div class="concept-short">Die Fähigkeit, konkretes Wissen, Erfahrungen und Einstellungen in realen Situationen handlungswirksam einzusetzen.</div>
+            <div class="concept-body">
+              <div class="concept-def">
+                Kompetenzen sind mehr als Wissen. Sie umfassen das <strong>Können</strong> (Fertigkeiten und Fähigkeiten), das <strong>Wollen</strong> (Motivation und Einstellungen) und das <strong>Dürfen</strong> (Handlungsspielraum). Erst aus dem Zusammenwirken aller drei Dimensionen entsteht tatsächliche Handlungskompetenz.
+              </div>
+              <div class="concept-examples-hd">Dimensionen</div>
+              <div class="concept-chips">
+                <span class="concept-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Wissen</span>
+                <span class="concept-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Fertigkeiten</span>
+                <span class="concept-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Erfahrungen</span>
+                <span class="concept-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Einstellungen</span>
+                <span class="concept-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Handlungsfähigkeit</span>
+              </div>
+              <div class="concept-practice">
+                <strong>Im Krankenhaus bedeutet das:</strong> Eine Pflegefachkraft besitzt Kompetenz, wenn sie nicht nur weiß, wie eine digitale Patientenakte funktioniert, sondern diese in einem stressigen Schichtbetrieb sicher, effizient und empathisch anwenden kann.
+              </div>
+            </div>
+          </div>
+
+          <!-- Future Skills -->
+          <div class="concept-card" onclick="toggleConcept(this)">
+            <div class="concept-head">
+              <div class="concept-icon" style="background:#f0fdf4">🌱</div>
+              <div>
+                <div class="concept-title">Future Skills</div>
+                <div class="concept-tag" style="color:#059669">Zukunftsorientiert</div>
+              </div>
+              <span class="toggle-arrow">›</span>
+            </div>
+            <div class="concept-short">Kompetenzen, die in einer zunehmend digitalen, volatilen und komplexen Arbeitswelt besonders an Bedeutung gewinnen.</div>
+            <div class="concept-body">
+              <div class="concept-def">
+                Future Skills sind keine eigene Kompetenzkategorie, sondern eine <strong>Auswahl zukunftsrelevanter Kompetenzen</strong>, die im Kontext von Digitalisierung, Globalisierung und Komplexität besonders kritisch werden. Sie lassen sich in kognitive, sozial-emotionale und digitale Kompetenzen einteilen.
+              </div>
+              <div class="concept-examples-hd">Beispiele im Gesundheitswesen</div>
+              <div class="concept-chips">
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Empathie</span>
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Systemisches Denken</span>
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Adaptionsfähigkeit</span>
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Reflexionsfähigkeit</span>
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Digitale Kompetenz</span>
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Kollaboration</span>
+                <span class="concept-chip" style="background:#f0fdf4;color:#065f46;border:1px solid #86efac">Innovationsfähigkeit</span>
+              </div>
+              <div class="concept-practice">
+                <strong>Besonders relevant bei:</strong> Unsicherheit und Wandel — also genau dort, wo digitale Transformation stattfindet. Future Skills helfen, mit dem Unbekannten professionell umzugehen.
+              </div>
+            </div>
+          </div>
+
+          <!-- Digitale Kompetenzen -->
+          <div class="concept-card" onclick="toggleConcept(this)">
+            <div class="concept-head">
+              <div class="concept-icon" style="background:#f5f3ff">💻</div>
+              <div>
+                <div class="concept-title">Digitale Kompetenzen</div>
+                <div class="concept-tag" style="color:#7c3aed">Technologiebezogen</div>
+              </div>
+              <span class="toggle-arrow">›</span>
+            </div>
+            <div class="concept-short">Die Fähigkeit, digitale Technologien zu verstehen, sicher anzuwenden und kritisch zu reflektieren — über bloße Bedienung hinaus.</div>
+            <div class="concept-body">
+              <div class="concept-def">
+                Digitale Kompetenz ist mehr als Technologiebedienung. Sie umfasst <strong>digitale Informationskompetenz</strong> (Daten bewerten, Quellen einschätzen), <strong>technologische Handlungskompetenz</strong> (Systeme nutzen, konfigurieren) sowie <strong>digitale Reflexionskompetenz</strong> (Risiken erkennen, ethische Fragen stellen).
+              </div>
+              <div class="concept-examples-hd">Konkrete Anforderungen im Krankenhaus</div>
+              <div class="concept-chips">
+                <span class="concept-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Elektronische Patientenakte</span>
+                <span class="concept-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">KI-Systeme verstehen</span>
+                <span class="concept-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Datenschutz &amp; DSGVO</span>
+                <span class="concept-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Digitale Kommunikation</span>
+                <span class="concept-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">EHDS-Kompatibilität</span>
+              </div>
+              <div class="concept-practice">
+                <strong>Zentrale Erkenntnis:</strong> Wer digitale Systeme nur bedienen kann, aber nicht kritisch reflektieren kann, ist im Kontext digitaler Transformation nur begrenzt handlungsfähig.
+              </div>
+            </div>
+          </div>
+
+          <!-- Systemisches Denken -->
+          <div class="concept-card" onclick="toggleConcept(this)">
+            <div class="concept-head">
+              <div class="concept-icon" style="background:#fff7ed">🕸️</div>
+              <div>
+                <div class="concept-title">Systemisches Denken</div>
+                <div class="concept-tag" style="color:#c2410c">Analytisch-komplex</div>
+              </div>
+              <span class="toggle-arrow">›</span>
+            </div>
+            <div class="concept-short">Die Fähigkeit, Zusammenhänge, Wechselwirkungen und Abhängigkeiten in komplexen Systemen zu erkennen und zu analysieren.</div>
+            <div class="concept-body">
+              <div class="concept-def">
+                Systemisches Denken bedeutet, nicht in isolierten Ursache-Wirkung-Ketten zu denken, sondern <strong>Wechselwirkungen, Rückkopplungen und emergente Phänomene</strong> zu erkennen. Ein Krankenhaus ist ein hochkomplexes soziotechnisches System, in dem Veränderungen an einem Punkt unvorhergesehene Folgen in anderen Bereichen haben können.
+              </div>
+              <div class="concept-examples-hd">Im Krankenhaus sichtbar bei</div>
+              <div class="concept-chips">
+                <span class="concept-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Interprofessionellen Konflikten</span>
+                <span class="concept-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Systemeinführungen</span>
+                <span class="concept-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Ressourcenverteilung</span>
+                <span class="concept-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Kulturwandel</span>
+              </div>
+              <div class="concept-practice">
+                <strong>Warum entscheidend:</strong> Wer nur die sichtbaren Symptome bekämpft (z.B. langsame Systemladezeiten), übersieht die eigentlichen Ursachen (z.B. fehlende Schulungsstrukturen, Widerstand aus mangelnder Einbindung).
+              </div>
+            </div>
+          </div>
+
+          <!-- Reflexionsfähigkeit -->
+          <div class="concept-card" onclick="toggleConcept(this)">
+            <div class="concept-head">
+              <div class="concept-icon" style="background:#fdf2f8">🔄</div>
+              <div>
+                <div class="concept-title">Reflexionsfähigkeit</div>
+                <div class="concept-tag" style="color:#be185d">Metakognitiv</div>
+              </div>
+              <span class="toggle-arrow">›</span>
+            </div>
+            <div class="concept-short">Die Fähigkeit, eigenes Denken und Handeln zu beobachten, zu hinterfragen und bewusst zu verändern.</div>
+            <div class="concept-body">
+              <div class="concept-def">
+                Reflexionsfähigkeit ist die metakognitive Grundlage jedes Lernprozesses. Sie umfasst <strong>Selbstreflexion</strong> (Was denke ich? Warum handele ich so?), <strong>Fremdreflexion</strong> (Wie sehen andere die Situation?) und <strong>systemische Reflexion</strong> (Welche Strukturen und Kontexte beeinflussen mein Handeln?). Im Design Thinking ist Reflexion kein Schlusspunkt, sondern iterativer Bestandteil jedes Schritts.
+              </div>
+              <div class="concept-examples-hd">Dimensionen</div>
+              <div class="concept-chips">
+                <span class="concept-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Selbstreflexion</span>
+                <span class="concept-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Fremdreflexion</span>
+                <span class="concept-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Situationsreflexion</span>
+                <span class="concept-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Perspektivwechsel</span>
+              </div>
+              <div class="concept-practice">
+                <strong>Im Lernkontext:</strong> Reflexionsfähigkeit verwandelt Erfahrung in Kompetenz. Wer eine Empathy Map ausfüllt und dabei eigene Vorannahmen entdeckt, entwickelt Reflexionsfähigkeit als Future Skill.
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /concept-grid -->
+
+        <!-- Vergleich Kompetenzen vs Future Skills -->
+        <div class="compare-banner">
+          <div class="compare-side">
+            <div class="compare-side-hd" style="color:var(--primary)">Kompetenzen</div>
+            <ul>
+              <li>Situationsbezogen anwendbar</li>
+              <li>Verbindung aus Wissen + Können + Wollen</li>
+              <li>Berufs- und aufgabenspezifisch</li>
+              <li>Durch Erfahrung entwickelt</li>
+              <li>Messbar in konkretem Handeln</li>
+            </ul>
+          </div>
+          <div class="compare-vs">⟷</div>
+          <div class="compare-side">
+            <div class="compare-side-hd" style="color:var(--accent)">Future Skills</div>
+            <ul>
+              <li>Zukunfts- und wandelrelevant</li>
+              <li>Bereichsübergreifend einsetzbar</li>
+              <li>Besonders bei Komplexität &amp; Unsicherheit</li>
+              <li>Durch Reflexion und Praxis entwickelt</li>
+              <li>Ermöglichen Adaptionsfähigkeit</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="key-insight">
+          <div class="key-insight-hd">💡 Kern-Einsicht</div>
+          <p><strong>Alle Future Skills sind Kompetenzen — aber nicht alle Kompetenzen sind Future Skills.</strong> Future Skills sind jene Kompetenzen, die im Kontext digitaler Transformation und wachsender Komplexität besonders an strategischer Bedeutung gewinnen. Design Thinking ist ein Lernrahmen, der mehrere Future Skills gleichzeitig entwickelt.</p>
+        </div>
+
+      </div><!-- /Begriffe -->
+
+      <!-- ── B: Personalentwicklung ───────────────────────────────── -->
+      <div class="glossar-section">
+        <div class="gs-title">Personalentwicklung im digitalen Wandel</div>
+        <p class="gs-intro">Warum sind Future Skills und Kompetenzen für die Personalentwicklung im Gesundheitswesen so zentral? Und warum reicht klassische Wissensvermittlung nicht mehr aus?</p>
+
+        <p class="gs-text">Digitale Transformation verändert nicht nur Prozesse und Systeme — sie verändert <strong>Berufsrollen, Lernkulturen und Anforderungsprofile</strong>. Eine Pflegefachkraft, die vor zehn Jahren eingestellt wurde, arbeitete in einem anderen institutionellen Kontext als heute. Die Einführung elektronischer Patientenakten, KI-gestützter Dokumentation und vernetzter interprofessioneller Kommunikation erzeugt neue Anforderungen, auf die klassische Fortbildung oft nicht vorbereitet.</p>
+
+        <p class="gs-text">Personalentwicklung bedeutet heute nicht mehr primär <strong>Wissensvermittlung</strong>, sondern <strong>Kompetenzentwicklung</strong> — und das erfordert andere Methoden: Reflexion statt Frontalunterricht, Perspektivwechsel statt Informationsübertragung, iteratives Erproben statt einmaliger Schulung.</p>
+
+        <div class="pe-grid">
+          <div class="pe-point">
+            <div class="pe-point-icon">🔄</div>
+            <div>
+              <div class="pe-point-title">Reflexives Lernen</div>
+              <div class="pe-point-text">Kompetenzen entstehen durch die bewusste Reflexion von Erfahrungen — nicht durch Zuhören allein. Strukturierte Reflexionsprozesse sind zentral.</div>
+            </div>
+          </div>
+          <div class="pe-point">
+            <div class="pe-point-icon">🤝</div>
+            <div>
+              <div class="pe-point-title">Interprofessionelles Lernen</div>
+              <div class="pe-point-text">Berufsgruppen lernen voneinander, nicht nur nebeneinander. Gemeinsames Verstehen von Perspektiven ist Kern moderner Personalentwicklung.</div>
+            </div>
+          </div>
+          <div class="pe-point">
+            <div class="pe-point-icon">🎯</div>
+            <div>
+              <div class="pe-point-title">Kompetenzorientierung</div>
+              <div class="pe-point-text">Nicht Zertifikate, sondern tatsächliche Handlungsfähigkeit in realen Situationen ist das Ziel. Kompetenz zeigt sich im Alltag, nicht im Test.</div>
+            </div>
+          </div>
+          <div class="pe-point">
+            <div class="pe-point-icon">🚀</div>
+            <div>
+              <div class="pe-point-title">Strategische Relevanz</div>
+              <div class="pe-point-text">Personalentwicklung ist kein HR-Thema am Rand — sie ist strategische Voraussetzung für gelingende digitale Transformation.</div>
+            </div>
+          </div>
+          <div class="pe-point">
+            <div class="pe-point-icon">🌱</div>
+            <div>
+              <div class="pe-point-title">Lernkulturen entwickeln</div>
+              <div class="pe-point-text">Psychologische Sicherheit, Fehlerfreundlichkeit und kontinuierliches Lernen müssen strukturell verankert werden — nicht als Slogan, sondern als Praxis.</div>
+            </div>
+          </div>
+          <div class="pe-point">
+            <div class="pe-point-icon">💡</div>
+            <div>
+              <div class="pe-point-title">Design Thinking als PE-Ansatz</div>
+              <div class="pe-point-text">Design Thinking verbindet Empathie, systemisches Denken, kreative Problemlösung und Reflexion — und macht so mehrere Future Skills gleichzeitig erfahrbar.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gs-infobox" style="background:linear-gradient(135deg,#f0fdf4,#eff6ff);border-color:#86efac;border-left-color:#059669;">
+          <div class="gs-infobox-icon">🏥</div>
+          <div class="gs-infobox-text" style="color:#065f46;">
+            <strong>Für das St. Marien Klinikum bedeutet das:</strong> Die Einführung der digitalen Plattform kann nur gelingen, wenn Personalentwicklung parallel zur Technologieeinführung als strategische Investition verstanden wird — in Form von reflexiven Lernformaten, interprofessioneller Zusammenarbeit und kompetenzorientierter Begleitung.
+          </div>
+        </div>
+
+      </div><!-- /PE -->
+
+      <!-- ── C: DT-Methoden → Kompetenzen ──────────────────────── -->
+      <div class="glossar-section">
+        <div class="gs-title">Design Thinking als Kompetenzentwicklung</div>
+        <p class="gs-intro">Design Thinking ist nicht nur eine Problemlösungsmethode — es ist ein <strong>Lernrahmen</strong>, der Future Skills gezielt und erfahrungsbasiert entwickelt. Jede Methode fördert spezifische Kompetenzen.</p>
+
+        <div class="method-comp-grid">
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#fffde7;color:#92400e;">
+              <span class="method-comp-icon">🗺️</span> Empathy Map
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#fffde7;color:#92400e;border:1px solid #fde68a">Empathie</span>
+                <span class="method-comp-chip" style="background:#fffde7;color:#92400e;border:1px solid #fde68a">Perspektivwechsel</span>
+                <span class="method-comp-chip" style="background:#fffde7;color:#92400e;border:1px solid #fde68a">Kommunikationsfähigkeit</span>
+                <span class="method-comp-chip" style="background:#fffde7;color:#92400e;border:1px solid #fde68a">Reflexionsfähigkeit</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#f5f3ff;color:#5b21b6;">
+              <span class="method-comp-icon">🕸️</span> Stakeholder Map
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Systemisches Denken</span>
+                <span class="method-comp-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Strategisches Denken</span>
+                <span class="method-comp-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Kollaboration</span>
+                <span class="method-comp-chip" style="background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd">Analysefähigkeit</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#fdf2f8;color:#9d174d;">
+              <span class="method-comp-icon">🪞</span> Persona
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Empathie</span>
+                <span class="method-comp-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Nutzerzentriertes Denken</span>
+                <span class="method-comp-chip" style="background:#fdf2f8;color:#9d174d;border:1px solid #f9a8d4">Perspektivwechsel</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#fff7ed;color:#c2410c;">
+              <span class="method-comp-icon">🎯</span> Problem Definition
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Analytisches Denken</span>
+                <span class="method-comp-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Problemlösungskompetenz</span>
+                <span class="method-comp-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Kritisches Denken</span>
+                <span class="method-comp-chip" style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa">Systemisches Denken</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#f0fdfa;color:#065f46;">
+              <span class="method-comp-icon">💡</span> Ideation
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#f0fdfa;color:#065f46;border:1px solid #6ee7b7">Kreativität</span>
+                <span class="method-comp-chip" style="background:#f0fdfa;color:#065f46;border:1px solid #6ee7b7">Innovationsfähigkeit</span>
+                <span class="method-comp-chip" style="background:#f0fdfa;color:#065f46;border:1px solid #6ee7b7">Offenheit</span>
+                <span class="method-comp-chip" style="background:#f0fdfa;color:#065f46;border:1px solid #6ee7b7">Kollaboration</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#eff6ff;color:#1e40af;">
+              <span class="method-comp-icon">🛠️</span> Prototyping
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Adaptionsfähigkeit</span>
+                <span class="method-comp-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Experimentierfreude</span>
+                <span class="method-comp-chip" style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">Problemlösungskompetenz</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="method-comp-card">
+            <div class="method-comp-head" style="background:#f0fdf4;color:#14532d;">
+              <span class="method-comp-icon">🔄</span> Reflexion
+            </div>
+            <div class="method-comp-body">
+              <div class="method-comp-lbl">Fördert Future Skills</div>
+              <div class="method-comp-chips">
+                <span class="method-comp-chip" style="background:#f0fdf4;color:#14532d;border:1px solid #86efac">Reflexionsfähigkeit</span>
+                <span class="method-comp-chip" style="background:#f0fdf4;color:#14532d;border:1px solid #86efac">Lernfähigkeit</span>
+                <span class="method-comp-chip" style="background:#f0fdf4;color:#14532d;border:1px solid #86efac">Selbstwahrnehmung</span>
+                <span class="method-comp-chip" style="background:#f0fdf4;color:#14532d;border:1px solid #86efac">Transformationskompetenz</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /method-comp-grid -->
+
+        <div class="key-insight" style="background:linear-gradient(135deg,#f0fdf4,#f0f9ff);border-left-color:var(--accent);">
+          <div class="key-insight-hd" style="color:var(--accent-dk)">🎓 Didaktische Kernaussage</div>
+          <p style="color:var(--accent-dk)">Design Thinking ist kein Selbstzweck. Es ist ein <strong>erfahrungsbasierter Lernrahmen</strong>, der Future Skills nicht durch Instruktion, sondern durch <strong>aktives Tun, Scheitern, Reflektieren und Anpassen</strong> entwickelt. Dieser Workshop ist damit selbst ein Personalentwicklungsformat — keine Schulung über Kompetenzen, sondern eine Übung darin.</p>
+        </div>
+
+      </div><!-- /DT-Kompetenzen -->
+
+</div><!-- /phase-card -->
   </div>
   <!-- ═════════════════════════════════════════════════════ -->
+
+
+  <!-- ═══ PRE-REFLEXION ═══════════════════════════════════════════ -->
+  <div class="phase" id="phase-prereflexion">
+    <div class="phase-hdr">
+      <div class="phase-num" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);font-size:.9rem;">📝</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Pre-Reflexion — Mein Ausgangspunkt</div>
+        <div class="phase-desc">Bevor du in den Workshop startest, halten wir kurz inne. Diese Fragen helfen dir, deinen Ausgangspunkt zu verstehen — kein Test, sondern eine ehrliche Selbsteinschätzung.</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Selbstwahrnehmung</span>
+          <span class="phase-comp">Reflexionsfähigkeit</span>
+          <span class="phase-comp">Ausgangslage erfassen</span>
+        </div>
+      </div>
+    </div>
+    <div class="eval-card">
+
+      <div class="pre-ref-sections">
+
+        <!-- Block 1: Digitale Transformation -->
+        <div class="pre-ref-block">
+          <div class="pre-ref-block-hd"><span>💻</span> Digitale Transformation</div>
+
+          <div class="slider-row">
+            <div class="slider-row-q">Wie sicher fühlen Sie sich im Umgang mit digitalen Veränderungen im Gesundheitswesen?</div>
+            <div class="slider-wrap">
+              <input type="range" min="1" max="10" value="5" id="pre-s1"
+                oninput="updateSlider(this)" data-pre="digital_sicherheit"/>
+              <div class="slider-val" id="pre-s1-val">5</div>
+            </div>
+            <div class="slider-labels"><span>Sehr unsicher</span><span>Sehr sicher</span></div>
+          </div>
+
+          <div class="chip-q">Wie relevant schätzen Sie digitale Kompetenzen für Ihren Berufsalltag ein?</div>
+          <div class="chip-row" data-pre="digital_relevanz">
+            <span class="eval-chip" onclick="selectChip(this)">Kaum relevant</span>
+            <span class="eval-chip" onclick="selectChip(this)">Eher relevant</span>
+            <span class="eval-chip" onclick="selectChip(this)">Sehr relevant</span>
+            <span class="eval-chip" onclick="selectChip(this)">Absolut zentral</span>
+          </div>
+        </div>
+
+        <!-- Block 2: Perspektivverständnis -->
+        <div class="pre-ref-block">
+          <div class="pre-ref-block-hd"><span>👁️</span> Perspektivverständnis</div>
+
+          <div class="likert-row">
+            <div class="likert-row-q">Wie gut können Sie die Perspektiven anderer Berufsgruppen im Krankenhaus nachvollziehen?</div>
+            <div class="likert-row-scale">
+              <span class="lbl">Schlecht</span>
+              <div class="btns" data-pre="perspektiv_andere">
+                <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+                <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+                <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+                <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+                <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+              </div>
+              <span class="lbl">Sehr gut</span>
+            </div>
+          </div>
+
+          <div class="likert-row">
+            <div class="likert-row-q">Wie häufig reflektieren Sie unterschiedliche Interessen bei Veränderungsprozessen?</div>
+            <div class="likert-row-scale">
+              <span class="lbl">Selten</span>
+              <div class="btns" data-pre="perspektiv_reflex">
+                <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+                <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+                <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+                <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+                <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+              </div>
+              <span class="lbl">Sehr oft</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 3: Design Thinking -->
+        <div class="pre-ref-block">
+          <div class="pre-ref-block-hd"><span>🎨</span> Design Thinking</div>
+
+          <div class="chip-q">Haben Sie bereits Erfahrungen mit Design-Thinking-Methoden?</div>
+          <div class="chip-row" data-pre="dt_erfahrung">
+            <span class="eval-chip" onclick="selectChip(this)">Keine</span>
+            <span class="eval-chip" onclick="selectChip(this)">Wenig</span>
+            <span class="eval-chip" onclick="selectChip(this)">Etwas</span>
+            <span class="eval-chip" onclick="selectChip(this)">Viel</span>
+          </div>
+
+          <div class="likert-row">
+            <div class="likert-row-q">Wie vertraut sind Sie mit Methoden wie Empathy Map oder Stakeholder Map?</div>
+            <div class="likert-row-scale">
+              <span class="lbl">Unbekannt</span>
+              <div class="btns" data-pre="dt_vertraut">
+                <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+                <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+                <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+                <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+                <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+              </div>
+              <span class="lbl">Sehr vertraut</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 4: Future Skills -->
+        <div class="pre-ref-block">
+          <div class="pre-ref-block-hd"><span>🌱</span> Future Skills</div>
+
+          <div class="slider-row">
+            <div class="slider-row-q">Wie wichtig sind Future Skills wie Empathie und systemisches Denken für das Gesundheitswesen?</div>
+            <div class="slider-wrap">
+              <input type="range" min="1" max="10" value="7" id="pre-s2"
+                oninput="updateSlider(this)" data-pre="skills_wichtigkeit"/>
+              <div class="slider-val" id="pre-s2-val">7</div>
+            </div>
+            <div class="slider-labels"><span>Kaum wichtig</span><span>Extrem wichtig</span></div>
+          </div>
+
+          <div class="eval-open-q">Welche Kompetenz möchten Sie in diesem Workshop besonders entwickeln?</div>
+          <textarea class="eval-textarea" id="pre-open" data-pre="skills_ziel"
+            placeholder="z.B. »Ich möchte besser verstehen, wie andere Berufsgruppen die Digitalisierung erleben.«"></textarea>
+        </div>
+
+      </div><!-- /pre-ref-sections -->
+
+      <div style="text-align:center; margin-top:1.25rem;">
+        <button class="btn-next" style="padding:.7rem 2rem; font-size:.9rem;"
+          onclick="savePreReflexion(); nextPhase()">
+          Weiter zur Rollenwahl →
+        </button>
+        <div style="font-size:.75rem; color:var(--muted); margin-top:.5rem;">
+          Ihre Antworten werden gespeichert und am Ende mit Ihren Lernerfahrungen verglichen.
+        </div>
+      </div>
+
+    </div><!-- /eval-card -->
+  </div>
+  <!-- ═════════════════════════════════════════════════════════════ -->
 
   <!-- ═══ PHASE 1 — ROLLENWAHL + GESPRÄCH ═══ -->
   <div class="phase" id="phase-1">
@@ -3900,11 +5965,7 @@
   </div>
 
   <!-- ═══ PHASE 3 — REFLEXION & FUTURE SKILLS ═══ -->
-  <div class="phase" id="phase-3">
-    <div class="phase-hdr">
-      <div class="phase-num">3</div>
-      <div class="phase-hdr-text">
-        <div class="phase-title">Reflexion &amp; Future Skills</div>
+  
         <div class="phase-desc">Mache deinen Lernprozess sichtbar. Welche Perspektiven haben sich verändert? Welche Kompetenzen hast du entwickelt?</div>
         <div class="phase-comp-row">
           <span class="phase-comp">Reflexionsfähigkeit</span>
@@ -3953,45 +6014,279 @@
   </div>
 
   <!-- ═══ PHASE 4 — EVALUATION ═══ -->
-  <div class="phase" id="phase-4">
+  <!-- ═══ POST-REFLEXION ═══════════════════════════════════════ -->
+  <div class="phase" id="phase-3">
     <div class="phase-hdr">
-      <div class="phase-num">4</div>
+      <div class="phase-num" style="background:linear-gradient(135deg,#0891b2,#0369a1)">6</div>
       <div class="phase-hdr-text">
-        <div class="phase-title">Evaluation &amp; Abschluss</div>
-        <div class="phase-desc">Bewerte deinen Lernprozess — reflexiv, offen und ohne Druck. Ein strukturierter Abschluss deines Design-Thinking-Workshops.</div>
+        <div class="phase-title">Post-Reflexion &amp; Future Skills</div>
+        <div class="phase-desc">Du hast den Design-Thinking-Zyklus durchlaufen. Jetzt machen wir deinen Lernprozess sichtbar — welche Perspektiven haben sich verändert, welche Kompetenzen hast du entwickelt?</div>
         <div class="phase-comp-row">
           <span class="phase-comp">Reflexionsfähigkeit</span>
-          <span class="phase-comp">Selbstwahrnehmung</span>
           <span class="phase-comp">Lernfähigkeit</span>
+          <span class="phase-comp">Selbstwahrnehmung</span>
+          <span class="phase-comp">Transformationskompetenz</span>
         </div>
       </div>
     </div>
-    <div class="phase-card">
-      <div class="evd-section">
-        <div class="evd-heading">🛠️ Design-Thinking-Methoden</div>
-        <div class="likert-item"><div class="likert-lbl">Die Empathy Map hat mir geholfen, andere Perspektiven zu verstehen.</div><div class="likert-scale"><input type="radio" name="l1" id="l1_1" value="1"><label for="l1_1">1</label><input type="radio" name="l1" id="l1_2" value="2"><label for="l1_2">2</label><input type="radio" name="l1" id="l1_3" value="3"><label for="l1_3">3</label><input type="radio" name="l1" id="l1_4" value="4"><label for="l1_4">4</label><input type="radio" name="l1" id="l1_5" value="5"><label for="l1_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
-        <div class="likert-item"><div class="likert-lbl">Die Stakeholder Map hat Konflikte und Machtverhältnisse sichtbar gemacht.</div><div class="likert-scale"><input type="radio" name="l2" id="l2_1" value="1"><label for="l2_1">1</label><input type="radio" name="l2" id="l2_2" value="2"><label for="l2_2">2</label><input type="radio" name="l2" id="l2_3" value="3"><label for="l2_3">3</label><input type="radio" name="l2" id="l2_4" value="4"><label for="l2_4">4</label><input type="radio" name="l2" id="l2_5" value="5"><label for="l2_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
-        <div class="likert-item"><div class="likert-lbl">Die Problem Definition hat mir geholfen, das Kernproblem zu schärfen.</div><div class="likert-scale"><input type="radio" name="l3" id="l3_1" value="1"><label for="l3_1">1</label><input type="radio" name="l3" id="l3_2" value="2"><label for="l3_2">2</label><input type="radio" name="l3" id="l3_3" value="3"><label for="l3_3">3</label><input type="radio" name="l3" id="l3_4" value="4"><label for="l3_4">4</label><input type="radio" name="l3" id="l3_5" value="5"><label for="l3_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
-        <div style="margin-top:.5rem;"><div class="likert-lbl">Welche Methode fanden Sie besonders hilfreich und warum?</div><textarea class="evd-ta" placeholder="Ihre Antwort…"></textarea></div>
+    <div class="eval-card">
+
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">👁️</span>
+        <div>
+          <div class="eval-section-title">Perspektivwechsel</div>
+          <div class="eval-section-sub">Was hat sich durch den Workshop an Ihrem Blick auf andere Berufsgruppen verändert?</div>
+        </div>
       </div>
-      <div class="evd-section">
-        <div class="evd-heading">💻 Digitale Transformation</div>
-        <div class="likert-item"><div class="likert-lbl">Die Anwendung hat mir geholfen, Herausforderungen der Digitalisierung besser zu verstehen.</div><div class="likert-scale"><input type="radio" name="l4" id="l4_1" value="1"><label for="l4_1">1</label><input type="radio" name="l4" id="l4_2" value="2"><label for="l4_2">2</label><input type="radio" name="l4" id="l4_3" value="3"><label for="l4_3">3</label><input type="radio" name="l4" id="l4_4" value="4"><label for="l4_4">4</label><input type="radio" name="l4" id="l4_5" value="5"><label for="l4_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
-        <div class="likert-item"><div class="likert-lbl">Ich verstehe jetzt besser, warum Personalentwicklung für Digitalisierung entscheidend ist.</div><div class="likert-scale"><input type="radio" name="l5" id="l5_1" value="1"><label for="l5_1">1</label><input type="radio" name="l5" id="l5_2" value="2"><label for="l5_2">2</label><input type="radio" name="l5" id="l5_3" value="3"><label for="l5_3">3</label><input type="radio" name="l5" id="l5_4" value="4"><label for="l5_4">4</label><input type="radio" name="l5" id="l5_5" value="5"><label for="l5_5">5</label></div><div class="likert-ends"><span>Gar nicht</span><span>Sehr stark</span></div></div>
-        <div style="margin-top:.5rem;"><div class="likert-lbl">Was haben Sie über digitale Transformation gelernt?</div><textarea class="evd-ta" placeholder="Ihre Antwort…"></textarea></div>
+      <div class="chip-q">Welche Berufsgruppe konnten Sie nach dem Workshop besser verstehen?</div>
+      <div class="chip-row" data-post="perspektiv_gruppe">
+        <span class="eval-chip" onclick="selectChip(this)">Pflegefachkräfte</span>
+        <span class="eval-chip" onclick="selectChip(this)">Ärztinnen &amp; Ärzte</span>
+        <span class="eval-chip" onclick="selectChip(this)">IT-Leitung</span>
+        <span class="eval-chip" onclick="selectChip(this)">Management</span>
+        <span class="eval-chip" onclick="selectChip(this)">Patient:innen</span>
+        <span class="eval-chip" onclick="selectChip(this)">Verwaltung</span>
+        <span class="eval-chip" onclick="selectChip(this)">Therapeut:innen</span>
       </div>
-      <div class="evd-section">
-        <div class="evd-heading">🎯 Future Skills — Selbsteinschätzung</div>
-        <p style="font-size:.79rem;color:var(--muted);margin-bottom:.75rem;">Wie stark wurden diese Kompetenzen durch diesen Workshop gefördert? (⭐ = gering · ⭐⭐⭐⭐⭐ = sehr stark)</p>
-        <div class="stars-grid" id="starsGrid"></div>
+      <div class="eval-open-q">Welche Spannungen und Konflikte zwischen Berufsgruppen wurden besonders deutlich?</div>
+      <textarea class="eval-textarea" placeholder="z.B. »Der Konflikt zwischen Zeitdruck auf Station und dem Schulungsaufwand der IT…«"></textarea>
+
+      <hr class="eval-divider"/>
+
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">🌱</span>
+        <div>
+          <div class="eval-section-title">Future Skills — Kompetenzentwicklung</div>
+          <div class="eval-section-sub">Klicke auf eine Stufe (1–5), um deinen Fortschritt einzuschätzen.</div>
+        </div>
       </div>
-      <div class="evd-section">
-        <div class="evd-heading">🔄 Transfer &amp; Anwendung</div>
-        <div class="likert-lbl">Wie könnten Sie die Erkenntnisse in Ihrem beruflichen Alltag anwenden?</div>
-        <textarea class="evd-ta" placeholder="Ihre Antwort…"></textarea>
+      <div class="skill-prog-grid" id="postSkillGrid"></div>
+      <div id="prePostCompare" style="display:none; margin-top:0.5rem;">
+        <div style="font-size:.78rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:.6rem;">Vergleich Pre → Post</div>
+        <div class="post-compare-grid" id="compareGrid"></div>
       </div>
-      <button class="evd-submit" onclick="submitEvalDash()">📊 Workshop abschließen &amp; Evaluation speichern</button>
-      <div class="evd-result" id="evdResult"></div>
+
+      <hr class="eval-divider"/>
+
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">💻</span>
+        <div>
+          <div class="eval-section-title">Digitale Transformation</div>
+          <div class="eval-section-sub">Was hat sich an Ihrem Verständnis digitaler Transformation verändert?</div>
+        </div>
+      </div>
+      <div class="likert-row">
+        <div class="likert-row-q">Wie hat sich Ihr Verständnis der Herausforderungen digitaler Transformation verändert?</div>
+        <div class="likert-row-scale">
+          <span class="lbl">Kaum</span>
+          <div class="btns" data-post="dt_verstaendnis">
+            <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+            <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+            <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+            <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+            <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+          </div>
+          <span class="lbl">Stark</span>
+        </div>
+      </div>
+      <div class="eval-open-q">Welche Herausforderungen der Digitalisierung wurden besonders sichtbar?</div>
+      <textarea class="eval-textarea" placeholder="z.B. »Digitalisierung ist ein Kulturwandel, keine rein technische Aufgabe…«"></textarea>
+
+      <hr class="eval-divider"/>
+
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">🛠️</span>
+        <div>
+          <div class="eval-section-title">Design-Thinking-Methoden</div>
+          <div class="eval-section-sub">Welche Methoden haben Ihnen besonders geholfen?</div>
+        </div>
+      </div>
+      <div class="chip-q">Welche Methode war für Ihren Lernprozess besonders hilfreich?</div>
+      <div class="chip-row" data-post="methoden_hilfreich">
+        <span class="eval-chip" onclick="selectChip(this)">Empathy Map</span>
+        <span class="eval-chip" onclick="selectChip(this)">Stakeholder Map</span>
+        <span class="eval-chip" onclick="selectChip(this)">Persona</span>
+        <span class="eval-chip" onclick="selectChip(this)">Problem Definition</span>
+        <span class="eval-chip" onclick="selectChip(this)">Ideation</span>
+        <span class="eval-chip" onclick="selectChip(this)">Prototyping</span>
+      </div>
+      <div class="eval-open-q">Was hat diese Methode für Sie besonders deutlich gemacht?</div>
+      <textarea class="eval-textarea" placeholder="z.B. »Die Empathy Map hat mir geholfen, mich wirklich in Annas Situation zu versetzen…«"></textarea>
+
+      <hr class="eval-divider"/>
+
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">🔄</span>
+        <div>
+          <div class="eval-section-title">Transfer in die Praxis</div>
+          <div class="eval-section-sub">Was nehmen Sie konkret mit?</div>
+        </div>
+      </div>
+      <div class="eval-open-q">Welche Erkenntnisse aus diesem Workshop können Sie in Ihrem Berufsalltag nutzen?</div>
+      <textarea class="eval-textarea" placeholder="z.B. »Ich möchte vor Entscheidungen bewusster andere Perspektiven einholen…«"></textarea>
+      <div class="eval-open-q">Welche Future Skills sollten in Ihrem beruflichen Umfeld stärker gefördert werden?</div>
+      <textarea class="eval-textarea" placeholder="z.B. »Empathie und interprofessionelle Kommunikation sollten Teil der Aus- und Weiterbildung sein…«"></textarea>
+
+      <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border);">
+        <div style="font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:.6rem;">Vertiefung mit KI</div>
+        <button class="btn-eval-start" id="evalStartBtn" onclick="toggleEvaluation()"><span>🪷</span> Reflexionsgespräch starten</button>
+        <div class="eval-chat-panel" id="evalChatPanel" style="margin-top:1rem;">
+          <div class="eval-chat-header"><span>🪷</span><span>Reflexions-Begleitung — <strong>interaktiv &amp; lernorientiert</strong></span></div>
+          <div class="eval-progress" id="evalProgress">
+            <span class="eval-progress-chip" data-topic="perspektive">👁️ Perspektiven</span>
+            <span class="eval-progress-chip" data-topic="skills">🎯 Future Skills</span>
+            <span class="eval-progress-chip" data-topic="methoden">🛠️ Methoden</span>
+            <span class="eval-progress-chip" data-topic="transformation">💻 Transformation</span>
+            <span class="eval-progress-chip" data-topic="transfer">🔄 Transfer</span>
+          </div>
+          <div class="eval-messages" id="evalMessages"></div>
+          <div class="eval-typing" id="evalTyping"><span></span><span></span><span></span></div>
+          <div class="eval-input-row">
+            <input type="text" id="evalInput" placeholder="Deine Reflexion…" maxlength="600" onkeydown="if(event.key==='Enter') sendEvalMessage()"/>
+            <button onclick="sendEvalMessage()" id="evalSendBtn">Antworten</button>
+          </div>
+          <div class="eval-actions"><button class="btn-ghost" onclick="resetEvaluation()">Neu starten</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="phase" id="phase-4">
+    <div class="phase-hdr">
+      <div class="phase-num" style="background:linear-gradient(135deg,#059669,#047857)">7</div>
+      <div class="phase-hdr-text">
+        <div class="phase-title">Abschluss-Evaluation</div>
+        <div class="phase-desc">Ein letzter, strukturierter Blick auf Ihre Lernerfahrung — professionell, ruhig, wissenschaftlich fundiert. Ihre Einschätzungen helfen, den Workshop weiterzuentwickeln.</div>
+        <div class="phase-comp-row">
+          <span class="phase-comp">Lernfähigkeit</span>
+          <span class="phase-comp">Selbstreflexion</span>
+          <span class="phase-comp">Transferkompetenz</span>
+        </div>
+      </div>
+    </div>
+    <div class="eval-card">
+
+      <!-- ── DT Methoden Likert ── -->
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">🛠️</span>
+        <div><div class="eval-section-title">Bewertung der DT-Methoden</div></div>
+      </div>
+
+      <div class="likert-row">
+        <div class="likert-row-q">Die Empathy Map hat mir geholfen, andere Perspektiven zu verstehen.</div>
+        <div class="likert-row-scale">
+          <span class="lbl">Gar nicht</span>
+          <div class="btns" data-eval="l_empathy">
+            <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+            <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+            <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+            <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+            <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+          </div>
+          <span class="lbl">Sehr stark</span>
+        </div>
+      </div>
+
+      <div class="likert-row">
+        <div class="likert-row-q">Die Stakeholder Map hat Konflikte und Machtverhältnisse sichtbar gemacht.</div>
+        <div class="likert-row-scale">
+          <span class="lbl">Gar nicht</span>
+          <div class="btns" data-eval="l_stakeholder">
+            <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+            <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+            <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+            <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+            <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+          </div>
+          <span class="lbl">Sehr stark</span>
+        </div>
+      </div>
+
+      <div class="likert-row">
+        <div class="likert-row-q">Die Problem Definition hat mir geholfen, das Kernproblem zu schärfen.</div>
+        <div class="likert-row-scale">
+          <span class="lbl">Gar nicht</span>
+          <div class="btns" data-eval="l_problem">
+            <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+            <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+            <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+            <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+            <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+          </div>
+          <span class="lbl">Sehr stark</span>
+        </div>
+      </div>
+
+      <hr class="eval-divider"/>
+
+      <!-- ── Digitale Transformation ── -->
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">💻</span>
+        <div><div class="eval-section-title">Digitale Transformation &amp; Lernprozess</div></div>
+      </div>
+
+      <div class="likert-row">
+        <div class="likert-row-q">Die Anwendung hat mir geholfen, Herausforderungen der Digitalisierung besser zu verstehen.</div>
+        <div class="likert-row-scale">
+          <span class="lbl">Gar nicht</span>
+          <div class="btns" data-eval="l_digital">
+            <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+            <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+            <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+            <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+            <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+          </div>
+          <span class="lbl">Sehr stark</span>
+        </div>
+      </div>
+
+      <div class="likert-row">
+        <div class="likert-row-q">Ich verstehe jetzt besser, warum Personalentwicklung für die Digitalisierung entscheidend ist.</div>
+        <div class="likert-row-scale">
+          <span class="lbl">Gar nicht</span>
+          <div class="btns" data-eval="l_pe">
+            <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+            <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+            <button class="likert-btn" onclick="selectLikert(this,3)">3</button>
+            <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+            <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+          </div>
+          <span class="lbl">Sehr stark</span>
+        </div>
+      </div>
+
+      <div class="eval-open-q">Was hat Sie in diesem Workshop am meisten überrascht?</div>
+      <textarea class="eval-textarea" placeholder="Ihre Antwort…"></textarea>
+
+      <hr class="eval-divider"/>
+
+      <!-- ── Future Skills Sterne ── -->
+      <div class="eval-section-hd">
+        <span class="eval-section-icon">🎯</span>
+        <div>
+          <div class="eval-section-title">Future Skills — Abschlusseinschätzung</div>
+          <div class="eval-section-sub">Wie stark wurden diese Kompetenzen in diesem Workshop gefördert? (⭐ = gering · ⭐⭐⭐⭐⭐ = sehr stark)</div>
+        </div>
+      </div>
+      <div class="stars-grid" id="starsGrid"></div>
+
+      <hr class="eval-divider"/>
+
+      <div class="eval-open-q">Wie könnten Sie die Erkenntnisse dieses Workshops in Ihren Berufsalltag übertragen?</div>
+      <textarea class="eval-textarea" placeholder="Ihre Antwort…"></textarea>
+
+      <div style="text-align:center; margin-top:1.5rem;">
+        <button class="eval-final-btn" onclick="submitFinalEval()">
+          ✓ Workshop abschließen &amp; Evaluation speichern
+        </button>
+      </div>
+      <div class="eval-complete-box" id="evalCompleteBox">
+        <p><strong>Herzlichen Glückwunsch — Sie haben den Design-Thinking-Workshop abgeschlossen!</strong><br><br>
+        Sie haben verschiedene Berufsrollen erkundet, DT-Methoden angewendet, Kompetenzentwicklung reflektiert und Perspektiven der digitalen Transformation im Gesundheitswesen analysiert. Diese Future Skills — Empathie, systemisches Denken, Reflexionsfähigkeit und Transformationskompetenz — werden in einer sich verändernden Arbeitswelt immer wichtiger.<br><br>
+        <em>Danke für Ihre Teilnahme.</em></p>
+      </div>
+
     </div>
   </div>
 
@@ -4031,13 +6326,14 @@
     evaluations: []
   };
 
-  const PHASE_LABELS = ['Einführung', 'Grundlagen', 'Rollenwahl', 'Methoden', 'Reflexion', 'Evaluation'];
+  const PHASE_LABELS = ['Einführung', 'Grundlagen', 'Pre-Reflexion', 'Rollenwahl', 'Methoden', 'Post-Reflexion', 'Evaluation'];
 
   const PHASE_NEXT_LABELS = [
     'Zu den Grundlagen',
+    'Zur Pre-Reflexion',
     'Zur Rollenwahl',
     'Zu den Methoden',
-    'Zur Reflexion',
+    'Zur Post-Reflexion',
     'Zur Evaluation',
     '✓ Workshop abgeschlossen'
   ];
@@ -6144,6 +8440,9 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
     // Load content
     const m = METHODS_META[key];
     document.getElementById('methodToolTitle').textContent = m.icon + '  ' + m.name;
+    /* Set method theme on panel */
+    const panel = document.getElementById('methodToolPanel');
+    panel.setAttribute('data-method', key);
     loadMethodContent(key);
 
     document.getElementById('methodDashboard').style.display = 'none';
@@ -6168,101 +8467,356 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
     const aiId = 'method-ai-resp';
 
     const TOOL_HTML = {
+
+      /* ──────────────────────────────────────────
+         EMPATHY MAP  — 6-Zone Canvas
+      ────────────────────────────────────────── */
       empathyMap: `
-        <div class="em-grid">
-          <div class="em-quadrant"><div class="em-q-label">🧠 Denkt & fühlt</div><div class="em-q-hint">Was beschäftigt diese Person wirklich? Sorgen, Hoffnungen, innere Konflikte?</div><textarea id="em-thinks" placeholder="z.B. »Ich hoffe, das System erleichtert meinen Alltag wirklich…«"></textarea></div>
-          <div class="em-quadrant"><div class="em-q-label">💬 Sagt</div><div class="em-q-hint">Was sagt sie öffentlich, in Meetings, zu Kolleg:innen?</div><textarea id="em-says" placeholder="z.B. »Das System ist zu langsam für unsere Abläufe.«"></textarea></div>
-          <div class="em-quadrant"><div class="em-q-label">🤲 Tut</div><div class="em-q-hint">Wie verhält sich diese Person im Alltag bei der Systemnutzung?</div><textarea id="em-does" placeholder="z.B. »Dokumentiert zur Sicherheit parallel auf Papier.«"></textarea></div>
-          <div class="em-quadrant"><div class="em-q-label">⚡ Schmerzen & Bedürfnisse</div><div class="em-q-hint">Was hindert sie? Was braucht sie wirklich?</div><textarea id="em-needs" placeholder="z.B. »Braucht Lernzeit ohne Patientendruck.«"></textarea></div>
+        <!-- Canvas header -->
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-empathy-accent)">
+          <div class="dt-canvas-icon">🗺️</div>
+          <div>
+            <div class="dt-canvas-title">Empathy Map</div>
+            <div class="dt-canvas-desc">Verstehe die innere Welt deiner Persona — Gedanken, Gefühle, Worte und Handlungen. Fülle alle sechs Felder aus der Perspektive deiner gewählten Berufsrolle.</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-empathy-bg);border-color:var(--m-empathy-border);color:var(--m-empathy-text)">Verstehen-Phase</div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-          <button class="ws-ai-btn" onclick="wsAI('empathy','${aiId}')">✨ KI-Impuls</button>
-          <button class="ws-ai-btn" onclick="clearEmpathyMap()" style="background:none;border-color:var(--border);color:var(--muted);">↺ Leeren</button>
-        </div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Empathie</span><span class="ws-comp-badge">Perspektivwechsel</span><span class="ws-comp-badge">Kommunikationsfähigkeit</span><span class="ws-comp-badge">Reflexionsfähigkeit</span></div>`,
 
+        <!-- Persona name input -->
+        <div class="em-persona-strip">
+          <span class="em-persona-lbl">👤 Persona:</span>
+          <input class="em-persona-input" id="em-persona-name" type="text" placeholder="Name & Rolle eingeben, z.B. »Anna, Pflegefachkraft«" />
+        </div>
+
+        <!-- 6-zone grid -->
+        <div class="em6-grid">
+          <div class="em6-quad sticky-yellow">
+            <div class="em6-label"><span class="em6-icon">🧠</span>Denkt</div>
+            <div class="em6-hint">Was beschäftigt sie im Kopf? Welche Überzeugungen und Vorannahmen hat sie?</div>
+            <textarea id="em-thinks" placeholder="z.B. »Hoffentlich erleichtert das System meinen Alltag...«"></textarea>
+          </div>
+          <div class="em6-quad sticky-orange">
+            <div class="em6-label"><span class="em6-icon">❤️</span>Fühlt</div>
+            <div class="em6-hint">Welche Emotionen begleiten sie? Was macht ihr Angst, was Hoffnung?</div>
+            <textarea id="em-feels" placeholder="z.B. »Überwältigt von den Änderungen, aber auch neugierig...«"></textarea>
+          </div>
+          <div class="em6-quad sticky-blue">
+            <div class="em6-label"><span class="em6-icon">💬</span>Sagt</div>
+            <div class="em6-hint">Was äußert sie öffentlich — in Meetings, Gesprächen, gegenüber Kolleg:innen?</div>
+            <textarea id="em-says" placeholder="z.B. »Das System ist zu langsam für unsere Abläufe.«"></textarea>
+          </div>
+          <div class="em6-quad sticky-green">
+            <div class="em6-label"><span class="em6-icon">🤲</span>Tut</div>
+            <div class="em6-hint">Was tut sie im Alltag? Welche Verhaltensweisen beobachtest du?</div>
+            <textarea id="em-does" placeholder="z.B. »Dokumentiert zur Sicherheit parallel auf Papier.«"></textarea>
+          </div>
+          <div class="em6-quad em6-pain">
+            <div class="em6-label"><span class="em6-icon">⚡</span>Schmerzen & Hindernisse</div>
+            <div class="em6-hint">Was frustriert sie? Welche Barrieren und Ängste hat sie?</div>
+            <textarea id="em-needs" placeholder="z.B. »Schulungen nur in der Freizeit; System nicht auf Station ausgelegt.«"></textarea>
+          </div>
+          <div class="em6-quad em6-gain">
+            <div class="em6-label"><span class="em6-icon">🎯</span>Bedürfnisse & Wünsche</div>
+            <div class="em6-hint">Was braucht sie wirklich? Was würde ihren Alltag besser machen?</div>
+            <textarea id="em-gains" placeholder="z.B. »Einbezogen werden; Lernzeit auf Station; intuitives System.«"></textarea>
+          </div>
+        </div>
+
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('empathy','em-ai-resp')">✨ KI-Impuls holen</button>
+          <button class="ws-ai-btn btn-ghost-muted" onclick="clearEmpathyMap()">↺ Leeren</button>
+        </div>
+        <div class="ws-ai-response" id="em-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Empathie</span><span class="ws-comp-badge">Perspektivwechsel</span><span class="ws-comp-badge">Kommunikationsfähigkeit</span><span class="ws-comp-badge">Reflexionsfähigkeit</span></div>
+      `,
+
+      /* ──────────────────────────────────────────
+         STAKEHOLDER MAP  — Matrix + SVG Lines
+      ────────────────────────────────────────── */
       stakeholderMap: `
-        <div class="sm-container">
-          <div class="sm-axis-x"></div><div class="sm-axis-y"></div>
-          <div class="sm-q" style="top:8px;left:8px">Zufrieden halten</div>
-          <div class="sm-q" style="top:8px;right:8px">Eng einbinden</div>
-          <div class="sm-q" style="bottom:32px;left:8px">Beobachten</div>
-          <div class="sm-q" style="bottom:32px;right:8px">Informieren</div>
-          <div class="sm-lbl" style="bottom:6px;left:50%;transform:translateX(-50%)">← Geringes Interesse · Hohes Interesse →</div>
-          <div class="sm-lbl" style="left:5px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;white-space:nowrap">← Geringer Einfluss · Hoher Einfluss →</div>
-          <div class="sm-node" style="left:40%;top:12%" data-sh="management" onclick="showStakeholder(this)"><div class="sm-dot" style="background:#fef3c7;border-color:#fde68a">🏥</div><div class="sm-node-name">Management</div></div>
-          <div class="sm-node" style="left:80%;top:22%" data-sh="arzt"       onclick="showStakeholder(this)"><div class="sm-dot" style="background:#dbeafe;border-color:#bfdbfe">👨‍⚕️</div><div class="sm-node-name">Dr. Jonas</div></div>
-          <div class="sm-node" style="left:88%;top:34%" data-sh="pflege"     onclick="showStakeholder(this)"><div class="sm-dot" style="background:#d1fae5;border-color:#a7f3d0">🩺</div><div class="sm-node-name">Anna</div></div>
-          <div class="sm-node" style="left:74%;top:50%" data-sh="it"         onclick="showStakeholder(this)"><div class="sm-dot" style="background:#ede9fe;border-color:#ddd6fe">💻</div><div class="sm-node-name">IT-Leitung</div></div>
-          <div class="sm-node" style="left:90%;top:72%" data-sh="patient"    onclick="showStakeholder(this)"><div class="sm-dot" style="background:#f3f4f6;border-color:#e5e7eb">🛏️</div><div class="sm-node-name">Hr. Müller</div></div>
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-stk-accent)">
+          <div class="dt-canvas-icon">🕸️</div>
+          <div>
+            <div class="dt-canvas-title">Stakeholder Map</div>
+            <div class="dt-canvas-desc">Analysiere Einfluss und Interesse aller Beteiligten. Klicke auf einen Stakeholder-Knoten für Details zu Interessen, Sorgen und Konflikten.</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-stk-bg);border-color:var(--m-stk-border);color:var(--m-stk-text)">Verstehen-Phase</div>
         </div>
+
+        <!-- Matrix -->
+        <div class="sm-matrix-wrap">
+          <!-- Y-Axis label -->
+          <div class="sm-axis-label sm-y-label">↑ Hoher Einfluss</div>
+          <!-- Main matrix area -->
+          <div class="sm-matrix-inner">
+            <div class="sm-container" id="smContainer">
+              <!-- SVG connection lines -->
+              <svg class="sm-connections" id="smConnections" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></svg>
+              <!-- Axis -->
+              <div class="sm-axis-x"></div><div class="sm-axis-y"></div>
+              <!-- Quadrant labels -->
+              <div class="sm-q" style="top:8px;left:8px;font-size:9.5px;">Schlüssel-<br/>stakeholder</div>
+              <div class="sm-q" style="top:8px;right:8px;font-size:9.5px;">Akteure &amp;<br/>Partner</div>
+              <div class="sm-q" style="bottom:28px;left:8px;font-size:9.5px;">Beobachten</div>
+              <div class="sm-q" style="bottom:28px;right:8px;font-size:9.5px;">Informieren</div>
+              <div class="sm-lbl" style="bottom:6px;left:50%;transform:translateX(-50%)">Geringes Interesse · · · Hohes Interesse →</div>
+              <!-- Nodes -->
+              <div class="sm-node" style="left:40%;top:12%" data-sh="management" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#fef3c7;border-color:#fde68a">🏥</div><div class="sm-node-name">Management</div>
+              </div>
+              <div class="sm-node" style="left:80%;top:22%" data-sh="arzt" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#dbeafe;border-color:#bfdbfe">👨‍⚕️</div><div class="sm-node-name">Dr. Jonas</div>
+              </div>
+              <div class="sm-node" style="left:88%;top:34%" data-sh="pflege" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#d1fae5;border-color:#a7f3d0">🩺</div><div class="sm-node-name">Anna</div>
+              </div>
+              <div class="sm-node" style="left:74%;top:50%" data-sh="it" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#ede9fe;border-color:#ddd6fe">💻</div><div class="sm-node-name">IT-Leitung</div>
+              </div>
+              <div class="sm-node" style="left:90%;top:72%" data-sh="patient" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#f3f4f6;border-color:#e5e7eb">🛏️</div><div class="sm-node-name">Hr. Müller</div>
+              </div>
+              <div class="sm-node" style="left:55%;top:40%" data-sh="verwaltung" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#fefce8;border-color:#fef08a">📋</div><div class="sm-node-name">Verwaltung</div>
+              </div>
+              <div class="sm-node" style="left:82%;top:60%" data-sh="therapeut" onclick="showStakeholder(this)">
+                <div class="sm-dot" style="background:#fdf4ff;border-color:#f0abfc">🏃</div><div class="sm-node-name">Therapeut:in</div>
+              </div>
+            </div>
+          </div>
+          <div class="sm-axis-label sm-x-label">→ Niedriges Interesse · Hohes Interesse</div>
+        </div>
+
+        <!-- Legend -->
+        <div class="sm-legend">
+          <span class="sm-legend-item"><span style="background:#ef4444;display:inline-block;width:22px;height:3px;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>Konflikt-Achse</span>
+          <span class="sm-legend-item"><span style="background:#3b82f6;display:inline-block;width:22px;height:3px;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>Kooperations-Achse</span>
+        </div>
+
         <div class="sm-info" id="smInfo"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-          <button class="ws-ai-btn" onclick="wsAI('stakeholder','${aiId}')">✨ Konflikte analysieren</button>
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('stakeholder','sm-ai-resp')">✨ Konflikte analysieren</button>
+          <button class="ws-ai-btn btn-ghost-muted" onclick="drawSmConnections()">⟳ Beziehungen zeichnen</button>
         </div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Systemisches Denken</span><span class="ws-comp-badge">Strategisches Denken</span><span class="ws-comp-badge">Kollaborationsfähigkeit</span></div>`,
+        <div class="ws-ai-response" id="sm-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Systemisches Denken</span><span class="ws-comp-badge">Strategisches Denken</span><span class="ws-comp-badge">Kollaborationsfähigkeit</span></div>
+      `,
 
+      /* ──────────────────────────────────────────
+         PERSONA  — Editorial Profile Cards
+      ────────────────────────────────────────── */
       persona: `
-        <div class="persona-grid" id="personaGrid"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-          <button class="ws-ai-btn" onclick="wsAI('persona','${aiId}')">✨ Persona-Vergleich</button>
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-persona-accent)">
+          <div class="dt-canvas-icon">🪞</div>
+          <div>
+            <div class="dt-canvas-title">Persona-Methode</div>
+            <div class="dt-canvas-desc">Mache abstrakte Berufsgruppen menschlich und greifbar. Klicke auf eine Persona-Karte, um alle Details zu sehen.</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-persona-bg);border-color:var(--m-persona-border);color:var(--m-persona-text)">Beobachten-Phase</div>
         </div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Perspektivwechsel</span><span class="ws-comp-badge">Nutzerzentriertes Denken</span><span class="ws-comp-badge">Empathie</span></div>`,
 
-      problemDefinition: `
-        <div class="pd-pov"><strong>Point of View:</strong> &nbsp;<em>[Berufsgruppe]</em> braucht <em>[Bedürfnis]</em>, weil <em>[überraschende Einsicht]</em>.</div>
-        <div class="pd-grid">
-          <div class="pd-field hl"><div class="pd-label">🎯 Kernproblem</div><div class="pd-hint">Was ist das eigentliche Problem — nicht das Symptom?</div><textarea id="pd-problem" placeholder="z.B. Das Personal hat keine Zeit, neue Systeme im Arbeitsalltag einzulernen."></textarea></div>
-          <div class="pd-field"><div class="pd-label">🔍 Ursachen</div><div class="pd-hint">Welche tiefer liegenden Faktoren verursachen das Problem?</div><textarea id="pd-causes" placeholder="z.B. Schulungen in der Freizeit, Personalmangel lässt keine Lernzeiten zu."></textarea></div>
-          <div class="pd-field"><div class="pd-label">⚡ Auswirkungen</div><div class="pd-hint">Was passiert, wenn das Problem ungelöst bleibt?</div><textarea id="pd-effects" placeholder="z.B. Fehlerquoten steigen, Frustration wächst, Widerstand nimmt zu."></textarea></div>
-          <div class="pd-field"><div class="pd-label">👥 Betroffene</div><div class="pd-hint">Wen betrifft das Problem am stärksten?</div><textarea id="pd-stakeholders" placeholder="z.B. Pflegefachkräfte, Patient:innen, IT-Projektleitung"></textarea></div>
+        <div class="persona-grid" id="personaGrid"></div>
+
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('persona','pers-ai-resp')">✨ Persona-Vergleich durch KI</button>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-          <button class="ws-ai-btn" onclick="wsAI('problem','${aiId}')">✨ KI schärft die Definition</button>
-          <button class="ws-ai-btn" onclick="generatePoV()" style="background:#fffbf0;border-color:#f0d8b0;color:var(--tag-text);">📌 PoV generieren</button>
+        <div class="ws-ai-response" id="pers-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Perspektivwechsel</span><span class="ws-comp-badge">Nutzerzentriertes Denken</span><span class="ws-comp-badge">Empathie</span></div>
+      `,
+
+      /* ──────────────────────────────────────────
+         PROBLEM DEFINITION  — Iceberg Canvas
+      ────────────────────────────────────────── */
+      problemDefinition: `
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-problem-accent)">
+          <div class="dt-canvas-icon">🎯</div>
+          <div>
+            <div class="dt-canvas-title">Problem Definition</div>
+            <div class="dt-canvas-desc">Trenne Symptome von Ursachen. Formuliere das Kernproblem präzise — als Grundlage für echte Lösungen, nicht Symptombekämpfung.</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-problem-bg);border-color:var(--m-problem-border);color:var(--m-problem-text)">Sichtweise definieren</div>
+        </div>
+
+        <!-- Iceberg metaphor -->
+        <div class="pd-iceberg">
+          <div class="pd-iceberg-top">
+            <div class="pd-iceberg-label">🌊 Sichtbare Oberfläche</div>
+            <div class="pd-field pd-field-hl">
+              <div class="pd-label">🎯 Kernproblem — Was ist sichtbar?</div>
+              <div class="pd-hint">Wie würde jemand das Problem von außen beschreiben?</div>
+              <textarea id="pd-problem" placeholder="z.B. Das Personal nutzt das neue Dokumentationssystem kaum und weicht auf Papier aus."></textarea>
+            </div>
+          </div>
+          <div class="pd-iceberg-divider">
+            <span class="pd-iceberg-divider-lbl">Unter der Oberfläche ↓</span>
+          </div>
+          <div class="pd-iceberg-bottom">
+            <div class="pd-iceberg-label">🧊 Tiefere Ursachen</div>
+            <div class="pd-grid2">
+              <div class="pd-field">
+                <div class="pd-label">🔍 Ursachen</div>
+                <div class="pd-hint">Was verursacht das Problem wirklich?</div>
+                <textarea id="pd-causes" placeholder="z.B. Schulungen nur außerhalb der Arbeitszeit; System nicht auf Stationsalltag angepasst."></textarea>
+              </div>
+              <div class="pd-field">
+                <div class="pd-label">⚡ Auswirkungen</div>
+                <div class="pd-hint">Was passiert, wenn es ungelöst bleibt?</div>
+                <textarea id="pd-effects" placeholder="z.B. Fehlerquoten steigen; Frustration wächst; Akzeptanz sinkt."></textarea>
+              </div>
+              <div class="pd-field" style="grid-column:1/-1">
+                <div class="pd-label">👥 Betroffene Stakeholder</div>
+                <div class="pd-hint">Wen trifft das Problem am härtesten?</div>
+                <textarea id="pd-stakeholders" placeholder="z.B. Pflegefachkräfte, Patient:innen, IT-Projektleitung"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PoV Builder -->
+        <div class="pov-builder">
+          <div class="pov-builder-hd">📌 Point of View Statement</div>
+          <div class="pov-template">
+            <span class="pov-fill" contenteditable="true" data-placeholder="[Berufsgruppe]">&nbsp;</span>
+            <span class="pov-connector">braucht</span>
+            <span class="pov-fill" contenteditable="true" data-placeholder="[konkretes Bedürfnis]">&nbsp;</span>
+            <span class="pov-connector">weil</span>
+            <span class="pov-fill pov-fill-wide" contenteditable="true" data-placeholder="[überraschende Einsicht]">&nbsp;</span>
+          </div>
+          <button class="ws-ai-btn" style="margin-top:.6rem" onclick="generatePoV()">📌 PoV automatisch generieren</button>
         </div>
         <div id="pd-pov-result" style="display:none;margin-top:.75rem;padding:.75rem 1rem;background:#fffbf0;border:1px solid #f0d8b0;border-radius:var(--radius);font-size:.85rem;color:var(--tag-text);line-height:1.65;"></div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Analytisches Denken</span><span class="ws-comp-badge">Kritisches Denken</span><span class="ws-comp-badge">Problemlösungskompetenz</span></div>`,
 
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('problem','pd-ai-resp')">✨ KI schärft die Definition</button>
+        </div>
+        <div class="ws-ai-response" id="pd-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Analytisches Denken</span><span class="ws-comp-badge">Kritisches Denken</span><span class="ws-comp-badge">Problemlösungskompetenz</span></div>
+      `,
+
+      /* ──────────────────────────────────────────
+         IDEATION  — Creative Canvas with Zones
+      ────────────────────────────────────────── */
       ideation: `
-        <div class="ib-row">
-          <input type="text" id="ibInput" placeholder="Neue Idee eingeben…" maxlength="200" onkeydown="if(event.key==='Enter') addIdea()"/>
-          <button onclick="addIdea()">Hinzufügen</button>
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-ideation-accent)">
+          <div class="dt-canvas-icon">💡</div>
+          <div>
+            <div class="dt-canvas-title">Ideation &amp; Brainstorming</div>
+            <div class="dt-canvas-desc">Quantität vor Qualität — keine Idee ist zu groß oder zu absurd. Nutze die Impulskategorien als Sprungbrett und bewertet danach mit 👍 / 👎.</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-ideation-bg);border-color:var(--m-ideation-border);color:var(--m-ideation-text)">Ideen-Phase</div>
         </div>
-        <div class="ib-board" id="ibBoard"><div class="ib-empty">Noch keine Ideen — starte das Brainstorming!</div></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-          <button class="ws-ai-btn" onclick="wsAI('ideation','${aiId}')">✨ KI-Impuls</button>
-          <button class="ws-ai-btn" onclick="clearBoard()" style="background:none;border-color:var(--border);color:var(--muted);">↺ Board leeren</button>
-        </div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Kreativität</span><span class="ws-comp-badge">Innovationsfähigkeit</span><span class="ws-comp-badge">Offenheit</span></div>`,
 
+        <!-- Impulse categories -->
+        <div class="ib-impulse-row">
+          <span class="ib-impulse" onclick="setIdeaCategory(this,'quick')">⚡ Quick Wins</span>
+          <span class="ib-impulse" onclick="setIdeaCategory(this,'innovation')">🚀 Innovation</span>
+          <span class="ib-impulse" onclick="setIdeaCategory(this,'people')">🤝 Menschen &amp; Kultur</span>
+          <span class="ib-impulse" onclick="setIdeaCategory(this,'process')">🔄 Prozesse</span>
+          <span class="ib-impulse active-cat" id="impulse-none" onclick="setIdeaCategory(this,'')">💡 Alle</span>
+        </div>
+
+        <!-- Input row -->
+        <div class="ib-row" style="margin-bottom:.65rem">
+          <input type="text" id="ibInput" placeholder="Idee eingeben und Enter drücken…" maxlength="200" onkeydown="if(event.key==='Enter') addIdea()"/>
+          <button onclick="addIdea()">+ Hinzufügen</button>
+        </div>
+
+        <!-- Canvas board -->
+        <div class="ib-board" id="ibBoard">
+          <div class="ib-empty" id="ibEmpty">
+            <div style="font-size:1.8rem;margin-bottom:.4rem">💡</div>
+            Noch keine Ideen — starte das Brainstorming!<br>
+            <span style="font-size:.72rem;opacity:.7">Tippe eine Idee und drücke Enter oder klicke »+ Hinzufügen«</span>
+          </div>
+        </div>
+
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('ideation','ib-ai-resp')">✨ KI-Impuls: neue Perspektive</button>
+          <button class="ws-ai-btn btn-ghost-muted" onclick="clearBoard()">↺ Board leeren</button>
+        </div>
+        <div class="ws-ai-response" id="ib-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Kreativität</span><span class="ws-comp-badge">Innovationsfähigkeit</span><span class="ws-comp-badge">Offenheit</span><span class="ws-comp-badge">Kollaboration</span></div>
+      `,
+
+      /* ──────────────────────────────────────────
+         PROTOTYPING  — Blueprint Canvas
+      ────────────────────────────────────────── */
       prototyping: `
-        <div style="background:var(--skill-bg);border:1px solid var(--skill-border);border-radius:var(--radius);padding:1rem 1.1rem;margin-bottom:1rem;font-size:.82rem;color:var(--skill-text);line-height:1.65;">
-          💡 <strong>Prototyping-Prinzip:</strong> Ein Prototyp muss nicht perfekt sein — er soll helfen, schnell zu lernen. Beschreibe grob, was du testen willst.
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-proto-accent)">
+          <div class="dt-canvas-icon">🛠️</div>
+          <div>
+            <div class="dt-canvas-title">Prototyping</div>
+            <div class="dt-canvas-desc">Ein Prototyp muss nicht perfekt sein — er soll helfen, schnell zu lernen. Beschreibe, was du testen willst, und wie du misst, ob es funktioniert.</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-proto-bg);border-color:var(--m-proto-border);color:var(--m-proto-text)">Prototyp-Phase</div>
         </div>
-        <div class="pd-grid">
-          <div class="pd-field hl"><div class="pd-label">🛠️ Idee / Lösungsansatz</div><div class="pd-hint">Welche Idee willst du greifbar machen?</div><textarea placeholder="z.B. Eine 2-Stunden-Lerneinheit direkt auf Station, begleitet von digitalen Mentor:innen."></textarea></div>
-          <div class="pd-field"><div class="pd-label">🎯 Was willst du testen?</div><div class="pd-hint">Welche Annahme überprüfst du?</div><textarea placeholder="z.B. Ob Kurzschulungen direkt am Arbeitsplatz wirksamer sind als zentrale Seminare."></textarea></div>
-          <div class="pd-field"><div class="pd-label">⚡ Erster Schritt (diese Woche)</div><div class="pd-hint">Was ist der minimalste Schritt, den du sofort tun könntest?</div><textarea placeholder="z.B. Mit einer Pflegefachkraft eine 30-minütige Testeinheit direkt auf Station durchführen."></textarea></div>
-          <div class="pd-field"><div class="pd-label">👀 Wie misst du Erfolg?</div><div class="pd-hint">Woran erkennst du, ob der Prototyp funktioniert?</div><textarea placeholder="z.B. Die Person kann danach selbst dokumentieren ohne Hilfe."></textarea></div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem;">
-          <button class="ws-ai-btn" onclick="wsAI('ideation','${aiId}')">✨ KI-Impuls für Prototypen</button>
-        </div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Adaptionsfähigkeit</span><span class="ws-comp-badge">Experimentierfreude</span><span class="ws-comp-badge">Problemlösungskompetenz</span></div>`,
 
+        <!-- Blueprint canvas -->
+        <div class="proto-canvas">
+          <!-- Iteration badge -->
+          <div class="proto-iteration">Iteration #<span id="protoIteration">1</span> <button onclick="document.getElementById('protoIteration').textContent=parseInt(document.getElementById('protoIteration').textContent||1)+1" style="font-size:.7rem;padding:1px 6px;background:var(--primary-lt);border:1px solid var(--primary-border);border-radius:4px;cursor:pointer;color:var(--primary);margin-left:4px">+</button></div>
+
+          <div class="proto-grid">
+            <div class="proto-field proto-field-main">
+              <div class="proto-field-hd">🛠️ Die Idee / Lösungsansatz</div>
+              <div class="proto-field-sub">Was genau willst du umsetzen oder testen?</div>
+              <textarea placeholder="z.B. Eine 30-minütige Lerneinheit direkt auf Station, begleitet von Kolleg:innen die das System bereits kennen."></textarea>
+            </div>
+            <div class="proto-field">
+              <div class="proto-field-hd">🎯 Was willst du testen?</div>
+              <div class="proto-field-sub">Welche Annahme prüfst du?</div>
+              <textarea placeholder="z.B. Ob Kurzschulungen auf Station wirksamer sind als Seminarräume."></textarea>
+            </div>
+            <div class="proto-field">
+              <div class="proto-field-hd">⚡ Erster Schritt (diese Woche)</div>
+              <div class="proto-field-sub">Was ist der minimalste nächste Schritt?</div>
+              <textarea placeholder="z.B. Eine Pflegefachkraft ansprechen und 30-min-Slot vereinbaren."></textarea>
+            </div>
+            <div class="proto-field">
+              <div class="proto-field-hd">📏 Wie misst du Erfolg?</div>
+              <div class="proto-field-sub">Woran erkennst du, ob der Prototyp funktioniert?</div>
+              <textarea placeholder="z.B. Person kann danach selbst dokumentieren ohne Hilfe zu benötigen."></textarea>
+            </div>
+            <div class="proto-field" style="grid-column:1/-1">
+              <div class="proto-field-hd">💬 Was lernst du daraus?</div>
+              <div class="proto-field-sub">Wenn der Test abgeschlossen ist: Was weißt du jetzt?</div>
+              <textarea placeholder="Hier nach dem Test eintragen…" style="min-height:52px"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('ideation','proto-ai-resp')">✨ KI-Impuls für Prototypen</button>
+        </div>
+        <div class="ws-ai-response" id="proto-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Adaptionsfähigkeit</span><span class="ws-comp-badge">Experimentierfreude</span><span class="ws-comp-badge">Problemlösungskompetenz</span></div>
+      `,
+
+      /* ──────────────────────────────────────────
+         REFLEXION  — Skill Dashboard
+      ────────────────────────────────────────── */
       reflexion: `
+        <div class="dt-canvas-hd" style="border-left:4px solid var(--m-ref-accent)">
+          <div class="dt-canvas-icon">🔄</div>
+          <div>
+            <div class="dt-canvas-title">Reflexion &amp; Future Skills</div>
+            <div class="dt-canvas-desc">Mache deinen Lernprozess sichtbar. Welche Future Skills hast du entwickelt? Welche Perspektiven haben sich verändert?</div>
+          </div>
+          <div class="dt-canvas-badge" style="background:var(--m-ref-bg);border-color:var(--m-ref-border);color:var(--m-ref-text)">Testen &amp; Lernen</div>
+        </div>
         <div class="ref-qs">
           <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven anderer Berufsgruppen waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
-          <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen wurden in diesem Lernprozess sichtbar?</div><textarea placeholder="z.B. Spannungen zwischen Wirtschaftlichkeit und Personalwohl…"></textarea></div>
-          <div class="ref-q"><div class="ref-q-lbl">🎯 Welche Future Skills hast du aktiv genutzt oder entwickelt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen wurden sichtbar?</div><textarea placeholder="z.B. Spannungen zwischen Wirtschaftlichkeit und Personalwohl…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">🎯 Welche Future Skills hast du aktiv genutzt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
         </div>
-        <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.7rem;">Selbsteinschätzung Future Skills:</div>
+        <div style="font-size:.8rem;font-weight:700;color:var(--text);margin:.75rem 0 .5rem">Selbsteinschätzung Future Skills:</div>
         <div class="ref-comp-grid" id="refCompGrid"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem;">
-          <button class="ws-ai-btn" onclick="wsAI('reflexion','${aiId}')">✨ KI reflektiert mit dir</button>
+        <div class="dt-tool-actions">
+          <button class="ws-ai-btn" onclick="wsAI('reflexion','ref-ai-resp')">✨ KI reflektiert mit dir</button>
         </div>
-        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Reflexionsfähigkeit</span><span class="ws-comp-badge">Lernfähigkeit</span><span class="ws-comp-badge">Selbstwahrnehmung</span></div>`
+        <div class="ws-ai-response" id="ref-ai-resp"></div>
+        <div class="ws-comp-row"><span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;">Fördert:</span><span class="ws-comp-badge">Reflexionsfähigkeit</span><span class="ws-comp-badge">Lernfähigkeit</span><span class="ws-comp-badge">Selbstwahrnehmung</span></div>
+      `
     };
 
     container.innerHTML = (TOOL_HTML[key] || '<p>Methode wird geladen…</p>') + `<div class="ws-ai-response" id="${aiId}"></div>`;
@@ -6271,6 +8825,8 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
     if (key === 'persona')   buildPersonaGrid();
     if (key === 'reflexion') buildRefCompGrid();
     if (key === 'ideation')  renderBoard();
+    /* Inject Prozess-Reflexion after tool content */
+    setTimeout(() => injectProcessReflexion(key), 50);
   }
 
 
@@ -6399,7 +8955,285 @@ Verbinde die Reflexion mit dem Kontext des Krankenhauses St. Marien. Max. 150 W�
 
     /* Startphase anzeigen */
     showPhase(0);
+    if (typeof buildPostSkillGrid === 'function') buildPostSkillGrid();
   });
+
+
+  /* ═══ EVALUATION SYSTEM ══════════════════════════════════════════
+     Pre-Reflexion · Prozess-Reflexion · Post-Reflexion
+  ═══════════════════════════════════════════════════════════════════ */
+
+  /* Extend appState with evaluation data */
+  appState.preReflexion       = {};
+  appState.methodReflexions   = {};
+  appState.postReflexion      = {};
+  appState.skillScores        = {};  /* post skill self-ratings */
+
+  const POST_SKILLS = [
+    { key:'empathie',       name:'Empathie' },
+    { key:'systemisch',     name:'Systemisches Denken' },
+    { key:'problem',        name:'Problemlösungskompetenz' },
+    { key:'kommunikation',  name:'Kommunikationsfähigkeit' },
+    { key:'reflexion',      name:'Reflexionsfähigkeit' },
+    { key:'kollaboration',  name:'Kollaboration' },
+    { key:'digital',        name:'Digitale Kompetenz' },
+    { key:'adaption',       name:'Adaptionsfähigkeit' },
+  ];
+
+  /* ── Slider ── */
+  function updateSlider(el) {
+    const v   = el.value;
+    const max = el.max || 10;
+    const pct = ((v - 1) / (max - 1) * 100).toFixed(0);
+    el.style.setProperty('--pct', pct + '%');
+    const valEl = document.getElementById(el.id + '-val');
+    if (valEl) valEl.textContent = v;
+    if (el.dataset.pre) appState.preReflexion[el.dataset.pre] = parseInt(v);
+  }
+
+  /* ── Likert buttons ── */
+  function selectLikert(btn, val) {
+    const group = btn.closest('.btns');
+    group.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    const key = group.dataset.pre || group.dataset.post || group.dataset.eval || group.dataset.proc;
+    if (key) {
+      if (group.dataset.pre)   appState.preReflexion[key]  = val;
+      if (group.dataset.post)  appState.postReflexion[key] = val;
+      if (group.dataset.eval)  appState.evaluations.push({ key, val });
+    }
+  }
+
+  /* ── Chip select (single) ── */
+  function selectChip(chip) {
+    const row = chip.closest('.chip-row');
+    row.querySelectorAll('.eval-chip').forEach(c => c.classList.remove('sel'));
+    chip.classList.add('sel');
+    const key = row.dataset.pre || row.dataset.post;
+    if (key) {
+      if (row.dataset.pre)  appState.preReflexion[key]  = chip.textContent.trim();
+      if (row.dataset.post) appState.postReflexion[key] = chip.textContent.trim();
+    }
+  }
+
+  /* ── Save Pre-Reflexion ── */
+  function savePreReflexion() {
+    /* collect open text */
+    const openEl = document.getElementById('pre-open');
+    if (openEl) appState.preReflexion['skills_ziel'] = openEl.value.trim();
+    /* collect sliders */
+    document.querySelectorAll('#phase-prereflexion input[type=range]').forEach(el => {
+      if (el.dataset.pre) appState.preReflexion[el.dataset.pre] = parseInt(el.value);
+    });
+    console.log('Pre-Reflexion saved:', appState.preReflexion);
+  }
+
+  /* ── Build post skill-progress grid ── */
+  function buildPostSkillGrid() {
+    const grid = document.getElementById('postSkillGrid');
+    if (!grid || grid.dataset.built) return;
+    grid.dataset.built = '1';
+    grid.innerHTML = '';
+    POST_SKILLS.forEach(sk => {
+      appState.skillScores[sk.key] = 0;
+      const item = document.createElement('div');
+      item.className = 'skill-prog-item';
+      item.innerHTML = `
+        <div class="skill-prog-name">${sk.name} <span class="score" id="sp-score-${sk.key}">—</span></div>
+        <div class="skill-prog-bar">
+          <div class="skill-prog-fill" id="sp-fill-${sk.key}" style="width:0%"></div>
+        </div>
+        <div class="skill-prog-ticks">
+          ${[1,2,3,4,5].map(n =>
+            `<span class="skill-prog-tick" onclick="setPostSkill('${sk.key}',${n})">${n}</span>`
+          ).join('')}
+        </div>`;
+      grid.appendChild(item);
+    });
+  }
+
+  function setPostSkill(key, val) {
+    appState.skillScores[key] = val;
+    const fill  = document.getElementById('sp-fill-' + key);
+    const score = document.getElementById('sp-score-' + key);
+    const labels = ['','Kaum','Etwas','Merklich','Stark','Sehr stark'];
+    if (fill)  fill.style.width = (val * 20) + '%';
+    if (score) score.textContent = labels[val] || '—';
+    updatePrePostCompare();
+  }
+
+  /* ── Pre vs Post comparison ── */
+  function updatePrePostCompare() {
+    const hasPreSkillData = Object.keys(appState.skillScores).some(k => appState.skillScores[k] > 0);
+    if (!hasPreSkillData) return;
+
+    const box = document.getElementById('prePostCompare');
+    const grid = document.getElementById('compareGrid');
+    if (!box || !grid) return;
+
+    /* Map pre-reflexion sliders to skill keys */
+    const PRE_MAP = {
+      empathie:      ((appState.preReflexion.perspektiv_andere || 3) / 5 * 5).toFixed(0),
+      systemisch:    ((appState.preReflexion.perspektiv_reflex || 3) / 5 * 5).toFixed(0),
+      digital:       ((appState.preReflexion.digital_sicherheit || 5) / 10 * 5).toFixed(0),
+      reflexion:     ((appState.preReflexion.dt_vertraut || 1) / 5 * 5).toFixed(0),
+    };
+
+    box.style.display = 'block';
+    grid.innerHTML = '';
+
+    POST_SKILLS.forEach(sk => {
+      const post = appState.skillScores[sk.key] || 0;
+      const pre  = parseInt(PRE_MAP[sk.key] || 0);
+      if (!post) return;
+      const delta = post - pre;
+      const card  = document.createElement('div');
+      card.className = 'compare-card';
+      card.innerHTML = `
+        <div class="compare-skill">${sk.name}</div>
+        <div class="compare-bars">
+          ${pre > 0 ? `<div class="compare-bar-row">
+            <span class="compare-bar-lbl">Vor</span>
+            <div class="compare-bar-track"><div class="compare-bar-fill pre" style="width:${pre*20}%"></div></div>
+          </div>` : ''}
+          <div class="compare-bar-row">
+            <span class="compare-bar-lbl">Nach</span>
+            <div class="compare-bar-track"><div class="compare-bar-fill post" style="width:${post*20}%"></div></div>
+            <span class="compare-delta ${delta>0?'up':delta<0?'down':'same'}">
+              ${delta>0?'+'+delta:delta===0?'=':delta}
+            </span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  /* ── Process Reflexion (injected after each method tool) ── */
+  const PROC_REF_QS = {
+    empathyMap:        ['Welche Bedürfnisse der Rolle wurden für Sie besonders sichtbar?', 'Was hat Sie überrascht? Welche Kompetenz war dabei hilfreich?'],
+    stakeholderMap:    ['Welche Konflikte zwischen Stakeholdern wurden deutlich?', 'Welche Zusammenhänge haben Sie bisher nicht gesehen?'],
+    persona:           ['Was hat Ihnen die Persona über diese Berufsgruppe gezeigt?', 'Welche Frustrationen oder Ziele waren neu für Sie?'],
+    problemDefinition: ['Was ist das eigentliche Kernproblem — hinter den Symptomen?', 'Welche Ursachen haben Sie bisher unterschätzt?'],
+    ideation:          ['Welche Lösungsansätze haben Sie am meisten überrascht?', 'Welche Perspektive hat Ihre Ideen am stärksten beeinflusst?'],
+    prototyping:       ['Was würden Sie als erstes kleines Experiment ausprobieren?', 'Was wollen Sie mit diesem Prototypen herausfinden?'],
+    reflexion:         ['Welche Future Skills wurden in diesem Workshop besonders sichtbar?', 'Was nehmen Sie als wichtigste Erkenntnis mit?'],
+  };
+
+  function injectProcessReflexion(methodKey) {
+    const container = document.getElementById('methodToolContent');
+    if (!container) return;
+    /* Remove old proc-ref if exists */
+    const old = container.querySelector('.proc-ref-card');
+    if (old) old.remove();
+
+    const qs = PROC_REF_QS[methodKey] || PROC_REF_QS.reflexion;
+    const card = document.createElement('div');
+    card.className = 'proc-ref-card';
+    card.innerHTML = `
+      <div class="proc-ref-hd">💬 Reflexionsmoment — ${(METHODS_META[methodKey]||{name:''}).name}</div>
+      ${qs.map((q, i) => `
+        <div class="proc-ref-q">${q}</div>
+        <textarea class="proc-ref-input" id="procref-${methodKey}-${i}"
+          placeholder="Ihre Gedanken…"
+          onblur="saveProcRef('${methodKey}',${i},this.value)"></textarea>
+      `).join('')}
+      <button class="proc-ref-save" onclick="saveProcRefCard('${methodKey}')">
+        💾 Reflexion speichern
+      </button>
+      <span class="proc-ref-saved" id="proc-saved-${methodKey}">✓ Gespeichert</span>
+    `;
+    container.appendChild(card);
+  }
+
+  function saveProcRef(methodKey, idx, val) {
+    if (!appState.methodReflexions[methodKey]) appState.methodReflexions[methodKey] = {};
+    appState.methodReflexions[methodKey][idx] = val;
+  }
+
+  function saveProcRefCard(methodKey) {
+    /* collect all proc-ref textareas for this method */
+    const qs = PROC_REF_QS[methodKey] || [];
+    qs.forEach((q, i) => {
+      const el = document.getElementById(`procref-${methodKey}-${i}`);
+      if (el) saveProcRef(methodKey, i, el.value.trim());
+    });
+    const savedEl = document.getElementById('proc-saved-' + methodKey);
+    if (savedEl) { savedEl.classList.add('visible'); setTimeout(() => savedEl.classList.remove('visible'), 2500); }
+    console.log('Method reflexion saved:', methodKey, appState.methodReflexions[methodKey]);
+  }
+
+  /* ── Final evaluation submit ── */
+  function submitFinalEval() {
+    const box = document.getElementById('evalCompleteBox');
+    if (box) { box.classList.add('visible'); box.scrollIntoView({ behavior:'smooth', block:'center' }); }
+    console.log('Final eval state:', JSON.stringify({
+      preReflexion: appState.preReflexion,
+      methodReflexions: appState.methodReflexions,
+      skillScores: appState.skillScores,
+      postReflexion: appState.postReflexion,
+    }, null, 2));
+  }
+
+  /* ═══ CONCEPT CARD TOGGLE ═══ */
+  function toggleConcept(card) {
+    const isOpen = card.classList.contains('open');
+    /* Close all others in same grid */
+    const grid = card.closest('.concept-grid');
+    if (grid) {
+      grid.querySelectorAll('.concept-card.open').forEach(c => {
+        if (c !== card) c.classList.remove('open');
+      });
+    }
+    card.classList.toggle('open', !isOpen);
+  }
+
+
+
+  /* ── Idea categories ── */
+  let activeIdeaCategory = '';
+
+  function setIdeaCategory(el, cat) {
+    document.querySelectorAll('.ib-impulse').forEach(e => e.classList.remove('active-cat'));
+    el.classList.add('active-cat');
+    activeIdeaCategory = cat;
+  }
+
+  /* ── Stakeholder connection lines ── */
+  function drawSmConnections() {
+    const svg = document.getElementById('smConnections');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const CONNECTIONS = [
+      {a:'management', b:'it',      color:'#3b82f6', type:'cowork'},
+      {a:'management', b:'pflege',  color:'#ef4444', type:'conflict'},
+      {a:'it',         b:'pflege',  color:'#f97316', type:'conflict'},
+      {a:'it',         b:'arzt',    color:'#f97316', type:'conflict'},
+      {a:'arzt',       b:'pflege',  color:'#3b82f6', type:'cowork'},
+      {a:'patient',    b:'pflege',  color:'#3b82f6', type:'cowork'},
+    ];
+
+    const container = document.getElementById('smContainer');
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+
+    CONNECTIONS.forEach(conn => {
+      const nodeA = container.querySelector(`[data-sh="${conn.a}"]`);
+      const nodeB = container.querySelector(`[data-sh="${conn.b}"]`);
+      if (!nodeA || !nodeB) return;
+      const rA = nodeA.getBoundingClientRect();
+      const rB = nodeB.getBoundingClientRect();
+      const x1 = rA.left - rect.left + rA.width / 2;
+      const y1 = rA.top  - rect.top  + rA.height / 2;
+      const x2 = rB.left - rect.left + rB.width / 2;
+      const y2 = rB.top  - rect.top  + rB.height / 2;
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+      line.setAttribute('stroke', conn.color);
+      svg.appendChild(line);
+    });
+  }
 </script>
 </body>
 </html>
