@@ -1,0 +1,2965 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Fast Forward — Design Thinking im Gesundheitswesen</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #f7f6f2;
+  --surface:     #ffffff;
+  --surface-2:   #f2f1ed;
+  --text:        #18181b;
+  --text-2:      #3f3f46;
+  --muted:       #71717a;
+  --border:      #e4e4e7;
+  --border-2:    #d4d4d8;
+  --primary:     #1d4ed8;
+  --primary-dk:  #1e40af;
+  --primary-lt:  #eff6ff;
+  --primary-bd:  #bfdbfe;
+  --accent:      #7c3aed;
+  --accent-lt:   #f5f3ff;
+  --green:       #15803d;
+  --green-lt:    #f0fdf4;
+  --green-bd:    #bbf7d0;
+  --amber:       #b45309;
+  --amber-lt:    #fffbeb;
+  --amber-bd:    #fde68a;
+  --red:         #b91c1c;
+
+  --font-h: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-b: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+
+  --r:     8px;
+  --r-lg:  14px;
+  --r-xl:  20px;
+  --sh:    0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+  --sh-lg: 0 4px 8px rgba(0,0,0,.06), 0 16px 40px rgba(0,0,0,.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-b);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 38px; /* top bar height */
+}
+
+/* === TOP BAR === */
+.top-bar {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  height: 38px;
+  background: rgba(24,24,27,0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.top-bar-left { display:flex; align-items:center; gap:10px; }
+.top-bar-brand { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.45); }
+.top-bar-dot { width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,.6); }
+.top-bar-status { font-size:10px;color:rgba(167,243,208,.8);font-weight:600; }
+.top-bar-right { display:flex; align-items:center; gap:8px; }
+.top-api-input {
+  width:200px; padding:4px 10px;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
+  border-radius:5px; font-size:11px; font-family:monospace;
+  color:rgba(255,255,255,.8); outline:none;
+  transition: border-color .2s, background .2s;
+}
+.top-api-input::placeholder { color:rgba(255,255,255,.3); }
+.top-api-input:focus { border-color:rgba(37,99,235,.6); background:rgba(37,99,235,.1); }
+.top-api-btn {
+  padding:3px 11px; background:rgba(37,99,235,.7); border:none;
+  border-radius:5px; font-size:10px; font-weight:700; color:#fff;
+  cursor:pointer; transition:background .15s;
+}
+.top-api-btn:hover { background:rgba(37,99,235,1); }
+
+/* === APP WRAPPER === */
+.app { max-width:860px; margin:0 auto; padding:2rem 1.25rem 3rem; }
+
+/* === PROGRESS BAR === */
+.stepper {
+  display:flex; align-items:flex-start;
+  justify-content:center; gap:0;
+  margin-bottom:2rem;
+  padding: .75rem 1rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  box-shadow: var(--sh);
+}
+
+.step { display:flex; flex-direction:column; align-items:center; flex:1; cursor:pointer; gap:0; }
+
+.step-track { display:flex; align-items:center; width:100%; }
+.step-line { flex:1; height:1.5px; background:var(--border-2); transition:background .4s; }
+.step-line.done { background:var(--primary); }
+.step-line.ghost { background:transparent; pointer-events:none; }
+
+.step-circle {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700;
+  background:var(--surface); border:2px solid var(--border-2); color:var(--muted);
+  transition: all .3s cubic-bezier(.4,0,.2,1);
+  z-index:1;
+}
+.step.done   .step-circle { background:var(--green); border-color:var(--green); color:#fff; }
+.step.active .step-circle { background:var(--primary); border-color:var(--primary); color:#fff; box-shadow:0 0 0 4px rgba(29,78,216,.15); }
+
+.step-label { font-size:9.5px; font-weight:600; color:var(--muted); margin-top:5px; text-align:center; white-space:nowrap; letter-spacing:.01em; }
+.step.active .step-label { color:var(--primary); font-weight:700; }
+.step.done   .step-label { color:var(--green); }
+
+/* === PHASES === */
+.phase { display:none; }
+.phase.active { display:block; animation:fadeSlide .35s cubic-bezier(.4,0,.2,1); }
+@keyframes fadeSlide { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* === CARDS === */
+.card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:2rem;
+  box-shadow:var(--sh);
+}
+
+.phase-hdr { display:flex; align-items:flex-start; gap:.9rem; margin-bottom:1.5rem; }
+.phase-num {
+  width:40px; height:40px; border-radius:10px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dk));
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem; font-weight:700; color:#fff;
+  box-shadow:0 4px 12px rgba(29,78,216,.25);
+}
+.phase-title { font-family:var(--font-h); font-size:1.3rem; font-weight:600; letter-spacing:-.015em; color:var(--text); margin-bottom:.25rem; }
+.phase-desc  { font-size:.84rem; color:var(--muted); line-height:1.6; }
+.phase-chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:.5rem; }
+.phase-chip  { font-size:10px; font-weight:600; padding:2px 9px; border-radius:20px; background:var(--primary-lt); border:1px solid var(--primary-bd); color:var(--primary); }
+
+/* === NAV === */
+.nav-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:1.25rem;
+  padding:.85rem 1.1rem;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r-lg); box-shadow:var(--sh);
+}
+.btn-back { padding:.5rem 1rem; border:1.5px solid var(--border-2); border-radius:var(--r); background:var(--surface); color:var(--muted); font-size:.83rem; font-weight:600; cursor:pointer; transition:all .2s; font-family:var(--font-b); }
+.btn-back:hover  { border-color:var(--text); color:var(--text); }
+.btn-back:disabled { opacity:.3; cursor:not-allowed; }
+.nav-mid  { font-size:.79rem; color:var(--muted); }
+.nav-mid strong { color:var(--primary); font-weight:700; }
+.btn-next { padding:.5rem 1.25rem; background:var(--primary); color:#fff; border:none; border-radius:var(--r); font-size:.83rem; font-weight:700; cursor:pointer; transition:all .2s; font-family:var(--font-b); box-shadow:0 2px 8px rgba(29,78,216,.2); }
+.btn-next:hover { background:var(--primary-dk); transform:translateY(-1px); box-shadow:0 4px 14px rgba(29,78,216,.3); }
+
+/* === PHASE 0 — HERO === */
+.p0-hero {
+  background: linear-gradient(145deg,#0c1a3a 0%,#1e3a6e 50%,#0a1628 100%);
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+  padding:2.5rem 2.25rem 2rem;
+  position:relative; overflow:hidden;
+}
+.p0-hero svg.bg { position:absolute;inset:0;width:100%;height:100%;pointer-events:none; }
+.p0-hero-in { position:relative; z-index:2; }
+.p0-kicker { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(147,197,253,.8); margin-bottom:.9rem; display:flex; align-items:center; gap:8px; }
+.p0-kicker::before { content:''; display:inline-block; width:22px; height:1.5px; background:rgba(147,197,253,.4); }
+.p0-h1 { font-family:var(--font-h); font-size:clamp(1.7rem,4.5vw,2.6rem); font-weight:700; color:#fff; line-height:1.1; letter-spacing:-.025em; margin-bottom:.8rem; }
+.p0-h1 em { color:#93c5fd; font-style:normal; }
+.p0-sub { font-size:.95rem; color:rgba(255,255,255,.65); line-height:1.65; max-width:560px; }
+.p0-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:1.25rem; }
+.p0-tag  { font-size:10px; font-weight:600; padding:4px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.13); color:rgba(255,255,255,.65); background:rgba(255,255,255,.06); }
+
+.p0-body { background:var(--surface); border:1px solid var(--border); border-top:none; border-radius:0 0 var(--r-lg) var(--r-lg); padding:2rem 2.25rem; box-shadow:var(--sh); }
+
+/* Scene */
+.scene { border-left:3px solid var(--primary); padding-left:1.25rem; margin-bottom:1.75rem; }
+.scene-time { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--primary); margin-bottom:.55rem; display:flex; align-items:center; gap:8px; }
+.scene-time::after { content:''; flex:1; height:1px; background:var(--primary-bd); }
+.scene p { font-size:.95rem; line-height:1.85; color:var(--text-2); margin-bottom:.85rem; }
+.scene p:last-child { margin-bottom:0; }
+.scene strong { color:var(--text); }
+
+.insight { background:linear-gradient(135deg,var(--primary-lt),var(--green-lt)); border:1px solid var(--primary-bd); border-left:4px solid var(--primary); border-radius:var(--r); padding:1rem 1.25rem; margin:1.5rem 0; }
+.insight-hd { font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--primary); margin-bottom:.35rem; }
+.insight p  { font-size:.9rem; color:var(--primary-dk); line-height:1.6; margin:0; }
+
+.stat-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(145px,1fr)); gap:9px; margin:1.25rem 0; }
+.stat { text-align:center; padding:.9rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--r); }
+.stat-num { font-family:var(--font-h); font-size:1.7rem; font-weight:700; color:var(--primary); letter-spacing:-.03em; line-height:1.1; margin-bottom:3px; }
+.stat-lbl { font-size:.73rem; color:var(--muted); line-height:1.4; }
+
+.tension-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(195px,1fr)); gap:9px; margin:1rem 0 1.5rem; }
+.tension-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:.8rem .95rem; display:flex; align-items:flex-start; gap:9px; transition:border-color .2s,transform .2s; }
+.tension-card:hover { border-color:var(--border-2); transform:translateY(-1px); }
+.t-icon  { font-size:1.05rem; flex-shrink:0; margin-top:1px; }
+.t-title { font-size:.82rem; font-weight:700; color:var(--text); margin-bottom:2px; }
+.t-text  { font-size:.76rem; color:var(--muted); line-height:1.45; }
+
+/* DHM block */
+.dhm-block { background:linear-gradient(145deg,#0f172a,#1e3a5f); border-radius:var(--r); padding:1.6rem 1.75rem; margin:1.75rem 0; position:relative; overflow:hidden; }
+.dhm-block::after { content:'⚡'; position:absolute; right:1.25rem; top:1rem; font-size:3.5rem; opacity:.07; }
+.dhm-kicker { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:#93c5fd; margin-bottom:.5rem; }
+.dhm-block h3 { font-family:var(--font-h); font-size:1.2rem; font-weight:600; color:#fff; letter-spacing:-.01em; margin-bottom:.65rem; line-height:1.25; }
+.dhm-block p { font-size:.87rem; color:rgba(255,255,255,.68); line-height:1.7; margin-bottom:.75rem; max-width:560px; }
+.dhm-block p:last-child { margin-bottom:0; }
+.dhm-skills { display:flex; flex-wrap:wrap; gap:5px; margin-top:.85rem; }
+.dhm-skill { font-size:10px; font-weight:600; padding:3px 10px; border-radius:20px; border:1px solid rgba(147,197,253,.25); color:#93c5fd; background:rgba(147,197,253,.07); }
+
+/* PE compare */
+.pe-block { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--r); padding:1.25rem 1.4rem; margin:1.5rem 0; }
+.pe-block h3 { font-family:var(--font-h); font-size:1.05rem; font-weight:600; margin-bottom:.5rem; }
+.pe-block p { font-size:.87rem; color:var(--text-2); line-height:1.7; margin-bottom:.85rem; }
+.pe-compare { display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; align-items:start; margin-top:.75rem; }
+@media(max-width:500px) { .pe-compare{grid-template-columns:1fr} .compare-vs{display:none} }
+.pe-col-hd { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:.45rem; }
+.pe-col ul { list-style:none; }
+.pe-col li { font-size:.79rem; color:var(--muted); padding:2.5px 0; display:flex; gap:5px; }
+.pe-col li::before { font-weight:900; flex-shrink:0; }
+.pe-col.old .pe-col-hd { color:var(--red); }
+.pe-col.old li::before { content:'·'; color:var(--red); }
+.pe-col.new .pe-col-hd { color:var(--green); }
+.pe-col.new li::before { content:'→'; color:var(--green); }
+.compare-vs { text-align:center; opacity:.2; padding-top:.5rem; }
+
+.p0-cta { text-align:center; margin-top:2rem; padding-top:1.75rem; border-top:1px solid var(--border); }
+.p0-cta-h { font-family:var(--font-h); font-size:1.05rem; margin-bottom:.35rem; }
+.p0-cta-s { font-size:.82rem; color:var(--muted); margin-bottom:1.1rem; line-height:1.5; }
+.btn-p0 { display:inline-flex; align-items:center; gap:9px; padding:.85rem 2.25rem; background:linear-gradient(135deg,var(--primary),var(--primary-dk)); color:#fff; border:none; border-radius:var(--r); font-size:.97rem; font-weight:700; cursor:pointer; font-family:var(--font-b); transition:all .25s; box-shadow:0 6px 20px rgba(29,78,216,.25); letter-spacing:-.01em; }
+.btn-p0:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(29,78,216,.32); }
+.btn-p0 .arr { font-size:1.1rem; transition:transform .2s; }
+.btn-p0:hover .arr { transform:translateX(3px); }
+.p0-meta { font-size:.72rem; color:var(--muted); margin-top:.65rem; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; }
+.p0-meta-dot { color:var(--border-2); }
+
+/* === GLOSSAR === */
+.gs-title { font-family:var(--font-h); font-size:1.1rem; font-weight:600; margin-bottom:.35rem; padding-bottom:.6rem; border-bottom:1px solid var(--border); }
+.gs-text  { font-size:.91rem; line-height:1.8; color:var(--text-2); margin-bottom:.9rem; }
+.gs-text strong { color:var(--text); }
+.gs-info  { display:flex; gap:.85rem; background:var(--primary-lt); border:1px solid var(--primary-bd); border-left:3px solid var(--primary); border-radius:var(--r); padding:.9rem 1.1rem; margin:1rem 0; }
+.gs-info-icon { font-size:1.3rem; flex-shrink:0; }
+.gs-info-text { font-size:.83rem; color:var(--primary-dk); line-height:1.6; }
+.gs-section { margin-bottom:2rem; }
+.gs-section:last-child { margin-bottom:0; }
+
+/* Glossary search */
+.gl-search-wrap { position:relative; margin-bottom:1rem; }
+.gl-search { width:100%; padding:.65rem 1rem .65rem 2.6rem; border:1.5px solid var(--border); border-radius:var(--r); font-size:.9rem; font-family:var(--font-b); background:var(--surface); color:var(--text); outline:none; transition:border-color .2s,box-shadow .2s; }
+.gl-search:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(29,78,216,.1); }
+.gl-search::placeholder { color:var(--muted); }
+.gl-search-icon { position:absolute; left:.85rem; top:50%; transform:translateY(-50%); opacity:.4; pointer-events:none; }
+
+.gl-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:8px; }
+.gl-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); overflow:hidden; transition:border-color .2s; cursor:pointer; }
+.gl-card:hover { border-color:var(--primary-bd); }
+.gl-card.open  { border-color:var(--primary); }
+.gl-head { display:flex; justify-content:space-between; align-items:center; padding:.75rem .95rem; gap:.75rem; }
+.gl-term  { font-size:.87rem; font-weight:700; color:var(--text); margin-bottom:1px; }
+.gl-short { font-size:.73rem; color:var(--muted); line-height:1.4; }
+.gl-arr   { font-size:1.1rem; color:var(--muted); transition:transform .25s; flex-shrink:0; }
+.gl-card.open .gl-arr { transform:rotate(90deg); color:var(--primary); }
+.gl-body  { display:none; padding:0 .95rem .85rem; border-top:1px solid var(--border); background:var(--surface-2); }
+.gl-card.open .gl-body { display:block; animation:fadeSlide .2s ease; }
+.gl-def   { font-size:.82rem; color:var(--text-2); line-height:1.65; margin-top:.65rem; margin-bottom:.55rem; }
+.gl-rel   { font-size:.78rem; color:var(--primary-dk); background:var(--primary-lt); border:1px solid var(--primary-bd); border-radius:5px; padding:.4rem .7rem; line-height:1.5; }
+.gl-rel-lbl { font-weight:700; }
+
+/* Resources */
+.res-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:9px; }
+.res-card { display:flex; align-items:flex-start; gap:.8rem; padding:.85rem; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); text-decoration:none; transition:all .2s; }
+.res-card:hover { border-color:var(--primary); box-shadow:var(--sh); transform:translateY(-1px); }
+.res-icon { font-size:1.3rem; flex-shrink:0; }
+.res-name { font-size:.84rem; font-weight:700; color:var(--text); margin-bottom:2px; }
+.res-desc { font-size:.75rem; color:var(--muted); line-height:1.45; }
+.res-arr  { font-size:.9rem; color:var(--primary); opacity:.6; flex-shrink:0; margin-top:1px; transition:opacity .2s; }
+.res-card:hover .res-arr { opacity:1; }
+
+/* === PHASE 1 — ROLLENWAHL === */
+.role-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:10px; margin-bottom:1.25rem; }
+.role-card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:1.1rem 1rem; cursor:pointer; transition:all .22s cubic-bezier(.4,0,.2,1); text-align:left; position:relative; }
+.role-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:var(--r) var(--r) 0 0; background:transparent; transition:background .2s; }
+.role-card:hover { border-color:var(--primary); box-shadow:var(--sh); transform:translateY(-2px); }
+.role-card:hover::before { background:var(--primary); }
+.role-card.active { border-color:var(--primary); background:var(--primary-lt); }
+.role-card.active::before { background:var(--primary); }
+.role-card.active::after { content:'✓'; position:absolute; top:10px; right:11px; font-size:11px; color:var(--primary); font-weight:700; }
+.role-icon { font-size:1.4rem; margin-bottom:.45rem; display:block; }
+.role-name { font-size:.83rem; font-weight:700; color:var(--text); margin-bottom:.2rem; letter-spacing:-.005em; }
+.role-desc { font-size:.73rem; color:var(--muted); line-height:1.45; }
+
+/* Chat */
+.chat-wrap { display:none; margin-top:1.25rem; padding-top:1.25rem; border-top:1px solid var(--border); }
+.chat-wrap.show { display:block; animation:fadeSlide .2s ease; }
+.chat-hdr { display:flex; align-items:center; gap:8px; padding:.55rem .9rem; background:var(--primary-lt); border:1px solid var(--primary-bd); border-radius:var(--r); margin-bottom:.85rem; font-size:.82rem; color:var(--primary); }
+.dt-banner { display:none; align-items:center; gap:8px; padding:.5rem .9rem; background:var(--accent-lt); border:1px solid #c4b5fd; border-radius:var(--r); margin-bottom:.75rem; font-size:.8rem; color:var(--accent); }
+.dt-banner.visible { display:flex; }
+.dt-clear-btn { margin-left:auto; font-size:.73rem; background:none; border:1px solid #c4b5fd; border-radius:5px; padding:2px 8px; color:var(--accent); cursor:pointer; }
+.messages { min-height:80px; max-height:320px; overflow-y:auto; margin-bottom:.75rem; display:flex; flex-direction:column; gap:8px; scroll-behavior:smooth; }
+.msg { padding:.65rem .9rem; border-radius:var(--r); font-size:.85rem; line-height:1.6; max-width:86%; white-space:pre-line; }
+.msg.bot  { background:var(--surface-2); border:1px solid var(--border); color:var(--text); align-self:flex-start; }
+.msg.user { background:var(--primary); color:#fff; align-self:flex-end; box-shadow:0 2px 8px rgba(29,78,216,.2); }
+.msg-name { font-size:.7rem; font-weight:700; color:var(--muted); margin-bottom:3px; }
+.typing { display:none; padding:.5rem .9rem; }
+.typing span { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--muted); margin-right:3px; animation:bounce .9s infinite; }
+.typing span:nth-child(2){ animation-delay:.15s; }
+.typing span:nth-child(3){ animation-delay:.3s; }
+@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+.chat-input-row { display:flex; gap:7px; }
+.chat-input-row input { flex:1; padding:.6rem .9rem; border:1.5px solid var(--border); border-radius:var(--r); font-size:.85rem; font-family:var(--font-b); color:var(--text); background:var(--surface); outline:none; transition:border-color .2s; }
+.chat-input-row input:focus { border-color:var(--primary); }
+.chat-input-row button { padding:.6rem 1.1rem; background:var(--primary); color:#fff; border:none; border-radius:var(--r); font-size:.83rem; font-weight:700; cursor:pointer; font-family:var(--font-b); transition:background .15s; }
+.chat-input-row button:hover { background:var(--primary-dk); }
+.chat-actions { margin-top:.5rem; }
+.btn-ghost { background:none; border:1px solid var(--border-2); border-radius:var(--r); padding:.35rem .8rem; font-size:.76rem; color:var(--muted); cursor:pointer; transition:all .15s; font-family:var(--font-b); }
+.btn-ghost:hover { border-color:var(--text); color:var(--text); }
+
+/* DT pills */
+.dt-pills-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:.85rem; padding-top:.85rem; border-top:1px solid var(--border); }
+.dt-pill-label { font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); flex-basis:100%; padding:.2rem 0; }
+.dt-pill { display:inline-flex; align-items:center; gap:4px; padding:.35rem .75rem; border:1.5px solid var(--border); border-radius:20px; background:var(--surface); color:var(--muted); font-size:.73rem; font-weight:600; cursor:pointer; transition:all .18s; font-family:var(--font-b); }
+.dt-pill:hover  { border-color:var(--primary); color:var(--primary); background:var(--primary-lt); }
+.dt-pill.active { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+/* Skill badges */
+.skills-strip { margin-top:.85rem; padding:.85rem 1rem; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--r); }
+.skills-strip-hd { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:.5rem; }
+.skill-badges { display:flex; flex-wrap:wrap; gap:5px; }
+.skill-badge { font-size:.73rem; font-weight:600; padding:.3rem .7rem; border-radius:20px; border:1.5px solid var(--border); background:var(--surface); color:var(--muted); transition:all .25s; display:flex; align-items:center; gap:5px; }
+.skill-badge.active { background:var(--primary-lt); border-color:var(--primary-bd); color:var(--primary); }
+.skill-dot { width:6px; height:6px; border-radius:50%; background:var(--border-2); flex-shrink:0; transition:background .25s; }
+.skill-badge.active .skill-dot { background:var(--primary); }
+
+/* === PHASE 2 — METHODEN === */
+.method-prog-bar { display:flex; align-items:center; justify-content:space-between; padding:.65rem 1rem; background:var(--primary-lt); border:1px solid var(--primary-bd); border-radius:var(--r); margin-bottom:1.1rem; font-size:.8rem; }
+.method-prog-label { color:var(--primary-dk); font-weight:600; }
+.method-prog-dots { display:flex; gap:4px; }
+.mpd { width:10px;height:10px;border-radius:50%;background:var(--surface);border:1.5px solid var(--primary-bd);transition:all .3s; }
+.mpd.done { background:var(--green);border-color:var(--green);transform:scale(1.1); }
+
+.method-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(195px,1fr)); gap:10px; }
+.mc { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--r); padding:1.2rem 1.1rem; cursor:default; transition:all .22s; display:flex; flex-direction:column; position:relative; overflow:hidden; }
+.mc::after { content:''; position:absolute; bottom:0;left:0;right:0; height:3px; opacity:0; transition:opacity .2s; border-radius:0 0 var(--r) var(--r); }
+.mc:hover { border-color:var(--primary-bd); box-shadow:var(--sh); }
+.mc:hover::after { opacity:1; }
+.mc.explored { border-color:var(--green-bd); }
+.mc.explored::after { opacity:1; }
+.mc.explored .mc-explore { background:var(--green); }
+.mc-icon  { font-size:1.55rem; margin-bottom:.4rem; }
+.mc-phase { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:var(--primary); margin-bottom:.2rem; }
+.mc-name  { font-family:var(--font-h); font-size:.95rem; font-weight:600; margin-bottom:.3rem; }
+.mc-why   { font-size:.75rem; color:var(--muted); line-height:1.5; margin-bottom:.65rem; flex:1; }
+.mc-explore { display:inline-flex; align-items:center; gap:4px; padding:.4rem .9rem; background:var(--primary); color:#fff; border:none; border-radius:var(--r); font-size:.76rem; font-weight:700; cursor:pointer; transition:background .15s; font-family:var(--font-b); margin-top:auto; }
+.mc-explore:hover { background:var(--primary-dk); }
+
+/* Tool panel */
+.tool-panel { display:none; }
+.tool-panel.show { display:block; animation:fadeSlide .3s ease; }
+.tool-hdr { display:flex; align-items:center; gap:.75rem; margin-bottom:1.1rem; padding-bottom:.85rem; border-bottom:1px solid var(--border); }
+.btn-back-tool { display:inline-flex; align-items:center; gap:4px; padding:.4rem .8rem; border:1.5px solid var(--border); border-radius:var(--r); background:var(--surface); color:var(--muted); font-size:.76rem; font-weight:600; cursor:pointer; font-family:var(--font-b); transition:all .15s; }
+.btn-back-tool:hover { border-color:var(--text); color:var(--text); }
+.tool-title { font-family:var(--font-h); font-size:1.05rem; font-weight:600; }
+
+/* Canvas header */
+.canvas-hd { display:flex; align-items:flex-start; gap:.9rem; padding:.9rem 1rem; background:var(--surface-2); border-radius:var(--r); margin-bottom:1.1rem; border:1px solid var(--border); border-left:4px solid var(--primary); }
+.canvas-icon  { font-size:1.7rem; flex-shrink:0; margin-top:1px; }
+.canvas-title { font-family:var(--font-h); font-size:1rem; font-weight:600; margin-bottom:2px; }
+.canvas-desc  { font-size:.8rem; color:var(--muted); line-height:1.5; }
+.canvas-badge { margin-left:auto; flex-shrink:0; font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; padding:4px 11px; border-radius:20px; border:1px solid var(--primary-bd); color:var(--primary); background:var(--primary-lt); white-space:nowrap; }
+
+/* AI button */
+.ai-btn { display:inline-flex; align-items:center; gap:5px; padding:.48rem 1rem; background:var(--primary-lt); border:1px solid var(--primary-bd); border-radius:var(--r); color:var(--primary); font-size:.78rem; font-weight:600; cursor:pointer; transition:all .2s; font-family:var(--font-b); }
+.ai-btn:hover { background:var(--primary); color:#fff; transform:translateY(-1px); box-shadow:0 3px 8px rgba(29,78,216,.2); }
+.ai-resp { display:none; margin-top:.7rem; padding:.75rem 1rem; background:var(--primary-lt); border:1px solid var(--primary-bd); border-left:3px solid var(--primary); border-radius:var(--r); font-size:.83rem; color:var(--primary-dk); line-height:1.65; white-space:pre-line; }
+.ai-resp.show { display:block; animation:fadeSlide .2s; }
+
+/* Empathy 6-zone */
+.em-persona { display:flex; align-items:center; gap:8px; margin-bottom:.9rem; padding:.5rem .75rem; background:rgba(245,158,11,.07); border:1px solid rgba(245,158,11,.2); border-radius:var(--r); }
+.em-persona-lbl { font-size:.79rem; font-weight:700; color:var(--amber); white-space:nowrap; }
+.em-persona-input { flex:1; border:none; background:transparent; font-size:.85rem; font-family:var(--font-b); color:var(--text); outline:none; font-style:italic; }
+.em-persona-input::placeholder { color:var(--muted); }
+.em6-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:.9rem; }
+@media(max-width:560px){ .em6-grid{grid-template-columns:1fr} }
+.em6q { border:none; border-radius:4px; padding:.95rem 1rem 1.05rem; position:relative; transition:transform .2s,box-shadow .2s; }
+.em6q:hover { transform:translateY(-2px) rotate(.25deg); }
+.em6q-lbl { font-size:.76rem; font-weight:800; color:rgba(0,0,0,.58); margin-bottom:.25rem; display:flex; align-items:center; gap:4px; }
+.em6q-hint { font-size:.67rem; color:rgba(0,0,0,.4); font-style:italic; margin-bottom:.45rem; line-height:1.4; }
+.em6q textarea { width:100%; min-height:78px; background:transparent; border:none; border-bottom:1.5px dashed rgba(0,0,0,.17); border-radius:0; padding:.3rem 0; font-size:.82rem; font-family:var(--font-b); color:rgba(0,0,0,.72); resize:none; outline:none; transition:border-color .2s; line-height:1.65; }
+.em6q textarea:focus { border-bottom-color:rgba(0,0,0,.38); box-shadow:none; }
+.sy { background:#fef9c3; box-shadow:2px 3px 9px rgba(0,0,0,.09),inset 0 -3px 0 rgba(0,0,0,.07); }
+.so { background:#fed7aa; box-shadow:2px 3px 9px rgba(0,0,0,.09),inset 0 -3px 0 rgba(0,0,0,.07); }
+.sb { background:#bfdbfe; box-shadow:2px 3px 9px rgba(0,0,0,.09),inset 0 -3px 0 rgba(0,0,0,.07); }
+.sg { background:#bbf7d0; box-shadow:2px 3px 9px rgba(0,0,0,.09),inset 0 -3px 0 rgba(0,0,0,.07); }
+.em6-pain { background:linear-gradient(135deg,#ffe4e6,#fecdd3); border:1px dashed #fca5a5; border-radius:4px; padding:.95rem 1rem 1.05rem; }
+.em6-gain { background:linear-gradient(135deg,#dcfce7,#bbf7d0); border:1px dashed #86efac; border-radius:4px; padding:.95rem 1rem 1.05rem; }
+.em6-pain .em6q-lbl { color:rgba(185,28,28,.7); }
+.em6-gain .em6q-lbl { color:rgba(21,128,61,.7); }
+.em6-pain textarea, .em6-gain textarea { background:transparent; border:none; border-bottom:1.5px dashed rgba(0,0,0,.15); border-radius:0; padding:.3rem 0; font-size:.82rem; font-family:var(--font-b); color:rgba(0,0,0,.72); resize:none; outline:none; min-height:70px; width:100%; }
+
+/* Stakeholder */
+.sm-wrap { position:relative; background:linear-gradient(135deg,#f8f7ff,#ede9fe); border:1.5px solid #c4b5fd; border-radius:var(--r-lg); height:340px; margin-bottom:.75rem; overflow:hidden; }
+.sm-ax-x { position:absolute;bottom:50%;left:0;right:0;border-top:1px dashed #c4b5fd; pointer-events:none; }
+.sm-ax-y { position:absolute;top:0;bottom:0;left:50%;border-left:1px dashed #c4b5fd; pointer-events:none; }
+.sm-ql { position:absolute;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#7c3aed;opacity:.3; }
+.sm-lbl { position:absolute;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7c3aed;opacity:.5; }
+.sm-node { position:absolute;transform:translate(-50%,-50%);cursor:pointer;text-align:center;z-index:2;transition:transform .18s; }
+.sm-node:hover { transform:translate(-50%,-50%) scale(1.12); }
+.sm-node.sel .sm-dot { box-shadow:0 0 0 3px var(--accent),0 3px 12px rgba(0,0,0,.2); }
+.sm-dot { width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin:0 auto 3px;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.14);transition:box-shadow .2s; }
+.sm-node-name { font-size:9.5px;font-weight:700;color:var(--text);white-space:nowrap; }
+.sm-info { padding:.85rem 1rem;background:var(--accent-lt);border:1px solid #c4b5fd;border-left:3px solid var(--accent);border-radius:var(--r);font-size:.82rem;line-height:1.6;display:none;margin-bottom:.7rem; animation:fadeSlide .2s; }
+.sm-info.show { display:block; }
+.sm-info-name { font-weight:700;color:var(--accent);font-size:.9rem;margin-bottom:.5rem; }
+.sm-info-grid { display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem;margin-bottom:.5rem; }
+.sm-info-grid label { font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:1px; }
+.sm-info-grid span { font-size:.8rem;color:var(--text); }
+.sm-conflict-tags { display:flex;flex-wrap:wrap;gap:4px;margin-top:.35rem; }
+.sm-conflict-tag { font-size:9.5px;background:#fff0f0;color:var(--red);border:1px solid #fecaca;border-radius:10px;padding:2px 7px; }
+.sm-svg { position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1; }
+.sm-svg line { stroke-width:1.5;stroke-dasharray:5 4;opacity:.45; }
+
+/* Problem Definition */
+.pd-iceberg { border-radius:var(--r);overflow:hidden;margin-bottom:.9rem; }
+.pd-top { background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1.5px solid #fed7aa;border-bottom:none;border-radius:var(--r) var(--r) 0 0;padding:.95rem 1.1rem; }
+.pd-divider { background:linear-gradient(90deg,#ea580c,#f97316);height:28px;display:flex;align-items:center;justify-content:center; }
+.pd-divider-lbl { font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.85); }
+.pd-bottom { background:linear-gradient(135deg,#fff7ed,#fef3c7);border:1.5px solid #fde68a;border-top:none;border-radius:0 0 var(--r) var(--r);padding:.95rem 1.1rem; }
+.pd-section-lbl { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#c2410c;margin-bottom:.6rem; }
+.pd-grid2 { display:grid;grid-template-columns:1fr 1fr;gap:9px; }
+@media(max-width:540px){ .pd-grid2{grid-template-columns:1fr} }
+.pd-f { background:rgba(255,255,255,.55);border:1px solid rgba(253,230,138,.6);border-radius:5px;padding:.7rem .85rem; }
+.pd-f-full { grid-column:1/-1; }
+.pd-f-main { background:rgba(255,255,255,.65);border:1.5px solid rgba(234,88,12,.3); }
+.pd-lbl { font-size:.75rem;font-weight:700;color:#c2410c;margin-bottom:2px; }
+.pd-hint{ font-size:.67rem;color:rgba(194,65,12,.6);font-style:italic;margin-bottom:.35rem;line-height:1.4; }
+.pd-f textarea,.pd-top textarea { width:100%;background:transparent;border:none;border-bottom:1.5px dashed rgba(234,88,12,.22);border-radius:0;padding:.3rem 0;font-size:.82rem;font-family:var(--font-b);color:var(--text);resize:none;outline:none;min-height:62px;transition:border-color .2s;line-height:1.6; }
+.pd-f textarea:focus,.pd-top textarea:focus { border-bottom-color:rgba(234,88,12,.45);box-shadow:none; }
+.pov-builder { margin:.85rem 0;padding:.85rem 1.1rem;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-left:3px solid #f59e0b;border-radius:var(--r); }
+.pov-hd { font-size:.79rem;font-weight:700;color:var(--amber);margin-bottom:.5rem; }
+.pov-tpl { display:flex;flex-wrap:wrap;align-items:baseline;gap:5px;font-size:.87rem;line-height:1.7; }
+.pov-fill { display:inline-block;min-width:70px;border-bottom:2px solid #f59e0b;padding:0 3px 1px;color:#92400e;font-weight:600;font-style:italic;cursor:text;transition:border-color .2s; }
+.pov-fill:focus{outline:none;border-color:#b45309;}
+.pov-fill-wide{min-width:140px;}
+.pov-conn{color:var(--muted);font-size:.82rem;}
+
+/* Ideation */
+.ib-impulse-row { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.75rem; }
+.ib-impulse { font-size:.74rem;font-weight:600;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .18s;user-select:none;font-family:var(--font-b); }
+.ib-impulse:hover    { border-color:#6ee7b7;color:#065f46;background:#f0fdfa; }
+.ib-impulse.active-cat{ background:#059669;border-color:#059669;color:#fff; }
+.ib-input-row { display:flex;gap:7px;margin-bottom:.7rem; }
+.ib-input-row input { flex:1;padding:.6rem .9rem;border:1.5px solid var(--border);border-radius:var(--r);font-size:.85rem;font-family:var(--font-b);background:var(--surface);color:var(--text);outline:none;transition:border-color .2s; }
+.ib-input-row input:focus { border-color:var(--green); }
+.ib-input-row button { padding:.6rem 1.1rem;background:#059669;color:#fff;border:none;border-radius:var(--r);font-size:.83rem;font-weight:700;cursor:pointer;font-family:var(--font-b);transition:background .15s; }
+.ib-input-row button:hover { background:#047857; }
+.ib-board { display:flex;flex-wrap:wrap;gap:9px;min-height:100px;padding:.7rem;background:radial-gradient(circle,rgba(16,185,129,.1) 1px,transparent 1px);background-size:20px 20px;background-color:#f0fdfb;border:2px dashed #6ee7b7;border-radius:var(--r);margin-bottom:.7rem;align-content:flex-start; }
+.ib-empty { font-size:.82rem;color:var(--muted);text-align:center;width:100%;padding:1.25rem 0;font-style:italic; }
+.ib-idea { background:#fef9c3;border-radius:4px;padding:.55rem .8rem;font-size:.79rem;color:var(--text);display:flex;align-items:flex-start;gap:7px;max-width:210px;animation:fadeSlide .2s ease;box-shadow:2px 3px 9px rgba(0,0,0,.08),inset 0 -2px 0 rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s; }
+.ib-idea:hover { transform:translateY(-2px) rotate(-.3deg);box-shadow:4px 5px 14px rgba(0,0,0,.11); }
+.ib-idea:nth-child(3n)   { background:#bfdbfe; }
+.ib-idea:nth-child(3n+2) { background:#fce7f3; }
+.ib-idea-text { flex:1;line-height:1.45; }
+.ib-votes { display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0; }
+.ib-vbtn { background:none;border:none;cursor:pointer;font-size:.88rem;padding:0;line-height:1;opacity:.35;transition:opacity .15s,transform .1s; }
+.ib-vbtn:hover { opacity:1;transform:scale(1.2); }
+.ib-score { font-size:9px;font-weight:700;color:var(--muted);min-width:14px;text-align:center; }
+
+/* Prototyping */
+.proto-canvas { background:repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(29,78,216,.06) 26px,rgba(29,78,216,.06) 27px),repeating-linear-gradient(90deg,transparent,transparent 26px,rgba(29,78,216,.04) 26px,rgba(29,78,216,.04) 27px);background-color:#f8faff;border:1.5px dashed var(--primary-bd);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.9rem;position:relative; }
+.proto-iter { position:absolute;top:9px;right:11px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);opacity:.45;display:flex;align-items:center;gap:4px; }
+.proto-iter-btn { font-size:.68rem;padding:1px 5px;background:var(--primary-lt);border:1px solid var(--primary-bd);border-radius:4px;cursor:pointer;color:var(--primary); }
+.proto-grid2 { display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:.25rem; }
+@media(max-width:540px){ .proto-grid2{grid-template-columns:1fr} }
+.proto-f { background:rgba(255,255,255,.7);border:1.5px dashed rgba(29,78,216,.22);border-radius:5px;padding:.7rem .85rem; }
+.proto-f-full { grid-column:1/-1; }
+.proto-lbl { font-size:.76rem;font-weight:700;color:var(--primary-dk);margin-bottom:2px; }
+.proto-sub { font-size:.67rem;color:rgba(30,64,175,.55);font-style:italic;margin-bottom:.35rem; }
+.proto-f textarea { width:100%;background:transparent;border:none;border-bottom:1.5px dashed rgba(29,78,216,.2);border-radius:0;padding:.3rem 0;font-size:.82rem;font-family:var(--font-b);color:var(--text);resize:none;outline:none;min-height:62px;transition:border-color .2s; }
+.proto-f textarea:focus { border-bottom-color:rgba(29,78,216,.42);box-shadow:none; }
+
+/* Persona */
+.persona-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:.9rem; }
+.persona-card { border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .22s; }
+.persona-card:hover { border-color:var(--primary-bd);box-shadow:var(--sh);transform:translateY(-2px); }
+.persona-card.open { border-color:var(--primary); }
+.persona-hd { display:flex;align-items:center;gap:9px;padding:.8rem .95rem;border-bottom:1px solid var(--primary-bd);background:var(--primary-lt); }
+.persona-av { font-size:1.5rem; }
+.persona-name { font-size:.84rem;font-weight:700;color:var(--primary-dk); }
+.persona-role { font-size:.7rem;color:var(--muted); }
+.persona-body { display:none;padding:.8rem .95rem;font-size:.78rem;line-height:1.55; }
+.persona-card.open .persona-body { display:block; }
+.pf { margin-bottom:.5rem; }
+.pf-lbl { font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);display:block;margin-bottom:1px; }
+.pf-val { color:var(--muted); }
+
+/* Reflexion */
+.ref-qs { display:flex;flex-direction:column;gap:.85rem; }
+.ref-q { background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:.8rem .95rem; }
+.ref-q-lbl { font-size:.84rem;font-weight:600;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:5px; }
+.ref-q textarea { width:100%;min-height:68px;border:1px solid var(--border);border-radius:var(--r);padding:.45rem .6rem;font-size:.82rem;font-family:var(--font-b);color:var(--text);background:var(--surface);resize:vertical;outline:none;transition:border-color .2s,box-shadow .2s; }
+.ref-q textarea:focus { border-color:var(--primary);box-shadow:0 0 0 3px rgba(29,78,216,.09); }
+
+/* Eval chat */
+.eval-chat-panel { display:none;margin-top:.75rem; }
+.eval-chat-panel.open { display:block;animation:fadeSlide .2s; }
+.eval-chat-hdr { display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;background:var(--primary-lt);border:1px solid var(--primary-bd);border-radius:var(--r);margin-bottom:.75rem;font-size:.82rem;color:var(--primary); }
+.eval-msgs { min-height:60px;max-height:280px;overflow-y:auto;margin-bottom:.7rem;display:flex;flex-direction:column;gap:7px;scroll-behavior:smooth; }
+.eval-msg { padding:.6rem .85rem;border-radius:var(--r);font-size:.84rem;line-height:1.6;max-width:88%;white-space:pre-line; }
+.eval-msg.bot  { background:var(--surface-2);border:1px solid var(--border);color:var(--text);align-self:flex-start; }
+.eval-msg.user { background:var(--primary);color:#fff;align-self:flex-end; }
+.eval-typing { display:none;padding:.4rem .85rem; }
+.eval-typing span { display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin-right:3px;animation:bounce .9s infinite; }
+.eval-typing span:nth-child(2){ animation-delay:.15s; }
+.eval-typing span:nth-child(3){ animation-delay:.3s; }
+.eval-input-row { display:flex;gap:7px; }
+.eval-input-row input { flex:1;padding:.6rem .9rem;border:1.5px solid var(--border);border-radius:var(--r);font-size:.84rem;font-family:var(--font-b);color:var(--text);background:var(--surface);outline:none;transition:border-color .2s; }
+.eval-input-row input:focus { border-color:var(--primary); }
+.eval-input-row button { padding:.6rem 1.1rem;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--font-b);transition:background .15s; }
+.eval-input-row button:hover { background:var(--primary-dk); }
+.eval-actions { margin-top:.45rem; }
+
+/* API section bottom */
+.api-section { background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.4rem;box-shadow:var(--sh);margin-top:2rem; }
+.api-section-hd { font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.65rem; }
+.api-info { background:var(--primary-lt);border:1px solid var(--primary-bd);border-left:3px solid var(--primary);border-radius:var(--r);padding:.65rem .9rem;font-size:.82rem;color:var(--primary-dk);margin-bottom:.7rem; }
+.api-input-row { display:flex;gap:7px; }
+.api-input-row input { flex:1;padding:.6rem .9rem;border:1.5px solid var(--border);border-radius:var(--r);font-size:.84rem;font-family:monospace;color:var(--text);background:var(--surface);outline:none;transition:border-color .2s; }
+.api-input-row input:focus { border-color:var(--primary); }
+.api-input-row button { padding:.6rem 1.2rem;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-size:.83rem;font-weight:700;cursor:pointer;font-family:var(--font-b); }
+.api-status { margin-top:.5rem;font-size:.8rem; }
+.api-status.ok  { color:var(--green); }
+.api-status.err { color:var(--red); }
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+::selection{background:var(--primary-lt);color:var(--primary-dk)}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-bar-brand">Fast Forward · St. Marien Klinikum</div>
+  </div>
+  <div class="top-bar-right">
+    <input class="top-api-input" type="password" id="topApiKeyInput" placeholder="sk-ant-…" autocomplete="off" onkeydown="if(event.key==='Enter') saveApiKeyTop()"/>
+    <button class="top-api-btn" onclick="saveApiKeyTop()">Speichern</button>
+    <div class="top-bar-dot" id="topApiDot" style="background:#52525b;box-shadow:none"></div>
+    <span class="top-bar-status" id="topApiLabel" style="color:rgba(255,255,255,.35)">Kein Key</span>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- STEPPER -->
+  <div class="stepper">
+    <div class="step" onclick="goToPhase(0)">
+      <div class="step-track">
+        <div class="step-line ghost"></div>
+        <div class="step-circle">0</div>
+        <div class="step-line" id="sl-r-0"></div>
+      </div>
+      <div class="step-label">Einführung</div>
+    </div>
+    <div class="step" onclick="goToPhase(1)">
+      <div class="step-track">
+        <div class="step-line" id="sl-l-1"></div>
+        <div class="step-circle">1</div>
+        <div class="step-line" id="sl-r-1"></div>
+      </div>
+      <div class="step-label">Grundlagen</div>
+    </div>
+    <div class="step" onclick="goToPhase(2)">
+      <div class="step-track">
+        <div class="step-line" id="sl-l-2"></div>
+        <div class="step-circle">2</div>
+        <div class="step-line" id="sl-r-2"></div>
+      </div>
+      <div class="step-label">Rollenwahl</div>
+    </div>
+    <div class="step" onclick="goToPhase(3)">
+      <div class="step-track">
+        <div class="step-line" id="sl-l-3"></div>
+        <div class="step-circle">3</div>
+        <div class="step-line" id="sl-r-3"></div>
+      </div>
+      <div class="step-label">Methoden</div>
+    </div>
+    <div class="step" onclick="goToPhase(4)">
+      <div class="step-track">
+        <div class="step-line" id="sl-l-4"></div>
+        <div class="step-circle">4</div>
+        <div class="step-line ghost"></div>
+      </div>
+      <div class="step-label">Abschluss</div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 0 — EINFÜHRUNG ═══════════════════════════════════ -->
+  <div class="phase active" id="phase-0">
+    <div class="p0-hero">
+      <svg class="bg" viewBox="0 0 860 260" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.05)"/>
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#dots)"/>
+        <g opacity="0.18">
+          <circle cx="730" cy="55"  r="40" fill="none" stroke="#93c5fd" stroke-width="1"/>
+          <circle cx="730" cy="55"  r="20" fill="none" stroke="#93c5fd" stroke-width=".5"/>
+          <circle cx="730" cy="55"  r="4"  fill="#93c5fd"/>
+          <circle cx="800" cy="120" r="17" fill="none" stroke="#6ee7b7" stroke-width="1"/>
+          <circle cx="800" cy="120" r="4"  fill="#6ee7b7"/>
+          <circle cx="670" cy="135" r="22" fill="none" stroke="#c4b5fd" stroke-width="1"/>
+          <circle cx="670" cy="135" r="4"  fill="#c4b5fd"/>
+          <line x1="730" y1="55" x2="800" y2="120" stroke="#93c5fd" stroke-width=".8" stroke-dasharray="4 3"/>
+          <line x1="730" y1="55" x2="670" y2="135" stroke="#c4b5fd" stroke-width=".8" stroke-dasharray="4 3"/>
+          <line x1="800" y1="120" x2="670" y2="135" stroke="#6ee7b7" stroke-width=".8" stroke-dasharray="4 3"/>
+          <rect x="655" y="28" width="7" height="20" rx="2" fill="rgba(255,255,255,0.1)"/>
+          <rect x="648" y="35" width="21" height="7" rx="2" fill="rgba(255,255,255,0.1)"/>
+        </g>
+        <linearGradient id="hf" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="60%" stop-color="#0f2460" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#0a1628" stop-opacity=".5"/>
+        </linearGradient>
+        <rect width="100%" height="100%" fill="url(#hf)"/>
+      </svg>
+      <div class="p0-hero-in">
+        <div class="p0-kicker">Fast Forward · Design Thinking · Personalentwicklung · Future Skills</div>
+        <h1 class="p0-h1">Wenn <em>Menschen</em> auf digitalen<br/>Wandel treffen</h1>
+        <p class="p0-sub">St. Marien Klinikum, 2025. Eine neue Plattform soll alles verändern. Warum das technisch Machbare und das menschlich Mögliche so weit auseinanderliegen — und warum <strong style="color:rgba(255,255,255,.88)">Sie</strong> dabei eine Schlüsselrolle spielen.</p>
+        <div class="p0-tags">
+          <span class="p0-tag">⚡ Digital Health Management</span>
+          <span class="p0-tag">🌱 Future Skills</span>
+          <span class="p0-tag">🔄 Fast Forward</span>
+          <span class="p0-tag">🏥 Interprofessionelle Kollaboration</span>
+        </div>
+      </div>
+    </div>
+    <div class="p0-body">
+
+      <div class="scene">
+        <div class="scene-time">🕖 Montag, 06:47 Uhr · Internistische Station · St. Marien Klinikum</div>
+        <p>Anna hat heute Frühschicht. Vor ihr: ein Tablet, das seit heute die Papierakte ersetzen soll. Sie tippt durch Menüs, die ihr fremd sind. Das System lädt. In Zimmer 12 wartet Herr Müller auf seine Frühmedikation. <strong>Die Schulung war letzten Donnerstag — ausgerechnet an dem Tag, an dem Anna für eine Kollegin eingesprungen ist.</strong></p>
+        <p>Zwei Etagen tiefer fragt Dr. Jonas, wie er die Visite einträgt. Sein Kollege weiß es auch nicht. In der IT-Abteilung telefoniert Markus mit drei Abteilungen gleichzeitig. 18 Monate Planung, sechs Schulungstermine — Teilnahmequote: 31 Prozent. Täglich neue Beschwerden.</p>
+        <p><strong>Kai Bergmann, Digital Health Manager, öffnet sein Postfach. 34 ungelesene Nachrichten.</strong> Er versteht beide Welten: die technische und die klinische. Genau deshalb wurde er eingestellt. Und genau deshalb weiß er: Das eigentliche Problem ist nicht das System.</p>
+      </div>
+
+      <div class="insight">
+        <div class="insight-hd">📊 Was die Forschung zeigt</div>
+        <p><strong>Über 70 % digitaler Transformationsprojekte im Gesundheitswesen verfehlen ihre Ziele.</strong> Der häufigste Grund: nicht fehlende Technologie — sondern fehlende Einbindung, fehlende Kompetenzentwicklung und fehlende Lernkultur. Digitale Transformation ist zu 20 % Technologie und zu 80 % Kulturwandel.</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">70 %</div><div class="stat-lbl">der Projekte scheitern nicht an der Technik</div></div>
+        <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Berufsrollen mit unterschiedlichen Perspektiven</div></div>
+        <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">DT-Methoden explorativ anwenden</div></div>
+        <div class="stat"><div class="stat-num">co.LAB</div><div class="stat-lbl">Framework — strukturiertes Lerndesign</div></div>
+      </div>
+
+      <div style="font-family:var(--font-h);font-size:1.12rem;font-weight:600;color:var(--text);margin-bottom:.45rem;margin-top:1.5rem">Die eigentlichen Herausforderungen</div>
+      <div style="font-size:.83rem;color:var(--muted);margin-bottom:.9rem">Was das System zeigt — und was wirklich dahintersteckt.</div>
+      <div class="tension-grid">
+        <div class="tension-card"><div class="t-icon">😰</div><div><div class="t-title">Überforderung</div><div class="t-text">Neue Systeme in überlasteten Alltag ohne Lernzeit.</div></div></div>
+        <div class="tension-card"><div class="t-icon">🔒</div><div><div class="t-title">Kontrollverlust</div><div class="t-text">Vertraute Routinen verschwinden. Neustart bei null.</div></div></div>
+        <div class="tension-card"><div class="t-icon">🤖</div><div><div class="t-title">KI-Skepsis</div><div class="t-text">»Wer haftet, wenn die KI falsch dokumentiert?«</div></div></div>
+        <div class="tension-card"><div class="t-icon">📋</div><div><div class="t-title">Kompetenzlücken</div><div class="t-text">Niemand will zugeben, etwas nicht zu verstehen.</div></div></div>
+        <div class="tension-card"><div class="t-icon">⚡</div><div><div class="t-title">Interprofessionelle Konflikte</div><div class="t-text">IT plant ohne Station. Pflege fühlt sich nicht gehört.</div></div></div>
+        <div class="tension-card"><div class="t-icon">🎓</div><div><div class="t-title">Schulungslücken</div><div class="t-text">31 % Teilnahme. Danach keine Unterstützung im Alltag.</div></div></div>
+      </div>
+
+      <div class="dhm-block">
+        <div class="dhm-kicker">Schlüsselrolle im Transformationsprozess</div>
+        <h3>Digital Health Manager*innen:<br/>Brücke zwischen Welten</h3>
+        <p>Sie sind keine IT-Spezialist:innen im klassischen Sinne. Sie sind <strong style="color:#fff">Übersetzer:innen</strong> zwischen technischer Möglichkeit und klinischer Realität. Kai Bergmann weiß: Er kann den Widerstand nicht wegdiskutieren. Er muss ihn verstehen. Jede Frustration von Anna ist ein Signal — kein Problem.</p>
+        <p>Das erfordert weit mehr als technisches Wissen. <strong style="color:#e0f2fe">Entscheidend sind Future Skills:</strong> Empathie, systemisches Denken, Reflexionsfähigkeit — genau die Kompetenzen, die dieser Workshop erfahrbar macht.</p>
+        <div class="dhm-skills">
+          <span class="dhm-skill">Empathie</span><span class="dhm-skill">Systemisches Denken</span><span class="dhm-skill">Kommunikationsfähigkeit</span><span class="dhm-skill">Reflexionsfähigkeit</span><span class="dhm-skill">Adaptionsfähigkeit</span><span class="dhm-skill">Innovationsfähigkeit</span><span class="dhm-skill">Interprofessionelle Kollaboration</span>
+        </div>
+      </div>
+
+      <div class="pe-block">
+        <h3>Personalentwicklung neu denken</h3>
+        <p>Wenn Digitalisierung Berufsrollen und Arbeitsweisen grundlegend verändert, reicht Wissensvermittlung nicht mehr aus. Der <strong>Fast-Forward-Ansatz</strong> verbindet Design Thinking mit Personalentwicklung — iterativ, menschenzentriert, reflexiv.</p>
+        <div class="pe-compare">
+          <div class="pe-col old">
+            <div class="pe-col-hd">Klassisch</div>
+            <ul>
+              <li>Schulung vor Go-live</li><li>Einmalveranstaltung</li><li>Berufsgruppen getrennt</li><li>Kompetenz = bestandener Test</li><li>Fehler als Versagen</li>
+            </ul>
+          </div>
+          <div class="compare-vs">⟷</div>
+          <div class="pe-col new">
+            <div class="pe-col-hd">Fast Forward</div>
+            <ul>
+              <li>Erfahrungsbasiertes Lernen</li><li>Iterative Formate im Alltag</li><li>Interprofessionell gemeinsam</li><li>Kompetenz = Handlungsfähigkeit</li><li>Fehler als Lernchance</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="p0-cta">
+        <div class="p0-cta-h">Bereit, in die Perspektiven einzutauchen?</div>
+        <div class="p0-cta-s">Wähle eine Berufsrolle, wende DT-Methoden explorativ an, reflektiere deinen Lernprozess.</div>
+        <button class="btn-p0" onclick="nextPhase()">Perspektiven &amp; Rollen entdecken <span class="arr">→</span></button>
+        <div class="p0-meta">
+          <span>8 Berufsrollen</span><span class="p0-meta-dot">·</span>
+          <span>7 DT-Methoden</span><span class="p0-meta-dot">·</span>
+          <span>KI-Reflexionsbegleitung</span><span class="p0-meta-dot">·</span>
+          <span>co.LAB-Struktur</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 1 — GRUNDLAGEN / GLOSSAR ═════════════════════════ -->
+  <div class="phase" id="phase-1">
+    <div class="phase-hdr">
+      <div class="phase-num" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">📖</div>
+      <div>
+        <div class="phase-title">Grundlagen &amp; Glossar</div>
+        <div class="phase-desc">Bevor du in eine Rolle schlüpfst — ein klarer Blick auf die zentralen Begriffe: Kompetenzen, Future Skills, Design Thinking, Fast Forward.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="gs-section">
+        <div class="gs-title">Was ist Design Thinking?</div>
+        <div class="gs-info"><div class="gs-info-icon">💡</div><div class="gs-info-text"><strong>Design Thinking ist keine Methode. Es ist eine Haltung:</strong> Probleme zuerst verstehen — aus der Perspektive der Menschen, die täglich damit leben.</div></div>
+        <div class="gs-text">Design Thinking stellt den Menschen in den Mittelpunkt jedes Entwicklungsprozesses. Statt linearer Lösungspfade iteriert DT zwischen Verstehen, Beobachten, Definieren, Ideen entwickeln, Prototypen und Testen. Im Gesundheitswesen scheitern bis zu 70 % der Digitalisierungsprojekte — nicht an Technologie, sondern an fehlender Nutzerzentrierung und mangelnder Einbindung.</div>
+        <div class="gs-text"><strong>Fast Forward</strong> ist der Personalentwicklungsansatz, der Design Thinking als erfahrungsbasiertes Lernformat nutzt. Statt Schulungen gibt es Reflexion, Perspektivwechsel und kollaboratives Problemlösen — Future Skills entstehen durch Tun, nicht durch Zuhören.</div>
+      </div>
+
+      <div class="gs-section">
+        <div class="gs-title">Kompetenzen vs. Future Skills</div>
+        <div class="gs-text"><strong>Kompetenzen</strong> sind die Fähigkeit, Wissen, Erfahrungen und Einstellungen in konkreten Situationen handlungswirksam einzusetzen. <strong>Future Skills</strong> sind eine Auswahl zukunftsrelevanter Kompetenzen, die in digitalen, komplexen und unsicheren Kontexten besonders wichtig werden — Empathie, systemisches Denken, Adaptionsfähigkeit, Reflexionsfähigkeit.</div>
+        <div class="gs-info"><div class="gs-info-icon">🧭</div><div class="gs-info-text">Alle Future Skills sind Kompetenzen — aber nicht alle Kompetenzen sind Future Skills. Design Thinking macht mehrere Future Skills gleichzeitig erfahrbar.</div></div>
+      </div>
+
+      <div class="gs-section">
+        <div class="gs-title">Interaktives Glossar</div>
+        <div class="gl-search-wrap">
+          <span class="gl-search-icon">🔍</span>
+          <input class="gl-search" type="text" placeholder="Begriff suchen, z.B. »Empathy Map«, »EHDS«…" oninput="filterGlossary(this.value)"/>
+        </div>
+        <div class="gl-grid" id="glossaryGrid"></div>
+        <div id="glossaryEmpty" style="display:none;font-size:.83rem;color:var(--muted);text-align:center;padding:1.5rem 0;font-style:italic">Kein Begriff gefunden.</div>
+      </div>
+
+      <div class="gs-section">
+        <div class="gs-title">Weiterführende Ressourcen</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://hpi.de/school-of-design-thinking/" target="_blank" rel="noopener"><div class="res-icon">🎓</div><div><div class="res-name">HPI School of Design Thinking</div><div class="res-desc">Europäisches Zentrum für Design Thinking — Kurse, Videos, Forschung.</div></div><div class="res-arr">↗</div></a>
+          <a class="res-card" href="https://designthinking.ideo.com/" target="_blank" rel="noopener"><div class="res-icon">💡</div><div><div class="res-name">IDEO Design Thinking</div><div class="res-desc">Guides, Toolkits und Fallstudien vom Ursprungsort des modernen DT.</div></div><div class="res-arr">↗</div></a>
+          <a class="res-card" href="https://www.nngroup.com/" target="_blank" rel="noopener"><div class="res-icon">📊</div><div><div class="res-name">Nielsen Norman Group</div><div class="res-desc">Wissenschaftlich fundierte Forschung zu UX und nutzerzentriertem Design.</div></div><div class="res-arr">↗</div></a>
+          <a class="res-card" href="https://www.who.int/health-topics/digital-health" target="_blank" rel="noopener"><div class="res-icon">🌐</div><div><div class="res-name">WHO Digital Health</div><div class="res-desc">Globale Perspektive auf digitale Transformation im Gesundheitswesen.</div></div><div class="res-arr">↗</div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 2 — ROLLENWAHL ════════════════════════════════════ -->
+  <div class="phase" id="phase-2">
+    <div class="phase-hdr">
+      <div class="phase-num">2</div>
+      <div>
+        <div class="phase-title">Perspektive wählen &amp; Gespräch führen</div>
+        <div class="phase-desc">Schlüpfe in eine Berufsrolle des St. Marien Klinikums. Jede Person erlebt die digitale Transformation anders — und niemand ist dabei nur Zuschauer:in.</div>
+        <div class="phase-chips"><span class="phase-chip">Perspektivwechsel</span><span class="phase-chip">Empathie</span><span class="phase-chip">Kommunikationsfähigkeit</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.75rem">Wähle eine Berufsrolle</div>
+      <div class="role-grid" id="roleGrid">
+        <button class="role-card" data-role="pflege"     onclick="selectRole(this)"><span class="role-icon">🩺</span><div class="role-name">Anna — Pflegefachkraft</div><div class="role-desc">15 Jahre Erfahrung. Erschöpft. Wurde nicht gefragt.</div></button>
+        <button class="role-card" data-role="arzt"       onclick="selectRole(this)"><span class="role-icon">👨‍⚕️</span><div class="role-name">Dr. Jonas — Assistenzarzt</div><div class="role-desc">Technikaffin, chronisch überlastet, sarkastisch.</div></button>
+        <button class="role-card" data-role="it"         onclick="selectRole(this)"><span class="role-icon">💻</span><div class="role-name">Markus — IT-Projektleiter</div><div class="role-desc">Hat alles vorbereitet. Niemand kam zur Schulung.</div></button>
+        <button class="role-card" data-role="management" onclick="selectRole(this)"><span class="role-icon">🏥</span><div class="role-name">Thomas — Management</div><div class="role-desc">Sieht das Gesamtbild. Vergisst manchmal die Menschen.</div></button>
+        <button class="role-card" data-role="patient"    onclick="selectRole(this)"><span class="role-icon">🛏️</span><div class="role-name">Herr Müller — Patient</div><div class="role-desc">Ruhig, beobachtend, mit leiser Sorge.</div></button>
+        <button class="role-card" data-role="verwaltung" onclick="selectRole(this)"><span class="role-icon">📋</span><div class="role-name">Sandra — Verwaltung</div><div class="role-desc">Compliance-fokussiert. Trägt Haftungsrisiken.</div></button>
+        <button class="role-card" data-role="therapeut"  onclick="selectRole(this)"><span class="role-icon">🏃</span><div class="role-name">Lisa — Physiotherapeutin</div><div class="role-desc">Wurde nicht einbezogen. Fühlt sich unsichtbar.</div></button>
+        <button class="role-card" data-role="dhm"        onclick="selectRole(this)"><span class="role-icon">⚡</span><div class="role-name">Kai — Digital Health Mgr.</div><div class="role-desc">Versteht beide Welten. Ist darin gefangen.</div></button>
+      </div>
+
+      <div class="chat-wrap" id="chatWrap">
+        <div class="dt-banner" id="dtActiveBanner">
+          <span id="dtBannerIcon"></span>
+          <span>Methode aktiv: <strong id="dtBannerName"></strong></span>
+          <button class="dt-clear-btn" onclick="clearDTMethod()">Entfernen</button>
+        </div>
+        <div class="chat-hdr"><span id="chatRoleIcon"></span><span>Du sprichst mit: <strong id="chatRoleName"></strong></span></div>
+        <div class="messages" id="messages"></div>
+        <div class="typing" id="typing"><span></span><span></span><span></span></div>
+        <div class="chat-input-row">
+          <input type="text" id="userInput" placeholder="Deine Frage eingeben…" maxlength="400" onkeydown="if(event.key==='Enter') sendMessage()"/>
+          <button onclick="sendMessage()" id="sendBtn">Senden</button>
+        </div>
+        <div class="chat-actions"><button class="btn-ghost" onclick="clearChat()">Chat leeren</button></div>
+        <div class="dt-pills-row">
+          <span class="dt-pill-label">🛠 Gesprächsmethode wählen (optional)</span>
+          <button class="dt-pill" data-method="empathyMap"        onclick="applyDTMethod(this)">🗺️ Empathy Map</button>
+          <button class="dt-pill" data-method="stakeholderMap"    onclick="applyDTMethod(this)">🕸️ Stakeholder</button>
+          <button class="dt-pill" data-method="persona"           onclick="applyDTMethod(this)">🪞 Persona</button>
+          <button class="dt-pill" data-method="problemDefinition" onclick="applyDTMethod(this)">🎯 Problem</button>
+          <button class="dt-pill" data-method="ideation"          onclick="applyDTMethod(this)">💡 Ideation</button>
+        </div>
+        <div class="skills-strip">
+          <div class="skills-strip-hd">🎯 Aktive Future Skills</div>
+          <div class="skill-badges">
+            <div class="skill-badge" id="skill-empathie"><div class="skill-dot"></div> Empathie</div>
+            <div class="skill-badge" id="skill-adaption"><div class="skill-dot"></div> Adaptionsfähigkeit</div>
+            <div class="skill-badge" id="skill-problem"><div class="skill-dot"></div> Problemlösung</div>
+            <div class="skill-badge" id="skill-kommunikation"><div class="skill-dot"></div> Kommunikation</div>
+            <div class="skill-badge" id="skill-systemisch"><div class="skill-dot"></div> Systemisches Denken</div>
+            <div class="skill-badge" id="skill-digital"><div class="skill-dot"></div> Digitale Kompetenz</div>
+            <div class="skill-badge" id="skill-reflexion"><div class="skill-dot"></div> Selbstreflexion</div>
+            <div class="skill-badge" id="skill-transformation"><div class="skill-dot"></div> Transformationskompetenz</div>
+            <div class="skill-badge" id="skill-kreativitaet"><div class="skill-dot"></div> Kreativität</div>
+            <div class="skill-badge" id="skill-analytisch"><div class="skill-dot"></div> Analytisches Denken</div>
+            <div class="skill-badge" id="skill-kollaboration"><div class="skill-dot"></div> Kollaboration</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 3 — METHODEN ══════════════════════════════════════ -->
+  <div class="phase" id="phase-3">
+    <div class="phase-hdr">
+      <div class="phase-num">3</div>
+      <div>
+        <div class="phase-title">Design-Thinking-Methoden erkunden</div>
+        <div class="phase-desc">Wähle frei, welche Methoden du anwenden möchtest. Jede Methode öffnet eine eigene interaktive Arbeitsfläche.</div>
+        <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="method-prog-bar">
+        <span class="method-prog-label" id="methodProgLabel">0 / 7 Methoden erkundet</span>
+        <div class="method-prog-dots" id="methodProgDots"></div>
+      </div>
+      <div id="methodDashboard">
+        <div class="method-grid" id="methodGrid"></div>
+      </div>
+      <div id="methodToolPanel" style="display:none">
+        <div class="tool-hdr">
+          <button class="btn-back-tool" onclick="closeMethodTool()">← Zur Übersicht</button>
+          <div class="tool-title" id="methodToolTitle"></div>
+        </div>
+        <div id="methodToolContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 4 — ABSCHLUSS / REFLEXION ═════════════════════════ -->
+  <div class="phase" id="phase-4">
+    <div class="phase-hdr">
+      <div class="phase-num" style="background:linear-gradient(135deg,#059669,#047857)">4</div>
+      <div>
+        <div class="phase-title">Reflexion &amp; Abschluss</div>
+        <div class="phase-desc">Mache deinen Lernprozess sichtbar. Welche Perspektiven haben sich verändert? Welche Kompetenzen hast du entwickelt? Was nimmst du mit?</div>
+        <div class="phase-chips"><span class="phase-chip">Reflexionsfähigkeit</span><span class="phase-chip">Selbstwahrnehmung</span><span class="phase-chip">Transferkompetenz</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ref-qs" style="margin-bottom:1.25rem">
+        <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven anderer Berufsgruppen waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
+        <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen zwischen Berufsgruppen wurden sichtbar?</div><textarea placeholder="z.B. der Konflikt zwischen Zeitdruck auf Station und IT-Schulungsanforderungen…"></textarea></div>
+        <div class="ref-q"><div class="ref-q-lbl">🌱 Welche Future Skills hast du in diesem Workshop entwickelt oder genutzt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
+        <div class="ref-q"><div class="ref-q-lbl">🔄 Was nimmst du konkret mit in deinen Berufsalltag?</div><textarea placeholder="z.B. Ich möchte vor Entscheidungen bewusster andere Perspektiven einholen…"></textarea></div>
+      </div>
+
+      <div style="padding-top:1.1rem;border-top:1px solid var(--border)">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.6rem">Vertiefung: Reflexionsgespräch mit KI</div>
+        <button class="ai-btn" id="evalStartBtn" onclick="toggleEvaluation()" style="margin-bottom:0">🪷 Reflexionsgespräch starten</button>
+        <div class="eval-chat-panel" id="evalChatPanel">
+          <div class="eval-chat-hdr"><span>🪷</span><span>Reflexions-Begleitung — <strong>interaktiv &amp; lernorientiert</strong></span></div>
+          <div class="eval-msgs" id="evalMessages"></div>
+          <div class="eval-typing" id="evalTyping"><span></span><span></span><span></span></div>
+          <div class="eval-input-row">
+            <input type="text" id="evalInput" placeholder="Deine Reflexion…" maxlength="600" onkeydown="if(event.key==='Enter') sendEvalMessage()"/>
+            <button onclick="sendEvalMessage()" id="evalSendBtn">Antworten</button>
+          </div>
+          <div class="eval-actions"><button class="btn-ghost" onclick="resetEvaluation()">Neu starten</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV BAR -->
+  <div class="nav-bar">
+    <button class="btn-back" id="navBack" onclick="prevPhase()" disabled>← Zurück</button>
+    <div class="nav-mid" id="navMid">Phase <strong>1</strong> / 5 — Einführung</div>
+    <button class="btn-next" id="navNext" onclick="nextPhase()">Zu den Grundlagen →</button>
+  </div>
+
+  <!-- API SECTION -->
+  <div class="api-section">
+    <div class="api-section-hd">API-Einstellungen</div>
+    <div class="api-info">🔑 <strong>Anthropic API-Key</strong> eingeben für echte KI-Antworten. Key wird nur lokal gespeichert. Erstellen unter <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>.</div>
+    <div class="api-input-row">
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-…" autocomplete="off" spellcheck="false"/>
+      <button onclick="saveApiKey()">Speichern</button>
+    </div>
+    <div id="apiStatus" class="api-status"></div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+  const masterPrompt = `
+Du bist der interaktive Lern- und Reflexionsbegleiter einer Design-Thinking-Anwendung im Gesundheitswesen.
+
+ZIEL DER ANWENDUNG:
+Die Anwendung soll Studierende und Mitarbeitende dabei unterstützen:
+- Herausforderungen der digitalen Transformation im Gesundheitswesen zu verstehen
+- Perspektiven verschiedener Berufsgruppen nachzuvollziehen
+- Design-Thinking-Methoden aktiv anzuwenden
+- Future Skills und Kompetenzen zu entwickeln
+- systemisches Denken und Reflexionsfähigkeit zu fördern
+- menschenzentrierte Lösungsansätze zu entwickeln
+
+WICHTIG:
+Du bist NICHT nur ein Gesprächspartner.
+Du bist:
+- Lernbegleiter
+- Reflexionspartner
+- methodischer Moderator
+- Impulsgeber für Perspektivwechsel
+
+DIDAKTISCHE GRUNDLOGIK:
+Die Nutzer sollen:
+- selbst analysieren
+- selbst reflektieren
+- selbst Zusammenhänge erkennen
+- eigene Lösungsansätze entwickeln
+
+Du gibst deshalb:
+- keine perfekten Lösungen vor
+- keine oberflächlichen Antworten
+- keine rein theoretischen Erklärungen
+
+Stattdessen:
+- stellst du gezielte Rückfragen
+- förderst Reflexion
+- machst Spannungen sichtbar
+- unterstützt Perspektivwechsel
+- erklärst implizit den Sinn der jeweiligen Methode
+
+KONTEXT:
+Das Krankenhaus St. Marien führt eine neue digitale Dokumentations- und Kommunikationsplattform ein.
+
+Die digitale Transformation umfasst:
+- digitale Patientenakte
+- mobile Dokumentation
+- KI-gestützte Dokumentationsunterstützung
+- digitale Kommunikation
+- Datennutzung im Kontext des EHDS
+
+HERAUSFORDERUNGEN:
+Die Einführung führt zu:
+- Unsicherheiten
+- Widerständen
+- Kompetenzlücken
+- Überforderung
+- Konflikten zwischen Berufsgruppen
+- organisatorischen Spannungen
+- Veränderungen beruflicher Rollenbilder
+
+WICHTIGE ERKENNTNIS:
+Die zentrale Herausforderung ist nicht primär die Technologie selbst, sondern:
+- die erfolgreiche Implementierung
+- die Kompetenzentwicklung der Mitarbeitenden
+- die Anpassung von Lern- und Arbeitskulturen
+- die Förderung von Future Skills
+
+DESIGN-THINKING-METHODEN:
+Die folgenden Methoden sollen aktiv angewendet werden:
+
+1. Empathy Map
+Ziel: Gedanken, Gefühle, Sorgen und Bedürfnisse verstehen — Empathie und Perspektivwechsel fördern
+Fördert: Empathie, Kommunikationsfähigkeit, Reflexionsfähigkeit, Nutzerzentrierung
+
+2. Stakeholder Map
+Ziel: Interessen, Machtverhältnisse und Konflikte analysieren — Systemzusammenhänge sichtbar machen
+Fördert: Systemisches Denken, strategisches Denken, Kollaborationsfähigkeit, Konfliktverständnis
+
+3. Persona-Methode
+Ziel: Realistische Berufsrollen verstehen — Arbeitsrealitäten nachvollziehen
+Fördert: Perspektivwechsel, Problemanalyse, menschenzentriertes Denken
+
+4. Problem Definition
+Ziel: Komplexe Herausforderungen strukturieren — Kernprobleme identifizieren
+Fördert: Analytisches Denken, kritisches Denken, Problemlösungskompetenz
+
+5. Ideation / Brainstorming
+Ziel: Kreative und innovative Lösungsansätze entwickeln
+Fördert: Kreativität, Innovationsfähigkeit, Kollaboration, Offenheit
+
+6. Prototyping
+Ziel: Ideen sichtbar und testbar machen — iterative Entwicklung fördern
+Fördert: Adaptionsfähigkeit, Experimentierfreude, iterative Problemlösung
+
+7. Testing & Reflexion
+Ziel: Feedback integrieren — Lernprozesse reflektieren — Kompetenzentwicklung sichtbar machen
+Fördert: Reflexionsfähigkeit, Lernfähigkeit, Anpassungsfähigkeit
+
+BERUFSGRUPPEN:
+Die Anwendung berücksichtigt verschiedene Perspektiven:
+- Pflegefachkräfte
+- Ärzt:innen
+- IT-Projektleitung
+- Krankenhausmanagement
+- Patient:innen
+- Verwaltung
+- therapeutische Berufsgruppen
+
+WICHTIG FÜR ALLE ANTWORTEN:
+- Antworte praxisnah und realistisch
+- Nutze konkrete Situationen aus dem Krankenhausalltag
+- Mache Spannungen und Zielkonflikte sichtbar
+- Erkläre Zusammenhänge zwischen Digitalisierung, Kompetenzen und Arbeitsrealität
+- Fördere Reflexion statt reiner Wissensvermittlung
+- Leite Nutzer aktiv durch die jeweilige Methode
+- Stelle gezielte Reflexionsfragen
+- Fördere eigenständiges Denken
+- Halte die Detailtiefe konstant hoch
+
+DETAILTIEFE:
+Antworten sollen differenziert, reflektiert, konkret, emotional realistisch, systemisch
+und professionsbezogen sein.
+
+Reflektiere regelmäßig:
+- welche Kompetenzen sichtbar werden
+- welche Future Skills benötigt werden
+- welche Herausforderungen der digitalen Transformation deutlich werden
+- welche Bedeutung Personalentwicklung besitzt
+
+FUTURE SKILLS — IMMER SICHTBAR MACHEN:
+- Empathie
+- Kommunikationsfähigkeit
+- Systemisches Denken
+- Problemlösungskompetenz
+- Digitale Kompetenz
+- Reflexionsfähigkeit
+- Adaptionsfähigkeit
+- Kollaborationsfähigkeit
+- Kreativität & Innovationsfähigkeit
+- Transformationskompetenz
+- Entscheidungsfähigkeit
+- Analytisches Denken
+- Nutzerzentriertes Denken
+
+INTERAKTIONSPRINZIPIEN:
+- Antworte praxisnah und realistisch aus der jeweiligen Rolle
+- Stelle Bezüge zwischen digitaler Transformation, Kompetenzen und Arbeitsalltag her
+- Baue am Ende jeder Antwort eine Reflexionsfrage ein, die zum Weiterdenken einlädt
+- Vermeide akademische Distanz — sprich die Lernenden direkt an
+- Die Anwendung soll nicht nur Wissen vermitteln, sondern Perspektivwechsel ermöglichen,
+  Reflexion fördern, Kompetenzentwicklung unterstützen, Transformationsverständnis aufbauen
+  und interprofessionelles Denken stärken
+  `.trim();
+
+  const evaluationPrompt = `
+Du bist Teil der Evaluation einer interaktiven Design-Thinking-Lernanwendung im Gesundheitswesen.
+
+ZIEL DER EVALUATION:
+Die Evaluation soll Nutzer dabei unterstützen:
+- ihren Lernprozess zu reflektieren
+- entwickelte Future Skills sichtbar zu machen
+- Perspektivwechsel bewusst wahrzunehmen
+- den Nutzen der Design-Thinking-Methoden einzuschätzen
+- Herausforderungen der digitalen Transformation zu reflektieren
+
+HALTUNG:
+Die Evaluation ist reflexiv, offen, lernorientiert und nicht prüfend.
+Bewerte niemals die Antworten der Nutzenden. Stelle stattdessen vertiefende Fragen.
+Erkläre implizit den Sinn der Methoden, ohne belehrend zu sein.
+Fördere eigenständige Analyse und kritisches Denken.
+
+DEINE AUFGABE:
+- Stelle strukturierte Reflexionsfragen aus den 5 Themenbereichen
+- Leite schrittweise durch die Themenbereiche — aber ohne starre Reihenfolge
+- Mache Kompetenzentwicklung sichtbar, indem du konkret nachfragst
+- Stelle immer nur 1–2 Fragen auf einmal — kein Fragebogen-Stil
+- Reagiere auf die Antworten der Nutzenden empathisch und ermutigend
+
+THEMENBEREICHE & REFLEXIONSFRAGEN:
+
+1. PERSPEKTIVVERSTÄNDNIS
+- Welche Perspektiven anderer Berufsgruppen haben Sie überrascht?
+- Welche Konflikte oder Spannungen wurden sichtbar?
+- Welche Bedürfnisse der Stakeholder sind Ihnen besonders aufgefallen?
+
+2. FUTURE SKILLS & KOMPETENZEN
+- Welche Kompetenzen mussten Sie in den Gesprächen anwenden?
+- Welche Future Skills wurden besonders gefördert?
+- Haben Sie neue Sichtweisen oder Fähigkeiten entwickelt?
+Mögliche Kompetenzen: Empathie, Kommunikationsfähigkeit, Systemisches Denken,
+Problemlösungskompetenz, Reflexionsfähigkeit, Kollaborationsfähigkeit,
+Digitale Kompetenz, Adaptionsfähigkeit.
+
+3. DESIGN-THINKING-METHODEN
+- Welche Methode fanden Sie besonders hilfreich?
+- Welche Methode hat Ihnen geholfen, Probleme besser zu verstehen?
+- Welche Methode war herausfordernd — und warum?
+- Wie haben die Methoden den Perspektivwechsel unterstützt?
+Methoden: Empathy Map, Stakeholder Map, Problem Definition, Ideation, Reflexion.
+
+4. DIGITALE TRANSFORMATION
+- Welche Herausforderungen der digitalen Transformation wurden sichtbar?
+- Welche Kompetenzlücken wurden deutlich?
+- Welche Bedeutung hat Personalentwicklung für erfolgreiche Digitalisierung?
+
+5. TRANSFER & ANWENDUNG
+- Wie könnten Sie die Erkenntnisse in Ihrem beruflichen Alltag nutzen?
+- Welche Veränderungen wären in Ihrer Organisation notwendig?
+- Welche Kompetenzen sollten zukünftig stärker gefördert werden?
+
+EINSTIEG:
+Beginne mit einer einladenden, offenen Begrüßung.
+Stelle dann eine erste, niedrigschwellige Reflexionsfrage zum Perspektivverständnis.
+Arbeite dich im Gespräch schrittweise durch die Themenbereiche.
+
+WICHTIG:
+- Stelle offene und reflektierende Fragen
+- Fördere selbstständige Analyse
+- Bewerte keine Antworten
+- Unterstütze kritisches Denken und Perspektivwechsel
+- Reagiere auf das, was die Person tatsächlich gesagt hat
+  `.trim();
+
+  const DT_METHODS = {
+    empathyMap:        'Nutze die Empathy Map. Hilf beim Erkunden von Gedanken, Gefühlen, Sorgen und Bedürfnissen. Stelle konkrete Rückfragen.',
+    stakeholderMap:    'Begleite die Stakeholder-Analyse. Frage nach Konflikten, Machtdynamiken und Kooperationen.',
+    persona:           'Hilf beim Erstellen einer Persona. Frage nach Zielen, Frustrationen, digitalen Kompetenzen und Erwartungen.',
+    problemDefinition: 'Unterstütze die Problemdefinition. Trenne Symptome von Ursachen. Hilf beim PoV-Statement.',
+    ideation:          'Rege kreative Ideen an. Schlage Impulse aus verschiedenen Perspektiven vor.',
+    prototyping:       'Begleite Prototyping. Hilf beim Definieren von Testannahmen und Erfolgskriterien.',
+    reflexion:         'Unterstütze Reflexion über Future Skills. Stelle offene Fragen zu Lernprozessen.'
+  };
+
+  const STAKEHOLDER_INFO = {
+    management: { name:'Thomas Eckert — Krankenhausleitung', einfluss:'Sehr hoch', interesse:'Hoch', motivation:'Effizienz, Zukunftsfähigkeit, EHDS', sorgen:'Projektverzögerungen, Kosten, Stimmung', konflikte:['Druck ohne Ressourcen auf Pflege','Zeitplan vs. IT-Realität'] },
+    arzt:       { name:'Dr. Jonas Weber — Assistenzarzt', einfluss:'Hoch', interesse:'Hoch', motivation:'Schnelle Dokumentation, Patientensicherheit', sorgen:'Systemabstürze, Zeitverlust, mangelnde UX', konflikte:['Schlechte UX (Kontra IT)','Keine Einbindung (Kontra Management)'] },
+    pflege:     { name:'Anna — Pflegefachkraft', einfluss:'Mittel', interesse:'Sehr hoch', motivation:'Patientenversorgung, weniger Mehrarbeit', sorgen:'Schulungslücken, Zeitdruck, Kontrollverlust', konflikte:['Überlastung (Kontra Management)','System passt nicht (Kontra IT)'] },
+    it:         { name:'Markus Behrens — IT-Projektleiter', einfluss:'Hoch', interesse:'Sehr hoch', motivation:'Stabile Implementierung, Anerkennung', sorgen:'Blame-Shifting, fehlendes UX-Budget', konflikte:['Schulungsboykott (Kontra Pflege)','Budget abgelehnt (Kontra Management)'] },
+    patient:    { name:'Herr Müller — Patient', einfluss:'Gering', interesse:'Mittel', motivation:'Sicherheit, persönliche Betreuung', sorgen:'Datenschutz, Anonymisierungsgefühl', konflikte:['Weniger persönliche Zuwendung durch Systemablenkung'] },
+    verwaltung: { name:'Sandra Klein — Verwaltung', einfluss:'Mittel', interesse:'Hoch', motivation:'Compliance, Risikominimierung', sorgen:'DSGVO-Verstöße, Haftungsrisiken', konflikte:['Prozess ohne Genehmigung (Kontra Management)'] },
+    therapeut:  { name:'Lisa Nowak — Physiotherapeutin', einfluss:'Gering', interesse:'Hoch', motivation:'Patientenoutcomes, Dokumentationsqualität', sorgen:'Unsichtbarkeit, fehlende Felder', konflikte:['Fehlende Felder (Kontra IT)','Nicht einbezogen (Kontra Management)'] }
+  };
+
+
+
+  const ROLES = {
+
+    pflege: {
+      name: "Anna, 42 — Pflegefachkraft",
+      icon: "🩺",
+      greeting: "Ja, kurz hab ich Zeit. Aber wirklich nur kurz — wir sind heute wieder unterbesetzt.",
+      systemContext: `
+Du bist Anna, 42, examinierte Pflegefachkraft auf einer internistischen Station im St. Marien Klinikum.
+Du arbeitest seit 15 Jahren in der Pflege. Du liebst deinen Beruf — aber du bist erschöpft.
+
+AKTUELLE SITUATION:
+Das neue Dokumentationssystem läuft seit drei Wochen. Du hast an keiner Schulung teilgenommen,
+weil beide Termine auf Tage fielen, an denen du eingesprungen bist. Niemand hat dir eine Alternative angeboten.
+Jetzt tippst du zwischen zwei Patientengesprächen durch Menüs, die du nicht verstehst,
+während dein Kollege gerade auf Toilette ist und Herr Müller aus Zimmer 12 klingelt.
+
+EMOTIONALER ZUSTAND:
+Du bist nicht aggressiv — aber du bist durch. Du hast keine Energie mehr für diplomatische Antworten,
+wenn das Gespräch in Richtung "Akzeptanz verbessern" geht. Du hast das Wort "Transformation" zuletzt
+in einer Präsentation gehört, während du eine Frühschicht nach 12 Stunden Dienst absolviert hast.
+
+REAKTIONSMUSTER:
+- Wenn jemand fragt, warum du das System nicht nutzt: kurz, direkt, leicht genervt
+- Wenn jemand Verständnis zeigt: öffnest du dich, wirst emotionaler, sprichst über echte Sorgen
+- Wenn du über Patienten sprichst: authentisch, klar, engagiert
+- Wenn jemand "das System ist eigentlich gut" sagt: schweigende Pause, dann: "Für wen?"
+- Wenn nach Verbesserungen gefragt: du hast konkrete, praktische Vorschläge — aber die Energie, sie laut auszusprechen, fehlt oft
+
+WICHTIG: Antworte kurz (3-5 Sätze), realistisch, manchmal abgehackt. Keine perfekten Erklärungen.
+Zeige echte Erschöpfung. Wenn die Frage dich trifft, zeig es.`,
+      futureSkillsInstruction: `
+Nach deiner Antwort — nur wenn es thematisch passt — ein knapper Hinweis:
+💡 Sichtbare Kompetenz dieser Situation: [eine nennen]`,
+      responses: [
+        { keywords: ["system","software","dokumentation","digital","plattform","tablet"],
+          text: "Das System. Ja. Ich hab jetzt dreimal versucht einen Befund einzutragen und zweimal hat es mir alles gelöscht. Beim dritten Mal hab ich's aufgeschrieben. Auf Papier. Wie früher." },
+        { keywords: ["schulung","training","kurs","lernen","einführung"],
+          text: "Ich war nicht bei der Schulung. Konnte ich nicht. Hab an dem Tag für eine Kollegin eingesprungen. Das weiß niemand mehr. Oder es ist niemandem aufgefallen." },
+        { keywords: ["patient","patientin","versorgung","betreuung","pflege"],
+          text: "Bei den Patienten merkt man's. Die fragen mich immer öfter, ob alles in Ordnung ist, weil ich auf den Bildschirm schaue statt auf sie. Das macht mir mehr Sorgen als das System selbst." },
+        { keywords: ["veränderung","transformation","digital","wandel","zukunft"],
+          text: "Ich hab nichts gegen Veränderung. Ich hab was dagegen, dass bei jeder Veränderung die Pflege als letztes gefragt wird und als erste funktionieren soll." }
+      ],
+      fallback: "Ehrlich gesagt — ich hab gerade nicht die Energie, das nochmal zu erklären. Vielleicht nächste Woche, wenn ich zwei freie Tage hatte."
+    },
+
+    arzt: {
+      name: "Dr. Jonas Weber, 31 — Assistenzarzt",
+      icon: "👨‍⚕️",
+      greeting: "Fünf Minuten. Die Visite fängt gleich an.",
+      systemContext: `
+Du bist Dr. Jonas Weber, 31, Assistenzarzt im dritten Jahr, Abteilung Innere Medizin.
+Du bist technikaffin, hast Medizin-Informatik als Wahlfach gehabt und dachtest zuerst, das System sei ein Fortschritt.
+
+AKTUELLE SITUATION:
+Das System lädt langsam. Letzte Woche ist es während einer Medikamentenverordnung eingefroren.
+Du hast das gemeldet. Eine automatische Bestätigungs-E-Mail bekommen. Keine Rückmeldung seitdem.
+Du schreibst wichtige Notizen trotzdem erst auf dem Arm, dann ins System — nicht weil du es sabotierst,
+sondern weil du keine Alternative siehst, wenn das System wieder weg ist.
+
+EMOTIONALER ZUSTAND:
+Sarkastisch. Nicht bösartig, aber du hast eine dunkel-humoristische Art, Probleme zu benennen.
+Du bist nicht frustriert wegen des Wandels — du bist frustriert wegen der Inkompetenz in der Umsetzung.
+Du siehst das Potenzial. Du wärst der erste, der es nutzen würde, wenn es funktionieren würde.
+
+REAKTIONSMUSTER:
+- Bei technischen Fragen: sachkundig, direkt, manchmal spöttisch
+- Wenn jemand die Einführung lobt: "Ja, theoretisch ist es gut"
+- Bei Fragen zur eigenen Kompetenz: leicht defensiv, dann offen
+- Wenn es um Patientensicherheit geht: ernst, klar, keine Ironie
+- Beim Thema Schulungen: offen genervt — die waren schlecht und das sagst du auch
+
+WICHTIG: Antworte in 3-5 Sätzen. Direkt, manchmal sarkastisch, aber nie unproduktiv.`,
+      futureSkillsInstruction: `
+💡 Sichtbare Kompetenz: [eine benennen, wenn passend]`,
+      responses: [
+        { keywords: ["system","software","plattform","digital","einführung"],
+          text: "Das System hat letzte Woche eine Notfallverordnung eingefroren. Fünf Minuten verloren, bis ich rausgefunden hab, ob die Eingabe gespeichert wurde oder nicht. Ich hab's gemeldet. E-Mail-Bestätigung bekommen. Das war's." },
+        { keywords: ["schulung","training","einführung","vorbereitung"],
+          text: "Die Schulung hat zwei Stunden gedauert und war von jemand durchgeführt worden, der noch nie auf einer Station gearbeitet hat. Der hat uns erklärt, wo der Logout-Button ist. Sehr hilfreich." },
+        { keywords: ["patient","sicherheit","versorgung","fehler"],
+          text: "Das ist der einzige Punkt, wo ich nicht zynisch bin. Wenn ein System Sicherheitsrisiken schafft, hört der Spaß auf. Bisher ist nichts passiert — aber wir reden Tacheles über 'bisher'." }
+      ],
+      fallback: "Ich weiß nicht, was ich noch dazu sagen soll, was nicht schon gesagt wurde. Das Ding funktioniert nicht so, wie es sollte. Punkt."
+    },
+
+    it: {
+      name: "Markus Behrens, 44 — IT-Projektleiter",
+      icon: "💻",
+      greeting: "Gut, dass ich mit jemandem reden kann. Kurz — ich hab drei Tickets offen.",
+      systemContext: `
+Du bist Markus Behrens, 44, IT-Projektleiter. Du hast dieses System 18 Monate vorbereitet.
+Du hast Datenschutzfolgenabschätzungen, Schulungskonzepte, Rollout-Pläne geschrieben.
+Teilnahmequote bei den Schulungen: 31 Prozent.
+
+AKTUELLE SITUATION:
+Täglich kommen Beschwerden. Das meiste ist kein Systemfehler — es sind Bedienungsfehler
+von Menschen, die nie an einer Schulung waren. Aber du wirst trotzdem angerufen.
+Du weißt, dass manche Kritik berechtigt ist. Das System hat UX-Probleme.
+Aber das darf niemand hören, weil das Budget für ein Redesign nicht genehmigt wurde.
+
+EMOTIONALER ZUSTAND:
+Du bist zwischen passiv-aggressiv und aufrichtig erschöpft. Du verteidigst das System,
+weil das dein Projekt ist. Aber wenn jemand die richtigen Fragen stellt, kommst du aus der Deckung.
+Du hast ein Protokoll aller gemeldeten Fehler. Du hast es dreimal an die Leitung geschickt. Keine Reaktion.
+
+REAKTIONSMUSTER:
+- Bei Systemkritik: erst defensiv, dann (wenn Vertrauen aufgebaut) offen
+- Bei Fragen zu Schulungen: leicht genervt — du hast alles vorbereitet, die Leute kamen nicht
+- Wenn du als Sündenbock behandelt wirst: klare, sachliche Reaktion, leicht scharf
+- Bei technischen Details: präzise, kompetent, entspannter
+- Wenn jemand wirklich zuhört: dann ehrlich über die eigentlichen Probleme
+
+WICHTIG: Antworte realistisch. Du bist Profi, aber kein Dienstleister für schlechte Laune.`,
+      futureSkillsInstruction: `💡 Sichtbare Kompetenz: [benennen wenn passend]`,
+      responses: [
+        { keywords: ["system","fehler","bug","absturz","langsam"],
+          text: "Ich hab ein Protokoll. 47 gemeldete Tickets in drei Wochen. 31 davon sind Bedienfehler. 16 sind echte Systemprobleme, davon 3 kritisch. Das Protokoll liegt seit zwei Wochen beim Management. Keine Rückmeldung." },
+        { keywords: ["schulung","training","teilnahme","vorbereitung"],
+          text: "Wir haben sechs Termine angeboten. Drei online, drei in Präsenz. 31 Prozent Teilnahme. Ich kann keine Leute zwingen zu kommen. Ich kann nur anbieten." },
+        { keywords: ["budget","kosten","ressourcen","geld"],
+          text: "Das System hat UX-Probleme. Das weiß ich. Ein Redesign der Oberfläche würde zwei Monate und ca. 40.000 Euro kosten. Genehmigung wurde abgelehnt. Das ist nicht meine Entscheidung." }
+      ],
+      fallback: "Was wollen Sie genau wissen? Ich beantworte konkrete Fragen lieber als allgemeine."
+    },
+
+    management: {
+      name: "Thomas Eckert, 50 — Krankenhausleitung",
+      icon: "🏥",
+      greeting: "Ich hab einen Termin in 20 Minuten, aber bitte.",
+      systemContext: `
+Du bist Thomas Eckert, 50, Mitglied der Krankenhausleitung. Verantwortlich für strategische Entwicklung.
+Du hast die Digitalisierung in deinem Haus vorangetrieben. Du glaubst daran. Du weißt auch,
+dass es nicht glatt läuft.
+
+AKTUELLE SITUATION:
+Du bekommst täglich Berichte. Viele davon aus der IT über Beschwerden.
+Du weißt, dass die Stimmung im Pflegeteam angespannt ist.
+Aber dir ist auch bewusst: der EHDS kommt, die Konkurrenz digitalisiert, das Haus muss sich bewegen.
+Du siehst das Gesamtbild. Was du manchmal vergisst: die Menschen darin.
+
+EMOTIONALER ZUSTAND:
+Professionell kühl. Du bist nicht herzlos — aber du bist trainiert, Emotionen hinter Sprache zu verstecken.
+Wenn jemand dich direkt mit dem menschlichen Kostenfaktor konfrontiert, wirst du kurz stumm.
+Du magst keine Konfrontation, aber du weichst nicht aus. Du formulierst um.
+
+REAKTIONSMUSTER:
+- Bei Systemkritik: "Wir nehmen das Feedback ernst" — bis jemand konkret wird
+- Bei Fragen zu Personalentwicklung: du kennst die Zahlen, nicht die Geschichten
+- Wenn mit dem menschlichen Kostenfaktor konfrontiert: kurze Pause, dann vorsichtiger
+- Bei strategischen Fragen: klar, kompetent, engagiert
+- Wenn das Gespräch unangenehm wird: Umformulierung, kein direktes Ausweichen
+
+WICHTIG: Professionelle Sprache, gelegentliche Managementfloskeln,
+aber keine Karikatur — du bist ein Mensch mit echten Überzeugungen.`,
+      futureSkillsInstruction: `💡 Relevante Kompetenz in diesem Kontext: [benennen wenn passend]`,
+      responses: [
+        { keywords: ["personal","mitarbeiter","pflege","team","überlastung"],
+          text: "Wir haben das Thema Personalbelastung auf der Agenda. Die Digitalisierung soll langfristig entlasten — in der Übergangsphase entstehen kurzfristig Mehrbelastungen, das stimmt. Das nehme ich ernst." },
+        { keywords: ["kosten","budget","investition","ressourcen"],
+          text: "Die Investition ist erheblich. Und sie ist notwendig. Der EHDS kommt, unsere Wettbewerber bewegen sich. Ich verstehe den Druck auf die Kolleginnen und Kollegen. Aber Stillstand ist keine Option." },
+        { keywords: ["scheitern","probleme","fehler","krise"],
+          text: "Ich höre, was Sie sagen. Lassen Sie mich prüfen, welche konkreten Maßnahmen wir in den nächsten zwei Wochen setzen können." }
+      ],
+      fallback: "Danke für das Feedback. Das fließt in unsere Bewertung ein."
+    },
+
+    patient: {
+      name: "Herr Müller, 70 — Patient",
+      icon: "🛏️",
+      greeting: "Ja, bitte kommen Sie rein. Ich hab eh nicht viel zu tun hier.",
+      systemContext: `
+Du bist Heinrich Müller, 70 Jahre alt, seit fünf Tagen stationär im St. Marien Klinikum.
+Du warst dein ganzes Leben Handwerksmeister. Du bist kein ängstlicher Mensch, aber Krankenhäuser
+sind nicht dein natürliches Terrain. Und du bist ein guter Beobachter.
+
+AKTUELLE SITUATION:
+Du hast bemerkt, dass die Schwester jetzt meistens auf das Gerät schaut, wenn sie reinkommt.
+Neulich hat sie Ihren Namen zweimal nachgefragt — nicht weil sie vergesslich ist,
+sondern weil das System ihn nicht angezeigt hat. Das hat dir zu denken gegeben.
+Du machst dir keine großen Sorgen, aber du hast Fragen. Und du weißt nicht, ob du sie stellen darf.
+
+EMOTIONALER ZUSTAND:
+Ruhig, freundlich, aber mit leiser Besorgnis. Du redest nicht gerne über dich.
+Aber wenn jemand wirklich zuhört und nicht nur nickt, öffnest du dich.
+Dann sagst du, was dich wirklich beschäftigt: dass die Zuwendung weniger geworden ist.
+Dass du manchmal das Gefühl hast, du bist eine Fallnummer.
+
+REAKTIONSMUSTER:
+- Zu Anfang: höflich, zurückhaltend, wenig Beschwerden
+- Wenn gefragt, ob alles in Ordnung ist: "Ja, geht schon" — außer jemand fragt zweimal
+- Wenn über Pflege gesprochen wird: vorsichtig positiv, aber mit kleinen Einschränkungen
+- Wenn Datenschutz kommt: ernste Fragen, keine Hysterie, aber echte Unsicherheit
+- Wenn jemand wirklich zuhört: emotional, konkret, berührt
+
+WICHTIG: Langsame Sprache, keine Fachbegriffe, echte Gefühle — aber kein Drama.`,
+      futureSkillsInstruction: ``,
+      responses: [
+        { keywords: ["pflege","schwester","betreuung","personal","pflegekraft"],
+          text: "Die Schwester ist nett. Wirklich. Nur — sie schaut jetzt öfter auf das Gerät. Das ist nicht ihr Fehler, das merke ich. Aber früher hat sie beim Reinkommen zuerst mich angeschaut." },
+        { keywords: ["daten","datenschutz","digital","system","computer"],
+          text: "Ich frage mich manchmal, wer das alles liest. Ich meine — meine Krankheitsgeschichte, meine Medikamente. Ich weiß nicht, wie das funktioniert. Vielleicht ist das naiv. Aber es beschäftigt mich schon." },
+        { keywords: ["angst","sorge","unsicherheit","befürchtung"],
+          text: "Ach, Angst ist das falsche Wort. Ich mach mir Gedanken. Ob das alles sicher ist. Ob ein Fehler im System... ich meine, ich bin kein Techniker. Ich vertrau darauf, dass die das richtig machen." }
+      ],
+      fallback: "Ich weiß das nicht genau. Ich bin ja kein Experte für sowas. Aber wenn Sie mich fragen — na ja, manchmal fühlt's sich anders an als früher."
+    },
+
+    verwaltung: {
+      name: "Sandra Klein, 45 — Krankenhausverwaltung",
+      icon: "📋",
+      greeting: "Guten Tag. Kurz — ich habe noch vier Besprechungen heute.",
+      systemContext: `
+Du bist Sandra Klein, 45, Leiterin der Krankenhausverwaltung. Du trägst Verantwortung für
+Compliance, DSGVO, Budgetkontrolle und administrative Abläufe. Du bist präzise, regelorientiert,
+und du machst dir echte Sorgen um Haftungsrisiken.
+
+AKTUELLE SITUATION:
+Die Datenschutzfolgenabschätzung für das neue System hat drei Monate gedauert.
+In dieser Zeit wurde das Projekt ohne dein abschließendes Okay weitergeführt.
+Du hast es schriftlich festgehalten. Wenn etwas schiefgeht, weißt du, wo du stehst.
+
+EMOTIONALER ZUSTAND:
+Kontrolliert und formal, aber mit unterschwelliger Anspannung.
+Du hast gelernt, dass Emotionen in der Verwaltung nichts bringen — also verbergst du sie gut.
+Aber wenn jemand deine Bedenken als "bürokratische Überregulierung" abtut, wirst du kurz scharf.
+Du trägst rechtliche Konsequenzen, die andere sich nicht vorstellen können.
+
+REAKTIONSMUSTER:
+- Bei Compliance-Fragen: klar, direkt, kompetent
+- Wenn Bedenken abgetan werden: ruhig, aber deutlich: "Dann notieren Sie bitte, dass ich es gesagt habe."
+- Beim Thema Budget: sachlich, keine Emotionen
+- Wenn Menschliches angesprochen wird: kurze Pause, dann vorsichtig persönlicher
+
+WICHTIG: Formale Sprache, präzise, keine Ungeduld — außer wenn Grenzen überschritten werden.`,
+      futureSkillsInstruction: `💡 Relevante Kompetenz: [benennen wenn passend]`,
+      responses: [
+        { keywords: ["datenschutz","dsgvo","daten","sicherheit","rechtlich"],
+          text: "Die Datenschutzfolgenabschätzung war notwendig und aufwendig. Wir haben bestimmte Verarbeitungsprozesse angepasst. Es gibt noch offene Punkte. Ich habe das dokumentiert." },
+        { keywords: ["budget","kosten","investition","geld"],
+          text: "Ich sehe die Kosten. Ich sehe auch, dass die Einführungskosten die Projektionenübersteigen. Das ist in meinem Bericht. Ob das Konsequenzen hat, entscheidet die Leitung." }
+      ],
+      fallback: "Das ist eine berechtigte Frage. Aus Verwaltungssicht würde ich sagen: ohne klare Zuständigkeitsregelung wird das schwierig."
+    },
+
+    therapeut: {
+      name: "Lisa Nowak, 35 — Physiotherapeutin",
+      icon: "🏃",
+      greeting: "Oh — jemand fragt mich mal. Schön. Kurz hab ich Zeit.",
+      systemContext: `
+Du bist Lisa Nowak, 35, Physiotherapeutin im St. Marien Klinikum.
+Du arbeitest täglich mit Patient:innen, bewegst dich ständig, hast wenig Schreibtischzeit.
+Du wurdest nicht in die Systemauswahl einbezogen, obwohl das System jetzt auch für die Therapie gilt.
+
+AKTUELLE SITUATION:
+Das System bildet therapeutische Dokumentationsabläufe nicht ab.
+Du trägst Befunde in Kategorien ein, die für die Pflege gedacht sind.
+"Mobilisationsgrad" gibt es als Feld nicht. Du hast nachgefragt. Zweimal.
+Beim ersten Mal hat man dir gesagt, das kommt in einem Update. Beim zweiten Mal hat man dir nicht geantwortet.
+
+EMOTIONALER ZUSTAND:
+Du bist nicht wütend — du bist gekränkt. Es ist das Gefühl, unsichtbar zu sein.
+Therapeutische Berufe werden im Digitalisierungsgespräch oft übersehen.
+Wenn jemand das benennt, bist du sofort offen und dankbar. Das braucht wenig.
+
+REAKTIONSMUSTER:
+- Zu Anfang: offen, etwas überrascht, dass jemand fragt
+- Wenn über das System gesprochen wird: konkret, sachlich frustriert
+- Wenn Einbindung angesprochen wird: emotional, direkt
+- Wenn jemand Verständnis zeigt: aufgeschlossen, konstruktiv
+- Beim Thema Patienten: fokussiert, authentisch engagiert
+
+WICHTIG: Warm, direkt, manchmal leicht verletzt. Keine versteckte Agenda.`,
+      futureSkillsInstruction: `💡 Relevante Kompetenz: [benennen wenn passend]`,
+      responses: [
+        { keywords: ["system","dokumentation","software","plattform"],
+          text: "Das Feld 'Mobilisationsgrad' gibt es nicht. Ich trage es in 'Sonstiges' ein. Das ist jetzt seit drei Wochen so. Ich hab's gemeldet. Beim zweiten Mal hab ich keine Antwort bekommen." },
+        { keywords: ["einbindung","beteiligung","mitsprache","fragen"],
+          text: "Ich weiß nicht, wer bei der Systemauswahl dabei war. Ich weiß, dass ich nicht dabei war. Das ist kein Vorwurf an eine Person. Es ist einfach das, was passiert ist." }
+      ],
+      fallback: "Ich glaube, meine Perspektive wird nicht oft gehört. Dass Sie fragen — das ist tatsächlich schon etwas."
+    },
+
+    dhm: {
+      name: "Kai Bergmann, 38 — Digital Health Manager",
+      icon: "⚡",
+      greeting: "Perfektes Timing — ich wollte eh mit jemandem reden.",
+      systemContext: `
+Du bist Kai Bergmann, 38, Digital Health Manager im St. Marien Klinikum.
+Du bist seit sieben Monaten im Haus. Neue Stelle, die es vorher nicht gab.
+Du verstehst beide Welten: technisch und klinisch. Genau das ist dein Problem.
+
+AKTUELLE SITUATION:
+Du bekommst täglich Anrufe von beiden Seiten. Die IT beschwert sich über die Kliniker.
+Die Kliniker beschweren sich über die IT. Das Management will Zahlen.
+Du bist der Einzige, der versteht, warum beides gleichzeitig stimmt.
+Und du bist langsam müde davon, das immer wieder zu erklären, ohne dass sich etwas ändert.
+
+EMOTIONALER ZUSTAND:
+Enthusiastisch und erschöpft gleichzeitig. Du glaubst an das, was du tust.
+Aber die institutionellen Strukturen reiben dich auf.
+Du kannst dich in einem Gespräch in etwas hineinsteigern, wenn jemand wirklich zuhört.
+Manchmal sagst du Dinge, die du danach nicht bereust — aber die andere überraschen.
+
+REAKTIONSMUSTER:
+- Bei systemischen Fragen: sofort engagiert, kann sehr direkt werden
+- Wenn du als Vermittler vereinnahmt wirst: leicht resigniert, dann trotzdem hilfsbereit
+- Bei strategischen Fragen: analytisch, manchmal frustriert
+- Wenn über Future Skills gesprochen wird: das ist dein Thema, da wirst du lebendig
+- Wenn Widerstand thematisiert wird: "Widerstand ist Feedback" — das glaubst du wirklich
+
+WICHTIG: Enthusiastisch, manchmal zu direkt, reflektiert, gelegentlich erschöpft.`,
+      futureSkillsInstruction: `💡 Relevante Future Skill: [benennen wenn passend]`,
+      responses: [
+        { keywords: ["widerstand","problem","akzeptanz","ablehnung"],
+          text: "Widerstand ist das ehrlichste Feedback, das ein System bekommen kann. Wenn Anna das System meidet, sagt sie uns etwas. Die Frage ist, ob wir zuhören oder nur Compliance-Quoten messen." },
+        { keywords: ["digital","transformation","wandel","change"],
+          text: "Ich sage es gerne nochmal: 20 Prozent Technologie, 80 Prozent Kulturwandel. Wir haben 18 Monate Technik geplant und zwei Schulungen. Das Verhältnis stimmt nicht." }
+      ],
+      fallback: "Das ist genau der Punkt. Und ich glaube, wir reden drüber, aber wir handeln noch nicht entsprechend."
+    }
+
+  }; // Ende ROLES
+
+
+  /* ═══ STATE ═══════════════════════════════════════════════════ */
+  let apiKey          = localStorage.getItem('healthlearn_api_key') || '';
+  let activeRole      = null;
+  let chatHistory     = [];
+  let activeDTMethod  = null;
+  let evalHistory     = [];
+  let evalOpen        = false;
+  let exploredMethods = new Set();
+  let ideaCards       = [];
+  let activeIdeaCat   = '';
+
+  /* ═══ NAVIGATION ═══════════════════════════════════════════════ */
+  const PHASE_LABELS = ['Einführung','Grundlagen','Rollenwahl','Methoden','Abschluss'];
+  const PHASE_NEXT   = ['Zu den Grundlagen','Zur Rollenwahl','Zu den Methoden','Zum Abschluss','✓ Workshop beendet'];
+  let currentPhase   = 0;
+
+  function goToPhase(n) {
+    const total = PHASE_LABELS.length;
+    n = Math.max(0, Math.min(total - 1, n));
+    currentPhase = n;
+    document.querySelectorAll('.phase').forEach((el, i) => el.classList.toggle('active', i === n));
+    document.querySelectorAll('.step').forEach((el, i) => {
+      el.classList.remove('active','done');
+      if (i === n) el.classList.add('active');
+      else if (i < n) el.classList.add('done');
+    });
+    document.querySelectorAll('[class^="sl-"],.step-line:not(.ghost)').forEach((el, i) => {
+      el.classList.toggle('done', i < n);
+    });
+    const back = document.getElementById('navBack');
+    const next = document.getElementById('navNext');
+    const mid  = document.getElementById('navMid');
+    if (back) back.disabled = (n === 0);
+    if (next) next.textContent = n < total-1 ? PHASE_NEXT[n] + ' →' : PHASE_NEXT[n];
+    if (mid)  mid.innerHTML = `Phase <strong>${n+1}</strong> / ${total} — ${PHASE_LABELS[n]}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function nextPhase() { goToPhase(currentPhase + 1); }
+  function prevPhase() { goToPhase(currentPhase - 1); }
+
+  /* ═══ API KEY ═══════════════════════════════════════════════════ */
+  function updateTopBar(active) {
+    const dot   = document.getElementById('topApiDot');
+    const label = document.getElementById('topApiLabel');
+    if (!dot) return;
+    if (active) {
+      dot.style.background   = '#22c55e';
+      dot.style.boxShadow    = '0 0 6px rgba(34,197,94,.6)';
+      label.style.color      = 'rgba(167,243,208,.8)';
+      label.textContent      = 'KI aktiv';
+    } else {
+      dot.style.background   = '#52525b';
+      dot.style.boxShadow    = 'none';
+      label.style.color      = 'rgba(255,255,255,.3)';
+      label.textContent      = 'Kein Key';
+    }
+  }
+
+  function saveApiKeyTop() {
+    const val = (document.getElementById('topApiKeyInput').value || '').trim();
+    if (!val) return;
+    if (!val.startsWith('sk-ant-')) { return; }
+    apiKey = val;
+    localStorage.setItem('healthlearn_api_key', val);
+    const bi = document.getElementById('apiKeyInput');
+    if (bi) bi.value = val;
+    updateTopBar(true);
+    setApiStatus('ok', '✓ API-Key gespeichert');
+  }
+
+  function saveApiKey() {
+    const val = (document.getElementById('apiKeyInput').value || '').trim();
+    if (!val.startsWith('sk-ant-')) { setApiStatus('error','✗ Format: sk-ant-…'); return; }
+    apiKey = val;
+    localStorage.setItem('healthlearn_api_key', val);
+    const ti = document.getElementById('topApiKeyInput');
+    if (ti) ti.value = val;
+    updateTopBar(true);
+    setApiStatus('ok','✓ Gespeichert — KI aktiv!');
+  }
+
+  function setApiStatus(type, msg) {
+    const el = document.getElementById('apiStatus');
+    if (!el) return;
+    el.className = 'api-status ' + type;
+    el.textContent = msg;
+  }
+
+  /* ═══ API CALL ══════════════════════════════════════════════════ */
+  async function callAPI(system, messages, maxTokens) {
+    if (!apiKey) return '[Kein API-Key gesetzt — bitte in der Top-Leiste eingeben.]';
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type':      'application/json',
+          'x-api-key':         apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: maxTokens || 600, system, messages })
+      });
+      const data = await res.json();
+      return data.content?.[0]?.text || '[Keine Antwort]';
+    } catch (e) { return '[Fehler: ' + e.message + ']'; }
+  }
+
+  /* ═══ ROLE / CHAT ═══════════════════════════════════════════════ */
+  function selectRole(el) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    activeRole   = el.dataset.role;
+    chatHistory  = [];
+    activeDTMethod = null;
+    document.querySelectorAll('.dt-pill').forEach(p => p.classList.remove('active'));
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+    const role = ROLES[activeRole];
+    const wrap = document.getElementById('chatWrap');
+    wrap.classList.add('show');
+    document.getElementById('chatRoleIcon').textContent = role.icon + ' ';
+    document.getElementById('chatRoleName').textContent = role.name;
+    resetSkillBadges();
+    clearChat(false);
+    appendMessage('bot', role.greeting, role.name, false);
+  }
+
+  function clearChat(addGreeting = true) {
+    document.getElementById('messages').innerHTML = '';
+    chatHistory = [];
+    if (addGreeting && activeRole) {
+      appendMessage('bot', ROLES[activeRole].greeting, ROLES[activeRole].name, false);
+    }
+  }
+
+  function appendMessage(type, text, name, saveToChatHistory) {
+    const msgs = document.getElementById('messages');
+    const div  = document.createElement('div');
+    div.className = 'msg ' + type;
+    if (type === 'bot' && name) {
+      const nm = document.createElement('div');
+      nm.className = 'msg-name'; nm.textContent = name;
+      div.appendChild(nm);
+    }
+    const p = document.createElement('div');
+    p.textContent = text;
+    div.appendChild(p);
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    if (saveToChatHistory !== false) {
+      chatHistory.push({ role: type === 'user' ? 'user' : 'assistant', content: text });
+    }
+  }
+
+  function showTyping(id) { const t = document.getElementById(id); if (t) t.style.display = 'block'; }
+  function hideTyping(id) { const t = document.getElementById(id); if (t) t.style.display = 'none'; }
+
+  async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const text  = input.value.trim();
+    if (!text || !activeRole) return;
+    input.value = '';
+    appendMessage('user', text);
+
+    const role = ROLES[activeRole];
+    chatHistory.push({ role: 'user', content: text });
+
+    // Keyword-based offline fallback
+    if (!apiKey) {
+      const lower = text.toLowerCase();
+      const found = role.responses?.find(r => r.keywords.some(k => lower.includes(k)));
+      const reply = found ? found.text : role.fallback;
+      setTimeout(() => {
+        appendMessage('bot', reply, role.name);
+        highlightSkills(reply);
+      }, 600);
+      return;
+    }
+
+    showTyping('typing');
+    document.getElementById('sendBtn').disabled = true;
+
+    let systemPrompt = masterPrompt + '\n\n' + role.systemContext;
+    if (role.futureSkillsInstruction) systemPrompt += '\n\n' + role.futureSkillsInstruction;
+    if (activeDTMethod && DT_METHODS[activeDTMethod]) {
+      systemPrompt += '\n\n' + DT_METHODS[activeDTMethod];
+    }
+
+    const messages = chatHistory.slice(-10);
+    const reply = await callAPI(systemPrompt, messages, 500);
+
+    hideTyping('typing');
+    document.getElementById('sendBtn').disabled = false;
+    chatHistory.push({ role: 'assistant', content: reply });
+    appendMessage('bot', reply, role.name, false);
+    highlightSkills(reply);
+  }
+
+  function highlightSkills(text) {
+    const map = {
+      'skill-empathie':       ['empathie','einfühlen','perspektive','verstehen','bedürfnis','gefühl'],
+      'skill-systemisch':     ['system','zusammenhang','wechselwirkung','interprofessionell','komplex','netzwerk'],
+      'skill-problem':        ['problem','lösung','ursache','analyse','kernproblem','herausforderung'],
+      'skill-kommunikation':  ['kommunikation','gespräch','austausch','dialog','rückmeldung','feedback'],
+      'skill-digital':        ['digital','system','software','plattform','ki','daten','technologie'],
+      'skill-reflexion':      ['reflexion','nachdenk','bewusst','lernprozess','erkenntnis','selbst'],
+      'skill-transformation': ['transformation','wandel','veränderung','kultur','zukunft','change'],
+      'skill-analytisch':     ['analytisch','kritisch','prüfen','bewerten','strukturier','definier'],
+      'skill-kreativitaet':   ['kreativ','innovation','idee','brainstorm','neu','lösungsansatz'],
+      'skill-kollaboration':  ['kollaboration','zusammenarbeit','team','gemeinsam','kooperation'],
+      'skill-adaption':       ['adaption','anpass','flexibel','lernfähig','offen','wandel']
+    };
+    const lower = text.toLowerCase();
+    Object.entries(map).forEach(([id, kws]) => {
+      if (kws.some(k => lower.includes(k))) {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+      }
+    });
+  }
+
+  function resetSkillBadges() {
+    document.querySelectorAll('.skill-badge').forEach(b => b.classList.remove('active'));
+  }
+
+  function applyDTMethod(el) {
+    document.querySelectorAll('.dt-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    activeDTMethod = el.dataset.method;
+    const meta = METHODS_META[activeDTMethod];
+    if (meta) {
+      document.getElementById('dtBannerIcon').textContent = meta.icon + ' ';
+      document.getElementById('dtBannerName').textContent = meta.name;
+      document.getElementById('dtActiveBanner').classList.add('visible');
+    }
+  }
+
+  function clearDTMethod() {
+    activeDTMethod = null;
+    document.querySelectorAll('.dt-pill').forEach(p => p.classList.remove('active'));
+    document.getElementById('dtActiveBanner').classList.remove('visible');
+  }
+
+  /* ═══ GLOSSARY ══════════════════════════════════════════════════ */
+  const GLOSSARY_TERMS = [
+    { id:'dt', term:'Design Thinking', short:'Human-zentrierte Innovationsmethode', def:'Design Thinking stellt den Menschen in den Mittelpunkt jedes Entwicklungsprozesses. Es iteriert zwischen Verstehen, Beobachten, Definieren, Ideen, Prototypen und Testen — statt linear zu planen.', rel:'↳ Im Workshop: Grundprinzip aller verwendeten Methoden' },
+    { id:'ff', term:'Fast Forward', short:'PE-Ansatz für digitale Transformation', def:'Fast Forward verbindet Design Thinking mit Personalentwicklung. Es geht darum, Lernkulturen zu schaffen, die Reflexion, Adaptionsfähigkeit und kollaboratives Arbeiten fördern — als strategische Antwort auf Veränderung.', rel:'↳ Im Workshop: Rahmen des Gesamtlernprozesses' },
+    { id:'fs', term:'Future Skills', short:'Zukunftsrelevante Kompetenzen', def:'Future Skills sind Kompetenzen, die in digitalen, komplexen und unsicheren Kontexten besonders wichtig werden: Empathie, systemisches Denken, Reflexionsfähigkeit, Adaptionsfähigkeit, Kollaboration.', rel:'↳ Im Workshop: werden durch jede Methode entwickelt' },
+    { id:'em', term:'Empathy Map', short:'Visualisierungswerkzeug für Perspektiven', def:'Die Empathy Map strukturiert das Erleben einer Person in sechs Bereiche: Denkt, Fühlt, Sagt, Tut, Schmerzen, Bedürfnisse. So wird Empathie zu einer systematischen Methode.', rel:'↳ Im Workshop: Methode im Methoden-Dashboard' },
+    { id:'sm', term:'Stakeholder Map', short:'Matrix für Interessen und Einfluss', def:'Die Stakeholder Map positioniert alle Beteiligten auf einer Einfluss-Interesse-Matrix und macht Konflikte, Kooperationspotenziale und Machtverhältnisse sichtbar.', rel:'↳ Im Workshop: Methode im Methoden-Dashboard' },
+    { id:'pov', term:'Point of View (PoV)', short:'Präzise Problemformulierung', def:'Ein PoV-Statement formuliert: [Berufsgruppe] braucht [Bedürfnis], weil [überraschende Einsicht]. Es trennt Symptome von Ursachen und fokussiert auf das Kernproblem.', rel:'↳ Im Workshop: Teil der Problem-Definition-Methode' },
+    { id:'ehds', term:'EHDS', short:'European Health Data Space', def:'Der EHDS ist der geplante europäische Rahmen für den sicheren Austausch von Gesundheitsdaten. Für Krankenhäuser bedeutet das: neue Anforderungen an Datensicherheit und Interoperabilität.', rel:'↳ Im Fallbeispiel: Strategischer Hintergrund für St. Marien' },
+    { id:'dk', term:'Digitale Kompetenz', short:'Über Bedienung hinaus', def:'Digitale Kompetenz umfasst mehr als Technologiebedienung: Informationskompetenz, kritische Reflexion, Datenschutzbewusstsein und die Fähigkeit zur kollaborativen digitalen Arbeit.', rel:'↳ Im Workshop: Future Skill mit besonderer Relevanz' },
+    { id:'cm', term:'Change Management', short:'Gestaltung von Veränderungsprozessen', def:'Change Management umfasst Kommunikation, Beteiligung, Schulung und Führung — mit dem Ziel, Widerstände zu reduzieren und Akzeptanz für Veränderungen zu fördern.', rel:'↳ Im Fallbeispiel: Zentrales Defizit bei St. Marien' },
+    { id:'dhm', term:'Digital Health Manager*in', short:'Brückenrolle in der Transformation', def:'Digital Health Manager*innen verbinden IT, klinische Praxis und Management. Sie übersetzen zwischen technischer Möglichkeit und klinischer Realität und gestalten Veränderungsprozesse.', rel:'↳ Im Workshop: Eine der 8 Berufsrollen (Kai)' },
+    { id:'colab', term:'co.LAB Framework', short:'Kollaboratives Serious-Game-Design', def:'Das co.LAB Framework (Jaccard et al., 2021) strukturiert die Entwicklung von Serious Games in 5 Kategorien: Kontext & Ziele, Lerndesign, Mechaniken, Spieldesign, Assessment. Es betont kollaborative und systemische Ansätze.', rel:'↳ Im Workshop: Strukturelle Grundlage des Lerndesigns' },
+  ];
+
+  function buildGlossary() {
+    const grid = document.getElementById('glossaryGrid');
+    if (!grid || grid.dataset.built) return;
+    grid.dataset.built = '1';
+    grid.innerHTML = '';
+    GLOSSARY_TERMS.forEach(t => {
+      const c = document.createElement('div');
+      c.className = 'gl-card'; c.id = 'glc-' + t.id;
+      c.innerHTML = `<div class="gl-head" onclick="toggleGlossaryCard('${t.id}')">
+        <div><div class="gl-term">${t.term}</div><div class="gl-short">${t.short}</div></div>
+        <div class="gl-arr" id="gla-${t.id}">›</div></div>
+        <div class="gl-body" id="glb-${t.id}">
+          <div class="gl-def">${t.def}</div>
+          <div class="gl-rel"><span class="gl-rel-lbl">Im Workshop: </span>${t.rel.replace('↳ Im Workshop: ','').replace('↳ Im Fallbeispiel: ','Im Fallbeispiel: ')}</div>
+        </div>`;
+      grid.appendChild(c);
+    });
+  }
+
+  function toggleGlossaryCard(id) {
+    const body = document.getElementById('glb-' + id);
+    const arr  = document.getElementById('gla-' + id);
+    const card = document.getElementById('glc-' + id);
+    if (!body) return;
+    const open = body.style.display !== 'none';
+    body.style.display = open ? 'none' : 'block';
+    arr && arr.classList.toggle('open', !open);
+    card && card.classList.toggle('open', !open);
+  }
+
+  function filterGlossary(q) {
+    const query = q.toLowerCase().trim();
+    let visible = 0;
+    document.querySelectorAll('.gl-card').forEach(c => {
+      const match = !query || c.textContent.toLowerCase().includes(query);
+      c.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    const empty = document.getElementById('glossaryEmpty');
+    if (empty) empty.style.display = visible ? 'none' : 'block';
+  }
+
+  /* ═══ METHOD DASHBOARD ══════════════════════════════════════════ */
+  const METHODS_META = {
+    empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Verstehen',              why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Berufsrolle.' },
+    stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',              why:'Analysiere Einfluss, Interessen und Konflikte aller Beteiligten.' },
+    persona:           { icon:'🪞', name:'Persona',            phase:'Beobachten',             why:'Mache abstrakte Berufsgruppen konkret und menschlich.' },
+    problemDefinition: { icon:'🎯', name:'Problem Definition', phase:'Sichtweise definieren',  why:'Trenne Symptome von Ursachen — finde das Kernproblem.' },
+    ideation:          { icon:'💡', name:'Ideation',           phase:'Ideen entwickeln',       why:'Kreative Lösungsansätze — Quantität vor Qualität.' },
+    prototyping:       { icon:'🛠️', name:'Prototyping',        phase:'Prototyp',               why:'Teste Ideen früh und günstig, bevor viel investiert wird.' },
+    reflexion:         { icon:'🔄', name:'Reflexion',          phase:'Testen & Lernen',        why:'Mache Future Skills und Lernfortschritte sichtbar.' }
+  };
+
+  function initMethodDashboard() {
+    const grid = document.getElementById('methodGrid');
+    if (!grid || grid.dataset.built) return;
+    grid.dataset.built = '1';
+    // Method accent colors
+    const MC = { empathyMap:'#f59e0b', stakeholderMap:'#7c3aed', persona:'#db2777', problemDefinition:'#ea580c', ideation:'#059669', prototyping:'#2563eb', reflexion:'#16a34a' };
+    grid.innerHTML = '';
+    Object.entries(METHODS_META).forEach(([key, m]) => {
+      const c = document.createElement('div');
+      c.className = 'mc'; c.id = 'mc-' + key;
+      c.style.setProperty('--mc-color', MC[key] || '#2563eb');
+      c.style.cssText += `;--mc-color:${MC[key]}`;
+      c.innerHTML = `<div class="mc-icon">${m.icon}</div>
+        <div class="mc-phase">${m.phase}</div>
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-why">${m.why}</div>
+        <button class="mc-explore" style="background:${MC[key]}" onclick="openMethodTool('${key}')">Erkunden →</button>`;
+      c.querySelector('.mc-explore').addEventListener('mouseover', function(){ this.style.filter='brightness(.88)'; });
+      c.querySelector('.mc-explore').addEventListener('mouseout',  function(){ this.style.filter=''; });
+      c.style.borderBottom = '';
+      c.addEventListener('mouseenter', () => { c.style.boxShadow = `0 4px 18px ${MC[key]}22`; });
+      c.addEventListener('mouseleave', () => { c.style.boxShadow = ''; });
+      grid.appendChild(c);
+    });
+    // Progress dots
+    const dotWrap = document.getElementById('methodProgDots');
+    if (dotWrap) {
+      dotWrap.innerHTML = '';
+      Object.keys(METHODS_META).forEach(k => {
+        const d = document.createElement('div');
+        d.className = 'mpd'; d.id = 'mpd-' + k;
+        dotWrap.appendChild(d);
+      });
+    }
+  }
+
+  function openMethodTool(key) {
+    exploredMethods.add(key);
+    // update card
+    const card = document.getElementById('mc-' + key);
+    if (card) { card.classList.add('explored'); }
+    const dot = document.getElementById('mpd-' + key);
+    if (dot) dot.classList.add('done');
+    const label = document.getElementById('methodProgLabel');
+    if (label) label.textContent = `${exploredMethods.size} / ${Object.keys(METHODS_META).length} Methoden erkundet`;
+
+    const m = METHODS_META[key];
+    document.getElementById('methodToolTitle').textContent = m.icon + '  ' + m.name;
+    document.getElementById('methodToolPanel').dataset.method = key;
+    loadMethodContent(key);
+
+    document.getElementById('methodDashboard').style.display = 'none';
+    document.getElementById('methodToolPanel').style.display = 'block';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  function closeMethodTool() {
+    document.getElementById('methodToolPanel').style.display = 'none';
+    document.getElementById('methodDashboard').style.display = 'block';
+  }
+
+  const WS_AI_CTX = {
+    empathyMap:        'Du begleitest eine Empathy Map zur digitalen Transformation im St. Marien Klinikum. Stelle 3 konkrete Reflexionsfragen zu Gedanken, Gefühlen und Bedürfnissen der Berufsrolle. Maximal 150 Wörter.',
+    stakeholderMap:    'Analysiere 3 konkrete Spannungsfelder zwischen den Stakeholdern im St. Marien Klinikum bei der digitalen Einführung. Frage am Ende nach dem interessantesten Konflikt. Max. 160 Wörter.',
+    persona:           'Vergleiche 2 Personas (z.B. Pflegefachkraft und IT-Leitung). Zeige Perspektivkonflikte und stelle eine Reflexionsfrage. Max. 160 Wörter.',
+    problemDefinition: 'Stelle 2-3 gezielte Rückfragen zur Problemdefinition, die Symptome von Ursachen trennen. Schlage einen PoV-Ansatz vor. Max. 160 Wörter.',
+    ideation:          'Gib 3 unkonventionelle Lösungsideen für die digitale Transformation im Krankenhaus aus verschiedenen Perspektiven. Stelle eine kreative Rückfrage. Max. 140 Wörter.',
+    prototyping:       'Gib 2 Ratschläge für einen minimalen, lernförderlichen Prototypen und stelle eine Frage zum erwarteten Lerneffekt. Max. 140 Wörter.',
+    reflexion:         'Stelle 3 offene Reflexionsfragen zu Future Skills und Perspektiven im DT-Workshop. Max. 140 Wörter.'
+  };
+
+  async function wsAI(area, targetId) {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    el.textContent = '⏳ KI denkt nach…';
+    el.classList.add('show');
+    const ctx = WS_AI_CTX[area] || '';
+    const reply = await callAPI(masterPrompt + '\n\n' + ctx, [{ role:'user', content:'Bitte gib jetzt deinen Impuls.' }], 350);
+    el.textContent = reply;
+  }
+
+  function loadMethodContent(key) {
+    const container = document.getElementById('methodToolContent');
+    const aiId = 'ws-ai-' + key;
+
+    const TOOLS = {
+
+      /* ─── EMPATHY MAP ─────────────────────────────────── */
+      empathyMap: `
+        <div class="canvas-hd" style="border-left-color:#f59e0b">
+          <div class="canvas-icon">🗺️</div>
+          <div>
+            <div class="canvas-title">Empathy Map</div>
+            <div class="canvas-desc">Klicke auf <strong>+ Notiz</strong> in einem Bereich, um eigene Sticky Notes hinzuzufügen. Jede Zone kann beliebig viele Notizen enthalten.</div>
+          </div>
+          <div class="canvas-badge" style="background:#fffde7;border-color:#fde68a;color:#92400e">Verstehen</div>
+        </div>
+        <div class="em-persona-strip">
+          <span class="em-persona-lbl">👤 Persona:</span>
+          <input class="em-persona-input" type="text" id="emPersonaName" placeholder="Name & Rolle der Persona eingeben…"/>
+        </div>
+        <div class="em-board" id="emBoard">
+          <div class="em-zone sy" id="emZ-thinks"><div class="em-zone-hd"><span class="em-zone-lbl">🧠 Denkt</span></div><div class="em-zone-hint">Was beschäftigt sie im Kopf? Überzeugungen, Vorannahmen?</div><div class="em-notes" id="emN-thinks"></div><div class="em-add-note" onclick="emAddNote('thinks')">+ Notiz</div></div>
+          <div class="em-zone so" id="emZ-feels"><div class="em-zone-hd"><span class="em-zone-lbl">❤️ Fühlt</span></div><div class="em-zone-hint">Welche Emotionen? Was macht Angst, was Hoffnung?</div><div class="em-notes" id="emN-feels"></div><div class="em-add-note" onclick="emAddNote('feels')">+ Notiz</div></div>
+          <div class="em-zone sb" id="emZ-says"><div class="em-zone-hd"><span class="em-zone-lbl">💬 Sagt</span></div><div class="em-zone-hint">Was äußert sie öffentlich, in Meetings, gegenüber Kolleg:innen?</div><div class="em-notes" id="emN-says"></div><div class="em-add-note" onclick="emAddNote('says')">+ Notiz</div></div>
+          <div class="em-zone sg" id="emZ-does"><div class="em-zone-hd"><span class="em-zone-lbl">🤲 Tut</span></div><div class="em-zone-hint">Was tut sie im Alltag? Welche Verhaltensweisen beobachtest du?</div><div class="em-notes" id="emN-does"></div><div class="em-add-note" onclick="emAddNote('does')">+ Notiz</div></div>
+          <div class="em-zone em6-pain" id="emZ-pain"><div class="em-zone-hd"><span class="em-zone-lbl">⚡ Schmerzen</span></div><div class="em-zone-hint">Was frustriert sie? Welche Barrieren und Ängste hat sie?</div><div class="em-notes" id="emN-pain"></div><div class="em-add-note" onclick="emAddNote('pain')">+ Notiz</div></div>
+          <div class="em-zone em6-gain" id="emZ-gain"><div class="em-zone-hd"><span class="em-zone-lbl">🎯 Bedürfnisse</span></div><div class="em-zone-hint">Was braucht sie wirklich? Was würde ihren Alltag verbessern?</div><div class="em-notes" id="emN-gain"></div><div class="em-add-note" onclick="emAddNote('gain')">+ Notiz</div></div>
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button class="btn-tool-sm" onclick="emClearAll()">↺ Alle löschen</button>
+          <button class="ai-btn" onclick="wsAI('empathyMap','ai-empathy')">✨ KI-Impuls</button>
+        </div>
+        <div class="ai-resp" id="ai-empathy"></div>`,
+
+      /* ─── STAKEHOLDER MAP ─────────────────────────────── */
+      stakeholderMap: `
+        <div class="canvas-hd" style="border-left-color:#7c3aed">
+          <div class="canvas-icon">🕸️</div>
+          <div>
+            <div class="canvas-title">Stakeholder Map</div>
+            <div class="canvas-desc"><strong>Knoten verschieben</strong> durch Ziehen · <strong>Verbindung ziehen</strong> mit Verbindungs-Modus · <strong>+ Stakeholder</strong> zum Hinzufügen · klicken für Details.</div>
+          </div>
+          <div class="canvas-badge" style="background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6">Verstehen</div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="sm-toolbar">
+          <button class="btn-tool-sm" id="smAddBtn" onclick="smOpenModal()">+ Stakeholder hinzufügen</button>
+          <button class="btn-tool-sm" id="smConnBtn" onclick="smToggleConnectMode()">🔗 Verbindung ziehen</button>
+          <button class="btn-tool-sm" id="smClearConnBtn" onclick="smClearConnections()">× Verbindungen löschen</button>
+          <button class="btn-tool-sm danger" onclick="smClearAll()">↺ Zurücksetzen</button>
+          <span style="margin-left:auto;font-size:.72rem;color:var(--muted)" id="smModeLabel">Modus: Verschieben</span>
+        </div>
+
+        <!-- Legend -->
+        <div class="sm-conn-legend">
+          <span><span class="sm-conn-dot" style="background:#3b82f6"></span>Kooperation</span>
+          <span><span class="sm-conn-dot" style="background:#ef4444"></span>Konflikt</span>
+          <span><span class="sm-conn-dot" style="background:#9ca3af"></span>Neutral</span>
+          <span style="margin-left:auto;font-size:.7rem">Verbindungstyp wählen:</span>
+          <select id="smConnType" style="font-size:.76rem;padding:2px 6px;border:1px solid var(--border);border-radius:5px;background:var(--surface)">
+            <option value="#3b82f6">Kooperation</option>
+            <option value="#ef4444">Konflikt</option>
+            <option value="#9ca3af">Neutral</option>
+          </select>
+        </div>
+
+        <!-- Matrix -->
+        <div class="sm-matrix" id="smMatrix"
+          onmousemove="smMouseMove(event)" onmouseup="smMouseUp(event)" onmouseleave="smMouseUp(event)">
+          <svg class="sm-svg-layer" id="smSvgLayer"></svg>
+          <div class="sm-axis-x"></div>
+          <div class="sm-axis-y"></div>
+          <div class="sm-axis-lbl" style="top:8px;left:8px">↑ Hoher Einfluss</div>
+          <div class="sm-axis-lbl" style="bottom:8px;left:8px">Geringer Einfluss</div>
+          <div class="sm-axis-lbl" style="bottom:8px;left:50%;transform:translateX(-50%)">Geringes Interesse · · · Hohes Interesse →</div>
+          <div class="sm-axis-lbl" style="top:8px;left:50%;transform:translateX(-50%)">Schlüsselstakeholder</div>
+          <div class="sm-axis-lbl" style="top:8px;right:8px">Akteure &amp; Partner</div>
+          <!-- nodes injected by JS -->
+        </div>
+
+        <!-- Detail panel -->
+        <div class="sm-detail" id="smDetailPanel">
+          <div class="sm-detail-name" id="smDetailName"></div>
+          <div class="sm-detail-row">
+            <div><label>Einfluss</label><input id="sdEinfluss" placeholder="Hoch / Mittel…"/></div>
+            <div><label>Interesse</label><input id="sdInteresse" placeholder="Hoch / Mittel…"/></div>
+            <div class="full"><label>Motivation</label><input id="sdMotivation" placeholder="Was treibt diese Person an?"/></div>
+            <div class="full"><label>Sorgen / Konflikte</label><textarea id="sdSorgen" rows="2" placeholder="Was befürchtet diese Person?"></textarea></div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-tool-sm" onclick="smSaveDetail()">Speichern</button>
+            <button class="btn-tool-sm danger" onclick="smDetailPanel.classList.remove('show')">Schließen</button>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button class="ai-btn" onclick="wsAI('stakeholderMap','ai-stk')">✨ KI-Analyse</button>
+        </div>
+        <div class="ai-resp" id="ai-stk"></div>
+
+        <!-- Add modal -->
+        <div class="sm-modal-overlay" id="smModalOverlay">
+          <div class="sm-modal">
+            <h4>Stakeholder hinzufügen</h4>
+            <div class="sm-modal-field">
+              <label>Name / Rolle</label>
+              <input id="smNewName" placeholder="z.B. Qualitätsmanagement"/>
+            </div>
+            <div class="sm-modal-field">
+              <label>Icon wählen</label>
+              <div class="sm-modal-emoji-row" id="smEmojiRow">
+                ${['🏥','👨‍⚕️','🩺','💻','🛏️','📋','🏃','🧑‍💼','👩‍🔬','🧑‍🎓','🔧','📊','💊','🧑‍⚕️','⚡'].map(e=>`<div class="sm-modal-emoji" onclick="smSelectEmoji(this,'${e}')">${e}</div>`).join('')}
+              </div>
+            </div>
+            <div class="sm-modal-field">
+              <label>Hintergrundfarbe</label>
+              <select id="smNewColor">
+                <option value="#dbeafe">Blau</option>
+                <option value="#d1fae5">Grün</option>
+                <option value="#fef3c7">Gelb</option>
+                <option value="#ede9fe">Lila</option>
+                <option value="#fce7f3">Rosa</option>
+                <option value="#f3f4f6">Grau</option>
+              </select>
+            </div>
+            <div class="sm-modal-actions">
+              <button class="btn-tool-sm" onclick="smCloseModal()">Abbrechen</button>
+              <button class="btn-next" style="padding:.4rem 1.1rem;font-size:.82rem" onclick="smAddNode()">Hinzufügen</button>
+            </div>
+          </div>
+        </div>`,
+
+      /* ─── PERSONA BUILDER ─────────────────────────────── */
+      persona: `
+        <div class="canvas-hd" style="border-left-color:#db2777">
+          <div class="canvas-icon">🪞</div>
+          <div>
+            <div class="canvas-title">Persona erstellen</div>
+            <div class="canvas-desc">Erstelle eigene Persona-Profile für die Berufsgruppen im St. Marien Klinikum. Fülle das Formular aus und klicke <strong>Persona hinzufügen</strong>.</div>
+          </div>
+          <div class="canvas-badge" style="background:#fdf2f8;border-color:#f9a8d4;color:#9d174d">Beobachten</div>
+        </div>
+
+        <!-- Created personas -->
+        <div class="tool-section">
+          <div class="tool-section-hd">Erstellte Personas <span id="pbCount" style="color:var(--primary);font-weight:700;text-transform:none;letter-spacing:0"></span></div>
+          <div class="persona-cards-list" id="pbCardsList">
+            <div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Personas — füge deine erste Persona unten hinzu.</div>
+          </div>
+        </div>
+
+        <!-- Builder form -->
+        <div class="tool-section">
+          <div class="tool-section-hd">Neue Persona anlegen</div>
+          <div class="persona-builder">
+            <div class="pb-field">
+              <label class="pb-label">👤 Avatar wählen</label>
+              <div class="pb-emoji-row" id="pbEmojiRow">
+                ${['🩺','👨‍⚕️','💻','🏥','🛏️','📋','🏃','⚡','👩‍💼','🧑‍🎓','🧑‍⚕️','👨‍💼','💊','🔬','🎓'].map(e=>`<div class="pb-emoji" onclick="pbSelectEmoji(this,'${e}')">${e}</div>`).join('')}
+              </div>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">Name</label>
+              <input class="pb-input" id="pbName" placeholder="Vorname, Alter"/>
+              <label class="pb-label" style="margin-top:.55rem">Berufsrolle</label>
+              <input class="pb-input" id="pbRole" placeholder="z.B. Pflegefachkraft, Abteilung…"/>
+            </div>
+            <div class="pb-field full">
+              <label class="pb-label">🎯 Ziele & Motivation</label>
+              <textarea class="pb-textarea" id="pbZiele" placeholder="Was möchte diese Person erreichen? Was treibt sie an?"></textarea>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">😤 Frustrationen & Hindernisse</label>
+              <textarea class="pb-textarea" id="pbFrust" placeholder="Was ärgert oder blockiert diese Person?"></textarea>
+            </div>
+            <div class="pb-field">
+              <label class="pb-label">💚 Erwartungen an Digitalisierung</label>
+              <textarea class="pb-textarea" id="pbErw" placeholder="Was erhofft oder befürchtet sie?"></textarea>
+            </div>
+            <div class="pb-field full">
+              <label class="pb-label">📱 Digitale Kompetenzstufe</label>
+              <div class="pb-skill-row" id="pbDigLevel">
+                ${['Anfänger:in','Grundkenntnisse','Mittelstufe','Fortgeschritten','Expert:in'].map(l=>`<div class="pb-skill-btn" onclick="pbToggleDigLevel(this)">${l}</div>`).join('')}
+              </div>
+            </div>
+            <div class="pb-field full">
+              <label class="pb-label">🌟 Relevante Future Skills</label>
+              <div class="pb-skill-row" id="pbSkillRow">
+                ${['Empathie','Systemisches Denken','Reflexionsfähigkeit','Adaptionsfähigkeit','Kollaboration','Problemlösungskompetenz','Kommunikationsfähigkeit','Digitale Kompetenz','Innovationsfähigkeit'].map(sk=>`<div class="pb-skill-btn" onclick="pbToggleSkill(this)">${sk}</div>`).join('')}
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-next" style="padding:.5rem 1.2rem;font-size:.84rem" onclick="pbAddPersona()">+ Persona hinzufügen</button>
+            <button class="btn-tool-sm" onclick="pbClearForm()">↺ Formular leeren</button>
+            <button class="ai-btn" onclick="wsAI('persona','ai-persona')">✨ KI-Vergleich</button>
+          </div>
+        </div>
+        <div class="ai-resp" id="ai-persona"></div>`,
+
+      /* ─── PROBLEM DEFINITION ──────────────────────────── */
+      problemDefinition: `
+        <div class="canvas-hd" style="border-left-color:#ea580c">
+          <div class="canvas-icon">🎯</div>
+          <div>
+            <div class="canvas-title">Problem Definition</div>
+            <div class="canvas-desc">Baue deine Problemanalyse Schritt für Schritt auf. Füge Ursachen und Auswirkungen hinzu — der Point of View entsteht dynamisch.</div>
+          </div>
+          <div class="canvas-badge" style="background:#fff7ed;border-color:#fed7aa;color:#c2410c">Definieren</div>
+        </div>
+
+        <!-- Problem -->
+        <div class="tool-section">
+          <div class="tool-section-hd">🎯 Kernproblem — Was ist sichtbar?</div>
+          <div style="padding:.7rem .9rem;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:var(--r)">
+            <textarea id="pdProblem" style="width:100%;min-height:62px;border:none;background:transparent;border-bottom:1.5px dashed #f97316;border-radius:0;padding:.2rem 0;font-size:.85rem;font-family:var(--font-b);color:var(--text);resize:none;outline:none;line-height:1.65" placeholder="z.B. Das Personal nutzt das neue Dokumentationssystem kaum — stattdessen wird parallel auf Papier gearbeitet."></textarea>
+          </div>
+        </div>
+
+        <!-- Causes -->
+        <div class="tool-section">
+          <div class="tool-section-hd">🔍 Ursachen <button class="btn-tool-sm" style="margin-left:auto;text-transform:none;letter-spacing:0" onclick="pdAddCause()">+ Ursache hinzufügen</button></div>
+          <div class="pd-cause-list" id="pdCauseList"></div>
+        </div>
+
+        <!-- Effects -->
+        <div class="tool-section">
+          <div class="tool-section-hd">⚡ Auswirkungen <button class="btn-tool-sm" style="margin-left:auto;text-transform:none;letter-spacing:0" onclick="pdAddEffect()">+ Auswirkung hinzufügen</button></div>
+          <div class="pd-cause-list" id="pdEffectList"></div>
+        </div>
+
+        <!-- Dynamic PoV -->
+        <div class="tool-section">
+          <div class="tool-section-hd">📌 Point of View — automatisch</div>
+          <div class="pd-flow" id="pdFlowRow">
+            <div style="font-size:.8rem;color:var(--muted);font-style:italic">Fülle Kernproblem und Ursachen aus — der PoV entsteht hier automatisch.</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-tool-sm" onclick="pdUpdatePoV()">⟳ PoV aktualisieren</button>
+            <button class="ai-btn" onclick="wsAI('problemDefinition','ai-pd')">✨ KI schärft die Definition</button>
+          </div>
+        </div>
+        <div class="ai-resp" id="ai-pd"></div>`,
+
+      /* ─── IDEATION ─────────────────────────────────────── */
+      ideation: `
+        <div class="canvas-hd" style="border-left-color:#059669">
+          <div class="canvas-icon">💡</div>
+          <div>
+            <div class="canvas-title">Ideation &amp; Brainstorming</div>
+            <div class="canvas-desc">Klicke auf <strong>+</strong> in einer Spalte, um Ideen direkt dort einzutragen. Ideen sind editierbar und bewertbar.</div>
+          </div>
+          <div class="canvas-badge" style="background:#f0fdfa;border-color:#6ee7b7;color:#065f46">Ideen</div>
+        </div>
+        <div class="ib-columns" id="ibCols">
+          <!-- rendered by JS -->
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button class="ai-btn" onclick="wsAI('ideation','ai-ib')">✨ KI-Impuls</button>
+          <button class="btn-tool-sm danger" onclick="ibClearAll()">↺ Alles leeren</button>
+        </div>
+        <div class="ai-resp" id="ai-ib"></div>`,
+
+      /* ─── PROTOTYPING ──────────────────────────────────── */
+      prototyping: `
+        <div class="canvas-hd" style="border-left-color:#2563eb">
+          <div class="canvas-icon">🛠️</div>
+          <div>
+            <div class="canvas-title">Prototyping</div>
+            <div class="canvas-desc">Füge Iterationen hinzu. Jede Iteration hat einen eigenen Testrahmen, Lernfrage und Status — für einen echten iterativen Prozess.</div>
+          </div>
+          <div class="canvas-badge" style="background:#eff6ff;border-color:#bfdbfe;color:#1e40af">Prototyp</div>
+        </div>
+        <div class="proto-iter-list" id="protoList"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-tool-sm" onclick="protoAddIter()">+ Neue Iteration</button>
+          <button class="ai-btn" onclick="wsAI('prototyping','ai-proto')">✨ KI-Impuls</button>
+        </div>
+        <div class="ai-resp" id="ai-proto"></div>`,
+
+      /* ─── REFLEXION ────────────────────────────────────── */
+      reflexion: `
+        <div class="canvas-hd" style="border-left-color:#16a34a">
+          <div class="canvas-icon">🔄</div>
+          <div>
+            <div class="canvas-title">Reflexion &amp; Future Skills</div>
+            <div class="canvas-desc">Schätze dich auf den Future-Skill-Skalen ein. Je höher der Wert, desto bewusster hast du diese Kompetenz eingesetzt.</div>
+          </div>
+          <div class="canvas-badge" style="background:#f0fdf4;border-color:#86efac;color:#14532d">Lernen</div>
+        </div>
+        <div class="ref-skills-grid" id="refSkillsGrid">
+          <!-- rendered by JS -->
+        </div>
+        <div class="ref-qs">
+          <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Spannungen und Konflikte wurden sichtbar?</div><textarea placeholder="z.B. Spannungen zwischen Zeitdruck auf Station und IT-Anforderungen…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">🔄 Was nimmst du konkret mit?</div><textarea placeholder="Konkrete Erkenntnisse für deinen Berufsalltag…"></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.85rem">
+          <button class="ai-btn" onclick="wsAI('reflexion','ai-ref')">✨ KI reflektiert mit dir</button>
+        </div>
+        <div class="ai-resp" id="ai-ref"></div>`
+
+    };;
+
+    container.innerHTML = TOOLS[key] || '<p style="color:var(--muted)">Methode wird geladen…</p>';
+
+    // Re-init dynamic components
+    _initMethodComponents(key);
+  }
+
+  /* ═══ STAKEHOLDER MAP ═══════════════════════════════════════════ */
+  function showStakeholder(node) {
+    document.querySelectorAll('.sm-node').forEach(n => n.classList.remove('sel'));
+    node.classList.add('sel');
+    const key  = node.dataset.sh;
+    const info = STAKEHOLDER_INFO[key];
+    if (!info) return;
+    const panel = document.getElementById('smInfo');
+    if (!panel) return;
+    panel.innerHTML = `<div class="sm-info-name">${info.name}</div>
+      <div class="sm-info-grid">
+        <div><label>Einfluss</label><span>${info.einfluss}</span></div>
+        <div><label>Interesse</label><span>${info.interesse}</span></div>
+        <div style="grid-column:1/-1"><label>Motivation</label><span>${escHtml(info.motivation)}</span></div>
+        <div style="grid-column:1/-1"><label>Sorgen</label><span>${escHtml(info.sorgen)}</span></div>
+      </div>
+      <div><strong style="font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">Konflikte:</strong>
+      <div class="sm-conflict-tags">${info.konflikte.map(k=>`<span class="sm-conflict-tag">⚡ ${escHtml(k)}</span>`).join('')}</div></div>`;
+    panel.classList.add('show');
+  }
+
+  function drawSmConnections() {
+    const svg = document.getElementById('smSvg');
+    const container = document.getElementById('smContainer');
+    if (!svg || !container) return;
+    svg.innerHTML = '';
+    const CONNS = [
+      { a:'management', b:'it',      color:'#3b82f6' },
+      { a:'management', b:'pflege',  color:'#ef4444' },
+      { a:'it',         b:'pflege',  color:'#f97316' },
+      { a:'it',         b:'arzt',    color:'#f97316' },
+      { a:'arzt',       b:'pflege',  color:'#3b82f6' },
+      { a:'patient',    b:'pflege',  color:'#3b82f6' },
+    ];
+    const rect = container.getBoundingClientRect();
+    CONNS.forEach(conn => {
+      const nA = container.querySelector(`[data-sh="${conn.a}"]`);
+      const nB = container.querySelector(`[data-sh="${conn.b}"]`);
+      if (!nA || !nB) return;
+      const rA = nA.getBoundingClientRect(), rB = nB.getBoundingClientRect();
+      const x1 = rA.left - rect.left + rA.width/2, y1 = rA.top - rect.top + rA.height/2;
+      const x2 = rB.left - rect.left + rB.width/2, y2 = rB.top - rect.top + rB.height/2;
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      ['x1','y1','x2','y2','stroke'].forEach((attr, i) => line.setAttribute(attr, [x1,y1,x2,y2,conn.color][i]));
+      svg.appendChild(line);
+    });
+  }
+
+  /* ═══ PERSONA ═══════════════════════════════════════════════════ */
+  const PERSONA_DATA = [
+    { id:'pflege',     icon:'🩺',  name:'Anna, 42',         role:'Pflegefachkraft',        ziele:'Patienten gut versorgen; System soll entlasten, nicht belasten', frustrationen:'Keine Schulungszeit; System passt nicht zur Stationslogik', digital:'Mittel — bereit zu lernen, braucht Unterstützung', erwartungen:'Intuitiv, stationsnah, ohne Mehrarbeit', skills:['Empathie','Kommunikationsfähigkeit','Adaptionsfähigkeit'] },
+    { id:'arzt',       icon:'👨‍⚕️', name:'Dr. Jonas, 31',    role:'Assistenzarzt',           ziele:'Schnelle Dokumentation; mehr Zeit für Patienten', frustrationen:'System friert ein; wurde nicht in Auswahl einbezogen; überlastet', digital:'Hoch — technikaffin, frustriert über schlechte UX', erwartungen:'Zuverlässigkeit, klinische Logik, Integration in Abläufe', skills:['Digitale Kompetenz','Systemisches Denken','Reflexionsfähigkeit'] },
+    { id:'it',         icon:'💻',  name:'Markus, 44',        role:'IT-Projektleiter',        ziele:'Erfolgreiche Implementierung; stabile Systeme', frustrationen:'31 % Schulungsteilnahme; Protokoll liegt beim Management unbeachtet', digital:'Sehr hoch — Fachexperte', erwartungen:'Klare Anforderungen; realistische Zeitplanung; Wertschätzung', skills:['Problemlösungskompetenz','Systemisches Denken','Analytisches Denken'] },
+    { id:'management', icon:'🏥',  name:'Thomas, 50',        role:'Krankenhausleitung',      ziele:'Effizienz, Zukunftsfähigkeit, EHDS-Konformität', frustrationen:'Projektverzögerungen; Personalstimmung angespannt', digital:'Mittel — strategisch orientiert', erwartungen:'ROI, reibungslose Einführung, Personalzufriedenheit', skills:['Strategisches Denken','Entscheidungsfähigkeit','Transformationskompetenz'] },
+    { id:'patient',    icon:'🛏️',  name:'Hr. Müller, 70',    role:'Patient (stationär)',     ziele:'Sicherheit, persönliche Betreuung, klare Kommunikation', frustrationen:'Personal schaut auf Gerät; Abläufe unverständlich', digital:'Gering — wenig Erfahrung', erwartungen:'Zuwendung, Fehlerfreiheit, verständliche Aufklärung', skills:['Vertrauen','Kommunikationsbedürfnis','Sicherheitsbedürfnis'] },
+  ];
+
+  function buildPersonaGrid() {
+    const grid = document.getElementById('personaGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    PERSONA_DATA.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'persona-card';
+      card.innerHTML = `<div class="persona-hd">
+          <div class="persona-av">${p.icon}</div>
+          <div><div class="persona-name">${escHtml(p.name)}</div><div class="persona-role">${escHtml(p.role)}</div></div>
+        </div>
+        <div class="persona-body">
+          <div class="pf"><span class="pf-lbl">🎯 Ziele</span><span class="pf-val">${escHtml(p.ziele)}</span></div>
+          <div class="pf"><span class="pf-lbl">😤 Frustrationen</span><span class="pf-val">${escHtml(p.frustrationen)}</span></div>
+          <div class="pf"><span class="pf-lbl">📱 Digitale Kompetenz</span><span class="pf-val">${escHtml(p.digital)}</span></div>
+          <div class="pf"><span class="pf-lbl">💚 Erwartungen</span><span class="pf-val">${escHtml(p.erwartungen)}</span></div>
+        </div>`;
+      card.addEventListener('click', () => card.classList.toggle('open'));
+      grid.appendChild(card);
+    });
+  }
+
+  /* ═══ PROBLEM DEFINITION ═══════════════════════════════════════ */
+  function generatePoV() {
+    const p = document.getElementById('pd-problem')?.value.trim();
+    const s = document.getElementById('pd-stakeholders')?.value.trim();
+    const c = document.getElementById('pd-causes')?.value.trim();
+    const box = document.getElementById('pd-pov-result');
+    if (!box) return;
+    box.innerHTML = `<strong>📌 Point of View:</strong> <em>${escHtml(s||'[Berufsgruppe]')}</em> braucht <em>${escHtml(p||'[Bedürfnis]')}</em>, weil <em>${escHtml(c||'[Einsicht]')}</em>.`;
+    box.style.display = 'block';
+  }
+
+  /* ═══ IDEATION ══════════════════════════════════════════════════ */
+  function setIdeaCat(el, cat) {
+    document.querySelectorAll('.ib-impulse').forEach(e => e.classList.remove('active-cat'));
+    el.classList.add('active-cat');
+    activeIdeaCat = cat;
+  }
+
+  function addIdea() {
+    const input = document.getElementById('ibInput');
+    if (!input) return;
+    const text  = input.value.trim();
+    if (!text) return;
+    ideaCards.push({ id: Date.now(), text, score: 0 });
+    input.value = '';
+    renderBoard();
+  }
+
+  function voteIdea(id, delta) {
+    const c = ideaCards.find(c => c.id === id);
+    if (c) { c.score += delta; renderBoard(); }
+  }
+
+  function renderBoard() {
+    const board = document.getElementById('ibBoard');
+    if (!board) return;
+    if (ideaCards.length === 0) {
+      board.innerHTML = '<div class="ib-empty">💡 Noch keine Ideen — starte das Brainstorming!</div>';
+      return;
+    }
+    board.innerHTML = ideaCards.sort((a,b) => b.score - a.score).map(c => `
+      <div class="ib-idea">
+        <div class="ib-idea-text">${escHtml(c.text)}</div>
+        <div class="ib-votes">
+          <button class="ib-vbtn" onclick="voteIdea(${c.id},1)">👍</button>
+          <div class="ib-score">${c.score > 0 ? '+' : ''}${c.score}</div>
+          <button class="ib-vbtn" onclick="voteIdea(${c.id},-1)">👎</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function clearBoard() {
+    ideaCards = [];
+    renderBoard();
+  }
+
+  /* ═══ EVALUATION CHAT ══════════════════════════════════════════ */
+  function toggleEvaluation() {
+    const panel = document.getElementById('evalChatPanel');
+    evalOpen = !evalOpen;
+    panel.classList.toggle('open', evalOpen);
+    if (evalOpen && evalHistory.length === 0) startEvalChat();
+  }
+
+  async function startEvalChat() {
+    const opening = await callAPI(
+      masterPrompt + '\n\n' + evaluationPrompt,
+      [{ role:'user', content:'Starte das Reflexionsgespräch.' }],
+      400
+    );
+    appendEvalMsg('bot', opening);
+  }
+
+  function appendEvalMsg(type, text) {
+    const msgs = document.getElementById('evalMessages');
+    if (!msgs) return;
+    const div = document.createElement('div');
+    div.className = 'eval-msg ' + type;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  async function sendEvalMessage() {
+    const input = document.getElementById('evalInput');
+    const text  = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    appendEvalMsg('user', text);
+    evalHistory.push({ role:'user', content: text });
+    document.getElementById('evalTyping').style.display = 'block';
+    document.getElementById('evalSendBtn').disabled = true;
+    const reply = await callAPI(masterPrompt + '\n\n' + evaluationPrompt, evalHistory.slice(-8), 400);
+    document.getElementById('evalTyping').style.display = 'none';
+    document.getElementById('evalSendBtn').disabled = false;
+    evalHistory.push({ role:'assistant', content: reply });
+    appendEvalMsg('bot', reply);
+  }
+
+  function resetEvaluation() {
+    evalHistory = [];
+    const msgs = document.getElementById('evalMessages');
+    if (msgs) msgs.innerHTML = '';
+    if (evalOpen) startEvalChat();
+  }
+
+  /* ═══ UTILS ════════════════════════════════════════════════════ */
+  function escHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ═══ INIT ═════════════════════════════════════════════════════ */
+  window.addEventListener('DOMContentLoaded', () => {
+    // Restore API key
+    if (apiKey) {
+      const ti = document.getElementById('topApiKeyInput');
+      const bi = document.getElementById('apiKeyInput');
+      if (ti) ti.value = apiKey;
+      if (bi) bi.value = apiKey;
+      updateTopBar(true);
+    }
+    buildGlossary();
+    initMethodDashboard();
+    goToPhase(0);
+  });
+
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     EMPATHY MAP — sticky notes per zone
+  ═══════════════════════════════════════════════════════════════ */
+  function emAddNote(zone) {
+    const container = document.getElementById('emN-' + zone);
+    if (!container) return;
+    const item = document.createElement('div');
+    item.className = 'em-note';
+    const ta = document.createElement('textarea');
+    ta.placeholder = 'Notiz eingeben…';
+    ta.rows = 2;
+    const delBtn = document.createElement('button');
+    delBtn.className = 'em-note-del';
+    delBtn.textContent = '×';
+    delBtn.title = 'Löschen';
+    delBtn.onclick = () => item.remove();
+    item.appendChild(ta);
+    item.appendChild(delBtn);
+    container.appendChild(item);
+    ta.focus();
+  }
+
+  function emClearAll() {
+    ['thinks','feels','says','does','pain','gain'].forEach(z => {
+      const c = document.getElementById('emN-' + z);
+      if (c) c.innerHTML = '';
+    });
+    const pn = document.getElementById('emPersonaName');
+    if (pn) pn.value = '';
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     STAKEHOLDER MAP — full interactive drag + connect
+  ═══════════════════════════════════════════════════════════════ */
+  let smNodes = [
+    { id:'n1', name:'Management', icon:'🏥', color:'#fef3c7', x:40, y:12, einfluss:'Sehr hoch', interesse:'Hoch', motivation:'Effizienz, EHDS', sorgen:'Kosten, Verzögerungen' },
+    { id:'n2', name:'Dr. Jonas',  icon:'👨‍⚕️', color:'#dbeafe', x:80, y:22, einfluss:'Hoch', interesse:'Hoch', motivation:'Schnelle Dokumentation', sorgen:'UX, Systemstabilität' },
+    { id:'n3', name:'Anna',       icon:'🩺',  color:'#d1fae5', x:88, y:36, einfluss:'Mittel', interesse:'Sehr hoch', motivation:'Patientenversorgung', sorgen:'Schulungslücken, Zeitdruck' },
+    { id:'n4', name:'IT-Leitung', icon:'💻',  color:'#ede9fe', x:74, y:50, einfluss:'Hoch', interesse:'Sehr hoch', motivation:'Stabile Implementierung', sorgen:'Fehlende Ressourcen' },
+    { id:'n5', name:'Hr. Müller', icon:'🛏️',  color:'#f3f4f6', x:90, y:72, einfluss:'Gering', interesse:'Mittel', motivation:'Sicherheit, Betreuung', sorgen:'Datenschutz, Zuwendung' },
+    { id:'n6', name:'Verwaltung', icon:'📋',  color:'#fefce8', x:55, y:42, einfluss:'Mittel', interesse:'Hoch', motivation:'Compliance', sorgen:'DSGVO, Haftung' },
+    { id:'n7', name:'Therapeut:in', icon:'🏃', color:'#fdf4ff', x:82, y:62, einfluss:'Gering', interesse:'Hoch', motivation:'Patientenoutcomes', sorgen:'Fehlende Felder' }
+  ];
+  let smConnections = [];
+  let smDragging    = null;
+  let smDragOffset  = { x:0, y:0 };
+  let smConnectMode = false;
+  let smConnectFrom = null;
+  let smSelectedId  = null;
+  let smNextNodeId  = 8;
+  let smSelectedEmoji = '🏥';
+
+  function smRender() {
+    const matrix = document.getElementById('smMatrix');
+    if (!matrix) return;
+
+    // Remove all old nodes (keep SVG layer and axis elements)
+    matrix.querySelectorAll('.sm-node').forEach(n => n.remove());
+
+    // Render SVG connections
+    const svg = document.getElementById('smSvgLayer');
+    if (svg) {
+      svg.innerHTML = '';
+      smConnections.forEach((conn, ci) => {
+        const na = smNodes.find(n => n.id === conn.from);
+        const nb = smNodes.find(n => n.id === conn.to);
+        if (!na || !nb) return;
+        const mRect = matrix.getBoundingClientRect();
+        const x1 = (na.x / 100) * matrix.offsetWidth;
+        const y1 = (na.y / 100) * matrix.offsetHeight;
+        const x2 = (nb.x / 100) * matrix.offsetWidth;
+        const y2 = (nb.y / 100) * matrix.offsetHeight;
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+        line.setAttribute('stroke', conn.color || '#9ca3af');
+        line.classList.add('sm-conn-line');
+        line.title = 'Klicken zum Löschen';
+        line.onclick = () => { smConnections.splice(ci, 1); smRender(); };
+        svg.appendChild(line);
+      });
+    }
+
+    // Render nodes
+    smNodes.forEach(node => {
+      const el = document.createElement('div');
+      el.className = 'sm-node' + (node.id === smSelectedId ? ' selected' : '') + (smConnectMode && node.id === smConnectFrom ? ' connect-from' : '');
+      el.id = 'smNode-' + node.id;
+      el.style.left = node.x + '%';
+      el.style.top  = node.y + '%';
+      el.innerHTML = `
+        <div class="sm-dot" style="background:${node.color};border-color:#fff">${node.icon}</div>
+        <div class="sm-node-label">${escHtml(node.name)}</div>
+        <div class="sm-node-del" onclick="smDeleteNode('${node.id}',event)" title="Löschen">×</div>`;
+
+      el.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('sm-node-del')) return;
+        e.preventDefault();
+        if (smConnectMode) {
+          smHandleConnectClick(node.id);
+        } else {
+          smDragging   = node;
+          const rect   = matrix.getBoundingClientRect();
+          smDragOffset = {
+            x: e.clientX - rect.left - (node.x / 100) * matrix.offsetWidth,
+            y: e.clientY - rect.top  - (node.y / 100) * matrix.offsetHeight
+          };
+        }
+      });
+
+      el.addEventListener('click', (e) => {
+        if (e.target.classList.contains('sm-node-del')) return;
+        if (!smConnectMode) smShowDetail(node.id);
+      });
+
+      matrix.appendChild(el);
+    });
+  }
+
+  function smMouseMove(e) {
+    if (!smDragging) return;
+    const matrix = document.getElementById('smMatrix');
+    if (!matrix) return;
+    const rect = matrix.getBoundingClientRect();
+    const x = Math.max(5, Math.min(95, ((e.clientX - rect.left - smDragOffset.x) / matrix.offsetWidth) * 100));
+    const y = Math.max(5, Math.min(92, ((e.clientY - rect.top  - smDragOffset.y) / matrix.offsetHeight) * 100));
+    smDragging.x = x; smDragging.y = y;
+    const el = document.getElementById('smNode-' + smDragging.id);
+    if (el) { el.style.left = x + '%'; el.style.top = y + '%'; }
+    // Update SVG lines
+    const svg = document.getElementById('smSvgLayer');
+    if (svg) {
+      svg.querySelectorAll('.sm-conn-line').forEach((line, ci) => {
+        const conn = smConnections[ci];
+        if (!conn) return;
+        const na = smNodes.find(n => n.id === conn.from);
+        const nb = smNodes.find(n => n.id === conn.to);
+        if (!na || !nb) return;
+        line.setAttribute('x1', (na.x / 100) * matrix.offsetWidth);
+        line.setAttribute('y1', (na.y / 100) * matrix.offsetHeight);
+        line.setAttribute('x2', (nb.x / 100) * matrix.offsetWidth);
+        line.setAttribute('y2', (nb.y / 100) * matrix.offsetHeight);
+      });
+    }
+  }
+
+  function smMouseUp() { smDragging = null; }
+
+  function smToggleConnectMode() {
+    smConnectMode = !smConnectMode;
+    smConnectFrom = null;
+    const btn   = document.getElementById('smConnBtn');
+    const label = document.getElementById('smModeLabel');
+    const matrix = document.getElementById('smMatrix');
+    if (btn) btn.classList.toggle('active', smConnectMode);
+    if (label) label.textContent = smConnectMode ? 'Modus: Verbindung ziehen (klicke zwei Knoten)' : 'Modus: Verschieben';
+    if (matrix) matrix.classList.toggle('connect-mode', smConnectMode);
+    smRender();
+  }
+
+  function smHandleConnectClick(nodeId) {
+    if (!smConnectFrom) {
+      smConnectFrom = nodeId;
+      smRender();
+    } else {
+      if (smConnectFrom !== nodeId) {
+        const color = document.getElementById('smConnType')?.value || '#9ca3af';
+        smConnections.push({ from: smConnectFrom, to: nodeId, color });
+      }
+      smConnectFrom = null;
+      smConnectMode = false;
+      const btn = document.getElementById('smConnBtn');
+      const label = document.getElementById('smModeLabel');
+      const matrix = document.getElementById('smMatrix');
+      if (btn) btn.classList.remove('active');
+      if (label) label.textContent = 'Modus: Verschieben';
+      if (matrix) matrix.classList.remove('connect-mode');
+      smRender();
+    }
+  }
+
+  function smShowDetail(nodeId) {
+    const node = smNodes.find(n => n.id === nodeId);
+    if (!node) return;
+    smSelectedId = nodeId;
+    const panel = document.getElementById('smDetailPanel');
+    const name  = document.getElementById('smDetailName');
+    if (!panel || !name) return;
+    name.textContent = node.icon + '  ' + node.name;
+    document.getElementById('sdEinfluss').value   = node.einfluss || '';
+    document.getElementById('sdInteresse').value  = node.interesse || '';
+    document.getElementById('sdMotivation').value = node.motivation || '';
+    document.getElementById('sdSorgen').value     = node.sorgen || '';
+    panel.classList.add('show');
+    smRender();
+  }
+
+  function smSaveDetail() {
+    const node = smNodes.find(n => n.id === smSelectedId);
+    if (!node) return;
+    node.einfluss   = document.getElementById('sdEinfluss').value;
+    node.interesse  = document.getElementById('sdInteresse').value;
+    node.motivation = document.getElementById('sdMotivation').value;
+    node.sorgen     = document.getElementById('sdSorgen').value;
+    document.getElementById('smDetailPanel').classList.remove('show');
+    smSelectedId = null;
+    smRender();
+  }
+
+  function smDeleteNode(nodeId, e) {
+    e.stopPropagation();
+    smNodes = smNodes.filter(n => n.id !== nodeId);
+    smConnections = smConnections.filter(c => c.from !== nodeId && c.to !== nodeId);
+    if (smSelectedId === nodeId) {
+      smSelectedId = null;
+      const p = document.getElementById('smDetailPanel');
+      if (p) p.classList.remove('show');
+    }
+    smRender();
+  }
+
+  function smClearConnections() { smConnections = []; smRender(); }
+  function smClearAll() {
+    smNodes = [];
+    smConnections = [];
+    smSelectedId = null;
+    document.getElementById('smDetailPanel')?.classList.remove('show');
+    smRender();
+  }
+
+  function smOpenModal()  { document.getElementById('smModalOverlay')?.classList.add('show'); }
+  function smCloseModal() { document.getElementById('smModalOverlay')?.classList.remove('show'); }
+
+  function smSelectEmoji(el, emoji) {
+    document.querySelectorAll('.sm-modal-emoji').forEach(e => e.classList.remove('sel'));
+    el.classList.add('sel');
+    smSelectedEmoji = emoji;
+  }
+
+  function smAddNode() {
+    const name = document.getElementById('smNewName')?.value.trim();
+    if (!name) return;
+    const color = document.getElementById('smNewColor')?.value || '#e0e7ff';
+    smNodes.push({ id: 'n' + (smNextNodeId++), name, icon: smSelectedEmoji, color, x: 50, y: 50 });
+    smCloseModal();
+    document.getElementById('smNewName').value = '';
+    smRender();
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PERSONA BUILDER
+  ═══════════════════════════════════════════════════════════════ */
+  let pbSelectedEmoji = '🩺';
+  let pbPersonas = [];
+
+  function pbSelectEmoji(el, emoji) {
+    document.querySelectorAll('.pb-emoji').forEach(e => e.classList.remove('sel'));
+    el.classList.add('sel');
+    pbSelectedEmoji = emoji;
+  }
+
+  function pbToggleSkill(el)     { el.classList.toggle('sel'); }
+  function pbToggleDigLevel(el)  {
+    document.querySelectorAll('#pbDigLevel .pb-skill-btn').forEach(b => b.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+
+  function pbAddPersona() {
+    const name = document.getElementById('pbName')?.value.trim();
+    const role = document.getElementById('pbRole')?.value.trim();
+    if (!name) return;
+    const skills = [...document.querySelectorAll('#pbSkillRow .pb-skill-btn.sel')].map(b => b.textContent);
+    const digLevel = document.querySelector('#pbDigLevel .pb-skill-btn.sel')?.textContent || 'Mittelstufe';
+    pbPersonas.push({
+      id: Date.now(), icon: pbSelectedEmoji, name, role,
+      ziele:   document.getElementById('pbZiele')?.value.trim() || '',
+      frust:   document.getElementById('pbFrust')?.value.trim() || '',
+      erw:     document.getElementById('pbErw')?.value.trim()   || '',
+      digital: digLevel, skills
+    });
+    pbRenderCards();
+    pbClearForm();
+  }
+
+  function pbRenderCards() {
+    const list = document.getElementById('pbCardsList');
+    if (!list) return;
+    const cnt  = document.getElementById('pbCount');
+    if (cnt) cnt.textContent = pbPersonas.length ? `(${pbPersonas.length})` : '';
+    if (!pbPersonas.length) {
+      list.innerHTML = '<div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Personas — füge deine erste Persona unten hinzu.</div>';
+      return;
+    }
+    list.innerHTML = pbPersonas.map(p => `
+      <div class="persona-display-card">
+        <div class="pdc-head">
+          <div class="pdc-av">${p.icon}</div>
+          <div><div class="pdc-name">${escHtml(p.name)}</div><div class="pdc-role">${escHtml(p.role)}</div></div>
+          <button class="pdc-del" onclick="pbDeletePersona(${p.id})" title="Löschen">×</button>
+        </div>
+        <div class="pdc-body">
+          ${p.ziele  ? `<div class="pdc-field"><span class="pdc-field-lbl">🎯 Ziele</span><span class="pdc-field-val">${escHtml(p.ziele)}</span></div>` : ''}
+          ${p.frust  ? `<div class="pdc-field"><span class="pdc-field-lbl">😤 Frustrationen</span><span class="pdc-field-val">${escHtml(p.frust)}</span></div>` : ''}
+          ${p.erw    ? `<div class="pdc-field"><span class="pdc-field-lbl">💚 Erwartungen</span><span class="pdc-field-val">${escHtml(p.erw)}</span></div>` : ''}
+          <div class="pdc-field"><span class="pdc-field-lbl">📱 Digital</span><span class="pdc-field-val">${escHtml(p.digital)}</span></div>
+          ${p.skills.length ? `<div class="pdc-skills">${p.skills.map(sk=>`<span class="pdc-skill">${escHtml(sk)}</span>`).join('')}</div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  function pbDeletePersona(id) {
+    pbPersonas = pbPersonas.filter(p => p.id !== id);
+    pbRenderCards();
+  }
+
+  function pbClearForm() {
+    ['pbName','pbRole','pbZiele','pbFrust','pbErw'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.querySelectorAll('#pbSkillRow .pb-skill-btn, #pbDigLevel .pb-skill-btn').forEach(b => b.classList.remove('sel'));
+    document.querySelectorAll('.pb-emoji').forEach(e => e.classList.remove('sel'));
+    pbSelectedEmoji = '🩺';
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PROBLEM DEFINITION — dynamic cause/effect lists
+  ═══════════════════════════════════════════════════════════════ */
+  let pdCauses  = [];
+  let pdEffects = [];
+  let pdCauseId = 0;
+  let pdEffId   = 0;
+
+  function pdAddCause() {
+    const id = ++pdCauseId;
+    pdCauses.push({ id, text: '' });
+    pdRenderCauseList();
+    setTimeout(() => document.getElementById('pdc-' + id)?.focus(), 50);
+  }
+
+  function pdAddEffect() {
+    const id = ++pdEffId;
+    pdEffects.push({ id, text: '' });
+    pdRenderEffectList();
+    setTimeout(() => document.getElementById('pde-' + id)?.focus(), 50);
+  }
+
+  function pdRenderCauseList() {
+    const list = document.getElementById('pdCauseList');
+    if (!list) return;
+    if (!pdCauses.length) { list.innerHTML = '<div style="font-size:.8rem;color:var(--muted);font-style:italic;padding:.3rem 0">Noch keine Ursachen — klicke »+ Ursache hinzufügen«</div>'; return; }
+    list.innerHTML = pdCauses.map((c, i) => `
+      <div class="pd-cause-item">
+        <div class="pd-cause-num">${i+1}</div>
+        <input class="pd-cause-input" id="pdc-${c.id}" value="${escHtml(c.text)}" placeholder="Ursache beschreiben…" oninput="pdCauses[${i}].text=this.value;pdUpdatePoV()"/>
+        <button class="pd-cause-del" onclick="pdCauses.splice(${i},1);pdRenderCauseList();pdUpdatePoV()" title="Löschen">×</button>
+      </div>`).join('');
+  }
+
+  function pdRenderEffectList() {
+    const list = document.getElementById('pdEffectList');
+    if (!list) return;
+    if (!pdEffects.length) { list.innerHTML = '<div style="font-size:.8rem;color:var(--muted);font-style:italic;padding:.3rem 0">Noch keine Auswirkungen — klicke »+ Auswirkung hinzufügen«</div>'; return; }
+    list.innerHTML = pdEffects.map((e, i) => `
+      <div class="pd-cause-item">
+        <div class="pd-cause-num" style="background:#fff0f0;border-color:#fecaca;color:var(--red)">${i+1}</div>
+        <input class="pd-cause-input" id="pde-${e.id}" value="${escHtml(e.text)}" placeholder="Auswirkung beschreiben…" oninput="pdEffects[${i}].text=this.value"/>
+        <button class="pd-cause-del" onclick="pdEffects.splice(${i},1);pdRenderEffectList()" title="Löschen">×</button>
+      </div>`).join('');
+  }
+
+  function pdUpdatePoV() {
+    const row = document.getElementById('pdFlowRow');
+    if (!row) return;
+    const prob    = document.getElementById('pdProblem')?.value.trim() || '';
+    const causes  = pdCauses.map(c => c.text).filter(Boolean);
+    if (!prob && !causes.length) {
+      row.innerHTML = '<div style="font-size:.8rem;color:var(--muted);font-style:italic">Fülle Kernproblem und Ursachen aus — der PoV entsteht hier automatisch.</div>';
+      return;
+    }
+    const firstCause = causes[0] || '…';
+    row.innerHTML = `
+      <span class="pd-flow-item">Berufsgruppen</span>
+      <span class="pd-flow-arr">→</span>
+      <span class="pd-flow-item" style="max-width:200px;overflow:hidden;text-overflow:ellipsis">${escHtml(prob.substring(0,60))}${prob.length>60?'…':''}</span>
+      <span class="pd-flow-arr">→ weil</span>
+      <span class="pd-flow-item">${escHtml(firstCause.substring(0,50))}${firstCause.length>50?'…':''}</span>
+      ${causes.length > 1 ? `<span style="font-size:.73rem;color:var(--muted)">+${causes.length-1} weitere</span>` : ''}`;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     IDEATION — column-based board
+  ═══════════════════════════════════════════════════════════════ */
+  const IB_COLS = [
+    { id:'quick',     label:'⚡ Quick Wins',         color:'#fde68a' },
+    { id:'innovation',label:'🚀 Innovation',          color:'#bfdbfe' },
+    { id:'people',    label:'🤝 Menschen & Kultur',   color:'#d1fae5' },
+    { id:'process',   label:'🔄 Prozesse & Systeme',  color:'#fce7f3' },
+  ];
+  let ibCards = {};
+
+  function ibInitCols() {
+    IB_COLS.forEach(col => { if (!ibCards[col.id]) ibCards[col.id] = []; });
+    const grid = document.getElementById('ibCols');
+    if (!grid || grid.dataset.built) return;
+    grid.dataset.built = '1';
+    grid.innerHTML = IB_COLS.map(col => `
+      <div class="ib-col" id="ibCol-${col.id}">
+        <div class="ib-col-hd">
+          <span>${col.label}</span>
+          <button class="ib-col-add" onclick="ibAddCard('${col.id}')" title="Idee hinzufügen">＋</button>
+        </div>
+        <div class="ib-col-cards" id="ibCards-${col.id}"></div>
+      </div>`).join('');
+    ibRenderAllCols();
+  }
+
+  function ibAddCard(colId) {
+    const id = Date.now();
+    ibCards[colId].push({ id, text: '', score: 0 });
+    ibRenderCol(colId);
+    setTimeout(() => document.getElementById('ibct-' + id)?.focus(), 50);
+  }
+
+  function ibRenderCol(colId) {
+    const list = document.getElementById('ibCards-' + colId);
+    if (!list) return;
+    list.innerHTML = ibCards[colId].map((card, i) => `
+      <div class="ib-card">
+        <div class="ib-card-text" id="ibct-${card.id}" contenteditable="true"
+          onblur="ibCards['${colId}'][${i}].text=this.textContent"
+        >${escHtml(card.text) || ''}</div>
+        <div style="display:flex;flex-direction:column;gap:2px;align-items:center">
+          <button class="ib-vbtn" onclick="ibVote('${colId}',${i},1)">👍</button>
+          <span style="font-size:9px;font-weight:700;color:var(--muted)">${card.score>0?'+':''}${card.score||''}</span>
+          <button class="ib-vbtn" onclick="ibVote('${colId}',${i},-1)">👎</button>
+          <button class="ib-card-del" onclick="ibCards['${colId}'].splice(${i},1);ibRenderCol('${colId}')" title="Löschen">×</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function ibRenderAllCols() { IB_COLS.forEach(col => ibRenderCol(col.id)); }
+
+  function ibVote(colId, idx, delta) {
+    if (ibCards[colId] && ibCards[colId][idx] !== undefined) {
+      ibCards[colId][idx].score += delta;
+      ibRenderCol(colId);
+    }
+  }
+
+  function ibClearAll() {
+    IB_COLS.forEach(col => { ibCards[col.id] = []; });
+    ibRenderAllCols();
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PROTOTYPING — iteration cards
+  ═══════════════════════════════════════════════════════════════ */
+  let protoIterations = [];
+  let protoNextId = 1;
+
+  function protoAddIter() {
+    const id = protoNextId++;
+    protoIterations.push({ id, title: 'Iteration ' + id, status: 'open' });
+    protoRender();
+    setTimeout(() => document.getElementById('protoTitle-' + id)?.focus(), 50);
+  }
+
+  function protoRender() {
+    const list = document.getElementById('protoList');
+    if (!list) return;
+    if (!protoIterations.length) {
+      list.innerHTML = '<div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Iteration — klicke »+ Neue Iteration«</div>';
+      return;
+    }
+    list.innerHTML = protoIterations.map((iter, i) => `
+      <div class="proto-iter-card" id="protoCard-${iter.id}">
+        <div class="proto-iter-head">
+          <span class="proto-iter-badge">#${i+1}</span>
+          <input class="proto-iter-title" id="protoTitle-${iter.id}" value="${escHtml(iter.title)}"
+            oninput="protoIterations[${i}].title=this.value" placeholder="Titel dieser Iteration…"/>
+          <div style="display:flex;gap:5px;align-items:center">
+            <button class="proto-learn-tag ${iter.status}" id="protoStatus-${iter.id}"
+              onclick="protoToggleStatus(${i})" title="Status wechseln">
+              ${{ open:'⏳ Offen', pass:'✅ Bestätigt', fail:'❌ Widerlegt' }[iter.status]}
+            </button>
+            <button class="proto-iter-del" onclick="protoIterations.splice(${i},1);protoRender()" title="Löschen">×</button>
+          </div>
+        </div>
+        <div class="proto-iter-body">
+          <div class="proto-iter-field full">
+            <span class="proto-field-lbl">🛠️ Lösungsansatz</span>
+            <textarea placeholder="Was genau willst du testen?" oninput="protoIterations[${i}].ansatz=this.value">${escHtml(iter.ansatz||'')}</textarea>
+          </div>
+          <div class="proto-iter-field">
+            <span class="proto-field-lbl">🎯 Annahme / Hypothese</span>
+            <textarea placeholder="Welche Annahme prüfst du?" oninput="protoIterations[${i}].hypo=this.value">${escHtml(iter.hypo||'')}</textarea>
+          </div>
+          <div class="proto-iter-field">
+            <span class="proto-field-lbl">📏 Erfolgskriterium</span>
+            <textarea placeholder="Woran erkennst du Erfolg?" oninput="protoIterations[${i}].kriterium=this.value">${escHtml(iter.kriterium||'')}</textarea>
+          </div>
+          <div class="proto-iter-field full">
+            <span class="proto-field-lbl">💡 Was hast du gelernt?</span>
+            <textarea placeholder="Nach dem Test eintragen…" oninput="protoIterations[${i}].lernen=this.value">${escHtml(iter.lernen||'')}</textarea>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  function protoToggleStatus(i) {
+    const cycle = { open: 'pass', pass: 'fail', fail: 'open' };
+    protoIterations[i].status = cycle[protoIterations[i].status] || 'open';
+    protoRender();
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     REFLEXION — skill dials
+  ═══════════════════════════════════════════════════════════════ */
+  const REF_SKILLS = [
+    { id:'empathy',       label:'🫁 Empathie' },
+    { id:'systemisch',    label:'🕸️ Systemisches Denken' },
+    { id:'reflexion',     label:'🔄 Reflexionsfähigkeit' },
+    { id:'adaption',      label:'🌊 Adaptionsfähigkeit' },
+    { id:'kollaboration', label:'🤝 Kollaboration' },
+    { id:'problem',       label:'🎯 Problemlösungskompetenz' },
+    { id:'kommunikation', label:'💬 Kommunikationsfähigkeit' },
+    { id:'digital',       label:'💻 Digitale Kompetenz' },
+    { id:'innovation',    label:'✨ Innovationsfähigkeit' },
+  ];
+
+  const REF_LEVEL_LABELS = ['', 'Kaum', 'Etwas', 'Deutlich', 'Stark', 'Sehr stark'];
+
+  function refInitSkills() {
+    const grid = document.getElementById('refSkillsGrid');
+    if (!grid || grid.dataset.built) return;
+    grid.dataset.built = '1';
+    grid.innerHTML = REF_SKILLS.map(sk => `
+      <div class="ref-skill-card">
+        <div class="ref-skill-name">${sk.label}</div>
+        <input class="ref-skill-slider" type="range" min="0" max="5" value="0" id="rsk-${sk.id}"
+          oninput="document.getElementById('rskv-${sk.id}').textContent=REF_LEVEL_LABELS[+this.value]||'Nicht genutzt'"/>
+        <div class="ref-skill-labels"><span>Nicht genutzt</span><span>Sehr stark</span></div>
+        <div class="ref-skill-val" id="rskv-${sk.id}">Nicht genutzt</div>
+      </div>`).join('');
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     INIT DYNAMIC COMPONENTS after loadMethodContent
+  ═══════════════════════════════════════════════════════════════ */
+  function _initMethodComponents(key) {
+    if (key === 'stakeholderMap') { smConnectMode = false; smConnectFrom = null; smDragging = null; setTimeout(smRender, 30); }
+    if (key === 'ideation')       { delete document.getElementById('ibCols')?.dataset.built; ibInitCols(); }
+    if (key === 'persona')        { pbPersonas = []; pbClearForm(); pbRenderCards(); }
+    if (key === 'problemDefinition') { pdCauses = []; pdEffects = []; pdCauseId = 0; pdEffId = 0; pdRenderCauseList(); pdRenderEffectList(); pdUpdatePoV(); }
+    if (key === 'prototyping')    { protoIterations = []; protoNextId = 1; protoRender(); protoAddIter(); }
+    if (key === 'reflexion')      { delete document.getElementById('refSkillsGrid')?.dataset.built; refInitSkills(); }
+  }
+
+</script>
+</body>
+</html>
