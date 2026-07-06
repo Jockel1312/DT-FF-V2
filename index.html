@@ -692,7 +692,37 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
   .main{padding:var(--s3) var(--s2)}
   .stepper .step-label{display:none}
 }
-</style>
+
+    /* ══ GLOSSAR — erweiterte Struktur ══ */
+    .gl-cat-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.9rem}
+    .gl-cat-btn{font-size:.73rem;font-weight:600;padding:.35rem .85rem;border-radius:999px;
+      border:1px solid var(--border);background:var(--surface);color:var(--muted);
+      cursor:pointer;font-family:inherit;transition:all .15s}
+    .gl-cat-btn:hover{border-color:var(--primary);color:var(--primary)}
+    .gl-cat-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+    .gl-cat-tag{display:inline-block;font-size:8.5px;font-weight:700;text-transform:uppercase;
+      letter-spacing:.08em;padding:1px 8px;border-radius:999px;margin-bottom:4px;
+      background:var(--surface-2);border:1px solid var(--border);color:var(--muted)}
+    .gl-cat-grund{background:var(--primary-lt);border-color:var(--primary-bd);color:var(--primary-dk)}
+    .gl-cat-phase{background:var(--accent-lt);border-color:var(--green-bd);color:var(--green)}
+    .gl-cat-methode{background:var(--amber-lt);border-color:var(--amber-bd);color:var(--amber)}
+    .gl-cat-skill{background:#F3EEFB;border-color:#DDD0F0;color:#6D3FA9}
+    .gl-sec{margin-bottom:.75rem}
+    .gl-sec:last-child{margin-bottom:.2rem}
+    .gl-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+      color:var(--muted);margin:.55rem 0 .25rem}
+    .gl-example{border-left:3px solid var(--green-bd);padding-left:.7rem}
+    .gl-mis{border-left:3px solid var(--amber-bd);padding-left:.7rem}
+    .gl-lit{list-style:none;padding:0;margin:0}
+    .gl-lit li{font-size:.74rem;color:var(--muted);line-height:1.55;padding:.18rem 0 .18rem .9rem;
+      position:relative}
+    .gl-lit li::before{content:'—';position:absolute;left:0;color:var(--border-2)}
+    .gl-res{margin-bottom:.4rem;font-size:.78rem;line-height:1.5}
+    .gl-res a{color:var(--primary);font-weight:600;text-decoration:none}
+    .gl-res a:hover{text-decoration:underline}
+    .gl-res-note{display:block;font-size:.73rem;color:var(--muted)}
+
+  </style>
 </head>
 <body>
 
@@ -908,6 +938,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
           <span class="gl-search-icon">🔍</span>
           <input class="gl-search" type="text" placeholder="Begriff suchen, z.B. »Empathy Map«, »EHDS«…" oninput="filterGlossary(this.value)"/>
         </div>
+        <div class="gl-cat-row" id="glCatRow"></div>
         <div class="gl-grid" id="glossaryGrid"></div>
         <div id="glossaryEmpty" style="display:none;font-size:.83rem;color:var(--muted);text-align:center;padding:1.5rem 0;font-style:italic">Kein Begriff gefunden.</div>
       </div>
@@ -2879,36 +2910,519 @@ WICHTIG:
 
   /* ═══ GLOSSARY ══════════════════════════════════════════════════ */
   const GLOSSARY_TERMS = [
-    { id:'dt', term:'Design Thinking', short:'Human-zentrierte Innovationsmethode', def:'Design Thinking stellt den Menschen in den Mittelpunkt jedes Entwicklungsprozesses. Es iteriert zwischen Verstehen, Beobachten, Definieren, Ideen, Prototypen und Testen — statt linear zu planen.', rel:'↳ Im Workshop: Grundprinzip aller verwendeten Methoden' },
-    { id:'ff', term:'Fast Forward', short:'PE-Ansatz für digitale Transformation', def:'Fast Forward verbindet Design Thinking mit Personalentwicklung. Es geht darum, Lernkulturen zu schaffen, die Reflexion, Adaptionsfähigkeit und kollaboratives Arbeiten fördern — als strategische Antwort auf Veränderung.', rel:'↳ Im Workshop: Rahmen des Gesamtlernprozesses' },
-    { id:'fs', term:'Future Skills', short:'Zukunftsrelevante Kompetenzen', def:'Future Skills sind Kompetenzen, die in digitalen, komplexen und unsicheren Kontexten besonders wichtig werden: Empathie, systemisches Denken, Reflexionsfähigkeit, Adaptionsfähigkeit, Kollaboration.', rel:'↳ Im Workshop: werden durch jede Methode entwickelt' },
-    { id:'em', term:'Empathy Map', short:'Visualisierungswerkzeug für Perspektiven', def:'Die Empathy Map strukturiert das Erleben einer Person in sechs Bereiche: Denkt, Fühlt, Sagt, Tut, Schmerzen, Bedürfnisse. So wird Empathie zu einer systematischen Methode.', rel:'↳ Im Workshop: Methode im Methoden-Dashboard' },
-    { id:'sm', term:'Stakeholder Map', short:'Matrix für Interessen und Einfluss', def:'Die Stakeholder Map positioniert alle Beteiligten auf einer Einfluss-Interesse-Matrix und macht Konflikte, Kooperationspotenziale und Machtverhältnisse sichtbar.', rel:'↳ Im Workshop: Methode im Methoden-Dashboard' },
-    { id:'pov', term:'Point of View (PoV)', short:'Präzise Problemformulierung', def:'Ein PoV-Statement formuliert: [Berufsgruppe] braucht [Bedürfnis], weil [überraschende Einsicht]. Es trennt Symptome von Ursachen und fokussiert auf das Kernproblem.', rel:'↳ Im Workshop: Teil der Problem-Definition-Methode' },
-    { id:'ehds', term:'EHDS', short:'European Health Data Space', def:'Der EHDS ist der geplante europäische Rahmen für den sicheren Austausch von Gesundheitsdaten. Für Krankenhäuser bedeutet das: neue Anforderungen an Datensicherheit und Interoperabilität.', rel:'↳ Im Fallbeispiel: Strategischer Hintergrund für St. Marien' },
-    { id:'dk', term:'Digitale Kompetenz', short:'Über Bedienung hinaus', def:'Digitale Kompetenz umfasst mehr als Technologiebedienung: Informationskompetenz, kritische Reflexion, Datenschutzbewusstsein und die Fähigkeit zur kollaborativen digitalen Arbeit.', rel:'↳ Im Workshop: Future Skill mit besonderer Relevanz' },
-    { id:'cm', term:'Change Management', short:'Gestaltung von Veränderungsprozessen', def:'Change Management umfasst Kommunikation, Beteiligung, Schulung und Führung — mit dem Ziel, Widerstände zu reduzieren und Akzeptanz für Veränderungen zu fördern.', rel:'↳ Im Fallbeispiel: Zentrales Defizit bei St. Marien' },
-    { id:'dhm', term:'Digital Health Manager*in', short:'Brückenrolle in der Transformation', def:'Digital Health Manager*innen verbinden IT, klinische Praxis und Management. Sie übersetzen zwischen technischer Möglichkeit und klinischer Realität und gestalten Veränderungsprozesse.', rel:'↳ Im Workshop: Eine der 8 Berufsrollen (Kai)' },
-    { id:'colab', term:'co.LAB Framework', short:'Kollaboratives Serious-Game-Design', def:'Das co.LAB Framework (Jaccard et al., 2021) strukturiert die Entwicklung von Serious Games in 5 Kategorien: Kontext & Ziele, Lerndesign, Mechaniken, Spieldesign, Assessment. Es betont kollaborative und systemische Ansätze.', rel:'↳ Im Workshop: Strukturelle Grundlage des Lerndesigns' },
-  ];
+  {
+    "id": "dt",
+    "cat": "grund",
+    "term": "Design Thinking",
+    "short": "Menschenzentrierter Innovationsansatz mit iterativem Vorgehen",
+    "de": "Design Thinking bezeichnet einen menschenzentrierten Ansatz zur Bearbeitung komplexer, schlecht strukturierter Probleme, der Denk- und Arbeitsweisen des professionellen Designs auf Innovations- und Managementkontexte überträgt (Brown, 2008; Johansson-Sköldberg et al., 2013). In der Forschungsliteratur wird Design Thinking weniger als festgelegte Methode denn als Bündel von Prinzipien, Praktiken und Werkzeugen beschrieben — zentral sind Nutzerfokus, Problem(neu)rahmung, Visualisierung, Experimentieren und Diversität im Team (Carlgren et al., 2016; Micheli et al., 2019). Ideengeschichtlich reicht der Ansatz zurück auf Simons Verständnis des Entwerfens als Wissenschaft des Künstlichen (Simon, 1969), Rittels Konzept der »wicked problems« (Rittel & Webber, 1973) und Schöns reflektierten Praktiker (Schön, 1983); popularisiert wurde er durch IDEO sowie die d.school in Stanford und die HPI School of Design Thinking in Potsdam.",
+    "ctx": "Design Thinking bildet den konzeptionellen Rahmen dieser Anwendung: Alle Phasen und Methoden der Simulation folgen seiner Logik aus Problemverstehen vor Lösungsentwicklung, Iteration und Nutzerzentrierung.",
+    "ex": "Ein Klinikum entwickelt die Einführung einer digitalen Visite nicht ausgehend von Systemfunktionen, sondern ausgehend von beobachteten Arbeitsabläufen und Bedürfnissen von Pflege, Ärzteschaft und Patient:innen — und testet Zwischenstände früh mit den Betroffenen.",
+    "rel": "Die Simulation lässt Sie einen vollständigen Design-Thinking-Durchlauf aus der Perspektive einer Berufsrolle erleben, um die Denkweise — nicht nur die Werkzeuge — erfahrbar zu machen.",
+    "mis": "Design Thinking ist weder Kreativitätstechnik noch Workshop-Format, sondern ein Problemlösungsansatz; ebenso wenig garantiert er Innovation — die Forschung betont, dass Wirkung stark von Umsetzungskontext und Verankerung abhängt (Micheli et al., 2019).",
+    "lit": [
+      "Brown, T. (2008). Design Thinking. Harvard Business Review, 86(6), 84–92.",
+      "Johansson-Sköldberg, U., Woodilla, J. & Çetinkaya, M. (2013). Design Thinking: Past, Present and Possible Futures. Creativity and Innovation Management, 22(2), 121–146.",
+      "Carlgren, L., Rauth, I. & Elmquist, M. (2016). Framing Design Thinking. Creativity and Innovation Management, 25(1), 38–57.",
+      "Micheli, P. et al. (2019). Doing Design Thinking: Conceptual Review, Synthesis, and Research Agenda. Journal of Product Innovation Management, 36(2), 124–148.",
+      "Plattner, H., Meinel, C. & Leifer, L. (Hrsg.) (2011). Design Thinking: Understand – Improve – Apply. Springer."
+    ],
+    "res": [
+      {
+        "label": "HPI School of Design Thinking",
+        "url": "https://hpi.de/school-of-design-thinking/",
+        "note": "Grundlagentexte und Studienangebote der ersten europäischen DT-Ausbildungsstätte; geeignet zur Vertiefung des Prozessverständnisses."
+      },
+      {
+        "label": "IDEO Design Kit",
+        "url": "https://www.designkit.org/",
+        "note": "Frei zugängliche Methodensammlung von IDEO; praxisorientiert — zur wissenschaftlichen Einordnung mit der o. g. Literatur kombinieren."
+      }
+    ]
+  },
+  {
+    "id": "prinzipien",
+    "cat": "grund",
+    "term": "Grundprinzipien des Design Thinkings",
+    "short": "Menschenzentrierung · Iteration · Interdisziplinarität · Experimentieren",
+    "de": "Die Forschung beschreibt Design Thinking über wiederkehrende Prinzipien statt über einen fixen Ablauf (Carlgren et al., 2016): (1) Menschenzentrierung — Ausgangspunkt sind Bedürfnisse, Kontexte und Erfahrungen der Betroffenen, nicht technische Machbarkeit; (2) iteratives Vorgehen — Problem- und Lösungsraum werden in wiederholten Schleifen aus Divergenz (Öffnen) und Konvergenz (Verdichten) durchlaufen (vgl. Double Diamond, Design Council, 2005); (3) interdisziplinäre Zusammenarbeit — heterogene Teams erweitern den Perspektivenraum und reduzieren blinde Flecken; (4) Experimentieren und Lernen durch Prototyping — Annahmen werden früh in erfahrbare Artefakte übersetzt und empirisch geprüft, wodurch Fehlentwicklungen kostengünstig sichtbar werden (Dow et al., 2010).",
+    "ctx": "Diese Prinzipien sind die Beurteilungsmaßstäbe für gutes Vorgehen in jeder Phase — sie erklären, warum die Simulation Perspektivwechsel, Wiederholungsschleifen und frühes Testen verlangt.",
+    "ex": "Ein interprofessionelles Team aus Pflege, IT, Ärzteschaft und Verwaltung entwickelt eine Dokumentationshilfe in drei kurzen Zyklen mit Papier-Prototypen auf Station — statt in einem einmaligen Pflichtenheft.",
+    "rel": "In der Simulation begegnen Ihnen die Prinzipien konkret: als acht kontroverse Perspektiven (Interdisziplinarität), als Methodenschleifen (Iteration) und als Aufforderung, Annahmen im Gespräch zu prüfen (Experimentieren).",
+    "mis": "Iteration bedeutet nicht Beliebigkeit oder endloses Kreisen, sondern strukturierte Lernschleifen mit definierten Erkenntniszielen; Menschenzentrierung ist nicht identisch mit »Kundenbefragung«, sondern schließt Beobachtung realen Verhaltens ein.",
+    "lit": [
+      "Carlgren, L., Rauth, I. & Elmquist, M. (2016). Framing Design Thinking. Creativity and Innovation Management, 25(1), 38–57.",
+      "Design Council (2005). The Double Diamond. London: Design Council. [PRÜFEN: Originaldokument; vielfach als Sekundärzitat geführt]",
+      "Dow, S. P. et al. (2010). Parallel Prototyping Leads to Better Design Results. ACM Transactions on Computer-Human Interaction, 17(4), Art. 18.",
+      "Razzouk, R. & Shute, V. (2012). What Is Design Thinking and Why Is It Important? Review of Educational Research, 82(3), 330–348."
+    ],
+    "res": [
+      {
+        "label": "Design Council — Double Diamond",
+        "url": "https://www.designcouncil.org.uk/our-resources/the-double-diamond/",
+        "note": "Offizielle Darstellung des Divergenz-Konvergenz-Modells; hilfreich zum Verständnis der Phasenlogik."
+      }
+    ]
+  },
+  {
+    "id": "ffdt",
+    "cat": "grund",
+    "term": "Fast-Forward-Design-Thinking",
+    "short": "Zeitlich komprimierter, simulationsgestützter DT-Durchlauf (anwendungsspezifischer Begriff)",
+    "de": "»Fast-Forward-Design-Thinking« ist kein etablierter Terminus der Design-Thinking-Forschung; eine einheitliche wissenschaftliche Definition existiert nicht [PRÜFEN: Begriffsverwendung in der Literatur]. Wissenschaftlich dokumentierte Verwandte sind zeitkomprimierte Formate wie der fünftägige Design Sprint (Knapp et al., 2016) sowie Hackathon- und Rapid-Workshop-Formate. Im Kontext dieser Anwendung bezeichnet Fast-Forward-Design-Thinking einen didaktisch verdichteten Durchlauf des sechsphasigen DT-Prozesses, bei dem reale Feldphasen (insbesondere Nutzerkontakt) durch KI-gestützt simulierte Stakeholder-Gespräche ersetzt werden. Ziel ist nicht die Produktentwicklung, sondern Kompetenzentwicklung: Der Prozess wird als Lernumgebung durchlaufen. Grenzen: Simulierte Empathie ersetzt keine reale Nutzerforschung; Erkenntnisse besitzen reduzierte externe Validität und dienen dem Erwerb der Vorgehenslogik, nicht der Feldentscheidung.",
+    "ctx": "Der Fast-Forward-Ansatz begründet die Architektur der gesamten Anwendung: verkürzte Phasen, KI-Personas als Gesprächspartner und Reflexionsschleifen anstelle mehrwöchiger Feldarbeit.",
+    "ex": "Angehende Digital-Health-Manager:innen durchlaufen in 90 Minuten einen kompletten DT-Zyklus zur Dokumentationsproblematik eines Klinikums — inklusive simulierter Interviews mit acht Berufsrollen.",
+    "rel": "Sie arbeiten in genau diesem Format: Die Simulation ist die prototypische Umsetzung des Fast-Forward-Ansatzes dieser Masterarbeit.",
+    "mis": "Fast-Forward-DT ist kein »besseres« oder »schnelleres« Design Thinking, sondern ein Lehr-Lern-Format mit eigenem Geltungsbereich; die Übertragung simulierter Einsichten auf reale Organisationen erfordert stets erneute Validierung im Feld.",
+    "lit": [
+      "Knapp, J., Zeratsky, J. & Kowitz, B. (2016). Sprint: How to Solve Big Problems and Test New Ideas in Just Five Days. Simon & Schuster.",
+      "Kolb, D. A. (1984). Experiential Learning: Experience as the Source of Learning and Development. Prentice-Hall.",
+      "Plattner, H., Meinel, C. & Weinberg, U. (2009). Design Thinking: Innovation lernen — Ideenwelten öffnen. mi-Wirtschaftsbuch."
+    ],
+    "res": []
+  },
+  {
+    "id": "ph-verstehen",
+    "cat": "phase",
+    "term": "Phase 1 · Verstehen",
+    "short": "Problemraum erschließen, gemeinsame Wissensbasis schaffen",
+    "de": "Die Verstehen-Phase eröffnet den Problemraum: Das Team klärt Aufgabenstellung, Kontext, beteiligte Akteure und vorhandenes Wissen, um eine gemeinsame Ausgangsbasis zu schaffen (Plattner, Meinel & Weinberg, 2009). Typische Aktivitäten sind Desk Research, Expertengespräche, Stakeholder-Analysen und die Formulierung erster Leitfragen. Ergebnis ist ein geteiltes, explizites Problemverständnis — noch keine Lösung. Häufige Fehler: vorschnelles Lösungsdenken (»solution jumping«) und die ungeprüfte Übernahme der Auftraggeber-Problemdefinition. Der Übergang zur Beobachten-Phase erfolgt, wenn die offenen Wissenslücken benannt sind, die nur Feldkontakt schließen kann.",
+    "ctx": "Verstehen verhindert, dass Teams effiziente Antworten auf die falsche Frage entwickeln — nach Rittel & Webber (1973) ist bei »wicked problems« die Problemdefinition selbst Teil des Problems.",
+    "ex": "Vor der Arbeit an der Dokumentationslast sammelt das Team Kennzahlen (Schulungsquoten, Ticketaufkommen), liest die Betriebsvereinbarung und kartiert die beteiligten Berufsgruppen des Klinikums.",
+    "rel": "Die Fallstudie »Go-live. Und dann?« ist Ihr Material für diese Phase; die Stakeholder Map unterstützt die Akteursanalyse.",
+    "mis": "Verstehen ist nicht mit Recherche abgeschlossen — es endet mit expliziten, im Team geteilten Annahmen und Fragen, nicht mit einem Faktenberg.",
+    "lit": [
+      "Plattner, H., Meinel, C. & Weinberg, U. (2009). Design Thinking. mi-Wirtschaftsbuch.",
+      "Rittel, H. W. J. & Webber, M. M. (1973). Dilemmas in a General Theory of Planning. Policy Sciences, 4(2), 155–169."
+    ],
+    "res": []
+  },
+  {
+    "id": "ph-beobachten",
+    "cat": "phase",
+    "term": "Phase 2 · Beobachten",
+    "short": "Empirischer Feldzugang: Bedürfnisse und Verhalten erheben",
+    "de": "In der Beobachten-Phase verlässt das Team den Schreibtisch und erhebt qualitative Daten im Feld: teilnehmende Beobachtung, kontextuelle Interviews, Shadowing. Ziel ist der Zugang zu latenten Bedürfnissen — also solchen, die Betroffene nicht direkt artikulieren, die sich aber im Verhalten zeigen (Plattner et al., 2009). Typische Ergebnisse sind dokumentierte Beobachtungen, Zitate und erste Muster. Häufige Fehler: ausschließlich zu fragen statt zu beobachten (Diskrepanz zwischen berichtetem und tatsächlichem Verhalten), Bestätigungssuche für vorgefasste Lösungen sowie zu homogene Stichproben. Der Übergang zur Definitionsphase erfolgt, wenn gesättigte, dokumentierte Einsichten vorliegen.",
+    "ctx": "Beobachten operationalisiert die Menschenzentrierung empirisch — Empathie entsteht hier methodisch kontrolliert, nicht intuitiv (Köppen & Meinel, 2015).",
+    "ex": "Eine Hospitation im Frühdienst zeigt, dass Pflegekräfte Vitalwerte zunächst auf Papierzetteln notieren und abends nachdokumentieren — ein Muster, das in keiner Befragung genannt wurde.",
+    "rel": "In der Simulation ersetzen die Gespräche mit den acht KI-Personas den Feldzugang; Empathy Map und Persona-Methode strukturieren Ihre Erhebung.",
+    "mis": "Beobachten ist keine Meinungsumfrage: Aussagen sind Daten über Deutungen, Verhalten sind Daten über Praxis — belastbare Einsichten verbinden beides.",
+    "lit": [
+      "Plattner, H., Meinel, C. & Weinberg, U. (2009). Design Thinking. mi-Wirtschaftsbuch.",
+      "Köppen, E. & Meinel, C. (2015). Empathy via Design Thinking. In: Plattner et al. (Hrsg.), Design Thinking Research. Springer, 15–28."
+    ],
+    "res": []
+  },
+  {
+    "id": "ph-sichtweise",
+    "cat": "phase",
+    "term": "Phase 3 · Sichtweise definieren",
+    "short": "Synthese: Erkenntnisse verdichten, Standpunkt (Point of View) formulieren",
+    "de": "Die Definitionsphase verdichtet die gesammelten Beobachtungen zu einem tragfähigen Standpunkt: Das Team synthetisiert Muster, priorisiert Bedürfnisse und formuliert einen Point of View (PoV) — häufig in der Struktur »[Nutzer:in] braucht [Bedürfnis], weil [Einsicht]« (d.school-Konvention; Plattner et al., 2009). Aus dem PoV werden How-Might-We-Fragen abgeleitet, die den Lösungsraum öffnen. Typische Fehler: Lösungen in die Problemformulierung einzuschmuggeln, zu breite oder zu enge Rahmungen sowie das Übergehen widersprüchlicher Daten. Der Übergang zur Ideenphase erfolgt mit einem geteilten, begründeten PoV.",
+    "ctx": "Die Problemrahmung gilt in der Designforschung als der wirkmächtigste Hebel des gesamten Prozesses — »problem framing« ist ein Kernmerkmal des Design Thinkings (Carlgren et al., 2016; Dorst, 2011).",
+    "ex": "Aus 30 Beobachtungen wird der PoV: »Pflegefachkräfte brauchen Dokumentationswege, die während der Versorgung funktionieren, weil Nachdokumentation Fehlerquellen und Überstunden erzeugt.«",
+    "rel": "Das Eisbergmodell und der PoV-Generator der Problem-Definition-Methode führen Sie durch genau diese Synthese.",
+    "mis": "Der PoV ist keine Zieldefinition des Managements, sondern eine empirisch begründete Bedürfnisaussage aus Nutzerperspektive — er benennt das Problem, nie die Lösung.",
+    "lit": [
+      "Dorst, K. (2011). The Core of ›Design Thinking‹ and Its Application. Design Studies, 32(6), 521–532.",
+      "Plattner, H., Meinel, C. & Weinberg, U. (2009). Design Thinking. mi-Wirtschaftsbuch."
+    ],
+    "res": []
+  },
+  {
+    "id": "ph-ideen",
+    "cat": "phase",
+    "term": "Phase 4 · Ideen entwickeln",
+    "short": "Divergente Lösungssuche: Quantität vor Bewertung",
+    "de": "Die Ideenphase öffnet den Lösungsraum divergent: Auf Basis der How-Might-We-Fragen erzeugt das Team möglichst viele, möglichst unterschiedliche Lösungsansätze, bevor bewertet wird (Trennung von Ideenproduktion und -bewertung; Osborn, 1953). Methoden sind u. a. Brainstorming, Brainwriting und Crazy 8s; konvergiert wird anschließend z. B. per Dot Voting. Die Kleingruppenforschung zeigt Produktivitätsverluste interaktiver Brainstormings (Produktionsblockierung, Bewertungsangst; Diehl & Stroebe, 1987) — schriftliche Verfahren wie Brainwriting mildern diese (Paulus & Yang, 2000). Typische Fehler: verfrühte Kritik, Verankerung an der ersten Idee, Dominanz einzelner Stimmen. Übergang: eine priorisierte, kleine Menge weiterzuverfolgender Ideen.",
+    "ctx": "Divergenz ist kein Selbstzweck: Sie erhöht die Wahrscheinlichkeit origineller Lösungen, indem sie Design-Fixierung durchbricht (Jansson & Smith, 1991).",
+    "ex": "Zum PoV der Nachdokumentation entstehen 40 Ideen — von Sprachdokumentation über Stationsassistenzen bis zu veränderten Übergabezeiten; drei werden zur Prototypisierung ausgewählt.",
+    "rel": "Das vierspaltige Ideenboard der Simulation setzt Divergenz (freies Hinzufügen) und Konvergenz (Voting) methodisch um.",
+    "mis": "»Quantität vor Qualität« gilt nur innerhalb der Divergenzphase — der Gesamtprozess bewertet sehr wohl, nur eben zeitlich getrennt.",
+    "lit": [
+      "Osborn, A. F. (1953). Applied Imagination. Scribner.",
+      "Diehl, M. & Stroebe, W. (1987). Productivity Loss in Brainstorming Groups. Journal of Personality and Social Psychology, 53(3), 497–509.",
+      "Paulus, P. B. & Yang, H.-C. (2000). Idea Generation in Groups. Organizational Behavior and Human Decision Processes, 82(1), 76–87.",
+      "Jansson, D. G. & Smith, S. M. (1991). Design Fixation. Design Studies, 12(1), 3–11."
+    ],
+    "res": []
+  },
+  {
+    "id": "ph-prototyping",
+    "cat": "phase",
+    "term": "Phase 5 · Prototyping",
+    "short": "Ideen erfahrbar machen: schnell, günstig, hypothesengeleitet",
+    "de": "Prototyping übersetzt ausgewählte Ideen in erfahrbare Artefakte — von Papierskizzen über Rollenspiele bis zu Klick-Dummys. Ziel ist nicht Produktreife, sondern Erkenntnisgewinn: Jeder Prototyp verkörpert eine prüfbare Annahme (Buchenau & Suri, 2000). Empirisch verbessert paralleles Prototypisieren mehrerer Varianten die Ergebnisqualität und reduziert vorzeitige Festlegung (Dow et al., 2010). Der Auflösungsgrad (Low- vs. High-Fidelity) folgt der Lernfrage, nicht dem ästhetischen Anspruch. Typische Fehler: zu späte, zu aufwendige, zu »fertige« Prototypen sowie fehlende Hypothese (»Was genau wollen wir lernen?«). Übergang: testbare Prototypen mit definierten Erfolgskriterien.",
+    "ctx": "Prototyping ist der Kern des experimentellen Lernprinzips im Design Thinking — Denken mit den Händen statt Diskutieren über Konzepte.",
+    "ex": "Die Idee »Sprachdokumentation in der Visite« wird als Rollenspiel mit Diktiergerät-Attrappe auf einer Station durchgespielt, bevor irgendeine Software beschafft wird.",
+    "rel": "Die Iterations-Karten der Prototyping-Methode verlangen genau diese Struktur: Ansatz, Hypothese, Erfolgskriterium, Lernergebnis.",
+    "mis": "Ein Prototyp, der nicht scheitern darf, ist keiner: Sein Wert liegt im frühen, kostengünstigen Widerlegen falscher Annahmen (»fail early to succeed sooner«).",
+    "lit": [
+      "Buchenau, M. & Suri, J. F. (2000). Experience Prototyping. Proceedings of DIS '00, 424–433.",
+      "Dow, S. P. et al. (2010). Parallel Prototyping Leads to Better Design Results. ACM TOCHI, 17(4), Art. 18."
+    ],
+    "res": []
+  },
+  {
+    "id": "ph-testen",
+    "cat": "phase",
+    "term": "Phase 6 · Testen",
+    "short": "Prototypen empirisch prüfen, Feedback in die Iteration zurückführen",
+    "de": "Die Testphase konfrontiert Prototypen mit realen Nutzer:innen und prüft die zugrunde liegenden Annahmen. Methodisch dominiert formatives Usability-Testing mit kleinen Stichproben und lautem Denken (Nielsen, 1994); bereits wenige Testpersonen decken einen Großteil gravierender Probleme auf — die verbreitete »Fünf-Nutzer-Regel« (Nielsen & Landauer, 1993) gilt jedoch nur unter Annahmen homogener Nutzergruppen und ist entsprechend einzuordnen. Ergebnisse fließen als Iteration in PoV, Ideen oder Prototyp zurück; Testen kann also jede frühere Phase erneut öffnen. Typische Fehler: Verteidigen statt Zuhören, suggestive Fragen, Testen mit Teammitgliedern statt Betroffenen.",
+    "ctx": "Testen schließt den Lernzyklus des Design Thinkings und operationalisiert dessen Anspruch, Entscheidungen empirisch statt hierarchisch zu begründen.",
+    "ex": "Drei Pflegekräfte erproben den Sprachdokumentations-Ablauf im Spätdienst; zwei brechen an derselben Stelle ab — der Prototyp wird gezielt an diesem Schritt überarbeitet.",
+    "rel": "In der Simulation übernehmen die kritischen Rückmeldungen der KI-Personas die Testfunktion: Ihre opinion_change_rules reagieren nur auf belastbare, bedürfnisorientierte Argumente.",
+    "mis": "Testen ist keine Abnahme und kein Beweis des Gelingens — negatives Feedback ist das wertvollste Ergebnis dieser Phase, nicht ihr Scheitern.",
+    "lit": [
+      "Nielsen, J. (1994). Usability Engineering. Morgan Kaufmann.",
+      "Nielsen, J. & Landauer, T. K. (1993). A Mathematical Model of the Finding of Usability Problems. Proceedings of INTERCHI '93, 206–213.",
+      "Hattie, J. & Timperley, H. (2007). The Power of Feedback. Review of Educational Research, 77(1), 81–112."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-persona",
+    "cat": "methode",
+    "term": "Persona (Methode)",
+    "short": "Fiktive, empirisch begründete Nutzerarchetypen",
+    "de": "Personas sind fiktive, aber datenbasierte Repräsentationen typischer Nutzergruppen mit Zielen, Verhaltensmustern und Kontexten (Cooper, 1999). Methodisch entstehen sie durch Verdichtung qualitativer Felddaten zu wenigen, intern konsistenten Archetypen (Pruitt & Adlin, 2006; Nielsen, 2019). Kritisch diskutiert wird ihre empirische Validierung: Ohne belastbare Datengrundlage drohen Stereotype statt Erkenntnis (Chapman & Milham, 2006).",
+    "ctx": "Personas halten die Nutzerperspektive über den gesamten Prozess präsent und verhindern, dass Teams für ein abstraktes »man« entwerfen.",
+    "ex": "Statt über »die Pflege« zu sprechen, arbeitet das Team mit der Persona einer erfahrenen Praxisanleiterin, deren Skepsis aus einer misslungenen Systemeinführung stammt.",
+    "rel": "Die acht Gesprächsrollen der Simulation sind verhaltensmodellierte Personas; im Persona-Builder erstellen Sie eigene Archetypen aus Ihren Gesprächseindrücken.",
+    "mis": "Personas sind keine Marktsegmente und keine Wunschkunden — sie beschreiben reale Verhaltensmuster, nicht demografische Mittelwerte; ohne Datenbasis sind sie Fiktion, keine Methode.",
+    "lit": [
+      "Cooper, A. (1999). The Inmates Are Running the Asylum. Sams.",
+      "Pruitt, J. & Adlin, T. (2006). The Persona Lifecycle. Morgan Kaufmann.",
+      "Nielsen, L. (2019). Personas – User Focused Design (2. Aufl.). Springer.",
+      "Chapman, C. N. & Milham, R. P. (2006). The Personas' New Clothes. Proceedings of HFES, 50(5), 634–636."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-stakeholder",
+    "cat": "methode",
+    "term": "Stakeholder Map",
+    "short": "Systematische Analyse von Anspruchsgruppen nach Einfluss und Interesse",
+    "de": "Die Stakeholder-Analyse identifiziert Anspruchsgruppen einer Organisation oder eines Vorhabens und ordnet sie nach Merkmalen wie Macht, Legitimität und Dringlichkeit (Freeman, 1984; Mitchell, Agle & Wood, 1997). Verbreitet ist die Einfluss-Interesse-Matrix, die Handlungsstrategien je Quadrant nahelegt (eng einbinden, zufriedenstellen, informieren, beobachten; vgl. Mendelow, 1991 [PRÜFEN: häufig sekundär zitiertes Konferenzpapier]; Bryson, 2004).",
+    "ctx": "Im Design Thinking macht die Stakeholder Map das soziale System sichtbar, in dem eine Lösung bestehen muss — inklusive Vetospielern und Koalitionsmöglichkeiten.",
+    "ex": "Die Matrix zeigt: Der Betriebsrat hat hohes Blockadepotenzial bei bislang geringer Einbindung — ein Warnsignal, das frühzeitige Beteiligung nahelegt.",
+    "rel": "Die interaktive Matrix der Simulation lässt Sie Akteure positionieren, Beziehungen (Kooperation/Konflikt) ziehen und Profile hinterlegen.",
+    "mis": "Die Position in der Matrix ist keine Eigenschaft der Person, sondern eine situationsabhängige Einschätzung — sie muss im Prozessverlauf revidiert werden.",
+    "lit": [
+      "Freeman, R. E. (1984). Strategic Management: A Stakeholder Approach. Pitman.",
+      "Mitchell, R. K., Agle, B. R. & Wood, D. J. (1997). Toward a Theory of Stakeholder Identification and Salience. Academy of Management Review, 22(4), 853–886.",
+      "Bryson, J. M. (2004). What to Do When Stakeholders Matter. Public Management Review, 6(1), 21–53."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-empathy",
+    "cat": "methode",
+    "term": "Empathy Map",
+    "short": "Strukturierung der Nutzerperspektive in Erlebensdimensionen",
+    "de": "Die Empathy Map strukturiert Beobachtungs- und Gesprächsdaten zu einer Person entlang von Erlebensdimensionen (Denken, Fühlen, Sagen, Tun sowie Schmerzpunkte und Bedürfnisse). Sie stammt aus der Praxisliteratur (Gray, Brown & Macanufo, 2010) und ist wissenschaftlich kaum eigenständig validiert — ihr Wert liegt in der teaminternen Synthese und im Sichtbarmachen von Widersprüchen zwischen Gesagtem und Getanem; zur empirischen Fundierung von Empathie im Design Thinking vgl. Köppen & Meinel (2015).",
+    "ctx": "Die Map zwingt zur Trennung von Beobachtung und Interpretation und deckt Lücken der Datenerhebung auf (leere Quadranten = offene Fragen).",
+    "ex": "Bei der Oberarzt-Persona klafft »Sagt« (»Ich bin nicht gegen Digitalisierung«) und »Tut« (delegiert jede Systemnutzung) auseinander — ein Ansatzpunkt für das nächste Gespräch.",
+    "rel": "Das Sechs-Zonen-Board der Simulation dokumentiert Ihre Gesprächserkenntnisse; die KI kann Leerstellen als Reflexionsimpulse spiegeln.",
+    "mis": "Die Empathy Map erzeugt keine Empathie — sie organisiert vorhandene Daten; ohne vorherige Beobachtung/Gespräche füllt man Spekulationen in Quadranten.",
+    "lit": [
+      "Gray, D., Brown, S. & Macanufo, J. (2010). Gamestorming. O'Reilly.",
+      "Köppen, E. & Meinel, C. (2015). Empathy via Design Thinking. In: Design Thinking Research. Springer, 15–28."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-journey",
+    "cat": "methode",
+    "term": "Customer / Patient Journey Map",
+    "short": "Visualisierung einer Nutzererfahrung über Kontaktpunkte hinweg",
+    "de": "Journey Maps visualisieren die Erfahrung einer Person über die zeitliche Abfolge von Kontaktpunkten (Touchpoints) mit einer Leistung — inklusive Handlungen, Emotionen und Schmerzpunkten je Etappe (Lemon & Verhoef, 2016; Rosenbaum, Otalora & Ramírez, 2017). Im Gesundheitswesen hat sich die Patient Journey etabliert, die Versorgungspfade aus Patientensicht rekonstruiert und Brüche zwischen Sektoren und Berufsgruppen sichtbar macht.",
+    "ctx": "Die Journey verlagert den Blick von Einzelinteraktionen auf den Gesamtverlauf — viele Probleme entstehen an Übergängen, nicht an einzelnen Stationen.",
+    "ex": "Die Patient Journey eines herzinsuffizienten Patienten zeigt: Die kritische Lücke liegt nicht im Portal selbst, sondern im unbegleiteten Übergang zwischen Entlassung und erster Portalnutzung zu Hause.",
+    "rel": "In der Simulation rekonstruieren Sie Journey-Abschnitte aus den Schilderungen der Personas — etwa des Patienten Heinz Müller über Aufnahme, Station und Entlassung.",
+    "mis": "Eine Journey Map ist keine Prozesslandkarte der Organisation: Sie bildet die erlebte Perspektive einer Person ab, nicht den Soll-Prozess des Qualitätsmanagements.",
+    "lit": [
+      "Lemon, K. N. & Verhoef, P. C. (2016). Understanding Customer Experience Throughout the Customer Journey. Journal of Marketing, 80(6), 69–96.",
+      "Rosenbaum, M. S., Otalora, M. L. & Ramírez, G. C. (2017). How to Create a Realistic Customer Journey Map. Business Horizons, 60(1), 143–150."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-brainstorming",
+    "cat": "methode",
+    "term": "Brainstorming",
+    "short": "Divergente Ideenproduktion nach Osborns Regeln",
+    "de": "Brainstorming ist eine Gruppenmethode zur divergenten Ideenproduktion mit vier Regeln: Kritik zurückstellen, ungewöhnliche Ideen begrüßen, Quantität anstreben, auf Ideen anderer aufbauen (Osborn, 1953). Die experimentelle Kleingruppenforschung zeigt allerdings systematische Produktivitätsverluste interaktiver Gruppen gegenüber Nominalgruppen — v. a. durch Produktionsblockierung und Bewertungsangst (Diehl & Stroebe, 1987); schriftliche Varianten (Brainwriting) und strukturierte Abläufe kompensieren dies teilweise (Paulus & Yang, 2000).",
+    "ctx": "Im Design Thinking dient Brainstorming der Öffnung des Lösungsraums nach der Problemdefinition — seine Wirksamkeit hängt an Moderation und Regelkonformität.",
+    "ex": "Zur HMW-Frage der Dokumentationsentlastung produziert das interprofessionelle Team zunächst schriftlich (Brainwriting), dann mündlich weiter — so kommen auch leise Stimmen der Therapieberufe ein.",
+    "rel": "Das Ideenboard erlaubt regelkonformes Arbeiten: erst sammeln (ohne Kommentar), dann clustern und bewerten.",
+    "mis": "Brainstorming ist kein Beleg für Teamkreativität per se — unmoderiert produzieren Gruppen nachweislich weniger Ideen als dieselben Personen einzeln; die Regeln sind kein Ritual, sondern Wirkbedingung.",
+    "lit": [
+      "Osborn, A. F. (1953). Applied Imagination. Scribner.",
+      "Diehl, M. & Stroebe, W. (1987). Productivity Loss in Brainstorming Groups. Journal of Personality and Social Psychology, 53(3), 497–509.",
+      "Paulus, P. B. & Yang, H.-C. (2000). Idea Generation in Groups. OBHDP, 82(1), 76–87."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-hmw",
+    "cat": "methode",
+    "term": "How-Might-We-Fragen (HMW)",
+    "short": "Optimistische Umformulierung von Problemen in Suchfragen",
+    "de": "How-Might-We-Fragen übersetzen definierte Probleme in handlungsöffnende Suchfragen (»Wie könnten wir …?«). Die Formulierung balanciert bewusst: »Wie« unterstellt Lösbarkeit, »könnten« erlaubt Vorläufigkeit, »wir« adressiert das Team. Der Ursprung wird auf Min Basadur bei Procter & Gamble zurückgeführt [PRÜFEN: Primärquelle; vgl. Basadur, 1994]; verbreitet wurde das Format durch IDEO und den Design Sprint (Knapp et al., 2016). Theoretisch schließt HMW an die Bedeutung der Problemrahmung an (Dorst, 2011).",
+    "ctx": "HMW-Fragen sind das Scharnier zwischen Definitions- und Ideenphase: Sie konservieren die Einsicht des PoV und öffnen zugleich den Lösungsraum.",
+    "ex": "Aus dem PoV zur Nachdokumentation entsteht: »Wie könnten wir Dokumentation zu einem Nebenprodukt der Versorgung machen — statt zu ihrer Konkurrenz?«",
+    "rel": "Die Simulation fordert Sie auf, aus Ihrem PoV mindestens zwei unterschiedlich weite HMW-Fragen abzuleiten, bevor das Ideenboard startet.",
+    "mis": "HMW-Fragen mit eingebauter Lösung (»Wie könnten wir eine App bauen, die …«) verfehlen den Zweck — sie schließen den Raum, den sie öffnen sollen.",
+    "lit": [
+      "Basadur, M. (1994). Simplex: A Flight to Creativity. Creative Education Foundation. [PRÜFEN: Ursprungszuschreibung]",
+      "Dorst, K. (2011). The Core of ›Design Thinking‹ and Its Application. Design Studies, 32(6), 521–532.",
+      "Knapp, J., Zeratsky, J. & Kowitz, B. (2016). Sprint. Simon & Schuster."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-crazy8",
+    "cat": "methode",
+    "term": "Crazy 8s",
+    "short": "Acht Skizzen in acht Minuten gegen Denkfixierung",
+    "de": "Crazy 8s ist eine Schnellskizziermethode aus dem Design Sprint: Ein Blatt wird in acht Felder gefaltet, pro Feld entsteht in einer Minute eine Lösungsvariante (Knapp et al., 2016). Der erzwungene Takt unterbindet vorzeitiges Verlieben in die erste Idee — ein dokumentiertes Phänomen der Designforschung (Design Fixation; Jansson & Smith, 1991) — und erzwingt Variantenbildung auch jenseits des Naheliegenden.",
+    "ctx": "Die Methode operationalisiert Divergenz individuell und visuell, bevor die Gruppe konvergiert — Skizzen kommunizieren dabei schneller als Beschreibungen.",
+    "ex": "Acht Varianten einer Stations-Übergabehilfe in acht Minuten: Von Variante 5 an entstehen die unkonventionellen Ansätze, die im Plenum weiterverfolgt werden.",
+    "rel": "Im Ideation-Modul können Sie den Acht-Felder-Modus nutzen, um vor dem Board-Eintrag Varianten zu erzwingen.",
+    "mis": "Es geht nicht um Zeichenqualität: Strichmännchen genügen — bewertet wird die Idee, nicht die Skizze; wer »nicht zeichnen kann«, ist ausdrücklich Zielgruppe.",
+    "lit": [
+      "Knapp, J., Zeratsky, J. & Kowitz, B. (2016). Sprint. Simon & Schuster.",
+      "Jansson, D. G. & Smith, S. M. (1991). Design Fixation. Design Studies, 12(1), 3–11."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-dotvoting",
+    "cat": "methode",
+    "term": "Dot Voting",
+    "short": "Schnelle visuelle Priorisierung durch Punktevergabe",
+    "de": "Beim Dot Voting priorisieren Teilnehmende Optionen durch Vergabe einer begrenzten Punktzahl; die Verteilung macht Präferenzen der Gruppe sofort sichtbar (Knapp et al., 2016). Als pragmatische Konvergenztechnik ist die Methode kaum eigenständig beforscht; sozialpsychologisch relevant sind bekannte Verzerrungen offener Abstimmungen — Konformitätsdruck (Asch, 1956) und Ankereffekte durch früh gesetzte Punkte —, weshalb verdecktes oder gleichzeitiges Kleben empfohlen wird.",
+    "ctx": "Dot Voting beendet die Divergenzphase effizient und demokratisiert die Auswahl — richtig eingesetzt verhindert es, dass Hierarchie über Ideen entscheidet.",
+    "ex": "Nach dem Clustern erhalten alle — von der Assistenzärztin bis zum Betriebsrat — je drei Punkte; die Kaufmännische Direktion klebt zuletzt, um Ankereffekte zu vermeiden.",
+    "rel": "Die Voting-Funktion des Ideenboards setzt genau diese Konvergenz um; die Simulation weist auf die Reihenfolge-Verzerrung hin.",
+    "mis": "Dot Voting misst Zustimmung, nicht Qualität: Es ersetzt keine Kriterienprüfung (Machbarkeit, Wirkung, Risiko), sondern wählt nur aus, was vertieft geprüft wird.",
+    "lit": [
+      "Knapp, J., Zeratsky, J. & Kowitz, B. (2016). Sprint. Simon & Schuster.",
+      "Asch, S. E. (1956). Studies of Independence and Conformity. Psychological Monographs, 70(9), 1–70."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-prototyping",
+    "cat": "methode",
+    "term": "Prototyping (Methodenspektrum)",
+    "short": "Vom Papiermodell bis zum Rollenspiel: Formen zweckgebundenen Prototypisierens",
+    "de": "Prototyping umfasst ein Spektrum an Umsetzungsformen, deren Wahl der Lernfrage folgt: Papier- und Klick-Prototypen für Interaktionslogik, Rollenspiele und Service-Walkthroughs für Abläufe, Wizard-of-Oz-Aufbauten für technisch noch nicht existente Funktionen (Buchenau & Suri, 2000; Houde & Hill, 1997). Entscheidend ist die Frage, was ein Prototyp prototypisiert — Rolle, Erscheinung oder Implementierung (Houde & Hill, 1997); paralleles Erstellen mehrerer Varianten verbessert nachweislich Ergebnis und Feedbackqualität (Dow et al., 2010).",
+    "ctx": "Das Methodenspektrum verhindert die Verengung von »Prototyp« auf Software: Auch ein umgestellter Übergabeprozess ist prototypisierbar.",
+    "ex": "Der Wizard-of-Oz-Test einer »KI-Dokumentationshilfe«: Eine verdeckte Person tippt live mit — so wird Akzeptanz getestet, bevor eine Zeile Code existiert.",
+    "rel": "Die Iterations-Karten der Simulation fragen explizit nach der Prototypform und der zugehörigen Lernfrage.",
+    "mis": "High-Fidelity ist nicht besser: Zu fertige Prototypen erzeugen Höflichkeitsfeedback und verdecken Grundsatzprobleme — die Auflösung muss zur Frage passen.",
+    "lit": [
+      "Houde, S. & Hill, C. (1997). What Do Prototypes Prototype? In: Handbook of Human-Computer Interaction (2. Aufl.). Elsevier, 367–381.",
+      "Buchenau, M. & Suri, J. F. (2000). Experience Prototyping. Proceedings of DIS '00, 424–433.",
+      "Dow, S. P. et al. (2010). Parallel Prototyping Leads to Better Design Results. ACM TOCHI, 17(4), Art. 18."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-feedback",
+    "cat": "methode",
+    "term": "Feedback-Methoden",
+    "short": "Strukturierte Rückmeldung als Lernmotor der Iteration",
+    "de": "Feedback wirkt lernförderlich, wenn es aufgabenbezogen, konkret und auf den Prozess statt die Person gerichtet ist (Hattie & Timperley, 2007: Feed Up / Feed Back / Feed Forward). Im Design Thinking haben sich strukturierende Formate etabliert, etwa die Rückmelde-Trias »I like / I wish / What if« der Stanford d.school [PRÜFEN: Konventionsquelle, keine Primärpublikation], die Wertschätzung, Kritik und Weiterentwicklung trennt und so Abwehrreaktionen reduziert.",
+    "ctx": "Strukturierte Feedbackformate schützen die Testphase vor ihren zwei Hauptfehlern: diffusem Lob und persönlich genommener Kritik.",
+    "ex": "Nach dem Prototyp-Walkthrough sammelt das Team getrennt: Was funktionierte (like), was fehlte (wish), welche neuen Möglichkeiten auffielen (what if) — je Karte ein Aspekt.",
+    "rel": "Die KI-Reflexionsbegleitung der Abschlussphase nutzt diese Struktur, um Ihre Lernerfahrungen zu spiegeln statt zu bewerten.",
+    "mis": "Feedback ist keine Meinungsäußerung über Geschmack: Ohne Bezug auf die Lernfrage des Prototyps ist es für die Iteration wertlos, wie freundlich es auch klingt.",
+    "lit": [
+      "Hattie, J. & Timperley, H. (2007). The Power of Feedback. Review of Educational Research, 77(1), 81–112."
+    ],
+    "res": []
+  },
+  {
+    "id": "m-testing",
+    "cat": "methode",
+    "term": "Testing / Usability-Testing",
+    "short": "Empirische Prüfung mit Nutzenden: Lautes Denken, kleine Stichproben",
+    "de": "Usability-Testing beobachtet reale Nutzende bei typischen Aufgaben mit einem Prototyp; Standardverfahren ist das Laute Denken, dessen methodische Grundlagen die Protokollanalyse liefert (Ericsson & Simon, 1993). Formative Tests mit kleinen Stichproben identifizieren früh die gravierendsten Probleme (Nielsen, 1994); die populäre Faustregel, fünf Testpersonen genügten, beruht auf Modellannahmen homogener Nutzergruppen und ist kein Freibrief für Minimalstudien (Nielsen & Landauer, 1993).",
+    "ctx": "Testing verankert die Empirie im Prozessende — es entscheidet nicht der eloquenteste Stakeholder, sondern das beobachtete Verhalten.",
+    "ex": "Fünf Pflegekräfte verschiedener Stationen denken laut beim Durchspielen des Medikations-Workflows; drei scheitern an derselben Bestätigungsmaske — ein klarer Iterationsauftrag.",
+    "rel": "In der Simulation testen Sie Argumente statt Interfaces: Die opinion_change_rules der Personas machen beobachtbar, welche Begründungen tragen.",
+    "mis": "»Die Nutzer haben es gut gefunden« ist kein Testergebnis: Zählbare Aufgabenerfolge, Abbrüche und beobachtete Hürden sind die Daten — Zufriedenheitsäußerungen allein sind es nicht.",
+    "lit": [
+      "Nielsen, J. (1994). Usability Engineering. Morgan Kaufmann.",
+      "Ericsson, K. A. & Simon, H. A. (1993). Protocol Analysis: Verbal Reports as Data (Rev. Aufl.). MIT Press.",
+      "Nielsen, J. & Landauer, T. K. (1993). A Mathematical Model of the Finding of Usability Problems. Proceedings of INTERCHI '93, 206–213."
+    ],
+    "res": []
+  },
+  {
+    "id": "k-kompetenz",
+    "cat": "skill",
+    "term": "Kompetenz",
+    "short": "Handlungsfähigkeit in variablen Situationen (Weinert 2001)",
+    "de": "Nach der in der deutschsprachigen Bildungsforschung maßgeblichen Definition Weinerts sind Kompetenzen »die bei Individuen verfügbaren oder durch sie erlernbaren kognitiven Fähigkeiten und Fertigkeiten, um bestimmte Probleme zu lösen, sowie die damit verbundenen motivationalen, volitionalen und sozialen Bereitschaften und Fähigkeiten, um die Problemlösungen in variablen Situationen erfolgreich und verantwortungsvoll nutzen zu können« (Weinert, 2001, S. 27 f.). Erpenbeck und von Rosenstiel (2007) fassen Kompetenzen als Selbstorganisationsdispositionen: Fähigkeiten, in offenen, unbestimmten Situationen selbstorganisiert zu handeln. Kompetenz ist damit mehr als Wissen (kennen) und Fertigkeit (können im Geübten) — sie zeigt sich erst im Transfer auf neue Situationen.",
+    "ctx": "Design Thinking ist kompetenzorientiert par excellence: Es verlangt Handeln unter Unbestimmtheit — genau das Kriterium, das Kompetenz von Qualifikation unterscheidet.",
+    "ex": "Eine Pflegekraft, die ein neues Dokumentationssystem nicht nur bedienen (Fertigkeit), sondern dessen Grenzen erkennen, Workarounds bewerten und Verbesserungen artikulieren kann, zeigt digitale Kompetenz.",
+    "rel": "Die Simulation misst keinen Wissensstand ab, sondern schafft variable Situationen (kontroverse Gespräche, offene Probleme), in denen sich Kompetenzen zeigen und entwickeln.",
+    "mis": "Kompetenz ist weder beobachtbares Verhalten noch Zertifikat: Sie ist eine Disposition, die sich nur in der Bewältigung neuartiger Anforderungen erschließt — ein bestandener Test belegt sie nicht.",
+    "lit": [
+      "Weinert, F. E. (2001). Vergleichende Leistungsmessung in Schulen — eine umstrittene Selbstverständlichkeit. In: F. E. Weinert (Hrsg.), Leistungsmessungen in Schulen. Beltz, 17–31.",
+      "Erpenbeck, J. & von Rosenstiel, L. (Hrsg.) (2007). Handbuch Kompetenzmessung (2. Aufl.). Schäffer-Poeschel."
+    ],
+    "res": []
+  },
+  {
+    "id": "k-futureskills",
+    "cat": "skill",
+    "term": "Future Skills",
+    "short": "Kompetenzen für hochemergente Handlungskontexte (Ehlers 2020)",
+    "de": "Ehlers definiert Future Skills als »Kompetenzen, die es Individuen erlauben, in hochemergenten Handlungskontexten selbstorganisiert komplexe Probleme zu lösen und (erfolgreich) handlungsfähig zu sein« (Ehlers, 2020). Auf Basis der NextSkills-Studie unterscheidet er 17 Future-Skill-Profile in drei Dimensionen: subjektbezogene (u. a. Selbstwirksamkeit, Reflexionskompetenz), objektbezogene (u. a. Design-Thinking-Kompetenz, Digitalkompetenz) und organisationsbezogene Kompetenzen (u. a. Kooperations- und Kommunikationskompetenz). Parallel dazu strukturiert das Future-Skills-Framework von Stifterverband und McKinsey (2021) Anforderungen in technologische, digitale Schlüssel-, klassische und transformative Kompetenzen [PRÜFEN: jeweilige Ausgabe/Version].",
+    "ctx": "Bemerkenswert für diese Arbeit: Design-Thinking-Kompetenz ist bei Ehlers selbst als objektbezogenes Future Skill gelistet — der Prozess ist zugleich Gegenstand und Vehikel der Kompetenzentwicklung.",
+    "ex": "Ein Digital-Health-Team benötigt neben Fachwissen vor allem Ambiguitätstoleranz und Kooperationskompetenz, wenn Evidenzforderung der Ärzteschaft und Förderfristen der Verwaltung kollidieren.",
+    "rel": "Die Reflexionsphase der Simulation arbeitet mit Future-Skill-Selbsteinschätzungen entlang der Ehlers-Dimensionen.",
+    "mis": "Future Skills sind keine »Soft Skills« und kein Gegenbegriff zu Fachlichkeit: Sie sind vollwertige Kompetenzen im Weinert'schen Sinn — nur mit explizitem Zukunfts- und Transformationsbezug.",
+    "lit": [
+      "Ehlers, U.-D. (2020). Future Skills: Lernen der Zukunft — Hochschule der Zukunft. Springer VS (Open Access).",
+      "Stifterverband & McKinsey (2021). Future Skills Framework. Diskussionspapier. [PRÜFEN: exakte Ausgabe]"
+    ],
+    "res": [
+      {
+        "label": "Ehlers (2020) — Open Access",
+        "url": "https://link.springer.com/book/10.1007/978-3-658-29297-3",
+        "note": "Vollständige Monografie frei zugänglich; Kapitel 4–5 enthalten die 17 Skill-Profile mit Operationalisierungen."
+      },
+      {
+        "label": "NextSkills-Projekt",
+        "url": "https://nextskills.org/",
+        "note": "Projektseite mit Studienmaterialien und aktualisierten Skill-Profilen."
+      }
+    ]
+  },
+  {
+    "id": "k-abgrenzung",
+    "cat": "skill",
+    "term": "Kompetenzen vs. Future Skills — das Verhältnis",
+    "short": "Teilmenge mit Zukunftsindex, keine getrennten Kategorien",
+    "de": "Future Skills stehen nicht neben dem Kompetenzbegriff, sondern in ihm: Jedes Future Skill erfüllt die Weinert'schen Kriterien (kognitive + motivational-volitional-soziale Komponenten, Bewährung in variablen Situationen); hinzu tritt ein Auswahlkriterium — die besondere Relevanz für hochemergente, digital transformierte Kontexte (Ehlers, 2020). Future Skills sind also eine zukunftsindizierte Teilmenge des Kompetenzraums, keine neue Kompetenzart. Terminologisch irreführend ist das englische »Skills«, das im Deutschen eng als »Fertigkeiten« gelesen wird — gemeint sind aber vollständige Kompetenzen inklusive Haltungen.",
+    "ctx": "Für Design Thinking heißt das: Der Prozess trainiert Kompetenzen; welche davon als Future Skills gelten, bestimmt der Transformationskontext — nicht die Methode.",
+    "ex": "Kommunikationsfähigkeit ist eine klassische Kompetenz; als Fähigkeit, interprofessionell über KI-Systemgrenzen hinweg zu kommunizieren, wird sie zum Future Skill.",
+    "rel": "Das Kompetenz-Panel der Simulation kennzeichnet deshalb beides: die geförderte Kompetenz und ihre Future-Skill-Einordnung nach Ehlers.",
+    "mis": "»Future Skills ersetzen Kompetenzen« ist begrifflich falsch — ebenso die Gleichsetzung mit rein technischen Fertigkeiten: Programmieren-Können allein ist ein Skill im engen Sinn, noch kein Future Skill.",
+    "lit": [
+      "Weinert, F. E. (2001). In: Leistungsmessungen in Schulen. Beltz, 17–31.",
+      "Ehlers, U.-D. (2020). Future Skills. Springer VS, Kap. 3–4."
+    ],
+    "res": []
+  },
+  {
+    "id": "k-dtfs",
+    "cat": "skill",
+    "term": "Design Thinking als Future-Skills-Entwicklung",
+    "short": "Warum der Prozess selbst das Curriculum ist",
+    "de": "Die Verbindung von Design Thinking und Kompetenzentwicklung ist lerntheoretisch über das Erfahrungslernen begründet: Kompetenzen entstehen im Zyklus aus konkreter Erfahrung, Reflexion, Abstraktion und Erprobung (Kolb, 1984) — exakt die Struktur eines DT-Durchlaufs. Empirisch verbindet die Bildungsforschung Design Thinking mit Zuwächsen in Problemlöse-, Kollaborations- und Reflexionsfähigkeit (Razzouk & Shute, 2012; Panke, 2019); jede DT-Phase adressiert dabei spezifische Future Skills: Beobachten → Empathie, Sichtweise definieren → analytisch-reflexives Denken, Ideation → Innovationsfähigkeit, Prototyping/Testen → Ambiguitätstoleranz und Lernorientierung.",
+    "ctx": "Diese Kopplung begründet den Fast-Forward-Ansatz dieser Anwendung: Nicht das entwickelte Produkt ist das Lernziel, sondern die im Prozess geforderten und reflektierten Kompetenzen.",
+    "ex": "Eine Personalentwicklung ersetzt das Frontalseminar »Digitale Kompetenz« durch einen begleiteten DT-Zyklus am realen Stationsproblem — mit dokumentierter Kompetenzreflexion je Phase.",
+    "rel": "Die Simulation macht diese Kopplung explizit: Jede Methode weist die adressierten Future Skills aus, die Abschlussreflexion führt sie zusammen.",
+    "mis": "Design Thinking entwickelt Kompetenzen nicht automatisch: Ohne strukturierte Reflexion bleibt es Aktivität — der Kolb-Zyklus schließt sich erst durch das bewusste Nachdenken über die Erfahrung.",
+    "lit": [
+      "Kolb, D. A. (1984). Experiential Learning. Prentice-Hall.",
+      "Razzouk, R. & Shute, V. (2012). What Is Design Thinking and Why Is It Important? Review of Educational Research, 82(3), 330–348.",
+      "Panke, S. (2019). Design Thinking in Education: Perspectives, Opportunities and Challenges. Open Education Studies, 1(1), 281–306.",
+      "Ehlers, U.-D. (2020). Future Skills. Springer VS."
+    ],
+    "res": []
+  }
+];
+
+  const GL_CATS = {
+    grund:   'Grundlagen',
+    phase:   'Prozessphasen',
+    methode: 'Methoden',
+    skill:   'Kompetenz & Future Skills'
+  };
+  let glActiveCat = 'all';
+  let glQuery = '';
 
   function buildGlossary() {
     const grid = document.getElementById('glossaryGrid');
     if (!grid || grid.dataset.built) return;
     grid.dataset.built = '1';
+    // Kategorie-Leiste
+    const catRow = document.getElementById('glCatRow');
+    if (catRow && !catRow.dataset.built) {
+      catRow.dataset.built = '1';
+      const counts = {};
+      GLOSSARY_TERMS.forEach(t => counts[t.cat] = (counts[t.cat]||0)+1);
+      catRow.innerHTML =
+        `<button class="gl-cat-btn active" data-cat="all" onclick="glSetCat(this)">Alle (${GLOSSARY_TERMS.length})</button>` +
+        Object.entries(GL_CATS).map(([k,l]) =>
+          `<button class="gl-cat-btn" data-cat="${k}" onclick="glSetCat(this)">${l} (${counts[k]||0})</button>`).join('');
+    }
     grid.innerHTML = '';
     GLOSSARY_TERMS.forEach(t => {
-      const c = document.createElement('div');
-      c.className = 'gl-card'; c.id = 'glc-' + t.id;
-      c.innerHTML = `<div class="gl-head" onclick="toggleGlossaryCard('${t.id}')">
-        <div><div class="gl-term">${t.term}</div><div class="gl-short">${t.short}</div></div>
-        <div class="gl-arr" id="gla-${t.id}">›</div></div>
-        <div class="gl-body" id="glb-${t.id}">
-          <div class="gl-def">${t.def}</div>
-          <div class="gl-rel"><span class="gl-rel-lbl">Im Workshop: </span>${t.rel.replace('↳ Im Workshop: ','').replace('↳ Im Fallbeispiel: ','Im Fallbeispiel: ')}</div>
+      const card = document.createElement('div');
+      card.className = 'gl-card';
+      card.id = 'glc-' + t.id;
+      card.dataset.cat = t.cat;
+      const litHtml = (t.lit && t.lit.length)
+        ? `<div class="gl-sec"><div class="gl-sec-lbl">Weiterführende Literatur</div>
+             <ul class="gl-lit">${t.lit.map(l => `<li>${escHtml(l)}</li>`).join('')}</ul></div>` : '';
+      const resHtml = (t.res && t.res.length)
+        ? `<div class="gl-sec"><div class="gl-sec-lbl">Externe Ressourcen</div>
+             ${t.res.map(r => `<div class="gl-res"><a href="${r.url}" target="_blank" rel="noopener">${escHtml(r.label)} ↗</a>
+             <span class="gl-res-note">${escHtml(r.note)}</span></div>`).join('')}</div>` : '';
+      card.innerHTML = `
+        <div class="gl-head" onclick="toggleGlossaryCard('${t.id}')">
+          <div>
+            <div class="gl-cat-tag gl-cat-${t.cat}">${GL_CATS[t.cat]||''}</div>
+            <div class="gl-term">${escHtml(t.term)}</div>
+            <div class="gl-short">${escHtml(t.short)}</div>
+          </div>
+          <div class="gl-arr" id="gla-${t.id}">›</div>
+        </div>
+        <div class="gl-body" id="glb-${t.id}" style="display:none">
+          <div class="gl-sec"><div class="gl-sec-lbl">Wissenschaftliche Definition</div><div class="gl-def">${escHtml(t.de)}</div></div>
+          <div class="gl-sec"><div class="gl-sec-lbl">Bedeutung im Design-Thinking-Kontext</div><div class="gl-def">${escHtml(t.ctx)}</div></div>
+          <div class="gl-sec gl-example"><div class="gl-sec-lbl">Praktisches Beispiel · Gesundheitswesen</div><div class="gl-def">${escHtml(t.ex)}</div></div>
+          <div class="gl-sec"><div class="gl-sec-lbl">Relevanz für diese Simulation</div><div class="gl-rel">${escHtml(t.rel)}</div></div>
+          <div class="gl-sec gl-mis"><div class="gl-sec-lbl">Häufige Missverständnisse</div><div class="gl-def">${escHtml(t.mis)}</div></div>
+          ${litHtml}
+          ${resHtml}
         </div>`;
-      grid.appendChild(c);
+      grid.appendChild(card);
     });
+  }
+
+  function glSetCat(btn) {
+    document.querySelectorAll('.gl-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    glActiveCat = btn.dataset.cat;
+    glApplyFilters();
+  }
+
+  function filterGlossary(q) {
+    glQuery = (q || '').toLowerCase().trim();
+    glApplyFilters();
+  }
+
+  function glApplyFilters() {
+    let visible = 0;
+    document.querySelectorAll('.gl-card').forEach(c => {
+      const catOk = glActiveCat === 'all' || c.dataset.cat === glActiveCat;
+      const qOk   = !glQuery || c.textContent.toLowerCase().includes(glQuery);
+      const show  = catOk && qOk;
+      c.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    const empty = document.getElementById('glossaryEmpty');
+    if (empty) empty.style.display = visible ? 'none' : 'block';
   }
 
   function toggleGlossaryCard(id) {
@@ -2922,17 +3436,7 @@ WICHTIG:
     card && card.classList.toggle('open', !open);
   }
 
-  function filterGlossary(q) {
-    const query = q.toLowerCase().trim();
-    let visible = 0;
-    document.querySelectorAll('.gl-card').forEach(c => {
-      const match = !query || c.textContent.toLowerCase().includes(query);
-      c.style.display = match ? '' : 'none';
-      if (match) visible++;
-    });
-    const empty = document.getElementById('glossaryEmpty');
-    if (empty) empty.style.display = visible ? 'none' : 'block';
-  }
+  
 
   /* ═══ METHOD DASHBOARD ══════════════════════════════════════════ */
   const METHODS_META = {
