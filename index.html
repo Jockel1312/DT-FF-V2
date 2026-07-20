@@ -1014,6 +1014,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
             <div class="skill-badge" id="skill-kreativitaet"><div class="skill-dot"></div> Kreativität</div>
             <div class="skill-badge" id="skill-analytisch"><div class="skill-dot"></div> Analytisches Denken</div>
             <div class="skill-badge" id="skill-kollaboration"><div class="skill-dot"></div> Kollaboration</div>
+            <div class="skill-badge" id="skill-oekonomie"><div class="skill-dot"></div> Ökonomische Kompetenz</div>
           </div>
         </div>
       </div>
@@ -1256,7 +1257,7 @@ INTERAKTIONSPRINZIPIEN:
 - Die Anwendung soll nicht nur Wissen vermitteln, sondern Perspektivwechsel ermöglichen,
   Reflexion fördern, Kompetenzentwicklung unterstützen, Transformationsverständnis aufbauen
   und interprofessionelles Denken stärken
-  `.trim();
+  \n\nERKENNTNISSE AUS EXPERTENINTERVIEWS (leiten dein Verhalten zusätzlich):\n\n1. DEINE ROLLE ALS KI (Grenze): Du bist Dialogpartner, methodischer Assistent und Impulsgeber — niemals Steuerung oder Lösungsgenerator. Gib keine fertige Lösung aus, auch wenn danach gefragt wird. Formuliere stattdessen leitende Fragen, damit die lernende Person die Lösung selbst entwickelt.\n\n2. ANTI-DENKFAULHEIT: Wenn die lernende Person das eigene Denken an dich auslagert (etwa 'sag mir einfach die Antwort'), spiegle das freundlich und fordere eine erste eigene Einschätzung ein, bevor du unterstützt. Kritisches Denken darf nicht delegiert werden.\n\n3. ÖKONOMISCHE KOMPETENZ: Sobald es um Ideen, Lösungen oder Umsetzung geht, bringe mindestens einmal die wirtschaftliche Perspektive als echte Rückfrage ein: Was bringt es, was kostet es, welche Risiken, welcher Business Case, welche KPIs? Diese Kompetenz wurde in den Interviews als zentral und bisher unterrepräsentiert benannt.\n\n4. WIDERSTÄNDE & CHANGE: Mache Widerstände, Betroffenheit und unterschiedliche Change-Typen (offen / abwartend / blockierend) sichtbar. Widerstand ist kein Störfaktor, sondern Teil des Prozesses. Frage, mit welchen Widerständen zu rechnen ist und wie man Betroffene mitnimmt.\n\n5. EMPATHIE ERFAHRBAR MACHEN: Empathie lässt sich schwer beibringen, aber erfahrbar und reflektierbar machen. Lade zu echtem Perspektivwechsel ein, statt Empathie zu erklären.\n\n6. EHRLICHES FEEDBACK: Sei wertschätzend, aber ehrlich. Finde nicht alles gut. Benenne Fortschritt UND Lücken konkret, damit ein echter Lernweg sichtbar wird.\n\n7. VERSTETIGUNG: Denke über Idee und Prototyp hinaus. Frage, wie eine Lösung in die Routine, in den Alltag und dauerhaft in die Organisation überführt wird — nicht nur einmalig getestet.\n  `.trim();
 
   const evaluationPrompt = `
 Du bist Teil der Evaluation einer interaktiven Design-Thinking-Lernanwendung im Gesundheitswesen.
@@ -1348,6 +1349,22 @@ WICHTIG:
   };
 
 
+
+  /* ═══════════════════════════════════════════════════════════════
+     CHANGE-TYPOLOGIE je Persona (aus Experteninterview B4):
+     Personas nach Veränderungshaltung denken, nicht nur nach Berufsgruppe.
+     offen = frühe Befürworter · abwartend = skeptisch, überzeugbar · blockierend = ausgeprägter Widerstand
+  ═══════════════════════════════════════════════════════════════ */
+  const CHANGE_TYPES = {
+    pflege:         { typ:'abwartend-skeptisch', desc:'Grundsätzlich offen für gute Versorgung, aber durch frühere IT-Projekte enttäuscht; überzeugbar durch konkrete Entlastung und Einbindung.' },
+    oberarzt:       { typ:'blockierend', desc:'Statusbewusst, verteidigt etablierte Abläufe und ärztliche Autonomie; wird erst durch Evidenz und Peer-Argumente bewegt.' },
+    it:             { typ:'offen', desc:'Früher Befürworter der Digitalisierung, unterschätzt aber teils die menschlich-organisationalen Hürden.' },
+    kaufm:          { typ:'abwartend-rational', desc:'Entscheidet nüchtern nach Business Case und Ressourcen; überzeugbar durch Wirtschaftlichkeit und Risikoabwägung.' },
+    patient:        { typ:'abwartend', desc:'Sorgt sich um persönliche Zuwendung und Datenschutz; offen, wenn Nutzen und Sicherheit erkennbar werden.' },
+    assistenz:      { typ:'offen', desc:'Digital-affin und lernbereit, aber zeitlich stark eingebunden; frühe Verbündete bei guter Usability.' },
+    stationsleitung:{ typ:'abwartend-pragmatisch', desc:'Zwischen Team und Leitung; überzeugbar, wenn Umsetzbarkeit im Stationsalltag sichergestellt ist.' },
+    betriebsrat:    { typ:'blockierend-schützend', desc:'Verteidigt Mitbestimmung, Datenschutz und Belegschaftsinteressen; blockiert ohne Betriebsvereinbarung, kooperiert bei Beteiligung.' },
+  };
 
   /* ═══════════════════════════════════════════════════════════════
      ROLLEN — Persona-Spezifikationen (JSON-basiert, wissenschaftlich
@@ -2849,6 +2866,11 @@ WICHTIG:
       'Halte alle constraints, opinion_change_rules und simulation_parameters ein. ' +
       'Antworte ausschließlich in der Rolle, auf Deutsch, in 4-9 Sätzen, und beende deine Antworten regelmäßig mit einer Rückfrage oder einem diskussionsöffnenden Einwand gemäß discussion_mode:\n\n' +
       JSON.stringify(role.spec, null, 2);
+    if (CHANGE_TYPES[activeRole]) {
+      systemPrompt += '\n\nCHANGE-TYPOLOGIE (aus Experteninterviews: Widerstandstypen ziehen sich quer durch alle Berufsgruppen). ' +
+        'Diese Persona verkörpert den Change-Typ „' + CHANGE_TYPES[activeRole].typ + '“: ' + CHANGE_TYPES[activeRole].desc +
+        ' Verhalte dich entsprechend authentisch — Widerstand ist begründet, nicht künstlich negativ.';
+    }
     if (activeDTMethod && DT_METHODS[activeDTMethod]) {
       systemPrompt += '\n\nAKTIVER METHODEN-KONTEXT (Gespräch findet im Rahmen dieser DT-Methode statt): ' + DT_METHODS[activeDTMethod];
     }
@@ -2875,7 +2897,8 @@ WICHTIG:
       'skill-analytisch':     ['analytisch','kritisch','prüfen','bewerten','strukturier','definier'],
       'skill-kreativitaet':   ['kreativ','innovation','idee','brainstorm','neu','lösungsansatz'],
       'skill-kollaboration':  ['kollaboration','zusammenarbeit','team','gemeinsam','kooperation'],
-      'skill-adaption':       ['adaption','anpass','flexibel','lernfähig','offen','wandel']
+      'skill-adaption':       ['adaption','anpass','flexibel','lernfähig','offen','wandel'],
+      'skill-oekonomie':      ['kosten','nutzen','wirtschaft','budget','business case','ressource','roi','return','kpi','finanz','investit','rentab']
     };
     const lower = text.toLowerCase();
     Object.entries(map).forEach(([id, kws]) => {
@@ -4581,6 +4604,7 @@ WICHTIG:
     { id:'kommunikation', label:'💬 Kommunikationsfähigkeit' },
     { id:'digital',       label:'💻 Digitale Kompetenz' },
     { id:'innovation',    label:'✨ Innovationsfähigkeit' },
+    { id:'oekonomie',     label:'📊 Ökonomische Kompetenz' },
   ];
 
   const REF_LEVEL_LABELS = ['', 'Kaum', 'Etwas', 'Deutlich', 'Stark', 'Sehr stark'];
