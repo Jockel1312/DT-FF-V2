@@ -722,7 +722,43 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
     .gl-res a:hover{text-decoration:underline}
     .gl-res-note{display:block;font-size:.73rem;color:var(--muted)}
 
-  </style>
+  
+/* ═══ Phase 3: Doppeldiamant-Prozessansicht (Iteration 4) ═══ */
+.dtp-wrap{display:grid;grid-template-columns:1fr 96px 1fr;gap:0;align-items:stretch;margin:0 0 .75rem}
+.dspace{border-radius:14px;padding:1rem 1rem 1.1rem;border:1px solid;position:relative}
+.dspace-problem{background:#EFF6FC;border-color:#C7E0F4}
+.dspace-solution{background:#FFF7ED;border-color:#FDE2C4}
+.dspace-title{font-weight:700;font-size:.95rem;letter-spacing:.02em;margin-bottom:.1rem}
+.dspace-sub{font-size:.76rem;opacity:.65;margin-bottom:.9rem}
+.dnodes{display:flex;align-items:flex-start;justify-content:space-between;gap:.2rem}
+.pnode{flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:center;padding:0;font-family:inherit}
+.pnode-c{width:58px;height:58px;border-radius:50%;margin:0 auto .4rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:transform .18s,box-shadow .18s;position:relative}
+.pnode:hover .pnode-c{transform:translateY(-3px) scale(1.06);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.pnode.active .pnode-c{outline:3px solid #fff;box-shadow:0 0 0 3px currentColor,0 6px 16px rgba(0,0,0,.28)}
+.pnode-num{position:absolute;top:-6px;right:-6px;background:#fff;color:#333;border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pnode-done{position:absolute;bottom:-4px;right:-4px;background:#16a34a;color:#fff;border-radius:50%;width:18px;height:18px;font-size:.6rem;display:none;align-items:center;justify-content:center}
+.pnode.done .pnode-done{display:flex}
+.pnode-lbl{font-size:.73rem;font-weight:600;line-height:1.15;display:block}
+.pconn{font-size:.95rem;opacity:.4;padding-top:20px;flex:0 0 auto}
+.dtp-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;padding:0 .35rem}
+.dtp-pov{background:var(--c-surface,#fff);border:2px dashed #94A3B8;transform:rotate(45deg);width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.dtp-pov span{transform:rotate(-45deg);font-size:1.05rem}
+.dtp-mid-lbl{font-size:.64rem;text-align:center;opacity:.65;max-width:92px;line-height:1.2}
+.dtp-iter{margin:0 0 1rem;border:1.5px dashed #94A3B8;border-radius:10px;padding:.5rem .8rem;font-size:.8rem;opacity:.85;display:flex;gap:.4rem;align-items:center}
+.pp-panel{border:1px solid var(--c-border,#e2e8f0);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem;background:var(--c-surface,#fff);animation:ppIn .22s ease}
+@keyframes ppIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pp-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.45rem}
+.pp-ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.15rem;flex:0 0 auto}
+.pp-name{font-weight:700;font-size:1.02rem}
+.pp-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.15rem}
+.pp-badge{font-size:.67rem;padding:.14rem .5rem;border-radius:999px;border:1px solid #CBD5E1;background:#F8FAFC}
+.pp-goal{font-size:.89rem;margin:.3rem 0 .45rem}
+.pp-why{font-size:.82rem;opacity:.72;margin-bottom:.55rem}
+.pp-skills{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem}
+.pp-mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}
+@media(max-width:980px){.dtp-wrap{grid-template-columns:1fr}.dtp-mid{flex-direction:row;padding:.5rem 0}.dtp-mid-lbl{max-width:none}}
+
+</style>
 </head>
 <body>
 
@@ -993,7 +1029,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
         </div>
         <div class="chat-actions"><button class="btn-ghost" onclick="clearChat()">Chat leeren</button></div>
         <div class="dt-pills-row">
-          <span class="dt-pill-label">🛠 Gesprächsmethode wählen (optional)</span>
+          <span class="dt-pill-label">🛠 Gesprächsmethode wählen (optional) · Erhebe hier Material im Dialog — ausgewertet wird es in Phase 3</span>
           <button class="dt-pill" data-method="empathyMap"        onclick="applyDTMethod(this)">🗺️ Empathy Map</button>
           <button class="dt-pill" data-method="stakeholderMap"    onclick="applyDTMethod(this)">🕸️ Stakeholder</button>
           <button class="dt-pill" data-method="persona"           onclick="applyDTMethod(this)">🪞 Persona</button>
@@ -1029,17 +1065,19 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
       <div class="phase-num">3</div>
       <div>
         <div class="phase-title">Design-Thinking-Methoden erkunden</div>
-        <div class="phase-desc">Wähle frei, welche Methoden du anwenden möchtest. Jede Methode öffnet eine eigene interaktive Arbeitsfläche.</div>
+        <div class="phase-desc">Wähle frei, welche Methoden du anwenden möchtest. Jede Methode öffnet eine eigene interaktive Arbeitsfläche. Hier wertest du aus, was du in den Gesprächen aus Phase 2 erhoben hast — die Perspektiven deiner Gesprächspartner sind dein Datenmaterial.</div>
         <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
       </div>
     </div>
     <div class="card">
+      <div id="p3PerspectiveCtx" style="display:none; background:#EFF6FC; border:1px solid #C7E0F4; border-radius:8px; padding:.6rem .9rem; margin-bottom:1rem; font-size:.9rem;"></div>
       <div class="method-prog-bar">
         <span class="method-prog-label" id="methodProgLabel">0 / 7 Methoden erkundet</span>
         <div class="method-prog-dots" id="methodProgDots"></div>
       </div>
       <div id="methodDashboard">
-        <div class="method-grid" id="methodGrid"></div>
+        <div id="dtProcessBand"></div>
+        <div id="phasePanel" class="pp-panel" style="display:none"></div>
       </div>
       <div id="methodToolPanel" style="display:none">
         <div class="tool-hdr">
@@ -1063,6 +1101,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
     </div>
     <div class="card">
       <div class="ref-qs" style="margin-bottom:1.25rem">
+        <div class="ref-q" id="refPersonaQ" style="display:none"><div class="ref-q-lbl" id="refPersonaQLbl"></div><textarea placeholder="Beschreibe, wie sich dein Blick auf diese Rolle verändert hat und wo ihre Bedürfnisse in deiner Lösung stecken…"></textarea></div>
         <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven anderer Berufsgruppen waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
         <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen zwischen Berufsgruppen wurden sichtbar?</div><textarea placeholder="z.B. der Konflikt zwischen Zeitdruck auf Station und IT-Schulungsanforderungen…"></textarea></div>
         <div class="ref-q"><div class="ref-q-lbl">🌱 Welche Future Skills hast du in diesem Workshop entwickelt oder genutzt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
@@ -2831,6 +2870,7 @@ WICHTIG:
     resetSkillBadges();
     clearChat(false);
     appendMessage('bot', role.greeting, role.name, false);
+    updatePerspectiveContext();
   }
 
   function clearChat(addGreeting = true) {
@@ -2872,6 +2912,8 @@ WICHTIG:
 
     const role = ROLES[activeRole];
     chatHistory.push({ role: 'user', content: text });
+    interviewedRoles.add(activeRole);
+    updatePerspectiveContext();
 
     // Keyword-based offline fallback
     if (!apiKey) {
@@ -2941,6 +2983,43 @@ WICHTIG:
 
   function resetSkillBadges() {
     document.querySelectorAll('.skill-badge').forEach(b => b.classList.remove('active'));
+  }
+
+  /* Iteration 3 (didaktische Verzahnung Phase 2 ↔ 3 ↔ 4):
+     Anker-Persona-Kontinuität + Multiperspektiven-Tracking.
+     Interviewbezug: B1 (Diversität), B4 (Change-Typen übereinanderlegen),
+     didaktisch: Anker-Persona als roter Faden, Kontrastperspektiven gegen Tunnelblick. */
+  const interviewedRoles = new Set();
+
+  function updatePerspectiveContext() {
+    const totalRoles = Object.keys(ROLES).length;
+    const n = interviewedRoles.size;
+    const box = document.getElementById('p3PerspectiveCtx');
+    if (box) {
+      if (activeRole && ROLES[activeRole]) {
+        let html = '🧭 <b>Dein Fall-Anker:</b> ' + ROLES[activeRole].name +
+          ' &nbsp;·&nbsp; <b>Eingeholte Perspektiven:</b> ' + n + ' / ' + totalRoles +
+          ' &nbsp; <button class="btn-ghost" style="font-size:.8rem" onclick="goToPhase(2)">↩ Zurück zum Gespräch</button>';
+        if (n < 2) {
+          html += '<div style="margin-top:.35rem; font-size:.83rem; opacity:.75">Tipp: Hole mindestens zwei Kontrastperspektiven ein — z. B. einen blockierenden Change-Typ wie den Oberarzt oder den Betriebsrat —, bevor du das Problem definierst.</div>';
+        }
+        box.innerHTML = html;
+        box.style.display = 'block';
+      } else {
+        box.style.display = 'none';
+      }
+    }
+    const rq = document.getElementById('refPersonaQ');
+    if (rq) {
+      if (activeRole && ROLES[activeRole]) {
+        rq.style.display = 'block';
+        document.getElementById('refPersonaQLbl').textContent =
+          '🧭 Du hast vor allem mit ' + ROLES[activeRole].name + ' gesprochen (' + n +
+          ' Perspektive' + (n === 1 ? '' : 'n') + ' insgesamt): Wie hat sich dein Blick auf diese Rolle verändert — und welche ihrer Bedürfnisse berücksichtigt deine Lösung?';
+      } else {
+        rq.style.display = 'none';
+      }
+    }
   }
 
   function applyDTMethod(el) {
@@ -3508,7 +3587,7 @@ WICHTIG:
 
   /* ═══ METHOD DASHBOARD ══════════════════════════════════════════ */
   const METHODS_META = {
-    empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Verstehen',              why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Berufsrolle.' },
+    empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Beobachten',              why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Berufsrolle.' },
     stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',              why:'Analysiere Einfluss, Interessen und Konflikte aller Beteiligten.' },
     persona:           { icon:'🪞', name:'Persona',            phase:'Beobachten',             why:'Mache abstrakte Berufsgruppen konkret und menschlich.' },
     problemDefinition: { icon:'🎯', name:'Problem Definition', phase:'Sichtweise definieren',  why:'Trenne Symptome von Ursachen — finde das Kernproblem.' },
@@ -3517,31 +3596,68 @@ WICHTIG:
     reflexion:         { icon:'🔄', name:'Reflexion',          phase:'Testen & Lernen',        why:'Mache Future Skills und Lernfortschritte sichtbar.' }
   };
 
+  const PHASES_DEF = {
+    verstehen:  { num:1, name:'Verstehen', icon:'🔍', raum:'problem', color:'#1D6FB8', denken:'divergent',
+      ziel:'Die Design Challenge und ihren Kontext fassen: Worum geht es wirklich, wer ist beteiligt, was sind die Rahmenbedingungen?',
+      why:'Ohne gemeinsames Bild des Problemfelds entstehen Lösungen für das falsche Problem.',
+      skills:['Systemisches Denken','Kollaboration'], methods:['stakeholderMap'] },
+    beobachten: { num:2, name:'Beobachten', icon:'👀', raum:'problem', color:'#C25E8B', denken:'divergent',
+      ziel:'Das tatsächliche Bedürfnis hinter dem Problem entdecken — durch Empathie und echte Nutzerperspektiven.',
+      why:'Befragung und Beobachtung der Betroffenen verhindern, dass Annahmen die Lösung steuern.',
+      skills:['Empathie','Kommunikation'], methods:['empathyMap','persona'] },
+    sichtweise: { num:3, name:'Sichtweise definieren', icon:'🎯', raum:'problem', color:'#2E9E63', denken:'konvergent',
+      ziel:'Die Erkenntnisse zu einem gemeinsamen Standpunkt verdichten: das Kernproblem als Point-of-View.',
+      why:'Erst ein präzise definiertes Problem macht zielgerichtete Ideenentwicklung möglich.',
+      skills:['Problemlösung','Analytisches Denken'], methods:['problemDefinition'] },
+    ideen:      { num:4, name:'Ideen entwickeln', icon:'💡', raum:'solution', color:'#F2A03D', denken:'divergent',
+      ziel:'Viele Lösungsimpulse erzeugen — Quantität vor Qualität, Bewertung kommt später.',
+      why:'Divergentes Denken öffnet den Lösungsraum, bevor konvergent ausgewählt wird.',
+      skills:['Kreativität','Ökonomische Kompetenz'], methods:['ideation'] },
+    prototyp:   { num:5, name:'Prototyp entwickeln', icon:'🛠️', raum:'solution', color:'#E4762A', denken:'konvergent',
+      ziel:'Ausgewählte Ideen schnell greifbar machen und Testannahmen definieren.',
+      why:'Früh und günstig testen, bevor viel investiert wird — Fehler werden zu Erkenntnissen.',
+      skills:['Analytisches Denken','Ökonomische Kompetenz'], methods:['prototyping'] },
+    testen:     { num:6, name:'Testen', icon:'🔄', raum:'solution', color:'#C0392B', denken:'konvergent',
+      ziel:'Feedback der Zielgruppen einholen, Lernfortschritt reflektieren — und bei Bedarf zurückspringen.',
+      why:'Testen schließt die Schleife: Erkenntnisse fließen zurück in Beobachtung und Sichtweise.',
+      skills:['Selbstreflexion','Adaptionsfähigkeit'], methods:['reflexion'] }
+  };
+  const MC_COLORS = { empathyMap:'#f59e0b', stakeholderMap:'#7c3aed', persona:'#db2777', problemDefinition:'#ea580c', ideation:'#059669', prototyping:'#2563eb', reflexion:'#16a34a' };
+  let currentProcessPhase = null;
+
   function initMethodDashboard() {
-    const grid = document.getElementById('methodGrid');
-    if (!grid || grid.dataset.built) return;
-    grid.dataset.built = '1';
-    // Method accent colors
-    const MC = { empathyMap:'#f59e0b', stakeholderMap:'#7c3aed', persona:'#db2777', problemDefinition:'#ea580c', ideation:'#059669', prototyping:'#2563eb', reflexion:'#16a34a' };
-    grid.innerHTML = '';
-    Object.entries(METHODS_META).forEach(([key, m]) => {
-      const c = document.createElement('div');
-      c.className = 'mc'; c.id = 'mc-' + key;
-      c.style.setProperty('--mc-color', MC[key] || '#2563eb');
-      c.style.cssText += `;--mc-color:${MC[key]}`;
-      c.innerHTML = `<div class="mc-icon">${m.icon}</div>
-        <div class="mc-phase">${m.phase}</div>
-        <div class="mc-name">${m.name}</div>
-        <div class="mc-why">${m.why}</div>
-        <button class="mc-explore" style="background:${MC[key]}" onclick="openMethodTool('${key}')">Erkunden →</button>`;
-      c.querySelector('.mc-explore').addEventListener('mouseover', function(){ this.style.filter='brightness(.88)'; });
-      c.querySelector('.mc-explore').addEventListener('mouseout',  function(){ this.style.filter=''; });
-      c.style.borderBottom = '';
-      c.addEventListener('mouseenter', () => { c.style.boxShadow = `0 4px 18px ${MC[key]}22`; });
-      c.addEventListener('mouseleave', () => { c.style.boxShadow = ''; });
-      grid.appendChild(c);
-    });
-    // Progress dots
+    const band = document.getElementById('dtProcessBand');
+    if (!band || band.dataset.built) return;
+    band.dataset.built = '1';
+
+    function nodeBtn(key){
+      const p = PHASES_DEF[key];
+      return '<button class="pnode" id="pn-'+key+'" style="color:'+p.color+'" onclick="selectProcessPhase(\''+key+'\')" title="'+p.name+'">' +
+        '<span class="pnode-c" style="background:'+p.color+'">'+p.icon+
+        '<span class="pnode-num">'+p.num+'</span><span class="pnode-done">✓</span></span>' +
+        '<span class="pnode-lbl">'+p.name+'</span></button>';
+    }
+    const conn = '<span class="pconn" title="Iterativ: Rücksprung jederzeit möglich">⇄</span>';
+
+    band.innerHTML =
+      '<div class="dtp-wrap">' +
+        '<div class="dspace dspace-problem">' +
+          '<div class="dspace-title">🔍 Problemraum erkunden</div>' +
+          '<div class="dspace-sub">divergent öffnen → konvergent verdichten</div>' +
+          '<div class="dnodes">' + nodeBtn('verstehen') + conn + nodeBtn('beobachten') + conn + nodeBtn('sichtweise') + '</div>' +
+        '</div>' +
+        '<div class="dtp-mid">' +
+          '<div class="dtp-pov"><span>⇆</span></div>' +
+          '<div class="dtp-mid-lbl">Point of View — Übergang Problem → Lösung</div>' +
+        '</div>' +
+        '<div class="dspace dspace-solution">' +
+          '<div class="dspace-title">💡 Lösungsraum entwickeln</div>' +
+          '<div class="dspace-sub">divergent öffnen → konvergent verdichten</div>' +
+          '<div class="dnodes">' + nodeBtn('ideen') + conn + nodeBtn('prototyp') + conn + nodeBtn('testen') + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="dtp-iter">↺&nbsp;<b>Iterativ:</b>&nbsp;Design Thinking verläuft nicht linear — du kannst jederzeit in frühere Phasen zurückspringen, z.&nbsp;B. nach dem Testen erneut beobachten oder die Sichtweise schärfen.</div>';
+
     const dotWrap = document.getElementById('methodProgDots');
     if (dotWrap) {
       dotWrap.innerHTML = '';
@@ -3551,6 +3667,57 @@ WICHTIG:
         dotWrap.appendChild(d);
       });
     }
+    selectProcessPhase('verstehen');
+  }
+
+  function selectProcessPhase(key) {
+    currentProcessPhase = key;
+    const p = PHASES_DEF[key];
+    document.querySelectorAll('.pnode').forEach(n => n.classList.remove('active'));
+    const btn = document.getElementById('pn-' + key);
+    if (btn) btn.classList.add('active');
+
+    const panel = document.getElementById('phasePanel');
+    if (!panel || !p) return;
+    const raumLbl = p.raum === 'problem' ? '🔍 Problemraum' : '💡 Lösungsraum';
+    let mcards = '';
+    p.methods.forEach(mk => {
+      const m = METHODS_META[mk];
+      const col = MC_COLORS[mk] || '#2563eb';
+      const ex = exploredMethods.has(mk) ? ' explored' : '';
+      mcards += '<div class="mc'+ex+'" id="mc-'+mk+'">' +
+        '<div class="mc-icon">'+m.icon+'</div>' +
+        '<div class="mc-phase">'+m.phase+'</div>' +
+        '<div class="mc-name">'+m.name+'</div>' +
+        '<div class="mc-why">'+m.why+'</div>' +
+        '<button class="mc-explore" style="background:'+col+'" onclick="openMethodTool(\''+mk+'\')">Erkunden →</button></div>';
+    });
+    panel.innerHTML =
+      '<div class="pp-head">' +
+        '<div class="pp-ic" style="background:'+p.color+'">'+p.icon+'</div>' +
+        '<div><div class="pp-name">Phase '+p.num+': '+p.name+'</div>' +
+        '<div class="pp-badges"><span class="pp-badge">'+raumLbl+'</span>' +
+        '<span class="pp-badge">'+(p.denken==='divergent'?'◇ divergentes Denken':'◆ konvergentes Denken')+'</span></div></div>' +
+      '</div>' +
+      '<div class="pp-goal"><b>Ziel:</b> '+p.ziel+'</div>' +
+      '<div class="pp-why"><b>Warum diese Methoden?</b> '+p.why+'</div>' +
+      '<div class="pp-skills">'+p.skills.map(function(s){return '<span class="phase-chip">'+s+'</span>';}).join('')+'</div>' +
+      '<div class="pp-mgrid">'+mcards+'</div>';
+    panel.style.display = 'block';
+    updateProcessNodes();
+  }
+
+  function updateProcessNodes() {
+    Object.entries(PHASES_DEF).forEach(function(entry){
+      const key = entry[0], p = entry[1];
+      const done = p.methods.every(function(mk){ return exploredMethods.has(mk); });
+      const btn = document.getElementById('pn-' + key);
+      if (btn) btn.classList.toggle('done', done);
+      p.methods.forEach(function(mk){
+        const card = document.getElementById('mc-' + mk);
+        if (card) card.classList.toggle('explored', exploredMethods.has(mk));
+      });
+    });
   }
 
   function openMethodTool(key) {
@@ -3562,6 +3729,7 @@ WICHTIG:
     if (dot) dot.classList.add('done');
     const label = document.getElementById('methodProgLabel');
     if (label) label.textContent = `${exploredMethods.size} / ${Object.keys(METHODS_META).length} Methoden erkundet`;
+    if (typeof updateProcessNodes === 'function') updateProcessNodes();
 
     const m = METHODS_META[key];
     document.getElementById('methodToolTitle').textContent = m.icon + '  ' + m.name;
