@@ -1012,11 +1012,36 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
       <div class="phase-num">2</div>
       <div>
         <div class="phase-title">Perspektive wählen &amp; Gespräch führen</div>
-        <div class="phase-desc">Führe ein Gespräch mit einer von acht simulierten Personen des St. Marien Klinikums. Jede Persona folgt einem definierten Verhaltensmodell: Sie widerspricht, stellt Rückfragen und ändert ihre Meinung nur unter bestimmten Bedingungen — wie in einem realen Design-Thinking-Prozess.</div>
-        <div class="phase-chips"><span class="phase-chip">Perspektivwechsel</span><span class="phase-chip">Empathie</span><span class="phase-chip">Kommunikationsfähigkeit</span></div>
+        <div class="phase-desc">Dein Auftrag als Digital Health Manager: Nach dem Go-live des neuen Klinikinformationssystems hakt es. Bevor du Lösungen entwickelst, verschaffe dir ein Bild — im nächsten Schritt sprichst du mit den Beteiligten und wendest dabei die Design-Thinking-Methoden an. Verstehen kommt vor Lösen.</div>
+        <div class="phase-chips"><span class="phase-chip">Auftragsklärung</span><span class="phase-chip">Systemisches Denken</span><span class="phase-chip">Problemverständnis</span></div>
       </div>
     </div>
     <div class="card">
+      <div style="font-size:.9rem; line-height:1.6">
+        <b>So gehst du vor:</b>
+        <ol style="margin:.5rem 0 .25rem 1.1rem; padding:0">
+          <li style="margin-bottom:.35rem">Im nächsten Schritt wählst du eine <b>Perspektive</b> (Persona) und führst ein Gespräch — dein „lebendes Datenmaterial“.</li>
+          <li style="margin-bottom:.35rem">Aktivierst du eine <b>Gesprächsmethode</b> (z.&nbsp;B. Empathy Map), erhebst du dein Material methodisch geführt.</li>
+          <li style="margin-bottom:.35rem">Im <b>Prozessüberblick</b> siehst du, in welcher Design-Thinking-Phase du dich befindest und welche Kompetenz du gerade entwickelst.</li>
+          <li>Hole <b>mehrere Perspektiven</b> ein — gerade die kritischen. Erst dann definierst du das Kernproblem.</li>
+        </ol>
+        <div style="margin-top:.6rem; font-size:.84rem; opacity:.7">💡 Design Thinking ist hier das Werkzeug — dein eigentliches Lernziel sind die Future Skills eines Digital Health Managers.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PHASE 3 — METHODEN ══════════════════════════════════════ -->
+  <div class="phase" id="phase-3">
+    <div class="phase-hdr">
+      <div class="phase-num">3</div>
+      <div>
+        <div class="phase-title">Im Dialog erheben &amp; Methoden anwenden</div>
+        <div class="phase-desc">Wähle eine Perspektive und sprich mit ihr — direkt darunter siehst du den Design-Thinking-Prozess. Aktiviere eine Gesprächsmethode, um dein Material methodisch geführt zu erheben, oder öffne eine Methoden-Arbeitsfläche, um es auszuwerten. Erheben und Verarbeiten finden hier gemeinsam statt, aus Sicht deiner gewählten Persona.</div>
+        <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:1rem">
+      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.5rem">Schritt 1 · Perspektive wählen &amp; im Dialog erheben</div>
       <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.75rem">Wähle eine Berufsrolle</div>
       <div class="role-grid" id="roleGrid">
         <button class="role-card" data-role="pflege" onclick="selectRole(this)"><div class="rc-top"><span class="role-icon">🩺</span><span class="rc-age">34 Jahre</span></div><div class="role-name">Anna Brinkmann</div><div class="rc-role">Pflegefachkraft · Praxisanleiterin</div><div class="rc-attrs"><span class="rc-attr">12 J. Berufserfahrung</span><span class="rc-attr">Meinungsführerin im Team</span><span class="rc-attr">CuraDok-Erfahrung 2022</span></div></button>
@@ -1044,7 +1069,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
         </div>
         <div class="chat-actions"><button class="btn-ghost" onclick="clearChat()">Chat leeren</button></div>
         <div class="dt-pills-row">
-          <span class="dt-pill-label">🛠 Gesprächsmethode wählen (optional) · Erhebe hier Material im Dialog — ausgewertet wird es in Phase 3</span>
+          <span class="dt-pill-label">🛠 Gesprächsmethode wählen · erhebt dein Material methodisch geführt aus Sicht der Persona</span>
           <button class="dt-pill" data-method="empathyMap"        onclick="applyDTMethod(this)">🗺️ Empathy Map</button>
           <button class="dt-pill" data-method="stakeholderMap"    onclick="applyDTMethod(this)">🕸️ Stakeholder</button>
           <button class="dt-pill" data-method="persona"           onclick="applyDTMethod(this)">🪞 Persona</button>
@@ -1072,18 +1097,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══ PHASE 3 — METHODEN ══════════════════════════════════════ -->
-  <div class="phase" id="phase-3">
-    <div class="phase-hdr">
-      <div class="phase-num">3</div>
-      <div>
-        <div class="phase-title">Design-Thinking-Methoden erkunden</div>
-        <div class="phase-desc">Wähle frei, welche Methoden du anwenden möchtest. Jede Methode öffnet eine eigene interaktive Arbeitsfläche. Hier wertest du aus, was du in den Gesprächen aus Phase 2 erhoben hast — die Perspektiven deiner Gesprächspartner sind dein Datenmaterial.</div>
-        <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
-      </div>
-    </div>
     <div class="card">
       <div id="p3PerspectiveCtx" style="display:none; background:#EFF6FC; border:1px solid #C7E0F4; border-radius:8px; padding:.6rem .9rem; margin-bottom:1rem; font-size:.9rem;"></div>
       <div class="method-prog-bar">
@@ -3530,8 +3544,8 @@ WICHTIG:
   const KOMP_FRAME = {
     0: { skill:'Systemisches Denken & Problemverständnis', why:'Ein Digital Health Manager muss die Lage nach einem Go-live als System begreifen: Technik, Menschen, Prozesse, Interessen.', praxis:'Entspricht der Auftragsklärung zu Beginn realer Digitalisierungsprojekte.', extra:' Design Thinking ist in dieser Anwendung das Mittel — dein Lernziel sind die Future Skills eines Digital Health Managers.' },
     1: { skill:'Digitale & methodische Grundkompetenz', why:'Fachbegriffe und Methodenwissen sind die gemeinsame Sprache, ohne die du weder IT noch Klinik überzeugst.', praxis:'Glossarwissen entspricht dem Onboarding in Digital-Health-Projekten.', extra:'' },
-    2: { skill:'Empathie & Kommunikation', why:'Kompetenzentwicklung beginnt beim Zuhören: Wer die Perspektiven der Berufsgruppen nicht versteht, plant an ihnen vorbei.', praxis:'Entspricht Stakeholder-Gesprächen, wie sie im Klinikalltag täglich zu führen sind.', extra:'' },
-    3: { skill:'Methodenkompetenz als Träger der Future Skills', why:'Jede Design-Thinking-Methode trainiert gezielt bestimmte Kompetenzen — die Methode ist das Werkzeug, die Kompetenz das Ziel.', praxis:'Methodensicherheit unterscheidet Moderierende von Teilnehmenden in realen Workshops.', extra:'' },
+    2: { skill:'Auftragsklärung & Systemisches Denken', why:'Bevor du löst, musst du das Feld verstehen: Worum geht es nach dem Go-live wirklich, wer ist beteiligt, was hängt zusammen?', praxis:'Entspricht der Auftragsklärung zu Projektbeginn — die Grundlage jeder seriösen Bedarfsanalyse.', extra:'' },
+    3: { skill:'Empathie, Kommunikation & Methodenkompetenz', why:'Im Dialog mit den Personas entwickelst du Empathie und Kommunikationsstärke; jede Methode trainiert gezielt weitere Future Skills — die Methode ist Werkzeug, die Kompetenz das Ziel.', praxis:'Verbindet Stakeholder-Gespräche mit Methodensicherheit — genau das unterscheidet Moderierende von Teilnehmenden.', extra:'' },
     4: { skill:'Reflexions- & Transferkompetenz', why:'Kompetenzen entstehen erst durch Reflexion und Übertragung in den Alltag — nicht durch das Durchlaufen von Phasen.', praxis:'Entspricht Lessons Learned und Transfersicherung nach realen Projekten.', extra:'' }
   };
   function injectCompetenceBanners() {
