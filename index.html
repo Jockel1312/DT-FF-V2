@@ -725,9 +725,9 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
   
 /* ═══ Phase 3: Doppeldiamant-Prozessansicht (Iteration 4) ═══ */
 .dtp-wrap{display:grid;grid-template-columns:1fr 96px 1fr;gap:0;align-items:stretch;margin:0 0 .75rem}
-.dspace{border-radius:14px;padding:1rem 1rem 1.1rem;border:1px solid;position:relative}
-.dspace-problem{background:#EFF6FC;border-color:#C7E0F4}
-.dspace-solution{background:#FFF7ED;border-color:#FDE2C4}
+.dspace{border-radius:var(--r-lg);padding:1rem 1rem 1.1rem;border:1px solid;position:relative}
+.dspace-problem{background:var(--primary-lt);border-color:var(--primary-bd)}
+.dspace-solution{background:var(--amber-lt);border-color:var(--amber-bd)}
 .dspace-title{font-weight:700;font-size:.95rem;letter-spacing:.02em;margin-bottom:.1rem}
 .dspace-sub{font-size:.76rem;opacity:.65;margin-bottom:.9rem}
 .dnodes{display:flex;align-items:flex-start;justify-content:space-between;gap:.2rem}
@@ -736,22 +736,22 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .pnode:hover .pnode-c{transform:translateY(-3px) scale(1.06);box-shadow:0 6px 16px rgba(0,0,0,.25)}
 .pnode.active .pnode-c{outline:3px solid #fff;box-shadow:0 0 0 3px currentColor,0 6px 16px rgba(0,0,0,.28)}
 .pnode-num{position:absolute;top:-6px;right:-6px;background:#fff;color:#333;border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.pnode-done{position:absolute;bottom:-4px;right:-4px;background:#16a34a;color:#fff;border-radius:50%;width:18px;height:18px;font-size:.6rem;display:none;align-items:center;justify-content:center}
+.pnode-done{position:absolute;bottom:-4px;right:-4px;background:var(--green);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.6rem;display:none;align-items:center;justify-content:center}
 .pnode.done .pnode-done{display:flex}
 .pnode-lbl{font-size:.73rem;font-weight:600;line-height:1.15;display:block}
 .pconn{font-size:.95rem;opacity:.4;padding-top:20px;flex:0 0 auto}
 .dtp-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;padding:0 .35rem}
-.dtp-pov{background:var(--c-surface,#fff);border:2px dashed #94A3B8;transform:rotate(45deg);width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.dtp-pov{background:var(--c-surface);border:2px dashed var(--border-2);transform:rotate(45deg);width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:10px}
 .dtp-pov span{transform:rotate(-45deg);font-size:1.05rem}
 .dtp-mid-lbl{font-size:.64rem;text-align:center;opacity:.65;max-width:92px;line-height:1.2}
-.dtp-iter{margin:0 0 1rem;border:1.5px dashed #94A3B8;border-radius:10px;padding:.5rem .8rem;font-size:.8rem;opacity:.85;display:flex;gap:.4rem;align-items:center}
-.pp-panel{border:1px solid var(--c-border,#e2e8f0);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem;background:var(--c-surface,#fff);animation:ppIn .22s ease}
+.dtp-iter{margin:0 0 1rem;border:1.5px dashed var(--border-2);border-radius:var(--r-lg);padding:.5rem .8rem;font-size:.8rem;opacity:.85;display:flex;gap:.4rem;align-items:center}
+.pp-panel{border:1px solid var(--c-border);border-radius:var(--r-lg);padding:1rem 1.1rem;margin-bottom:1rem;background:var(--c-surface,#fff);animation:ppIn .22s ease}
 @keyframes ppIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .pp-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.45rem}
 .pp-ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.15rem;flex:0 0 auto}
 .pp-name{font-weight:700;font-size:1.02rem}
 .pp-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.15rem}
-.pp-badge{font-size:.67rem;padding:.14rem .5rem;border-radius:999px;border:1px solid #CBD5E1;background:#F8FAFC}
+.pp-badge{font-size:.67rem;padding:.14rem .5rem;border-radius:999px;border:1px solid var(--border-2);background:var(--c-surface-alt)}
 .pp-goal{font-size:.89rem;margin:.3rem 0 .45rem}
 .pp-why{font-size:.82rem;opacity:.72;margin-bottom:.55rem}
 .pp-skills{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem}
@@ -760,18 +760,92 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 
 
 /* Iteration 5: Kompetenzorientierung */
-.komp-banner{margin:.65rem 0 1rem;background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #16a34a;border-radius:10px;padding:.6rem .9rem;font-size:.85rem;line-height:1.5}
+.komp-banner{margin:.65rem 0 1rem;background:var(--green-lt);border:1px solid var(--green-bd);border-left:4px solid var(--green);border-radius:var(--r-lg);padding:.6rem .9rem;font-size:.85rem;line-height:1.5}
 .komp-praxis{display:block;font-size:.78rem;opacity:.7;margin-top:.15rem;font-style:italic}
-.pp-reflex{margin-top:.8rem;border-top:1px dashed var(--c-border,#e2e8f0);padding-top:.6rem;font-size:.84rem}
-.sp-wrap{margin:0 0 1.25rem;border:1px solid var(--c-border,#e2e8f0);border-radius:14px;padding:1rem 1.1rem;background:var(--c-surface,#fff)}
+.pp-reflex{margin-top:.8rem;border-top:1px dashed var(--c-border);padding-top:.6rem;font-size:.84rem}
+.sp-wrap{margin:0 0 1.25rem;border:1px solid var(--c-border);border-radius:var(--r-lg);padding:1rem 1.1rem;background:var(--c-surface,#fff)}
 .sp-title{font-weight:700;font-size:.98rem;margin-bottom:.15rem}
 .sp-sub{font-size:.76rem;opacity:.65;margin-bottom:.8rem}
 .sp-row{display:grid;grid-template-columns:180px 1fr 42px;gap:.6rem;align-items:center;margin-bottom:.4rem}
 .sp-lbl{font-size:.8rem;font-weight:600}
-.sp-bar{height:10px;border-radius:999px;background:#EEF2F7;overflow:hidden}
-.sp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#0F6CBD,#02C39A);transition:width .5s ease}
+.sp-bar{height:10px;border-radius:999px;background:var(--c-surface-alt);overflow:hidden}
+.sp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--c-primary),var(--c-accent-mint));transition:width .5s ease}
 .sp-num{font-size:.76rem;text-align:right;opacity:.7}
 @media(max-width:640px){.sp-row{grid-template-columns:130px 1fr 36px}}
+
+
+/* ═══ Iteration 7: Design-Konsolidierung ═══ */
+.sec-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.5rem}
+.sec-label--lg{margin-bottom:.75rem}
+.stack{margin-bottom:var(--s2)}
+.ctx-banner{background:var(--primary-lt);border:1px solid var(--primary-bd);border-radius:var(--r-lg);padding:.6rem .9rem;margin-bottom:var(--s2);font-size:.9rem}
+.ctx-tip{margin-top:.35rem;font-size:.83rem;color:var(--muted)}
+.btn-ghost--sm{font-size:.8rem}
+.briefing{font-size:.9rem;line-height:1.6}
+.briefing ol{margin:.5rem 0 .25rem 1.1rem;padding:0}
+.briefing li{margin-bottom:.35rem}
+.briefing-note{margin-top:.6rem;font-size:.84rem;color:var(--muted)}
+button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focus-visible,.mc-explore:focus-visible,a:focus-visible{outline:2px solid var(--c-primary);outline-offset:2px;border-radius:var(--r)}
+@media(max-width:560px){
+  .pnode-c{width:46px;height:46px;font-size:1rem}
+  .pnode-lbl{font-size:.66rem}
+  .pconn{padding-top:14px;font-size:.8rem}
+  .dtp-iter{font-size:.75rem}
+  .komp-banner{font-size:.8rem}
+}
+
+
+/* ═══ Iteration 8: Ergebnissicherung — Kompetenzmatrix ═══ */
+.km-intro{background:var(--primary-lt);border:1px solid var(--primary-bd);border-radius:var(--r-lg);padding:.7rem .95rem;font-size:.9rem;line-height:1.55;margin-bottom:1rem}
+.km-step-dot{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--c-primary);color:#fff;font-size:.72rem;font-weight:700;margin-right:.35rem}
+.km-table-wrap{overflow-x:auto;border:1px solid var(--c-border);border-radius:var(--r-lg)}
+.km-table{width:100%;border-collapse:collapse;min-width:760px;font-size:.85rem}
+.km-table th{background:var(--c-surface-alt);color:var(--c-text);font-weight:600;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--c-border);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+.km-table td{padding:.35rem .45rem;border-bottom:1px solid var(--c-border);vertical-align:top}
+.km-table tr:last-child td{border-bottom:none}
+.km-cell{width:100%;border:1px solid transparent;background:transparent;border-radius:var(--r);padding:.45rem .5rem;font-family:inherit;font-size:.85rem;color:var(--c-text);resize:vertical;min-height:2.4rem;line-height:1.4;transition:border-color .15s,background .15s}
+.km-cell:hover{background:var(--c-surface-alt)}
+.km-cell:focus{outline:none;border-color:var(--c-primary);background:#fff}
+.km-method-sel{width:100%;border:1px solid var(--c-border);background:#fff;border-radius:var(--r);padding:.45rem .4rem;font-family:inherit;font-size:.83rem;color:var(--c-text)}
+.km-row-done td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+.km-del{background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:1rem;padding:.2rem .3rem;line-height:1;border-radius:var(--r)}
+.km-del:hover{background:var(--amber-lt);color:var(--red)}
+.km-actions{display:flex;align-items:center;gap:1rem;margin-top:.9rem;flex-wrap:wrap}
+.km-progress{font-size:.83rem;color:var(--c-muted);margin-left:auto}
+.km-compare-note,.km-heat-note{font-size:.85rem;color:var(--c-muted);line-height:1.55;margin-bottom:.9rem}
+.km-compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}
+.km-comp-card{border:1px solid var(--c-border);border-radius:var(--r-lg);padding:.75rem .85rem;background:var(--c-surface)}
+.km-comp-card.matched{border-color:var(--green-bd);background:var(--green-lt)}
+.km-comp-head{display:flex;align-items:center;gap:.4rem;font-weight:600;font-size:.92rem;margin-bottom:.3rem}
+.km-comp-tag{font-size:.66rem;padding:.1rem .45rem;border-radius:999px;font-weight:600;margin-left:auto}
+.km-comp-tag.hit{background:var(--green);color:#fff}
+.km-comp-tag.miss{background:var(--c-surface-alt);color:var(--c-muted);border:1px solid var(--c-border)}
+.km-comp-src{font-size:.75rem;color:var(--c-muted);margin-bottom:.35rem}
+.km-comp-desc{font-size:.82rem;line-height:1.5}
+.km-heatmap{display:grid;gap:.4rem}
+.km-heat-row{display:grid;grid-template-columns:150px 1fr;gap:.6rem;align-items:center}
+.km-heat-label{font-size:.8rem;font-weight:600;text-align:right}
+.km-heat-cells{display:flex;gap:.3rem;flex-wrap:wrap}
+.km-heat-cell{font-size:.72rem;padding:.2rem .55rem;border-radius:999px;background:var(--primary-lt);border:1px solid var(--primary-bd);color:var(--c-primary)}
+.km-plenum{margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--border)}
+.km-plenum-qs{margin:.3rem 0 .9rem 1.1rem;padding:0;font-size:.87rem;line-height:1.7}
+.km-export-hint{font-size:.8rem;color:var(--green);margin-left:.6rem}
+@media(max-width:560px){.km-heat-row{grid-template-columns:1fr}.km-heat-label{text-align:left}.km-progress{margin-left:0}}
+
+
+/* Iteration 9: Referenz als Tabelle (Kompetenz × Methode × Entwicklung) */
+.km-ref-table-wrap{overflow-x:auto;border:1px solid var(--c-border);border-radius:var(--r-lg)}
+.km-ref-table{width:100%;border-collapse:collapse;min-width:720px;font-size:.83rem}
+.km-ref-table th{background:var(--c-surface-alt);text-align:left;padding:.55rem .7rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--c-text);border-bottom:2px solid var(--c-border)}
+.km-ref-table td{padding:.55rem .7rem;border-bottom:1px solid var(--c-border);vertical-align:top;line-height:1.5}
+.km-ref-table tr:last-child td{border-bottom:none}
+.km-ref-row.matched{background:var(--green-lt)}
+.km-ref-row.matched .km-ref-komp{box-shadow:inset 3px 0 0 var(--green)}
+.km-ref-komp{font-weight:600;color:var(--c-text)}
+.km-ref-skill{display:inline-block;font-size:.72rem;padding:.14rem .5rem;border-radius:999px;background:var(--primary-lt);border:1px solid var(--primary-bd);color:var(--c-primary)}
+.km-ref-method{color:var(--c-secondary);font-weight:500;font-size:.8rem}
+.km-ref-dev{color:var(--c-muted);font-size:.82rem}
+.km-ref-status{text-align:center;white-space:nowrap}
 
 </style>
 </head>
@@ -1017,15 +1091,15 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
       </div>
     </div>
     <div class="card">
-      <div style="font-size:.9rem; line-height:1.6">
+      <div class="briefing">
         <b>So gehst du vor:</b>
-        <ol style="margin:.5rem 0 .25rem 1.1rem; padding:0">
-          <li style="margin-bottom:.35rem">Im nächsten Schritt wählst du eine <b>Perspektive</b> (Persona) und führst ein Gespräch — dein „lebendes Datenmaterial“.</li>
-          <li style="margin-bottom:.35rem">Aktivierst du eine <b>Gesprächsmethode</b> (z.&nbsp;B. Empathy Map), erhebst du dein Material methodisch geführt.</li>
-          <li style="margin-bottom:.35rem">Im <b>Prozessüberblick</b> siehst du, in welcher Design-Thinking-Phase du dich befindest und welche Kompetenz du gerade entwickelst.</li>
+        <ol>
+          <li>Im nächsten Schritt wählst du eine <b>Perspektive</b> (Persona) und führst ein Gespräch — dein „lebendes Datenmaterial“.</li>
+          <li>Aktivierst du eine <b>Gesprächsmethode</b> (z.&nbsp;B. Empathy Map), erhebst du dein Material methodisch geführt.</li>
+          <li>Im <b>Prozessüberblick</b> siehst du, in welcher Design-Thinking-Phase du dich befindest und welche Kompetenz du gerade entwickelst.</li>
           <li>Hole <b>mehrere Perspektiven</b> ein — gerade die kritischen. Erst dann definierst du das Kernproblem.</li>
         </ol>
-        <div style="margin-top:.6rem; font-size:.84rem; opacity:.7">💡 Design Thinking ist hier das Werkzeug — dein eigentliches Lernziel sind die Future Skills eines Digital Health Managers.</div>
+        <div class="briefing-note">💡 Design Thinking ist hier das Werkzeug — dein eigentliches Lernziel sind die Future Skills eines Digital Health Managers.</div>
       </div>
     </div>
   </div>
@@ -1040,9 +1114,9 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
         <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
       </div>
     </div>
-    <div class="card" style="margin-bottom:1rem">
-      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.5rem">Schritt 1 · Perspektive wählen &amp; im Dialog erheben</div>
-      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.75rem">Wähle eine Berufsrolle</div>
+    <div class="card stack">
+      <div class="sec-label">Schritt 1 · Perspektive wählen &amp; im Dialog erheben</div>
+      <div class="sec-label sec-label--lg">Wähle eine Berufsrolle</div>
       <div class="role-grid" id="roleGrid">
         <button class="role-card" data-role="pflege" onclick="selectRole(this)"><div class="rc-top"><span class="role-icon">🩺</span><span class="rc-age">34 Jahre</span></div><div class="role-name">Anna Brinkmann</div><div class="rc-role">Pflegefachkraft · Praxisanleiterin</div><div class="rc-attrs"><span class="rc-attr">12 J. Berufserfahrung</span><span class="rc-attr">Meinungsführerin im Team</span><span class="rc-attr">CuraDok-Erfahrung 2022</span></div></button>
         <button class="role-card" data-role="oberarzt" onclick="selectRole(this)"><div class="rc-top"><span class="role-icon">👨‍⚕️</span><span class="rc-age">52 Jahre</span></div><div class="role-name">Dr. Jonas Weber</div><div class="rc-role">Oberarzt · Innere / Kardiologie</div><div class="rc-attrs"><span class="rc-attr">24 J. klinische Erfahrung</span><span class="rc-attr">Weiterbildungsverantwortung</span><span class="rc-attr">Evidenz vor Meinung</span></div></button>
@@ -1099,7 +1173,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
     </div>
 
     <div class="card">
-      <div id="p3PerspectiveCtx" style="display:none; background:#EFF6FC; border:1px solid #C7E0F4; border-radius:8px; padding:.6rem .9rem; margin-bottom:1rem; font-size:.9rem;"></div>
+      <div id="p3PerspectiveCtx" class="ctx-banner" style="display:none"></div>
       <div class="method-prog-bar">
         <span class="method-prog-label" id="methodProgLabel">0 / 7 Methoden erkundet</span>
         <div class="method-prog-dots" id="methodProgDots"></div>
@@ -1121,35 +1195,71 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
   <!-- ═══ PHASE 4 — ABSCHLUSS / REFLEXION ═════════════════════════ -->
   <div class="phase" id="phase-4">
     <div class="phase-hdr">
-      <div class="phase-num" style="background:linear-gradient(135deg,#059669,#047857)">4</div>
+      <div class="phase-num" style="background:linear-gradient(135deg,#0F6CBD,#02C39A)">4</div>
       <div>
-        <div class="phase-title">Reflexion &amp; Abschluss</div>
-        <div class="phase-desc">Mache deinen Lernprozess sichtbar. Welche Perspektiven haben sich verändert? Welche Kompetenzen hast du entwickelt? Was nimmst du mit?</div>
-        <div class="phase-chips"><span class="phase-chip">Reflexionsfähigkeit</span><span class="phase-chip">Selbstwahrnehmung</span><span class="phase-chip">Transferkompetenz</span></div>
+        <div class="phase-title">Ergebnissicherung: Deine Kompetenzmatrix</div>
+        <div class="phase-desc">Leitfrage: <b>Welche Kompetenzen benötigt ein Digital Health Manager — und durch welche Design-Thinking-Methode hast du sie in dieser Simulation beobachtet oder entwickelt?</b> Trage deine eigenen Erkenntnisse aus allen Phasen zusammen. Die Kompetenzen werden dir nicht vorgegeben — du leitest sie selbst ab.</div>
       </div>
     </div>
+
     <div class="card">
-      <div class="sp-wrap" id="skillProfile"></div>
-      <div class="ref-qs" style="margin-bottom:1.25rem">
-        <div class="ref-q" id="refPersonaQ" style="display:none"><div class="ref-q-lbl" id="refPersonaQLbl"></div><textarea placeholder="Beschreibe, wie sich dein Blick auf diese Rolle verändert hat und wo ihre Bedürfnisse in deiner Lösung stecken…"></textarea></div>
-        <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven anderer Berufsgruppen waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
-        <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Konflikte und Spannungen zwischen Berufsgruppen wurden sichtbar?</div><textarea placeholder="z.B. der Konflikt zwischen Zeitdruck auf Station und IT-Schulungsanforderungen…"></textarea></div>
-        <div class="ref-q"><div class="ref-q-lbl">🌱 Welche Future Skills hast du in diesem Workshop entwickelt oder genutzt?</div><textarea placeholder="z.B. Empathie beim Perspektivwechsel, systemisches Denken bei der Stakeholder-Analyse…"></textarea></div>
-        <div class="ref-q"><div class="ref-q-lbl">🔄 Was nimmst du konkret mit in deinen Berufsalltag?</div><textarea placeholder="z.B. Ich möchte vor Entscheidungen bewusster andere Perspektiven einholen…"></textarea></div>
+      <div class="km-intro">
+        <span class="km-step-dot">1</span> Fülle die Matrix aus deiner Erinnerung an Dialoge, Methoden und Problemlösung. Jede Zeile ist ein selbst erkannter Zusammenhang. <b>Erst wenn du mindestens drei Zeilen vollständig ausgefüllt hast</b>, erscheint eine fachliche Kompetenz-Referenz zum Abgleich.
       </div>
 
-      <div style="padding-top:1.1rem;border-top:1px solid var(--border)">
-        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.6rem">Vertiefung: Reflexionsgespräch mit KI</div>
+      <div class="km-table-wrap">
+        <table class="km-table" id="kmTable">
+          <thead>
+            <tr>
+              <th style="width:16%">Design-Thinking-Methode</th>
+              <th style="width:26%">Beobachtete Situation / Erkenntnis</th>
+              <th style="width:18%">Abgeleitete Kompetenz</th>
+              <th style="width:18%">Zugehöriger Future Skill</th>
+              <th style="width:22%">Begründung</th>
+            </tr>
+          </thead>
+          <tbody id="kmBody"><!-- Zeilen via JS --></tbody>
+        </table>
+      </div>
+      <div class="km-actions">
+        <button class="btn-ghost" onclick="kmAddRow()">+ Zeile hinzufügen</button>
+        <span class="km-progress" id="kmProgress">0 vollständige Zeilen</span>
+        <button class="btn-next" id="kmRevealBtn" onclick="kmReveal()" disabled>Vergleich freischalten →</button>
+      </div>
+    </div>
+
+    <!-- Experten-Vergleich (erst nach Freischaltung sichtbar) -->
+    <div class="card km-compare" id="kmCompare" style="display:none">
+      <div class="sec-label">2 · Abgleich mit einer fachlichen Kompetenz-Referenz</div>
+      <div class="km-compare-note">Kein Richtig oder Falsch: Die Tabelle bündelt zentrale Kompetenzfelder eines Digital Health Managers und zeigt je Kompetenz den zugehörigen Future Skill, eine passende Design-Thinking-Methode und einen möglichen Entwicklungsweg. Die Spalte „Dein Abgleich“ markiert, welche davon in deiner eigenen Matrix bereits auftauchen — als Orientierung für deine Reflexion.</div>
+      <div id="kmCompareGrid" class="km-compare-grid"><!-- via JS --></div>
+
+      <div class="sec-label" style="margin-top:1.4rem">3 · Methoden-Kompetenz-Landkarte (aus deinen Einträgen)</div>
+      <div class="km-heat-note">Verdichtung deiner eigenen Matrix: Welche Methode hast du mit welcher Kompetenz verknüpft? Genau diese Zuordnung ist der Kern der Methoden-Kompetenz-Matrix der Arbeit.</div>
+      <div id="kmHeatmap" class="km-heatmap"><!-- via JS --></div>
+
+      <div class="km-plenum">
+        <div class="sec-label">4 · Diskussionsgrundlage fürs Plenum</div>
+        <ul class="km-plenum-qs">
+          <li>Welche Kompetenzen wurden in eurer Gruppe besonders häufig erkannt?</li>
+          <li>Welche Design-Thinking-Methode fördert aus eurer Sicht welche Kompetenz am stärksten?</li>
+          <li>Welche Unterschiede ergeben sich zwischen den Gruppen — und warum?</li>
+          <li>Welche Kompetenzen haben die Expert:innen zusätzlich genannt, die ihr nicht auf dem Schirm hattet?</li>
+        </ul>
+        <button class="btn-ghost" onclick="kmExport()">📋 Meine Matrix als Text kopieren</button>
+        <span class="km-export-hint" id="kmExportHint"></span>
+      </div>
+
+      <div style="padding-top:1.2rem;margin-top:1.2rem;border-top:1px solid var(--border)">
+        <div class="sec-label">Optional · Reflexionsgespräch mit KI</div>
         <button class="ai-btn" id="evalStartBtn" onclick="toggleEvaluation()" style="margin-bottom:0">🪷 Reflexionsgespräch starten</button>
         <div class="eval-chat-panel" id="evalChatPanel">
           <div class="eval-chat-hdr"><span>🪷</span><span>Reflexions-Begleitung — <strong>interaktiv &amp; lernorientiert</strong></span></div>
-          <div class="eval-msgs" id="evalMessages"></div>
-          <div class="eval-typing" id="evalTyping"><span></span><span></span><span></span></div>
+          <div class="eval-msgs" id="evalMsgs"></div>
           <div class="eval-input-row">
-            <input type="text" id="evalInput" placeholder="Deine Reflexion…" maxlength="600" onkeydown="if(event.key==='Enter') sendEvalMessage()"/>
-            <button onclick="sendEvalMessage()" id="evalSendBtn">Antworten</button>
+            <input type="text" id="evalInput" class="eval-input" placeholder="Deine Antwort…" onkeydown="if(event.key===\'Enter\')sendEvalMessage()">
+            <button class="eval-send" onclick="sendEvalMessage()">Senden</button>
           </div>
-          <div class="eval-actions"><button class="btn-ghost" onclick="resetEvaluation()">Neu starten</button></div>
         </div>
       </div>
     </div>
@@ -2706,7 +2816,7 @@ WICHTIG:
     const total = PHASE_LABELS.length;
     n = Math.max(0, Math.min(total - 1, n));
     currentPhase = n;
-    if (n === 4 && typeof renderSkillProfile === 'function') renderSkillProfile();
+    if (n === 4 && typeof initCompetencyMatrix === 'function') initCompetencyMatrix();
     document.querySelectorAll('.phase').forEach((el, i) => el.classList.toggle('active', i === n));
     document.querySelectorAll('.step').forEach((el, i) => {
       el.classList.remove('active','done');
@@ -2942,9 +3052,9 @@ WICHTIG:
       if (activeRole && ROLES[activeRole]) {
         let html = '🧭 <b>Dein Fall-Anker:</b> ' + ROLES[activeRole].name +
           ' &nbsp;·&nbsp; <b>Eingeholte Perspektiven:</b> ' + n + ' / ' + totalRoles +
-          ' &nbsp; <button class="btn-ghost" style="font-size:.8rem" onclick="goToPhase(2)">↩ Zurück zum Gespräch</button>';
+          ' &nbsp; <button class="btn-ghost btn-ghost--sm" onclick="var w=document.getElementById(\'chatWrap\'); if(w) w.scrollIntoView({behavior:\'smooth\',block:\'center\'})">↩ Zum Gespräch</button>';
         if (n < 2) {
-          html += '<div style="margin-top:.35rem; font-size:.83rem; opacity:.75">Tipp: Hole mindestens zwei Kontrastperspektiven ein — z. B. einen blockierenden Change-Typ wie den Oberarzt oder den Betriebsrat —, bevor du das Problem definierst.</div>';
+          html += '<div class="ctx-tip">Tipp: Hole mindestens zwei Kontrastperspektiven ein — z. B. einen blockierenden Change-Typ wie den Oberarzt oder den Betriebsrat —, bevor du das Problem definierst.</div>';
         }
         box.innerHTML = html;
         box.style.display = 'block';
@@ -3688,6 +3798,136 @@ WICHTIG:
   const skillCounts = {};
   const SKILL_LABELS = { 'skill-empathie':'Empathie','skill-systemisch':'Systemisches Denken','skill-problem':'Problemlösung','skill-kommunikation':'Kommunikation','skill-digital':'Digitale Kompetenz','skill-reflexion':'Selbstreflexion','skill-transformation':'Transformationskompetenz','skill-kreativitaet':'Kreativität','skill-analytisch':'Analytisches Denken','skill-kollaboration':'Kollaboration','skill-adaption':'Adaptionsfähigkeit','skill-oekonomie':'Ökonomische Kompetenz' };
   function bumpSkill(id, n) { skillCounts[id] = (skillCounts[id] || 0) + (n || 1); }
+  /* ═══ Iteration 8: Ergebnissicherung — selbst auszufüllende Kompetenzmatrix ═══ */
+  const KM_METHODS = ['— wählen —','Empathy Map','Stakeholder Map','Persona','Problem Definition','Ideation','Prototyping','Reflexion'];
+
+  /* Fachliche Kompetenz-Referenz für Digital Health Manager (neutrale Orientierung, keine Bewertung) */
+  const KM_REF = [
+    { komp:'Empathie', skill:'Empathie', methode:'Empathy Map · Persona', entwicklung:'Erfahrbar durch echten Perspektivwechsel im Dialog — kaum lehrbar, aber im Rollengespräch erlebbar und reflektierbar.', keys:['empath','einfühl','perspektiv','zuhör','bedürfnis'] },
+    { komp:'Kommunikation & Überzeugen', skill:'Kommunikation', methode:'Stakeholder Map · Persona', entwicklung:'Übung im dialogischen Aushandeln: „ein Warum geben“, Storytelling, Argumentieren gegen Widerstand.', keys:['kommunik','überzeug','gespräch','storytell','warum'] },
+    { komp:'Systemisches Denken', skill:'Systemisches Denken', methode:'Stakeholder Map', entwicklung:'Beziehungen, Abhängigkeiten und Machtdynamiken sichtbar machen und übereinanderlegen.', keys:['system','zusammenhang','prozess','vernetz','komplex','hierarch'] },
+    { komp:'Ökonomische Kompetenz', skill:'Ökonomische Kompetenz', methode:'Ideation · Prototyping', entwicklung:'Ideen konsequent gegen Aufwand, Nutzen, Business Case und KPIs prüfen, bevor umgesetzt wird.', keys:['ökonom','wirtschaft','kosten','nutzen','budget','roi','business','kpi','return'] },
+    { komp:'Adaptions-/Ambiguitätskompetenz', skill:'Adaptionsfähigkeit', methode:'Prototyping · Testen', entwicklung:'Iteratives Vor- und Zurückspringen aushalten; auf Feedback flexibel reagieren statt am Plan festzuhalten.', keys:['adaption','anpass','flexibel','ambigu','unsicher','wandel'] },
+    { komp:'Kritisches Denken / Problemlösung', skill:'Problemlösung', methode:'Problem Definition', entwicklung:'Symptome von Ursachen trennen, ein präzises Kernproblem formulieren, systemische Fragen stellen.', keys:['kritisch','problem','lösung','analyse','ursache','denk'] },
+    { komp:'Reflexionsfähigkeit', skill:'Selbstreflexion', methode:'Reflexion (Testen)', entwicklung:'Gezielte Reflexionsfragen zu Prozess und eigenem Handeln; Grundlage der Verstetigung.', keys:['reflex','nachdenk','bewusst','selbst','lernprozess'] },
+    { komp:'Innovations-/Kreativitätskompetenz', skill:'Kreativität', methode:'Ideation', entwicklung:'Divergentes Denken üben: viele Ideen erzeugen, bevor bewertet wird (Quantität vor Qualität).', keys:['innovat','kreativ','idee','experiment','neu'] },
+    { komp:'Change-/Widerstandskompetenz', skill:'Transformationskompetenz', methode:'Stakeholder Map · Persona', entwicklung:'Change-Typen (offen/abwartend/blockierend) erkennen und Betroffene gezielt durch den Wandel begleiten.', keys:['change','widerstand','transformation','veränderung','betroffen'] },
+    { komp:'Intrinsische Motivation wecken', skill:'Kommunikation', methode:'Persona · Reflexion', entwicklung:'Sinn und persönlichen Nutzen sichtbar machen; Motivation lässt sich nicht verordnen, nur ermöglichen.', keys:['motivation','intrinsisch','eigenverantwort','selbstführung'] }
+  ];
+
+  function kmRowTemplate(idx){
+    const opts = KM_METHODS.map(function(m){ return '<option value="'+(m==='— wählen —'?'':m)+'">'+m+'</option>'; }).join('');
+    return '<tr id="kmr-'+idx+'">' +
+      '<td><select class="km-method-sel" onchange="kmUpdate()">'+opts+'</select></td>' +
+      '<td><textarea class="km-cell" rows="1" placeholder="Was hast du konkret beobachtet?" oninput="kmUpdate()"></textarea></td>' +
+      '<td><textarea class="km-cell" rows="1" placeholder="Welche Kompetenz steckt darin?" oninput="kmUpdate()"></textarea></td>' +
+      '<td><textarea class="km-cell" rows="1" placeholder="Welcher Future Skill?" oninput="kmUpdate()"></textarea></td>' +
+      '<td style="display:flex;gap:.2rem"><textarea class="km-cell" rows="1" placeholder="Warum dieser Zusammenhang?" oninput="kmUpdate()"></textarea>' +
+      '<button class="km-del" title="Zeile löschen" onclick="kmDelRow('+idx+')">✕</button></td>' +
+      '</tr>';
+  }
+  let kmRowCount = 0;
+  function kmAddRow(){
+    const body = document.getElementById('kmBody');
+    if (!body) return;
+    body.insertAdjacentHTML('beforeend', kmRowTemplate(kmRowCount));
+    kmRowCount++;
+    kmUpdate();
+  }
+  function kmDelRow(i){
+    const r = document.getElementById('kmr-'+i);
+    if (r) r.remove();
+    kmUpdate();
+  }
+  function kmReadRows(){
+    const rows = [];
+    document.querySelectorAll('#kmBody tr').forEach(function(tr){
+      const sel = tr.querySelector('select');
+      const tas = tr.querySelectorAll('textarea');
+      const rec = { method: sel ? sel.value : '', situation: tas[0].value.trim(), kompetenz: tas[1].value.trim(), skill: tas[2].value.trim(), begruendung: tas[3].value.trim() };
+      rec.complete = rec.method && rec.situation && rec.kompetenz && rec.skill;
+      rows.push({ tr:tr, rec:rec });
+    });
+    return rows;
+  }
+  function kmUpdate(){
+    const rows = kmReadRows();
+    let done = 0;
+    rows.forEach(function(o){
+      o.tr.classList.toggle('km-row-done', o.rec.complete);
+      if (o.rec.complete) done++;
+    });
+    const prog = document.getElementById('kmProgress');
+    if (prog) prog.textContent = done + ' vollständige Zeile' + (done===1?'':'n') + (done<3 ? ' · noch '+(3-done)+' bis zum Vergleich' : '');
+    const btn = document.getElementById('kmRevealBtn');
+    if (btn) btn.disabled = done < 3;
+  }
+  function kmReveal(){
+    const rows = kmReadRows().filter(function(o){ return o.rec.complete; });
+    if (rows.length < 3) return;
+    const mine = rows.map(function(o){ return o.rec; });
+    const text = mine.map(function(r){ return (r.kompetenz+' '+r.skill+' '+r.begruendung+' '+r.situation).toLowerCase(); }).join(' ');
+
+    // Vergleichskarten
+    const grid = document.getElementById('kmCompareGrid');
+    let matched = 0;
+    const rowsHtml = KM_REF.map(function(e){
+      const hit = e.keys.some(function(k){ return text.includes(k); });
+      if (hit) matched++;
+      return '<tr class="km-ref-row'+(hit?' matched':'')+'">' +
+        '<td class="km-ref-komp">'+e.komp+'</td>' +
+        '<td><span class="km-ref-skill">'+e.skill+'</span></td>' +
+        '<td class="km-ref-method">'+e.methode+'</td>' +
+        '<td class="km-ref-dev">'+e.entwicklung+'</td>' +
+        '<td class="km-ref-status"><span class="km-comp-tag '+(hit?'hit':'miss')+'">'+(hit?'✓ erkannt':'ergänzend')+'</span></td>' +
+        '</tr>';
+    }).join('');
+    grid.innerHTML =
+      '<div class="km-ref-table-wrap"><table class="km-ref-table">' +
+      '<thead><tr>' +
+        '<th style="width:20%">Kompetenz</th>' +
+        '<th style="width:16%">Future Skill</th>' +
+        '<th style="width:18%">Passende DT-Methode</th>' +
+        '<th style="width:32%">Wie entwickelt sie sich?</th>' +
+        '<th style="width:14%">Dein Abgleich</th>' +
+      '</tr></thead><tbody>' + rowsHtml + '</tbody></table></div>';
+
+    // Heatmap aus eigenen Einträgen: Methode → Kompetenzen
+    const byMethod = {};
+    mine.forEach(function(r){ (byMethod[r.method] = byMethod[r.method] || []).push(r.kompetenz); });
+    const heat = document.getElementById('kmHeatmap');
+    heat.innerHTML = Object.keys(byMethod).map(function(m){
+      const cells = byMethod[m].map(function(k){ return '<span class="km-heat-cell">'+k+'</span>'; }).join('');
+      return '<div class="km-heat-row"><div class="km-heat-label">'+m+'</div><div class="km-heat-cells">'+cells+'</div></div>';
+    }).join('');
+
+    const cmp = document.getElementById('kmCompare');
+    cmp.style.display = 'block';
+    // Reveal-Button in Auswertungslink verwandeln
+    const btn = document.getElementById('kmRevealBtn');
+    btn.textContent = matched + ' von ' + KM_REF.length + ' Referenz-Kompetenzen abgedeckt';
+    btn.disabled = true;
+    cmp.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  function kmExport(){
+    const rows = kmReadRows().filter(function(o){ return o.rec.complete; }).map(function(o){ return o.rec; });
+    let out = 'MEINE KOMPETENZMATRIX — Digital Health Manager\n\n';
+    rows.forEach(function(r,i){
+      out += (i+1)+'. '+r.method+'\n   Beobachtung: '+r.situation+'\n   Kompetenz: '+r.kompetenz+'\n   Future Skill: '+r.skill+'\n   Begründung: '+(r.begruendung||'—')+'\n\n';
+    });
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(out).then(function(){
+        const h=document.getElementById('kmExportHint'); if(h){ h.textContent='✓ kopiert'; setTimeout(function(){h.textContent='';},2500); }
+      });
+    }
+  }
+  function initCompetencyMatrix(){
+    const body = document.getElementById('kmBody');
+    if (!body || body.dataset.built) return;
+    body.dataset.built = '1';
+    kmAddRow(); kmAddRow(); kmAddRow();
+  }
+
   function renderSkillProfile() {
     const wrap = document.getElementById('skillProfile');
     if (!wrap) return;
