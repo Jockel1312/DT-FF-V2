@@ -999,6 +999,8 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
           <button class="dt-pill" data-method="persona"           onclick="applyDTMethod(this)">🪞 Persona</button>
           <button class="dt-pill" data-method="problemDefinition" onclick="applyDTMethod(this)">🎯 Problem</button>
           <button class="dt-pill" data-method="ideation"          onclick="applyDTMethod(this)">💡 Ideation</button>
+          <button class="dt-pill" data-method="prototyping"       onclick="applyDTMethod(this)">🛠️ Prototyping</button>
+          <button class="dt-pill" data-method="reflexion"         onclick="applyDTMethod(this)">🔄 Reflexion</button>
         </div>
         <div class="skills-strip">
           <div class="skills-strip-hd">🎯 Aktive Future Skills</div>
@@ -1329,13 +1331,41 @@ WICHTIG:
   `.trim();
 
   const DT_METHODS = {
-    empathyMap:        'Nutze die Empathy Map. Hilf beim Erkunden von Gedanken, Gefühlen, Sorgen und Bedürfnissen. Stelle konkrete Rückfragen.',
-    stakeholderMap:    'Begleite die Stakeholder-Analyse. Frage nach Konflikten, Machtdynamiken und Kooperationen.',
-    persona:           'Hilf beim Erstellen einer Persona. Frage nach Zielen, Frustrationen, digitalen Kompetenzen und Erwartungen.',
-    problemDefinition: 'Unterstütze die Problemdefinition. Trenne Symptome von Ursachen. Hilf beim PoV-Statement.',
-    ideation:          'Rege kreative Ideen an. Schlage Impulse aus verschiedenen Perspektiven vor.',
-    prototyping:       'Begleite Prototyping. Hilf beim Definieren von Testannahmen und Erfolgskriterien.',
-    reflexion:         'Unterstütze Reflexion über Future Skills. Stelle offene Fragen zu Lernprozessen.'
+    empathyMap: {
+      ctx: 'Das Gespräch findet im Rahmen einer Empathy-Map-Erhebung statt. Bleibe vollständig in deiner Rolle und lass dich auf die Befragung ein: Antworte besonders offen und konkret zu dem, was du im Kontext des Falls denkst, fühlst, siehst, hörst, sagst und tust, sowie zu deinen Sorgen (Pains) und Hoffnungen (Gains). Liefere pro Antwort greifbares Material für die Empathy Map, ohne die Methode selbst zu erklären oder aus der Rolle zu fallen.',
+      start: 'Ich möchte gemeinsam mit Ihnen eine Empathy Map zu Ihrer Perspektive erarbeiten. Zum Einstieg: Was geht Ihnen durch den Kopf, wenn Sie an den Go-live und die Zeit danach denken — und welches Gefühl überwiegt dabei?',
+      skills: ['skill-empathie','skill-kommunikation']
+    },
+    stakeholderMap: {
+      ctx: 'Das Gespräch dient einer Stakeholder-Analyse. Bleibe vollständig in deiner Rolle und sprich offen über Beziehungen, Allianzen, Konflikte, Einfluss und Interessen — deine eigenen und die der anderen Beteiligten aus deiner Sicht. Benenne konkret, wer dich unterstützt, wer bremst, wo Machtdynamiken wirken und wovon deine Kooperation abhängt.',
+      start: 'Lassen Sie uns Ihre Sicht auf die Beteiligten sortieren: Wer sind aus Ihrer Perspektive die wichtigsten Akteure rund um das Projekt — wer unterstützt Sie, mit wem gibt es Spannungen, und wessen Einfluss wird vielleicht unterschätzt?',
+      skills: ['skill-systemisch','skill-kollaboration']
+    },
+    persona: {
+      ctx: 'Das Gespräch dient dem Erstellen einer Persona über deine Rolle. Bleibe vollständig in deiner Rolle und gib bereitwillig Auskunft zu deinen Zielen, Frustrationen, deinem Arbeitsalltag, deinen digitalen Kompetenzen, Gewohnheiten und Erwartungen — so konkret, dass daraus ein realistisches Persona-Profil entstehen kann. Erstelle die Persona nicht selbst; das ist Aufgabe der lernenden Person.',
+      start: 'Ich möchte auf Basis unseres Gesprächs eine Persona zu Ihrer Rolle erstellen. Erzählen Sie mir zunächst von einem typischen Arbeitstag: Was sind Ihre wichtigsten Ziele — und was frustriert Sie dabei am meisten?',
+      skills: ['skill-empathie','skill-analytisch']
+    },
+    problemDefinition: {
+      ctx: 'Das Gespräch dient der Problemdefinition. Bleibe vollständig in deiner Rolle und hilf durch deine Schilderungen, Symptome von Ursachen zu trennen: Beschreibe konkrete Situationen, in denen das Problem auftritt, was es auslöst und welche Folgen es hat. Nimm der lernenden Person die Formulierung des Point-of-View-Statements nicht ab.',
+      start: 'Ich möchte mit Ihnen das eigentliche Kernproblem herausarbeiten. Beschreiben Sie mir eine konkrete Situation aus den letzten Wochen, in der das Problem für Sie am deutlichsten spürbar war — was genau ist da passiert?',
+      skills: ['skill-problem','skill-analytisch']
+    },
+    ideation: {
+      ctx: 'Das Gespräch findet im Rahmen einer Ideation statt. Bleibe vollständig in deiner Rolle: Reagiere auf Lösungsideen aus deiner Perspektive, ergänze eigene Impulse aus deinem Arbeitsalltag und benenne ehrlich, was aus deiner Sicht funktionieren würde und was nicht — auch mit Blick auf Aufwand und Nutzen. Liefere keine fertige Gesamtlösung.',
+      start: 'Lassen Sie uns gemeinsam Ideen entwickeln — ganz offen, Quantität vor Qualität: Wenn Sie freie Hand hätten, was würden Sie als Erstes ändern oder ausprobieren, damit der Go-live für Ihren Bereich gelingt?',
+      skills: ['skill-kreativitaet','skill-oekonomie']
+    },
+    prototyping: {
+      ctx: 'Das Gespräch dient dem Prototyping. Bleibe vollständig in deiner Rolle: Reagiere auf den vorgestellten Prototyp bzw. Lösungsansatz so, wie du ihn in deinem Arbeitsalltag erleben würdest — mit ehrlichem Feedback zu Nutzen, Hürden, Risiken und Kosten. Hilf, Testannahmen und Erfolgskriterien zu schärfen, ohne sie selbst vorzugeben.',
+      start: 'Ich möchte einen Lösungsansatz mit Ihnen durchspielen und dabei Testannahmen schärfen. Darf ich Ihnen kurz die Idee schildern — und Sie sagen mir dann ganz ehrlich, wie sie in Ihrem Alltag ankommen würde?',
+      skills: ['skill-analytisch','skill-oekonomie']
+    },
+    reflexion: {
+      ctx: 'Das Gespräch dient der Reflexion. Bleibe vollständig in deiner Rolle und gib der lernenden Person ehrliches, konkretes Feedback aus deiner Perspektive: Was hat sie im Gespräch mit dir gut gemacht, wo hat sie dich erreicht oder nicht erreicht, und was würdest du ihr für ähnliche Situationen mitgeben? Benenne Fortschritt und Lücken gleichermaßen.',
+      start: 'Zum Abschluss würde ich gern reflektieren: Wie haben Sie unser Gespräch erlebt — wo habe ich Sie erreicht, wo nicht, und was würden Sie mir für ähnliche Gespräche mitgeben?',
+      skills: ['skill-reflexion','skill-adaption']
+    }
   };
 
   const STAKEHOLDER_INFO = {
@@ -2872,7 +2902,7 @@ WICHTIG:
         ' Verhalte dich entsprechend authentisch — Widerstand ist begründet, nicht künstlich negativ.';
     }
     if (activeDTMethod && DT_METHODS[activeDTMethod]) {
-      systemPrompt += '\n\nAKTIVER METHODEN-KONTEXT (Gespräch findet im Rahmen dieser DT-Methode statt): ' + DT_METHODS[activeDTMethod];
+      systemPrompt += '\n\nAKTIVER METHODEN-KONTEXT (Gespräch findet im Rahmen dieser DT-Methode statt): ' + DT_METHODS[activeDTMethod].ctx;
     }
 
     const messages = chatHistory.slice(-10);
@@ -2922,6 +2952,21 @@ WICHTIG:
       document.getElementById('dtBannerIcon').textContent = meta.icon + ' ';
       document.getElementById('dtBannerName').textContent = meta.name;
       document.getElementById('dtActiveBanner').classList.add('visible');
+    }
+    /* Iteration 2 (Interview-Befunde B2/B4): Methode sichtbar machen —
+       zugehörige Future Skills vorab aktivieren und den gemeinsamen
+       Methodendurchlauf mit der Persona erkennbar starten. */
+    const method = DT_METHODS[activeDTMethod];
+    if (method && method.skills) {
+      method.skills.forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.classList.add('active');
+      });
+    }
+    if (method && method.start && activeRole) {
+      const input = document.getElementById('userInput');
+      input.value = method.start;
+      sendMessage();
     }
   }
 
