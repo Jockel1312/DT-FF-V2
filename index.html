@@ -860,6 +860,64 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
 
 
 .cs-pullquote-src{display:block;margin-top:.5rem;font-size:.78rem;font-style:normal;color:var(--c-muted)}
+
+/* Iteration 11: Drei-Akt-Navigation + verdeckter Kompetenzmodus */
+#sn-1{display:none}
+.side-tools{margin-top:auto;padding-top:.8rem;border-top:1px solid var(--c-border);display:flex;flex-direction:column;gap:.25rem}
+.side-tool{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;font-size:.78rem;color:var(--c-muted);border:none;background:none;cursor:pointer;text-align:left;font-family:inherit}
+.side-tool:hover{background:#EDF1F6;color:var(--c-text)}
+.side-tool.on{color:var(--c-primary);font-weight:600}
+body:not(.dozent) .skills-strip,
+body:not(.dozent) .komp-banner,
+body:not(.dozent) .pp-skills,
+body:not(.dozent) .komp-reveal,
+body:not(.dozent) #phase-0 .phase-chips,
+body:not(.dozent) #phase-2 .phase-chips,
+body:not(.dozent) #phase-3 .phase-chips{display:none!important}
+
+
+/* Iteration 11: Mandat & Erstkontakt */
+.mandat-box{background:var(--primary-lt);border:1px solid var(--primary-bd);border-left:4px solid var(--c-primary);border-radius:var(--r-lg);padding:.9rem 1.05rem}
+.mandat-from{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-primary);margin-bottom:.4rem}
+.mandat-text{font-size:.93rem;line-height:1.65;font-style:italic}
+.mandat-q{margin-top:.6rem;font-weight:700;font-size:.95rem}
+.fc-hint{font-size:.84rem;color:var(--c-muted);margin-bottom:.7rem}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;margin-bottom:.8rem}
+.fc-card{display:flex;align-items:center;gap:.55rem;border:1.5px solid var(--c-border);border-radius:var(--r-lg);padding:.5rem .65rem;background:var(--c-surface);cursor:pointer;font-family:inherit;text-align:left;transition:border-color .15s,background .15s}
+.fc-card:hover{border-color:var(--c-primary)}
+.fc-card.sel{border-color:var(--c-primary);background:var(--primary-lt)}
+.fc-ic{font-size:1.15rem;flex:none}
+.fc-nm{font-size:.82rem;font-weight:600;line-height:1.2}
+.fc-rl{font-size:.7rem;color:var(--c-muted);line-height:1.2}
+.fc-reason{width:100%;border:1px solid var(--c-border);border-radius:var(--r);padding:.55rem .7rem;font-family:inherit;font-size:.87rem;margin-bottom:.8rem}
+.fc-reason:focus{outline:none;border-color:var(--c-primary)}
+.fc-actions{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.fc-note{font-size:.8rem;color:var(--c-muted)}
+.beat-card{background:#FFFDF5;border:1px solid var(--amber-bd);border-left:4px solid var(--amber,#B45309);border-radius:var(--r-lg);padding:.7rem .95rem;margin-bottom:1rem;animation:ppIn .25s ease}
+.beat-kicker{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#92600A;margin-bottom:.25rem}
+.beat-from{font-size:.78rem;font-weight:600;margin-bottom:.2rem}
+.beat-text{font-size:.86rem;line-height:1.55}
+.beat-dismiss{background:none;border:none;color:var(--c-muted);cursor:pointer;font-size:.76rem;padding:.2rem 0;margin-top:.3rem;font-family:inherit;text-decoration:underline}
+.coach-card{background:var(--green-lt);border:1px solid var(--green-bd);border-left:4px solid var(--green);border-radius:var(--r-lg);padding:.7rem .95rem;margin-bottom:1rem;animation:ppIn .25s ease}
+.coach-kicker{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-bottom:.25rem}
+.coach-q{font-size:.88rem;line-height:1.55}
+
+
+/* Iteration 11: Finale */
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.9rem}
+.fin-f{display:flex;flex-direction:column;gap:.25rem}
+.fin-f span{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-muted)}
+.fin-f textarea{border:1px solid var(--c-border);border-radius:var(--r);padding:.5rem .65rem;font-family:inherit;font-size:.86rem;resize:vertical;line-height:1.5}
+.fin-f textarea:focus{outline:none;border-color:var(--c-primary)}
+.fin-f:last-child{grid-column:1/-1}
+.fin-chat{margin-top:1rem;border-top:1px solid var(--c-border);padding-top:.9rem}
+.fin-chat-hd{font-size:.8rem;font-weight:700;color:var(--c-primary);margin-bottom:.5rem}
+.fin-msgs{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.7rem}
+.fin-m{border-radius:var(--r-lg);padding:.55rem .8rem;font-size:.87rem;line-height:1.55;max-width:92%}
+.fin-m.gf{background:var(--primary-lt);border:1px solid var(--primary-bd);align-self:flex-start}
+.fin-m.me{background:var(--c-surface-alt);border:1px solid var(--c-border);align-self:flex-end}
+@media(max-width:640px){.fin-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -869,12 +927,12 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
   <!-- SIDEBAR: Prozessnavigation -->
   <nav class="side" aria-label="Phasennavigation">
     <div class="brand">Fast-Forward-Studio<small id="brandCase">Simulation</small></div>
-    <div class="nav-label">Lernprozess</div>
-    <button class="nav-item" id="sn-0" onclick="goToPhase(0)"><span class="n">0</span> Einführung</button>
-    <button class="nav-item" id="sn-1" onclick="goToPhase(1)"><span class="n">1</span> Grundlagen</button>
-    <button class="nav-item" id="sn-2" onclick="goToPhase(2)"><span class="n">2</span> Rollenwahl</button>
-    <button class="nav-item" id="sn-3" onclick="goToPhase(3)"><span class="n">3</span> Methoden</button>
-    <button class="nav-item" id="sn-4" onclick="goToPhase(4)"><span class="n">4</span> Abschluss</button>
+    <div class="nav-label">Projekt</div>
+    <button class="nav-item" id="sn-0" onclick="goToPhase(0)"><span class="n">0</span> Mandat</button>
+    <button class="nav-item" id="sn-1" onclick="goToPhase(1)"><span class="n">1</span> Glossar</button>
+    <button class="nav-item" id="sn-2" onclick="goToPhase(2)"><span class="n">2</span> Projektstart</button>
+    <button class="nav-item" id="sn-3" onclick="goToPhase(3)"><span class="n">3</span> Projektarbeit</button>
+    <button class="nav-item" id="sn-4" onclick="goToPhase(4)"><span class="n">4</span> Projektabschluss</button>
     <div class="nav-label">Ressourcen</div>
     <button class="nav-item" onclick="goToPhase(1)">📖 Glossar</button>
     <button class="nav-item" onclick="goToPhase(0)">🗂 Fallstudie „Go-live. Und dann?"</button>
@@ -1063,8 +1121,8 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
     <div class="phase-hdr">
       <div class="phase-num" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">📖</div>
       <div>
-        <div class="phase-title">Grundlagen &amp; Glossar</div>
-        <div class="phase-desc">Bevor du in eine Rolle schlüpfst — ein klarer Blick auf die zentralen Begriffe: Kompetenzen, Future Skills, Design Thinking, Fast Forward.</div>
+        <div class="phase-title">Glossar &amp; Nachschlagewerk</div>
+        <div class="phase-desc">Bei Bedarf: Fachbegriffe und Grundlagen zum Nachschlagen — jederzeit über die Seitenleiste erreichbar. Das Projekt wartet solange.</div>
       </div>
     </div>
     <div class="card">
@@ -1115,20 +1173,24 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
       </div>
     </div>
     <div class="card">
-      <div class="briefing">
-        <b>So gehst du vor:</b>
-        <ol>
-          <li>Im nächsten Schritt wählst du eine <b>Perspektive</b> (Persona) und führst ein Gespräch — dein „lebendes Datenmaterial“.</li>
-          <li>Aktivierst du eine <b>Gesprächsmethode</b> (z.&nbsp;B. Empathy Map), erhebst du dein Material methodisch geführt.</li>
-          <li>Im <b>Prozessüberblick</b> siehst du, in welcher Design-Thinking-Phase du dich befindest und welche Kompetenz du gerade entwickelst.</li>
-          <li>Hole <b>mehrere Perspektiven</b> ein — gerade die kritischen. Erst dann definierst du das Kernproblem.</li>
-        </ol>
-        <div class="briefing-note">💡 Design Thinking ist hier das Werkzeug — dein eigentliches Lernziel sind die Future Skills eines Digital Health Managers.</div>
+      <div class="sec-label">Ihr Mandat</div>
+      <div class="mandat-box">
+        <div class="mandat-from" id="mandatFrom"></div>
+        <div class="mandat-text" id="mandatText"></div>
+        <div class="mandat-q" id="mandatQ"></div>
+      </div>
+      <div class="sec-label" style="margin-top:1.2rem">Ihre erste Entscheidung · Erstkontakt wählen</div>
+      <div class="fc-hint">Sie können nicht mit allen zugleich sprechen. Wen hören Sie zuerst — und warum? Diese Entscheidung hat Konsequenzen im weiteren Verlauf.</div>
+      <div class="fc-grid" id="fcGrid"></div>
+      <input type="text" id="fcReason" class="fc-reason" placeholder="Ihre Begründung in einem Satz (wird im Projektabschluss wieder aufgegriffen) …">
+      <div class="fc-actions">
+        <button class="btn-next" id="fcStartBtn" onclick="startProject()" disabled>Projekt starten →</button>
+        <span class="fc-note" id="fcNote"></span>
       </div>
     </div>
   </div>
 
-  <!-- ═══ PHASE 3 — METHODEN ══════════════════════════════════════ -->
+  <!-- ═══ PHASE 3<!-- ═══ PHASE 3 — METHODEN ══════════════════════════════════════ -->
   <div class="phase" id="phase-3">
     <div class="phase-hdr">
       <div class="phase-num">3</div>
@@ -1138,6 +1200,7 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
         <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
       </div>
     </div>
+    <div id="storyBeatBox"></div>
     <div class="card stack">
       <div class="sec-label">Schritt 1 · Perspektive wählen &amp; im Dialog erheben</div>
       <div class="sec-label sec-label--lg">Wähle eine Berufsrolle</div>
@@ -1199,7 +1262,7 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
     <div class="card">
       <div id="p3PerspectiveCtx" class="ctx-banner" style="display:none"></div>
       <div class="method-prog-bar">
-        <span class="method-prog-label" id="methodProgLabel">0 / 7 Methoden erkundet</span>
+        <span class="method-prog-label" id="methodProgLabel">Projektstand — Perspektiven: 0/8 · Erkenntnisquellen: 0 · Offen: 8 Perspektiven</span>
         <div class="method-prog-dots" id="methodProgDots"></div>
       </div>
       <div id="methodDashboard">
@@ -1221,14 +1284,40 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
     <div class="phase-hdr">
       <div class="phase-num" style="background:linear-gradient(135deg,#0F6CBD,#02C39A)">4</div>
       <div>
-        <div class="phase-title">Ergebnissicherung: Deine Kompetenzmatrix</div>
+        <div class="phase-title">Projektabschluss &amp; Kompetenzreflexion</div>
         <div class="phase-desc">Leitfrage: <b>Welche Kompetenzen benötigt ein Digital Health Manager — und durch welche Design-Thinking-Methode hast du sie in dieser Simulation beobachtet oder entwickelt?</b> Trage deine eigenen Erkenntnisse aus allen Phasen zusammen. Die Kompetenzen werden dir nicht vorgegeben — du leitest sie selbst ab.</div>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="finaleCard">
+      <div class="sec-label">1 · Projektabschluss — Ihre Entscheidungsvorlage</div>
+      <div class="fc-hint">Bevor Sie reflektieren, schließen Sie Ihr Projekt ab: Fassen Sie Ihre Empfehlung für die Auftraggeberin zusammen. Sie wird nachfragen — genau dort, wo Sie Lücken gelassen haben.</div>
+      <div class="fin-grid">
+        <label class="fin-f"><span>Ausgangslage</span><textarea id="finLage" rows="2" placeholder="Worum ging es — in zwei Sätzen?"></textarea></label>
+        <label class="fin-f"><span>Wichtigste Erkenntnisse</span><textarea id="finErk" rows="2" placeholder="Was haben die Gespräche und Methoden ergeben?"></textarea></label>
+        <label class="fin-f"><span>Empfehlung</span><textarea id="finEmp" rows="2" placeholder="Welche Richtung empfehlen Sie — und für wen zuerst?"></textarea></label>
+        <label class="fin-f"><span>Erwarteter Nutzen</span><textarea id="finNut" rows="2" placeholder="Woran würde man Erfolg messen? Was rechtfertigt die Investition?"></textarea></label>
+        <label class="fin-f"><span>Risiken</span><textarea id="finRis" rows="2" placeholder="Was kann schiefgehen — und wie begegnen Sie dem?"></textarea></label>
+      </div>
+      <div class="fc-actions">
+        <button class="btn-next" id="finSubmitBtn" onclick="submitFinale()">Der Auftraggeberin vorlegen →</button>
+        <span class="fc-note" id="finNote"></span>
+      </div>
+      <div id="finChat" class="fin-chat" style="display:none">
+        <div class="fin-chat-hd" id="finChatHd"></div>
+        <div id="finMsgs" class="fin-msgs"></div>
+        <div class="eval-input-row">
+          <input type="text" id="finInput" class="eval-input" placeholder="Ihre Erwiderung …" onkeydown="if(event.key==='Enter')sendFinaleReply()">
+          <button class="eval-send" onclick="sendFinaleReply()">Senden</button>
+        </div>
+        <button class="beat-dismiss" onclick="finishFinale()" style="margin-top:.5rem">Projektabschluss beenden — zur Kompetenzreflexion →</button>
+      </div>
+      <div style="margin-top:.6rem"><button class="beat-dismiss" onclick="finishFinale()">Ohne Projektabschluss direkt zur Reflexion (nicht empfohlen)</button></div>
+    </div>
+
+    <div class="card" id="kmCard" style="display:none">
       <div class="km-intro">
-        <span class="km-step-dot">1</span> Fülle die Matrix aus deiner Erinnerung an Dialoge, Methoden und Problemlösung. Jede Zeile ist ein selbst erkannter Zusammenhang. <b>Erst wenn du mindestens drei Zeilen vollständig ausgefüllt hast</b>, erscheint eine fachliche Kompetenz-Referenz zum Abgleich.
+        <span class="km-step-dot">2</span> Fülle die Matrix aus deiner Erinnerung an Dialoge, Methoden und Problemlösung. Jede Zeile ist ein selbst erkannter Zusammenhang. Denke auch an deine Entscheidungen: Erstkontakt, Reihenfolge der Perspektiven, Umgang mit den Projektupdates. <b>Erst wenn du mindestens drei Zeilen vollständig ausgefüllt hast</b>, erscheint eine fachliche Kompetenz-Referenz zum Abgleich.
       </div>
 
       <div class="km-table-wrap">
@@ -1292,8 +1381,8 @@ button:focus-visible,.dt-pill:focus-visible,.role-card:focus-visible,.pnode:focu
   <!-- NAV BAR -->
   <div class="nav-bar">
     <button class="btn-back" id="navBack" onclick="prevPhase()" disabled>← Zurück</button>
-    <div class="nav-mid" id="navMid">Phase <strong>1</strong> / 5 — Einführung</div>
-    <button class="btn-next" id="navNext" onclick="nextPhase()">Zu den Grundlagen →</button>
+    <div class="nav-mid" id="navMid">Akt <strong>1</strong> / 3 — Mandat</div>
+    <button class="btn-next" id="navNext" onclick="nextPhase()">Projekt übernehmen →</button>
   </div>
 
   <!-- API SECTION -->
@@ -1588,6 +1677,126 @@ WICHTIG:
      Jede Fallstudie: eine zentrale Herausforderung, offener Lösungsraum,
      keine Musterlösung. Personas werden je Fall umbenannt/umfunktioniert.
   ═══════════════════════════════════════════════════════════════ */
+  /* ═══ Iteration 11: Projektzustand — Gedächtnis, Konsequenzen, Story ═══ */
+  const projectState = { firstContact:null, firstContactReason:'', talkedTo:[], notes:{}, beatsShown:[] };
+
+  const STORY_BEATS = {
+    portal: [
+      { id:'p1', after:'talked3', from:'Geschäftsführung · Zwischennachricht', text:'Dr. Hartmann lässt ausrichten: Die MVZ melden für den laufenden Monat erneut gestiegene Terminausfälle. Sie bittet um einen kurzen Zwischenstand in zwei Wochen — und fragt, ob die Patientenperspektive schon erhoben wurde.' },
+      { id:'p2', after:'pov', from:'Datenschutzbeauftragter · Aktennotiz', text:'Der Datenschutzbeauftragte hat von dem Vorhaben erfahren und proaktiv eine Notiz geschickt: Gegen eine digitale Terminlösung bestehe kein Einwand — bei Befund- oder Gesundheitsdaten gelte jedoch ein erhöhter Prüfaufwand. Er bittet, vor der Prototypphase einbezogen zu werden.' },
+      { id:'p3', after:'proto', from:'Patientenmanagement · Flurfunk', text:'Aus der Telefonzentrale ist zu hören, dass eine dritte Mitarbeiterin über eine Kündigung nachdenkt. Birgit Sommer bittet darum, dem Team bald etwas Konkretes sagen zu können — die Unsicherheit zermürbe mehr als die Warteschleifen.' }
+    ],
+    uebergabe: [
+      { id:'u1', after:'talked3', from:'Qualitätsmanagement · Neue Auswertung', text:'Das QM hat nachdifferenziert: Die ungeplanten Rückkehrer häufen sich bei Entlassungen am Freitagnachmittag und vor Feiertagen — dann, wenn draußen am wenigsten erreichbar ist. Die Auswertung liegt Ihnen ab sofort vor.' },
+      { id:'u2', after:'pov', from:'Sozialdienst · Rückmeldung von außen', text:'Birgit Sommer leitet eine Sammelrückmeldung weiter: Drei Hausarztpraxen bieten an, an einer Lösung mitzuwirken — unter einer Bedingung: Sie wollen keine zusätzliche Plattform mit eigenem Login. Was immer kommt, müsse in ihre bestehenden Abläufe passen.' },
+      { id:'u3', after:'proto', from:'Pflegeeinrichtung St. Ansgar · Anfrage', text:'Eine kooperierende Pflegeeinrichtung hat ein Gespräch über die Übergabequalität angefragt — man höre, es bewege sich etwas. Die Betriebsleitung sieht darin eine Chance und bittet Sie, den Termin vorzubereiten.' }
+    ]
+  };
+
+  function checkStoryBeats() {
+    const beats = STORY_BEATS[activeCase] || [];
+    const povDone = (typeof exploredMethods !== 'undefined') && exploredMethods.has('problemDefinition');
+    const protoDone = (typeof exploredMethods !== 'undefined') && exploredMethods.has('prototyping');
+    beats.forEach(function(b){
+      if (projectState.beatsShown.indexOf(b.id) >= 0) return;
+      var due = (b.after === 'talked3' && projectState.talkedTo.length >= 3) ||
+                (b.after === 'pov' && povDone) ||
+                (b.after === 'proto' && protoDone);
+      if (!due) return;
+      projectState.beatsShown.push(b.id);
+      var box = document.getElementById('storyBeatBox');
+      if (!box) return;
+      var d = document.createElement('div');
+      d.className = 'beat-card';
+      d.innerHTML = '<div class="beat-kicker">📨 Projektupdate</div>' +
+        '<div class="beat-from">' + b.from + '</div>' +
+        '<div class="beat-text">' + b.text + '</div>' +
+        '<button class="beat-dismiss" onclick="this.parentElement.remove()">Zur Kenntnis genommen</button>';
+      box.appendChild(d);
+    });
+  }
+
+  function updateProjectStatus() {
+    var label = document.getElementById('methodProgLabel');
+    if (!label) return;
+    var persp = projectState.talkedTo.length;
+    var meth  = (typeof exploredMethods !== 'undefined') ? exploredMethods.size : 0;
+    var fc = projectState.firstContact && CASE_ROLES[activeCase] && CASE_ROLES[activeCase][projectState.firstContact];
+    var open  = 8 - persp;
+    var txt = 'Projektstand — Perspektiven: ' + persp + '/8 · Erkenntnisquellen: ' + meth;
+    if (fc) txt += ' · Erstkontakt: ' + fc.name;
+    txt += open > 0 ? ' · Offen: ' + open + ' Perspektive' + (open === 1 ? '' : 'n') : ' · Alle Perspektiven gehört';
+    label.textContent = txt;
+  }
+
+  function activeBeatContext() {
+    const beats = (STORY_BEATS[activeCase] || []).filter(function(b){ return projectState.beatsShown.indexOf(b.id) >= 0; });
+    if (!beats.length) return '';
+    return '\n\nAKTUELLE PROJEKTLAGE (allgemein im Haus bekannt, du darfst dich darauf beziehen): ' +
+      beats.map(function(b){ return b.text; }).join(' — ');
+  }
+
+  function buildProjectContext(roleId) {
+    var out = '';
+    if (projectState.firstContact) {
+      out += '\n\nPROJEKTVERLAUF: Der Digital Health Manager hat als Erstkontakt „' + (CASE_ROLES[activeCase] && CASE_ROLES[activeCase][projectState.firstContact] ? CASE_ROLES[activeCase][projectState.firstContact].name : projectState.firstContact) + '“ gewählt' +
+        (projectState.firstContactReason ? ' (Begründung: „' + projectState.firstContactReason + '“)' : '') + '.';
+    }
+    var others = projectState.talkedTo.filter(function(r){ return r !== roleId; });
+    if (others.length) {
+      var parts = others.map(function(r){
+        var nm = (CASE_ROLES[activeCase] && CASE_ROLES[activeCase][r]) ? CASE_ROLES[activeCase][r].name : r;
+        var note = projectState.notes[r] ? ' (zuletzt ging es sinngemäß um: „' + projectState.notes[r] + '“)' : '';
+        return nm + note;
+      });
+      out += '\n\nORGANISATIONSGEDÄCHTNIS: Im Haus spricht sich herum, dass bereits Gespräche geführt wurden mit: ' + parts.join('; ') + '. Du darfst dich beiläufig und realistisch darauf beziehen (z. B. „Die Kollegin aus der Zentrale erwähnte bereits …“), ohne wörtliche Zitate zu erfinden.';
+    }
+    var idx = projectState.talkedTo.indexOf(roleId);
+    if (idx >= 0 && idx <= 1) {
+      out += '\n\nKONSEQUENZ: Du wurdest früh einbezogen. Das stimmt dich spürbar kooperativer und offener — Beteiligung wirkt.';
+    } else if (idx === -1 && projectState.talkedTo.length >= 4) {
+      out += '\n\nKONSEQUENZ: Du hast mitbekommen, dass viele andere vor dir gehört wurden. Das macht dich etwas reservierter; du sprichst es ggf. leicht spitz an, bleibst aber professionell.';
+    }
+    out += activeBeatContext();
+    return out;
+  }
+
+  function renderMandat(key) {
+    var cs = CASES[key];
+    if (!cs || !cs.mandat) return;
+    var f = document.getElementById('mandatFrom');  if (f) f.textContent = cs.mandat.von;
+    var t = document.getElementById('mandatText');  if (t) t.textContent = cs.mandat.text;
+    var q = document.getElementById('mandatQ');     if (q) q.textContent = cs.mandat.frage;
+    var grid = document.getElementById('fcGrid');
+    if (grid) {
+      var roles = CASE_ROLES[key] || {};
+      grid.innerHTML = Object.keys(roles).map(function(rid){
+        var d = roles[rid];
+        return '<button class="fc-card" data-fc="' + rid + '" onclick="pickFirstContact(\'' + rid + '\')">' +
+          '<span class="fc-ic">' + d.icon + '</span><span><span class="fc-nm">' + d.name + '</span><br><span class="fc-rl">' + d.role + '</span></span></button>';
+      }).join('');
+    }
+    var btn = document.getElementById('fcStartBtn'); if (btn) btn.disabled = !projectState.firstContact;
+  }
+
+  function pickFirstContact(rid) {
+    projectState.firstContact = rid;
+    document.querySelectorAll('.fc-card').forEach(function(b){ b.classList.toggle('sel', b.dataset.fc === rid); });
+    var btn = document.getElementById('fcStartBtn'); if (btn) btn.disabled = false;
+    var note = document.getElementById('fcNote');
+    if (note) note.textContent = 'Erstkontakt: ' + ((CASE_ROLES[activeCase]||{})[rid] ? CASE_ROLES[activeCase][rid].name : rid);
+  }
+
+  function startProject() {
+    var rs = document.getElementById('fcReason');
+    projectState.firstContactReason = rs ? rs.value.trim() : '';
+    goToPhase(3);
+    setTimeout(function(){
+      var card = document.querySelector('.role-card[data-role="' + projectState.firstContact + '"]');
+      if (card && typeof selectRole === 'function') selectRole(card);
+    }, 250);
+  }
+
   const CASES = {
     portal: {
       key: 'portal',
@@ -1634,7 +1843,12 @@ WICHTIG:
       ],
       taskLead: 'Sie nehmen im Folgenden die Perspektive einer von acht Personen aus dem Gesundheitszentrum Auental ein — mit deren Erfahrungen, Interessen und Vorbehalten.',
       taskMid: 'Aus dieser Perspektive durchlaufen Sie den Prozess, den die Geschäftsführung angestoßen hat: das Problem verstehen, andere Sichtweisen einholen, Spannungen aushalten, gemeinsame Lösungsansätze entwickeln.',
-      taskQ: 'Worin besteht das Problem — und für wen?'
+      taskQ: 'Worin besteht das Problem — und für wen?',
+      mandat: {
+        von: 'Dr. Claudia Hartmann · Kaufmännische Geschäftsführung',
+        text: '»Ich mache es kurz, Sie kennen die Lage: schlechteste Bewertung bei der Erreichbarkeit, zwölf Minuten Warteschleife, jeder vierte Anruf verloren, zwei Kündigungen in der Zentrale. Ich habe Mittel freigegeben — aber ich habe bewusst nicht entschieden, was gebaut wird. Das ist Ihr Projekt. In drei Monaten will ich von Ihnen eine begründete Richtungsentscheidung, keine Wunschliste. Verstehen Sie zuerst das Problem. Und kommen Sie nicht mit einer Lösung, die genau die Menschen aussperrt, die heute am häufigsten anrufen.«',
+        frage: 'Womit beginnen Sie — und warum?'
+      }
     },
 
     uebergabe: {
@@ -1682,7 +1896,12 @@ WICHTIG:
       ],
       taskLead: 'Sie nehmen im Folgenden die Perspektive einer von acht Personen rund um das Marienstift ein — innerhalb wie außerhalb des Hauses, mit deren Erfahrungen, Interessen und Vorbehalten.',
       taskMid: 'Aus dieser Perspektive durchlaufen Sie den Prozess, den die Betriebsleitung angestoßen hat: die Ursache verstehen, andere Sichtweisen einholen, Spannungen aushalten, gemeinsame Lösungsansätze entwickeln.',
-      taskQ: 'Woran scheitert die Übergabe — und für wen muss die Lösung funktionieren?'
+      taskQ: 'Woran scheitert die Übergabe — und für wen muss die Lösung funktionieren?',
+      mandat: {
+        von: 'Dr. Claudia Hartmann · Kaufmännische Direktorin',
+        text: '»Die Zahlen des Qualitätsmanagements kennen Sie: zu viele ungeplante Rückkehrer, und in zu vielen Fällen war die Übergabe lückenhaft. Was ich nicht weiß — und was mir bisher niemand sagen konnte: woran es wirklich liegt. Ich beschaffe keine Software für ein Problem, das wir nicht verstanden haben. Das ist Ihr Projekt: Finden Sie die Ursache, sprechen Sie mit den Beteiligten — auch mit denen außerhalb des Hauses — und legen Sie mir eine Empfehlung vor, die ich vertreten kann. Mit Kosten, mit Nutzen, mit einem Maß für Erfolg.«',
+        frage: 'Womit beginnen Sie — und warum?'
+      }
     }
   };
 
@@ -1748,8 +1967,8 @@ WICHTIG:
       // CTA
       html += '<div class="cs-cta">' +
         '<div class="cs-cta-h">Bereit?</div>' +
-        '<div class="cs-cta-s">Machen Sie sich zunächst mit den Grundlagen vertraut — und wählen Sie anschließend Ihre Perspektive.</div>' +
-        '<button class="btn-next" onclick="goToPhase(1)">Weiter zu den Grundlagen →</button>' +
+        '<div class="cs-cta-s">Mit dem Mandat übernehmen Sie die Verantwortung für dieses Projekt — Ihre erste Entscheidung wartet bereits.</div>' +
+        '<button class="btn-next" onclick="goToPhase(2)">Projekt übernehmen →</button>' +
         '<div class="cs-cta-meta"><span>8 Perspektiven</span><span class="cs-cta-meta-dot">·</span>' +
         '<span>1 gemeinsames Problem</span><span class="cs-cta-meta-dot">·</span><span>Offenes Ende</span></div>' +
         '</div>';
@@ -1758,6 +1977,7 @@ WICHTIG:
 
     // Rollenkarten + Personas an den Fall anpassen
     if (typeof applyCaseRoles === 'function') applyCaseRoles(key);
+    if (typeof renderMandat === 'function') renderMandat(key);
     // Fallauswahl-Buttons markieren
     document.querySelectorAll('.case-pick').forEach(function(b){
       b.classList.toggle('active', b.dataset.case === key);
@@ -1776,8 +1996,13 @@ WICHTIG:
     document.querySelectorAll('.role-card').forEach(function(c){ c.classList.remove('active'); });
     if (typeof updatePerspectiveContext === 'function') updatePerspectiveContext();
     if (typeof updateProcessNodes === 'function') updateProcessNodes();
-    const lbl = document.getElementById('methodProgLabel');
-    if (lbl) lbl.textContent = '0 / ' + Object.keys(METHODS_META).length + ' Methoden erkundet';
+    projectState.firstContact = null; projectState.firstContactReason = '';
+    projectState.talkedTo = []; projectState.notes = {}; projectState.beatsShown = [];
+    var bb = document.getElementById('storyBeatBox'); if (bb) bb.innerHTML = '';
+    var fr = document.getElementById('fcReason'); if (fr) fr.value = '';
+    var fb = document.getElementById('fcStartBtn'); if (fb) fb.disabled = true;
+    document.querySelectorAll('.fc-card').forEach(function(b){ b.classList.remove('sel'); });
+    if (typeof updateProjectStatus === 'function') updateProjectStatus();
     document.querySelectorAll('.mpd').forEach(function(d){ d.classList.remove('done'); });
   }
 
@@ -3078,8 +3303,8 @@ WICHTIG:
   let activeIdeaCat   = '';
 
   /* ═══ NAVIGATION ═══════════════════════════════════════════════ */
-  const PHASE_LABELS = ['Einführung','Grundlagen','Rollenwahl','Methoden','Abschluss'];
-  const PHASE_NEXT   = ['Zu den Grundlagen','Zur Rollenwahl','Zu den Methoden','Zum Abschluss','✓ Workshop beendet'];
+  const PHASE_LABELS = ['Mandat','Glossar','Projektstart','Projektarbeit','Projektabschluss'];
+  const PHASE_NEXT = ['Projekt übernehmen','Zum Projektstart','Projekt starten','Zum Projektabschluss','Projekt abgeschlossen'];
   let currentPhase   = 0;
 
   function goToPhase(n) {
@@ -3101,12 +3326,12 @@ WICHTIG:
     const mid  = document.getElementById('navMid');
     if (back) back.disabled = (n === 0);
     if (next) next.textContent = n < total-1 ? PHASE_NEXT[n] + ' →' : PHASE_NEXT[n];
-    if (mid)  mid.innerHTML = `Phase <strong>${n+1}</strong> / ${total} — ${PHASE_LABELS[n]}`;
+    if (mid)  mid.innerHTML = (function(){ var AKT=[1,null,1,2,3]; var a=AKT[n]; return (a ? 'Akt <strong>'+a+'</strong> / 3 — ' : '📖 ') + PHASE_LABELS[n]; })();
     if (typeof syncShellNav === 'function') syncShellNav(n);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  function nextPhase() { goToPhase(currentPhase + 1); }
-  function prevPhase() { goToPhase(currentPhase - 1); }
+  function nextPhase() { var n = currentPhase + 1; if (n === 1) n = 2; goToPhase(n); }
+  function prevPhase() { var n = currentPhase - 1; if (n === 1) n = 0; goToPhase(n); }
 
   /* ═══ API KEY ═══════════════════════════════════════════════════ */
   function updateTopBar(active) {
@@ -3181,6 +3406,9 @@ WICHTIG:
     el.classList.add('active');
     activeRole   = el.dataset.role;
     chatHistory  = [];
+    if (projectState.talkedTo.indexOf(activeRole) < 0) projectState.talkedTo.push(activeRole);
+    if (typeof checkStoryBeats === 'function') checkStoryBeats();
+    if (typeof updateProjectStatus === 'function') updateProjectStatus();
     activeDTMethod = null;
     document.querySelectorAll('.dt-pill').forEach(p => p.classList.remove('active'));
     document.getElementById('dtActiveBanner').classList.remove('visible');
@@ -3245,6 +3473,8 @@ WICHTIG:
       setTimeout(() => {
         appendMessage('bot', reply, role.name);
         highlightSkills(reply);
+        if (typeof projectState !== 'undefined' && activeRole) projectState.notes[activeRole] = String(reply).replace(/\s+/g,' ').slice(0, 220);
+        if (typeof checkStoryBeats === 'function') checkStoryBeats();
       }, 600);
       return;
     }
@@ -3263,6 +3493,9 @@ WICHTIG:
     if (role.caseCtx) {
       systemPrompt += '\n\nFALLKONTEXT DEINER ROLLE (gilt für die aktuell gewählte Fallstudie): ' + role.caseCtx;
     }
+    if (typeof buildProjectContext === 'function') {
+      systemPrompt += buildProjectContext(activeRole);
+    }
     if (CHANGE_TYPES[activeRole]) {
       systemPrompt += '\n\nCHANGE-TYPOLOGIE (aus Experteninterviews: Widerstandstypen ziehen sich quer durch alle Berufsgruppen). ' +
         'Diese Persona verkörpert den Change-Typ „' + CHANGE_TYPES[activeRole].typ + '“: ' + CHANGE_TYPES[activeRole].desc +
@@ -3278,6 +3511,7 @@ WICHTIG:
     hideTyping('typing');
     document.getElementById('sendBtn').disabled = false;
     chatHistory.push({ role: 'assistant', content: reply });
+    if (typeof projectState !== 'undefined' && activeRole) projectState.notes[activeRole] = String(reply).replace(/\s+/g,' ').slice(0, 220);
     appendMessage('bot', reply, role.name, false);
     highlightSkills(reply);
   }
@@ -4058,7 +4292,7 @@ WICHTIG:
         '<span class="pp-badge">'+(p.denken==='divergent'?'◇ divergentes Denken':'◆ konvergentes Denken')+'</span></div></div>' +
       '</div>' +
       '<div class="pp-goal"><b>Ziel:</b> '+p.ziel+'</div>' +
-      '<div class="pp-goal">🎓 <b>Kompetenz-Lernziel:</b> '+(KOMP_DT[key]?KOMP_DT[key].lernziel:'')+'</div>' +
+      '<div class="pp-goal komp-reveal">🎓 <b>Kompetenz-Lernziel:</b> '+(KOMP_DT[key]?KOMP_DT[key].lernziel:'')+'</div>' +
       '<div class="pp-why"><b>Warum diese Methoden?</b> '+p.why+' <span class="komp-praxis">Praxisbezug: '+(KOMP_DT[key]?KOMP_DT[key].praxis:'')+'</span></div>' +
       '<div class="pp-skills">'+p.skills.map(function(s){return '<span class="phase-chip">'+s+'</span>';}).join('')+'</div>' +
       '<div class="pp-mgrid">'+mcards+'</div>' +
@@ -4194,6 +4428,116 @@ WICHTIG:
       });
     }
   }
+  /* ═══ Iteration 11: Finale — Entscheidungsvorlage & Verteidigung ═══ */
+  let finaleHistory = [];
+  let finaleDone = false;
+
+  function finaleGaps() {
+    const gaps = [];
+    const t = projectState.talkedTo;
+    const inc = function(r){ return t.indexOf(r) >= 0; };
+    if (activeCase === 'portal') {
+      if (!inc('pflege') && !inc('stationsleitung')) gaps.push('Die Perspektive der Telefonzentrale selbst wurde nicht direkt erhoben.');
+      if (!inc('betriebsrat')) gaps.push('Der Betriebsrat wurde nicht einbezogen — bei einer Lösung mit Auswirkungen auf Arbeitsplätze ein Risiko.');
+      if (!inc('assistenz')) gaps.push('Die MVZ-Perspektive (Terminausfälle) blieb ungehört.');
+    } else {
+      if (!inc('assistenz')) gaps.push('Die weiterbehandelnden Praxen — Adressaten jeder Lösung — wurden nicht gehört.');
+      if (!inc('betriebsrat')) gaps.push('Die Perspektive der Angehörigen, die die Koordination faktisch tragen, fehlt.');
+      if (!inc('stationsleitung')) gaps.push('Der Sozialdienst, der die Schnittstelle am besten kennt, wurde nicht einbezogen.');
+    }
+    const nutzen = (document.getElementById('finNut') || {}).value || '';
+    if (!/kost|nutzen|euro|kennzahl|quote|zeit|messe|kpi|invest/i.test(nutzen)) {
+      gaps.push('Die Vorlage nennt kein messbares Erfolgskriterium und keine Kosten-Nutzen-Argumentation.');
+    }
+    const risiken = (document.getElementById('finRis') || {}).value || '';
+    if (risiken.trim().length < 15) gaps.push('Die Risiken sind kaum ausgeführt.');
+    return gaps;
+  }
+
+  function finaleVorlageText() {
+    function v(id){ return (document.getElementById(id) || {}).value || '—'; }
+    return 'ENTSCHEIDUNGSVORLAGE\nAusgangslage: ' + v('finLage') +
+      '\nWichtigste Erkenntnisse: ' + v('finErk') +
+      '\nEmpfehlung: ' + v('finEmp') +
+      '\nErwarteter Nutzen: ' + v('finNut') +
+      '\nRisiken: ' + v('finRis');
+  }
+
+  function finAddMsg(who, text) {
+    const box = document.getElementById('finMsgs');
+    if (!box) return;
+    const d = document.createElement('div');
+    d.className = 'fin-m ' + (who === 'gf' ? 'gf' : 'me');
+    d.textContent = text;
+    box.appendChild(d);
+    d.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function finaleSystemPrompt() {
+    const cs = CASES[activeCase];
+    const gaps = finaleGaps();
+    return 'Du bist ' + (cs.mandat ? cs.mandat.von : 'die Auftraggeberin') + ' in der Fallstudie „' + cs.label + '“. ' +
+      'Der Digital Health Manager legt dir seine Entscheidungsvorlage vor. Reagiere professionell, wohlwollend-kritisch, auf Deutsch, in 3-6 Sätzen. ' +
+      'Stelle GENAU DORT kritische Rückfragen, wo Lücken bestehen. Bekannte Lücken dieses Projekts: ' +
+      (gaps.length ? gaps.join(' | ') : 'Keine gravierenden — frage nach Priorisierung und Verstetigung.') +
+      ' Beziehe dich konkret auf die Vorlage. Keine Meta-Kommentare, bleibe in der Rolle. Beende mit einer präzisen Rückfrage.';
+  }
+
+  async function submitFinale() {
+    const btn = document.getElementById('finSubmitBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Vorgelegt ✓'; }
+    const chat = document.getElementById('finChat');
+    const hd = document.getElementById('finChatHd');
+    const cs = CASES[activeCase];
+    if (hd) hd.textContent = '🗣 ' + (cs.mandat ? cs.mandat.von : 'Auftraggeberin') + ' antwortet:';
+    if (chat) chat.style.display = 'block';
+    finAddMsg('me', finaleVorlageText());
+    finaleHistory = [{ role:'user', content: finaleVorlageText() }];
+    if (typeof apiKey !== 'undefined' && apiKey) {
+      const reply = await callAPI(finaleSystemPrompt(), finaleHistory, 500);
+      finaleHistory.push({ role:'assistant', content: reply });
+      finAddMsg('gf', reply);
+    } else {
+      const gaps = finaleGaps();
+      const qs = gaps.slice(0, 3);
+      let msg = 'Danke für die Vorlage — ich habe sie gelesen. Drei Dinge, bevor ich das mittragen kann: ';
+      if (qs.length) msg += qs.map(function(g, i){ return (i+1) + ') ' + g; }).join(' ');
+      else msg += '1) Was setzen Sie zuerst um — und was bewusst nicht? 2) Wie sichern Sie, dass das nach dem Piloten weiterlebt? 3) Woran messen wir in sechs Monaten, ob es gewirkt hat?';
+      msg += ' Was antworten Sie?';
+      finaleHistory.push({ role:'assistant', content: msg });
+      finAddMsg('gf', msg);
+    }
+  }
+
+  async function sendFinaleReply() {
+    const inp = document.getElementById('finInput');
+    const text = inp ? inp.value.trim() : '';
+    if (!text) return;
+    if (inp) inp.value = '';
+    finAddMsg('me', text);
+    finaleHistory.push({ role:'user', content: text });
+    finaleDone = true;
+    if (typeof apiKey !== 'undefined' && apiKey) {
+      const reply = await callAPI(finaleSystemPrompt(), finaleHistory, 450);
+      finaleHistory.push({ role:'assistant', content: reply });
+      finAddMsg('gf', reply);
+    } else {
+      finAddMsg('gf', 'Gut — nehmen Sie das in die Vorlage auf. Ich erwarte den überarbeiteten Stand bis Ende der Woche. Und: Reflektieren Sie für sich, welche Fähigkeiten dieses Projekt von Ihnen verlangt hat — das Gespräch dazu führen wir im Team.');
+      finaleDone = true;
+    }
+  }
+
+  function finishFinale() {
+    const km = document.getElementById('kmCard');
+    if (km) { km.style.display = 'block'; km.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    const fc = document.getElementById('finaleCard');
+    if (fc && finaleDone) {
+      const note = document.getElementById('finNote');
+      if (note) note.textContent = '✓ Projekt abgeschlossen';
+    }
+    if (typeof initCompetencyMatrix === 'function') initCompetencyMatrix();
+  }
+
   function initCompetencyMatrix(){
     const body = document.getElementById('kmBody');
     if (!body || body.dataset.built) return;
@@ -4239,8 +4583,11 @@ WICHTIG:
     const dot = document.getElementById('mpd-' + key);
     if (dot) dot.classList.add('done');
     const label = document.getElementById('methodProgLabel');
-    if (label) label.textContent = `${exploredMethods.size} / ${Object.keys(METHODS_META).length} Methoden erkundet`;
+    if (typeof updateProjectStatus === 'function') updateProjectStatus();
     if (typeof updateProcessNodes === 'function') updateProcessNodes();
+    window._lastMethodKey = key;
+    if (typeof checkStoryBeats === 'function') checkStoryBeats();
+    if (typeof updateProjectStatus === 'function') updateProjectStatus();
     if (DT_METHODS[key] && DT_METHODS[key].skills && typeof bumpSkill === 'function') DT_METHODS[key].skills.forEach(function(s){ bumpSkill(s); });
 
     const m = METHODS_META[key];
@@ -4256,6 +4603,29 @@ WICHTIG:
   function closeMethodTool() {
     document.getElementById('methodToolPanel').style.display = 'none';
     document.getElementById('methodDashboard').style.display = 'block';
+    showCoachCard(window._lastMethodKey);
+  }
+
+  const COACH_QS = [
+    'Welche Ihrer Annahmen wurde in dieser Methode widerlegt — und woran haben Sie es gemerkt?',
+    'Welche Perspektive fehlt Ihnen an dieser Stelle noch, um weiterzugehen?',
+    'Welche Unsicherheit bleibt bestehen — und können Sie mit ihr entscheiden, oder brauchen Sie mehr?',
+    'Welcher Beteiligte wird gerade unterschätzt — von Ihnen oder von der Organisation?',
+    'Wenn Sie jetzt entscheiden müssten: Was wäre Ihre Empfehlung — und was hält Sie zurück?',
+    'Was hat Sie in den bisherigen Gesprächen am meisten überrascht — und was folgt daraus?',
+    'Welche Information würden Sie als Nächstes erheben — und was kostet es, sie NICHT zu haben?'
+  ];
+  let _coachIdx = 0;
+  function showCoachCard(methodKey) {
+    var box = document.getElementById('storyBeatBox');
+    if (!box) return;
+    var q = COACH_QS[_coachIdx % COACH_QS.length]; _coachIdx++;
+    var d = document.createElement('div');
+    d.className = 'coach-card';
+    d.innerHTML = '<div class="coach-kicker">🧭 Projektcoach</div>' +
+      '<div class="coach-q">' + q + '</div>' +
+      '<button class="beat-dismiss" onclick="this.parentElement.remove()">Weiter im Projekt</button>';
+    box.appendChild(d);
   }
 
   const WS_AI_CTX = {
@@ -4796,6 +5166,16 @@ WICHTIG:
     buildGlossary();
     initMethodDashboard();
     injectCompetenceBanners();
+    (function(){
+      var nav = document.querySelector('nav.side');
+      if (nav && !document.getElementById('sideTools')) {
+        var d = document.createElement('div');
+        d.className = 'side-tools'; d.id = 'sideTools';
+        d.innerHTML = '<button class="side-tool" onclick="goToPhase(1)">📖 Glossar &amp; Nachschlagen</button>' +
+          '<button class="side-tool" id="dozentBtn" onclick="document.body.classList.toggle(\'dozent\'); this.classList.toggle(\'on\'); this.textContent = document.body.classList.contains(\'dozent\') ? \'🎓 Dozentenmodus: an\' : \'🎓 Dozentenmodus\';">🎓 Dozentenmodus</button>';
+        nav.appendChild(d);
+      }
+    })();
     renderCase(activeCase);
     goToPhase(0);
   });
