@@ -34,6 +34,13 @@
   --r:8px; --r-lg:12px; --r-xl:16px;
   --sh:0 1px 3px rgba(5,55,61,.08);
   --sh-lg:0 4px 16px rgba(5,55,61,.10);
+
+  /* Iteration 12: AA-geprüfte Akzentfarben (Text auf Farbe >= 4.5:1, UI >= 3:1) */
+  --dt-1:#1D6FB8; --dt-2:#B44E7B; --dt-3:#1F7A4D; --dt-4:#B45309; --dt-5:#C2410C; --dt-6:#C0392B;
+  --mc-amber:#B45309; --mc-emerald:#047857; --mc-pink:#BE185D; --mc-orange:#C2410C;
+  --mc-green:#15803D; --mc-blue:#2563EB; --mc-violet:#6D28D9;
+  --amber-text:#92600A;
+  --status-on:#15803D; --status-off:#5B6B7C;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth}
@@ -243,7 +250,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .res-icon{font-size:1.25rem;flex:none}
 .res-name{font-size:.83rem;font-weight:600;color:var(--c-text);margin-bottom:2px}
 .res-desc{font-size:.74rem;color:var(--c-muted);line-height:1.45}
-.res-arr{font-size:.88rem;color:var(--c-primary);opacity:.6;flex:none;margin-top:1px}
+.res-arr{font-size:.88rem;color:var(--c-primary);color:var(--c-muted);flex:none;margin-top:1px}
 .res-card:hover .res-arr{opacity:1}
 
 /* ═══ ROLLENWAHL ═══ */
@@ -418,7 +425,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
   color:var(--c-text);resize:none;outline:none;min-height:34px;line-height:1.5}
 .em-note-del{background:none;border:none;cursor:pointer;opacity:0;font-size:.82rem;line-height:1;
   padding:0;transition:opacity .15s;flex:none;margin-top:1px;color:var(--c-muted)}
-.em-note:hover .em-note-del{opacity:.55}
+.em-note:hover .em-note-del{color:var(--c-muted)}
 .em-note-del:hover{opacity:1!important;color:var(--red)}
 .em-add-note{margin-top:6px;padding:5px 8px;border-radius:6px;font-size:.72rem;color:var(--c-muted);
   cursor:pointer;text-align:center;border:1.5px dashed var(--c-border);background:none;
@@ -436,9 +443,9 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .sm-axis-x{position:absolute;bottom:50%;left:0;right:0;height:1px;background:var(--c-border);pointer-events:none}
 .sm-axis-y{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--c-border);pointer-events:none}
 .sm-axis-lbl{position:absolute;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
-  color:var(--c-muted);opacity:.6;pointer-events:none;line-height:1.3}
+  color:var(--c-muted);color:var(--c-muted);pointer-events:none;line-height:1.3}
 .sm-svg-layer{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.sm-conn-line{stroke-width:2;stroke-dasharray:5 4;opacity:.55;cursor:pointer;pointer-events:all;transition:opacity .2s}
+.sm-conn-line{stroke-width:2;stroke-dasharray:5 4;5;cursor:pointer;pointer-events:all;transition:opacity .2s;stroke:#5B6B7C}
 .sm-conn-line:hover{opacity:1;stroke-width:3}
 .sm-node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;
   align-items:center;cursor:grab;z-index:3}
@@ -513,7 +520,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .pdc-name{font-size:.84rem;font-weight:600;color:var(--c-text)}
 .pdc-role{font-size:.7rem;color:var(--c-muted)}
 .pdc-del{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;
-  font-size:.8rem;opacity:.3;transition:opacity .15s}
+  font-size:.8rem;color:var(--c-muted);transition:opacity .15s}
 .pdc-del:hover{opacity:.9}
 .pdc-body{padding:.7rem .9rem;font-size:.78rem;line-height:1.55}
 .pdc-field{margin-bottom:.38rem}
@@ -544,14 +551,14 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .pd-cause-input{flex:1;border:none;background:transparent;font-size:.83rem;font-family:inherit;
   color:var(--c-text);outline:none;line-height:1.5}
 .pd-cause-del{background:none;border:none;cursor:pointer;color:var(--c-muted);font-size:.88rem;
-  opacity:.3;transition:all .15s;flex:none;padding:0}
+  color:var(--c-muted);transition:all .15s;flex:none;padding:0}
 .pd-cause-del:hover{opacity:1;color:var(--red)}
 .pd-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:.8rem 1rem;
   background:#E6F6F2;border:1px solid #BFE8DD;border-left:3px solid var(--c-secondary);
   border-radius:var(--r);margin-bottom:.85rem;font-size:.81rem}
 .pd-flow-item{padding:.35rem .75rem;background:var(--c-surface);border:1px solid #BFE8DD;
   border-radius:6px;font-size:.77rem;color:#046B5C;font-weight:600;white-space:nowrap}
-.pd-flow-arr{color:var(--c-secondary);font-weight:700;opacity:.6}
+.pd-flow-arr{color:var(--c-secondary);font-weight:700;color:var(--c-muted);}
 
 /* ═══ IDEATION ═══ */
 .ib-columns{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:.75rem}
@@ -564,7 +571,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .ib-col:nth-child(2) .ib-col-hd{border-top:3px solid var(--c-primary)}
 .ib-col:nth-child(3) .ib-col-hd{border-top:3px solid var(--c-secondary)}
 .ib-col:nth-child(4) .ib-col-hd{border-top:3px solid #A855F7}
-.ib-col-add{background:none;border:none;cursor:pointer;font-size:1.05rem;line-height:1;opacity:.5;
+.ib-col-add{background:none;border:none;cursor:pointer;font-size:1.05rem;line-height:1;color:var(--c-muted);
   transition:all .15s;padding:0;color:var(--c-primary)}
 .ib-col-add:hover{opacity:1;transform:scale(1.15)}
 .ib-col-cards{display:flex;flex-direction:column;gap:6px;padding:.65rem .7rem;flex:1}
@@ -577,10 +584,10 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .ib-card:hover{box-shadow:var(--sh)}
 .ib-card-text{flex:1;font-size:.79rem;line-height:1.45;outline:none;color:var(--c-text)}
 .ib-card-text:focus{background:var(--c-surface);border-radius:3px}
-.ib-card-del{background:none;border:none;cursor:pointer;opacity:.2;font-size:.82rem;line-height:1;
+.ib-card-del{background:none;border:none;cursor:pointer;color:var(--c-muted);font-size:.82rem;line-height:1;
   flex:none;padding:0;transition:opacity .15s}
 .ib-card-del:hover{opacity:1}
-.ib-vbtn{background:none;border:none;cursor:pointer;font-size:.8rem;line-height:1;opacity:.4;
+.ib-vbtn{background:none;border:none;cursor:pointer;font-size:.8rem;line-height:1;color:var(--c-muted);
   transition:all .12s;padding:0}
 .ib-vbtn:hover{opacity:1;transform:scale(1.2)}
 
@@ -595,7 +602,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
   padding:2px 10px;border-radius:999px;flex:none}
 .proto-iter-title{flex:1;border:none;background:transparent;font-size:.86rem;font-weight:600;
   color:var(--c-text);font-family:inherit;outline:none}
-.proto-iter-del{background:none;border:none;cursor:pointer;color:var(--c-muted);opacity:.35;
+.proto-iter-del{background:none;border:none;cursor:pointer;color:var(--c-muted);color:var(--c-muted);
   font-size:.9rem;transition:all .15s;padding:0}
 .proto-iter-del:hover{opacity:1;color:var(--red)}
 .proto-iter-body{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:.85rem .9rem}
@@ -729,7 +736,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .dspace-problem{background:var(--primary-lt);border-color:var(--primary-bd)}
 .dspace-solution{background:var(--amber-lt);border-color:var(--amber-bd)}
 .dspace-title{font-weight:700;font-size:.95rem;letter-spacing:.02em;margin-bottom:.1rem}
-.dspace-sub{font-size:.76rem;opacity:.65;margin-bottom:.9rem}
+.dspace-sub{font-size:.76rem;color:var(--c-muted);margin-bottom:.9rem}
 .dnodes{display:flex;align-items:flex-start;justify-content:space-between;gap:.2rem}
 .pnode{flex:1;min-width:0;background:none;border:none;cursor:pointer;text-align:center;padding:0;font-family:inherit}
 .pnode-c{width:58px;height:58px;border-radius:50%;margin:0 auto .4rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:transform .18s,box-shadow .18s;position:relative}
@@ -739,12 +746,12 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .pnode-done{position:absolute;bottom:-4px;right:-4px;background:var(--green);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.6rem;display:none;align-items:center;justify-content:center}
 .pnode.done .pnode-done{display:flex}
 .pnode-lbl{font-size:.73rem;font-weight:600;line-height:1.15;display:block}
-.pconn{font-size:.95rem;opacity:.4;padding-top:20px;flex:0 0 auto}
+.pconn{font-size:.95rem;color:var(--c-muted);padding-top:20px;flex:0 0 auto}
 .dtp-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;padding:0 .35rem}
 .dtp-pov{background:var(--c-surface);border:2px dashed var(--border-2);transform:rotate(45deg);width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:10px}
 .dtp-pov span{transform:rotate(-45deg);font-size:1.05rem}
-.dtp-mid-lbl{font-size:.64rem;text-align:center;opacity:.65;max-width:92px;line-height:1.2}
-.dtp-iter{margin:0 0 1rem;border:1.5px dashed var(--border-2);border-radius:var(--r-lg);padding:.5rem .8rem;font-size:.8rem;opacity:.85;display:flex;gap:.4rem;align-items:center}
+.dtp-mid-lbl{font-size:.64rem;text-align:center;color:var(--c-muted);max-width:92px;line-height:1.2}
+.dtp-iter{margin:0 0 1rem;border:1.5px dashed var(--border-2);border-radius:var(--r-lg);padding:.5rem .8rem;font-size:.8rem;color:var(--text-2);display:flex;gap:.4rem;align-items:center}
 .pp-panel{border:1px solid var(--c-border);border-radius:var(--r-lg);padding:1rem 1.1rem;margin-bottom:1rem;background:var(--c-surface,#fff);animation:ppIn .22s ease}
 @keyframes ppIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .pp-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.45rem}
@@ -753,7 +760,7 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 .pp-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.15rem}
 .pp-badge{font-size:.67rem;padding:.14rem .5rem;border-radius:999px;border:1px solid var(--border-2);background:var(--c-surface-alt)}
 .pp-goal{font-size:.89rem;margin:.3rem 0 .45rem}
-.pp-why{font-size:.82rem;opacity:.72;margin-bottom:.55rem}
+.pp-why{font-size:.82rem;color:var(--text-2);margin-bottom:.55rem}
 .pp-skills{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem}
 .pp-mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}
 @media(max-width:980px){.dtp-wrap{grid-template-columns:1fr}.dtp-mid{flex-direction:row;padding:.5rem 0}.dtp-mid-lbl{max-width:none}}
@@ -761,16 +768,16 @@ body{font-family:var(--font-b);background:var(--c-bg);color:var(--c-text);line-h
 
 /* Iteration 5: Kompetenzorientierung */
 .komp-banner{margin:.65rem 0 1rem;background:var(--green-lt);border:1px solid var(--green-bd);border-left:4px solid var(--green);border-radius:var(--r-lg);padding:.6rem .9rem;font-size:.85rem;line-height:1.5}
-.komp-praxis{display:block;font-size:.78rem;opacity:.7;margin-top:.15rem;font-style:italic}
+.komp-praxis{display:block;font-size:.78rem;color:var(--c-muted);margin-top:.15rem;font-style:italic}
 .pp-reflex{margin-top:.8rem;border-top:1px dashed var(--c-border);padding-top:.6rem;font-size:.84rem}
 .sp-wrap{margin:0 0 1.25rem;border:1px solid var(--c-border);border-radius:var(--r-lg);padding:1rem 1.1rem;background:var(--c-surface,#fff)}
 .sp-title{font-weight:700;font-size:.98rem;margin-bottom:.15rem}
-.sp-sub{font-size:.76rem;opacity:.65;margin-bottom:.8rem}
+.sp-sub{font-size:.76rem;color:var(--c-muted);margin-bottom:.8rem}
 .sp-row{display:grid;grid-template-columns:180px 1fr 42px;gap:.6rem;align-items:center;margin-bottom:.4rem}
 .sp-lbl{font-size:.8rem;font-weight:600}
 .sp-bar{height:10px;border-radius:999px;background:var(--c-surface-alt);overflow:hidden}
 .sp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--c-primary),var(--c-accent-mint));transition:width .5s ease}
-.sp-num{font-size:.76rem;text-align:right;opacity:.7}
+.sp-num{font-size:.76rem;text-align:right;color:var(--c-muted)}
 @media(max-width:640px){.sp-row{grid-template-columns:130px 1fr 36px}}
 
 
@@ -918,6 +925,143 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
 .fin-m.me{background:var(--c-surface-alt);border:1px solid var(--c-border);align-self:flex-end}
 @media(max-width:640px){.fin-grid{grid-template-columns:1fr}}
 
+
+/* ═══ Iteration 12: Lesbarkeit, Zustände, Kontrast (WCAG 2.1 AA) ═══ */
+.top-bar-dot.on{background:var(--status-on);box-shadow:0 0 0 3px rgba(21,128,61,.18)}
+.top-bar-dot.off{background:var(--status-off)}
+.top-bar-status.on{color:var(--status-on)}
+.top-bar-status.off{color:var(--c-muted)}
+.btn-next:disabled,.eval-send:disabled,.top-api-btn:disabled{background:var(--border-2);color:var(--text-2);cursor:not-allowed;opacity:1}
+.btn-ghost:disabled{color:var(--c-muted);border-color:var(--c-border);cursor:not-allowed;opacity:1}
+.btn-next:hover:not(:disabled){background:var(--c-primary-hover)}
+.btn-next:active:not(:disabled){background:var(--c-primary-hover);transform:translateY(1px)}
+input::placeholder,textarea::placeholder{color:var(--c-muted);opacity:1}
+.card,.pp-panel,.sp-wrap,.km-comp-card,.beat-card,.coach-card,.fin-m,.mandat-box,.ctx-banner,.km-intro{color:var(--c-text)}
+.beat-card{border-left-color:var(--amber-text)}
+.beat-kicker{color:var(--amber-text)}
+.mc-phase{color:var(--c-muted)}
+.cs-pullquote-src{color:var(--c-muted)}
+.dt-pill:hover{border-color:var(--c-primary)}
+.fc-card:focus-visible,.case-pick:focus-visible,.km-cell:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--c-primary);outline-offset:2px}
+.km-ref-dev{color:var(--text-2)}
+.km-compare-note,.km-heat-note,.fc-hint,.fc-note{color:var(--c-muted)}
+
+
+/* Iteration 12 Nachtrag: dunkler Dilemma-/Aufgabenblock — helle Textfarben erzwingen */
+.cs-dilemma .cs-p{color:#DCE7F2}
+.cs-dilemma .cs-p b,.cs-dilemma .cs-p strong{color:#FFFFFF}
+
+
+/* Iteration 13: Simulations-Briefing */
+.brief-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.6rem}
+.brief-tile{border:1px solid var(--c-border);border-radius:var(--r-lg);padding:.65rem .8rem;background:var(--c-surface);display:flex;flex-direction:column;gap:.15rem;font-size:.83rem;line-height:1.45}
+.brief-tile b{font-size:.86rem}
+.brief-tile span:not(.bt-ic){color:var(--text-2)}
+.bt-ic{font-size:1.15rem}
+.tool3-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.6rem}
+.tool3-card{border:1px solid var(--c-border);border-radius:var(--r-lg);padding:.75rem .85rem;background:var(--c-surface)}
+.t3-hd{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:.92rem;margin-bottom:.5rem}
+.t3-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex:none;color:#fff}
+.t3-row{font-size:.8rem;line-height:1.45;color:var(--text-2);margin-bottom:.35rem}
+.t3-row b{display:inline-block;min-width:52px;color:var(--c-primary);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;margin-right:.3rem}
+.brief-two{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.brief-p{font-size:.86rem;line-height:1.6;color:var(--c-text);margin:0}
+.tips-list{margin:.2rem 0 0 1.05rem;padding:0;font-size:.85rem;line-height:1.7}
+@media(max-width:760px){.brief-two{grid-template-columns:1fr}}
+
+
+.tool-mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.5rem}
+.tool-mini{display:flex;align-items:flex-start;gap:.55rem;border:1px solid var(--c-border);border-radius:var(--r-lg);padding:.55rem .7rem;background:var(--c-surface-alt);font-size:.8rem;line-height:1.45}
+.tool-mini b{display:block;font-size:.82rem;color:var(--c-text)}
+.tool-mini span:not(.tm-ic){color:var(--text-2)}
+.tm-ic{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex:none;color:#fff}
+
+
+/* Iteration 15: Erkennungsmomente */
+.rec-note{align-self:center;max-width:88%;text-align:center;font-size:.78rem;font-style:italic;color:#02606B;background:var(--accent-lt);border:1px solid var(--green-bd);border-radius:999px;padding:.3rem .85rem;margin:.15rem 0;animation:ppIn .3s ease}
+
+
+/* Iteration 15: Verlaufsanker */
+.km-recall{background:var(--c-surface-alt);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:.7rem .95rem;margin-bottom:.9rem}
+.km-recall-hd{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-muted);margin-bottom:.4rem}
+.km-recall-list{margin:0;padding-left:1.05rem;font-size:.84rem;line-height:1.65;color:var(--c-text)}
+
+
+.mpd{cursor:pointer;padding:0}
+.mpd:hover{transform:scale(1.35);border-color:var(--c-primary)}
+.mpd:focus-visible{outline:2px solid var(--c-primary);outline-offset:2px}
+
+.km-recall-sub{margin:.35rem 0 0 1.1rem;padding:0}
+.km-recall-sub li{font-size:.8rem;color:var(--c-muted);margin-bottom:.2rem;list-style:circle}
+
+/* Project Memory — Dozentenansicht */
+.mem-panel{background:var(--c-surface-alt);border:1px solid var(--c-border);
+  border-radius:var(--r-lg);padding:1rem 1.15rem;margin-bottom:1.1rem}
+.mem-panel:empty{display:none}
+.mem-hd{font-size:.9rem;font-weight:600;margin-bottom:.2rem}
+.mem-sub{font-size:.74rem;color:var(--c-muted);line-height:1.5;margin-bottom:.8rem;max-width:70ch}
+.mem-sec{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--c-muted);margin:.9rem 0 .4rem}
+.mem-tbl{width:100%;border-collapse:collapse;font-size:.76rem}
+.mem-tbl th{text-align:left;font-weight:600;padding:.3rem .5rem;border-bottom:1px solid var(--c-border);color:var(--c-muted)}
+.mem-tbl td{padding:.3rem .5rem;border-bottom:1px solid var(--c-border)}
+.mem-bar{display:inline-block;width:44px;height:6px;background:var(--c-border);
+  border-radius:3px;overflow:hidden;vertical-align:middle;margin-right:5px}
+.mem-bar i{display:block;height:100%;background:var(--c-primary)}
+.mem-list{margin:.2rem 0 0 1.05rem;padding:0}
+.mem-list li{font-size:.76rem;color:var(--c-text);line-height:1.55;margin-bottom:.25rem}
+
+/* Project Memory — Hinweis bei Gesprächswiederaufnahme */
+.mem-resume{margin:0 0 .7rem;padding:.5rem .75rem;border-radius:8px;
+  background:var(--c-surface-alt);border:1px dashed var(--c-border);
+  font-size:.76rem;color:var(--c-muted);font-style:italic;text-align:center}
+
+/* ═══ METHODENBAUKASTEN — freie Werkzeugwahl in jeder Phase ═══ */
+.mb-frage{font-size:1rem;font-weight:600;color:var(--c-text);margin:.2rem 0 .3rem}
+.mb-hint{font-size:.8rem;color:var(--c-muted);line-height:1.6;margin-bottom:.9rem;max-width:74ch}
+.mb-sep{font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--c-muted);margin:1.3rem 0 .7rem;padding-top:.9rem;border-top:1px solid var(--c-border)}
+.mc-typisch{border-color:#CBE1F5;background:linear-gradient(180deg,rgba(37,99,235,.035),transparent 55%)}
+.mc-tip{position:absolute;top:.55rem;right:.6rem;font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.07em;color:var(--c-secondary);
+  background:var(--c-surface-alt);padding:2px 7px;border-radius:20px}
+.mc-meta{font-size:.72rem;color:var(--c-muted);line-height:1.5;margin-bottom:.4rem}
+.mc-meta b{color:var(--c-text);font-weight:600}
+.mc-used{font-size:.71rem;color:#2f855a;margin-bottom:.5rem;font-weight:500}
+
+/* Begründung der Werkzeugwahl */
+.mr-box{background:var(--c-surface-alt);border:1px solid var(--c-border);border-radius:var(--r-lg);
+  padding:.85rem 1rem;margin-bottom:1.1rem}
+.mr-q{font-size:.86rem;font-weight:600;margin-bottom:.5rem;color:var(--c-text)}
+.mr-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.mr-row .fc-reason{flex:1;min-width:260px;margin:0}
+.mr-saved{font-size:.85rem;font-style:italic;color:var(--c-text);margin-bottom:.35rem}
+.mr-note{font-size:.72rem;color:var(--c-muted);margin-top:.45rem}
+
+/* W-4 · Kompetenz-Aktivierungsprofil (Dozentenansicht) */
+.skill-profile{padding-top:1.2rem;margin-top:1.2rem;border-top:1px solid var(--border)}
+.skill-profile:empty{display:none}
+.sp-title{font-size:.95rem;font-weight:600;margin-bottom:.3rem}
+.sp-sub{font-size:.78rem;line-height:1.55;color:var(--c-muted);margin-bottom:.7rem;max-width:64ch}
+.sp-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem}
+.sp-lbl{flex:0 0 190px;font-size:.8rem}
+.sp-bar{flex:1;height:9px;background:var(--c-surface-alt);border-radius:5px;overflow:hidden}
+.sp-fill{height:100%;background:var(--c-primary);border-radius:5px}
+.sp-num{flex:0 0 28px;text-align:right;font-size:.78rem;color:var(--c-muted)}
+
+/* W-3 · Hinweis auf wartende Meldungen */
+.card-queue-hint{margin-top:.55rem;padding-top:.45rem;border-top:1px dashed var(--border);
+  font-size:.74rem;color:var(--c-muted);font-style:italic}
+
+/* K-2 · Verlaufsexport für die Evaluation */
+.verlauf-export{padding-top:1.2rem;margin-top:1.2rem;border-top:1px solid var(--border)}
+.ve-note{font-size:.82rem;line-height:1.6;color:var(--c-muted);margin:.4rem 0 .8rem;max-width:62ch}
+
+/* K-1 · Kennzeichnung des eingeschränkten Demonstrationsmodus */
+.mode-banner{margin:0 0 .6rem;padding:.6rem .8rem;border-radius:8px;
+  background:rgba(214,158,46,.10);border:1px solid rgba(214,158,46,.42);
+  color:var(--c-text);font-size:.8rem;line-height:1.5}
+.mode-banner strong{color:#b7791f}
 </style>
 </head>
 <body>
@@ -929,7 +1073,7 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
     <div class="brand">Fast-Forward-Studio<small id="brandCase">Simulation</small></div>
     <div class="nav-label">Projekt</div>
     <button class="nav-item" id="sn-0" onclick="goToPhase(0)"><span class="n">0</span> Mandat</button>
-    <button class="nav-item" id="sn-1" onclick="goToPhase(1)"><span class="n">1</span> Glossar</button>
+    <button class="nav-item" id="sn-1" onclick="goToPhase(1)"><span class="n">1</span> Briefing</button>
     <button class="nav-item" id="sn-2" onclick="goToPhase(2)"><span class="n">2</span> Projektstart</button>
     <button class="nav-item" id="sn-3" onclick="goToPhase(3)"><span class="n">3</span> Projektarbeit</button>
     <button class="nav-item" id="sn-4" onclick="goToPhase(4)"><span class="n">4</span> Projektabschluss</button>
@@ -941,12 +1085,12 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
 
   <!-- HEADER: Breadcrumb + Stepper + Fortschritt + API -->
   <header class="va-header">
-    <span class="crumb">Simulation · <strong id="headCrumb">Phase 1 von 5 — Einführung</strong></span>
+    <span class="crumb">Simulation · <strong id="headCrumb">Akt 1 von 3 — Mandat</strong></span>
     <span class="progress-pill" id="progressPill">0 % abgeschlossen</span>
     <div class="hdr-api">
       <input class="top-api-input" type="password" id="topApiKeyInput" placeholder="sk-ant-…" autocomplete="off" onkeydown="if(event.key==='Enter') saveApiKeyTop()"/>
       <button class="top-api-btn" onclick="saveApiKeyTop()">Speichern</button>
-      <div class="top-bar-dot" id="topApiDot" style="background:#C5CDD6;box-shadow:none"></div>
+      <div class="top-bar-dot off" id="topApiDot"></div>
       <span class="top-bar-status" id="topApiLabel" style="color:var(--c-muted)">Kein Key</span>
     </div>
   </header>
@@ -1119,45 +1263,94 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
 
   <div class="phase" id="phase-1">
     <div class="phase-hdr">
-      <div class="phase-num" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">📖</div>
+      <div class="phase-num">📋</div>
       <div>
-        <div class="phase-title">Glossar &amp; Nachschlagewerk</div>
-        <div class="phase-desc">Bei Bedarf: Fachbegriffe und Grundlagen zum Nachschlagen — jederzeit über die Seitenleiste erreichbar. Das Projekt wartet solange.</div>
+        <div class="phase-title">Simulations-Briefing</div>
+        <div class="phase-desc">In drei Minuten startklar: Was Sie erwartet, wie die Simulation funktioniert und welche drei Werkzeuge Sie nutzen werden.</div>
       </div>
     </div>
+
     <div class="card">
-      <div class="gs-section">
-        <div class="gs-title">Was ist Design Thinking?</div>
-        <div class="gs-info"><div class="gs-info-icon">💡</div><div class="gs-info-text"><strong>Design Thinking ist keine Methode. Es ist eine Haltung:</strong> Probleme zuerst verstehen — aus der Perspektive der Menschen, die täglich damit leben.</div></div>
-        <div class="gs-text">Design Thinking stellt den Menschen in den Mittelpunkt jedes Entwicklungsprozesses. Statt linearer Lösungspfade iteriert DT zwischen Verstehen, Beobachten, Definieren, Ideen entwickeln, Prototypen und Testen. Im Gesundheitswesen scheitern bis zu 70 % der Digitalisierungsprojekte — nicht an Technologie, sondern an fehlender Nutzerzentrierung und mangelnder Einbindung.</div>
-        <div class="gs-text"><strong>Fast Forward</strong> ist der Personalentwicklungsansatz, der Design Thinking als erfahrungsbasiertes Lernformat nutzt. Statt Schulungen gibt es Reflexion, Perspektivwechsel und kollaboratives Problemlösen — Future Skills entstehen durch Tun, nicht durch Zuhören.</div>
+      <div class="sec-label">So funktioniert die Simulation</div>
+      <div class="brief-grid">
+        <div class="brief-tile"><span class="bt-ic">🏥</span><b>Ein realer Fall</b><span>Sie bearbeiten einen realistischen Digitalisierungsfall aus dem Krankenhausalltag.</span></div>
+        <div class="brief-tile"><span class="bt-ic">🎯</span><b>Ihre Entscheidungen</b><span>Sie entscheiden, wen Sie hören, was Sie erheben und was Sie empfehlen — die Simulation reagiert darauf.</span></div>
+        <div class="brief-tile"><span class="bt-ic">💬</span><b>KI-Personas</b><span>Acht Beteiligte mit eigenen Interessen. Sie überzeugen nur gute Argumente — und sie erinnern sich, mit wem Sie schon sprachen.</span></div>
+        <div class="brief-tile"><span class="bt-ic">🛠</span><b>Werkzeuge bei Bedarf</b><span>Sieben Arbeitsflächen warten — aber keine wird Ihnen vorgeschrieben. Sie greifen dann zu, wenn Sie nicht weiterkommen.</span></div>
+        <div class="brief-tile"><span class="bt-ic">🧭</span><b>Keine Musterlösung</b><span>Es zählt nicht die eine richtige Antwort, sondern eine begründete Empfehlung.</span></div>
+        <div class="brief-tile"><span class="bt-ic">👤</span><b>Ihre Rolle</b><span>Digital Health Manager:in mit Mandat, aber ohne Weisungsbefugnis. Ihre Mittel: Zuhören, Verstehen, Überzeugen.</span></div>
       </div>
+    </div>
 
-      <div class="gs-section">
-        <div class="gs-title">Kompetenzen vs. Future Skills</div>
-        <div class="gs-text"><strong>Kompetenzen</strong> sind die Fähigkeit, Wissen, Erfahrungen und Einstellungen in konkreten Situationen handlungswirksam einzusetzen. <strong>Future Skills</strong> sind eine Auswahl zukunftsrelevanter Kompetenzen, die in digitalen, komplexen und unsicheren Kontexten besonders wichtig werden — Empathie, systemisches Denken, Adaptionsfähigkeit, Reflexionsfähigkeit.</div>
-        <div class="gs-info"><div class="gs-info-icon">🧭</div><div class="gs-info-text">Alle Future Skills sind Kompetenzen — aber nicht alle Kompetenzen sind Future Skills. Design Thinking macht mehrere Future Skills gleichzeitig erfahrbar.</div></div>
-      </div>
-
-      <div class="gs-section">
-        <div class="gs-title">Interaktives Glossar</div>
-        <div class="gl-search-wrap">
-          <span class="gl-search-icon">🔍</span>
-          <input class="gl-search" type="text" placeholder="Begriff suchen, z.B. »Empathy Map«, »EHDS«…" oninput="filterGlossary(this.value)"/>
+    <div class="card">
+      <div class="sec-label">Wenn Sie nicht weiterwissen — diese Werkzeuge helfen</div>
+      <div class="fc-hint">Sie brauchen diese Übersicht jetzt nicht auswendig zu lernen. Im Projekt werden Sie an Punkte kommen, an denen Sie nicht weiterwissen — dann hilft ein Blick hierher. Die Spalte „Wann" beschreibt genau diese Situationen.</div>
+      <div class="tool3-grid">
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-amber)">🗺️</span>Empathy Map</div>
+          <div class="t3-row"><b>Zweck</b>Erfasst, was eine Person denkt, fühlt, sagt und braucht.</div>
+          <div class="t3-row"><b>Wann</b>Wenn jemand etwas sagt, aber offenbar etwas anderes meint.</div>
+          <div class="t3-row"><b>Wofür</b>Deckt echte Bedürfnisse hinter Aussagen auf.</div>
         </div>
-        <div class="gl-cat-row" id="glCatRow"></div>
-        <div class="gl-grid" id="glossaryGrid"></div>
-        <div id="glossaryEmpty" style="display:none;font-size:.83rem;color:var(--muted);text-align:center;padding:1.5rem 0;font-style:italic">Kein Begriff gefunden.</div>
-      </div>
-
-      <div class="gs-section">
-        <div class="gs-title">Weiterführende Ressourcen</div>
-        <div class="res-grid">
-          <a class="res-card" href="https://hpi.de/school-of-design-thinking/" target="_blank" rel="noopener"><div class="res-icon">🎓</div><div><div class="res-name">HPI School of Design Thinking</div><div class="res-desc">Europäisches Zentrum für Design Thinking — Kurse, Videos, Forschung.</div></div><div class="res-arr">↗</div></a>
-          <a class="res-card" href="https://designthinking.ideo.com/" target="_blank" rel="noopener"><div class="res-icon">💡</div><div><div class="res-name">IDEO Design Thinking</div><div class="res-desc">Guides, Toolkits und Fallstudien vom Ursprungsort des modernen DT.</div></div><div class="res-arr">↗</div></a>
-          <a class="res-card" href="https://www.nngroup.com/" target="_blank" rel="noopener"><div class="res-icon">📊</div><div><div class="res-name">Nielsen Norman Group</div><div class="res-desc">Wissenschaftlich fundierte Forschung zu UX und nutzerzentriertem Design.</div></div><div class="res-arr">↗</div></a>
-          <a class="res-card" href="https://www.who.int/health-topics/digital-health" target="_blank" rel="noopener"><div class="res-icon">🌐</div><div><div class="res-name">WHO Digital Health</div><div class="res-desc">Globale Perspektive auf digitale Transformation im Gesundheitswesen.</div></div><div class="res-arr">↗</div></a>
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-violet)">🕸️</span>Stakeholder Map</div>
+          <div class="t3-row"><b>Zweck</b>Ordnet alle Beteiligten nach Einfluss und Interesse.</div>
+          <div class="t3-row"><b>Wann</b>Wenn Sie den Überblick verlieren, wer mitredet und wer entscheidet.</div>
+          <div class="t3-row"><b>Wofür</b>Zeigt, wen Sie überzeugen müssen und wessen Widerstand zählt.</div>
         </div>
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-pink)">👥</span>Persona</div>
+          <div class="t3-row"><b>Zweck</b>Verdichtet eine Nutzergruppe zu einem konkreten Menschen.</div>
+          <div class="t3-row"><b>Wann</b>Wenn Sie viele Einzelmeinungen haben, aber kein Bild vom Nutzer.</div>
+          <div class="t3-row"><b>Wofür</b>Hält die Nutzerperspektive im Projekt präsent.</div>
+        </div>
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-orange)">🎯</span>Problem Definition</div>
+          <div class="t3-row"><b>Zweck</b>Verdichtet alle Erkenntnisse zu einem präzisen Kernproblem.</div>
+          <div class="t3-row"><b>Wann</b>Wenn jeder ein anderes Problem nennt und Sie sich festlegen müssen.</div>
+          <div class="t3-row"><b>Wofür</b>Stellt sicher, dass Lösungen das richtige Problem treffen.</div>
+        </div>
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-emerald)">💡</span>Ideation</div>
+          <div class="t3-row"><b>Zweck</b>Erzeugt viele Lösungsideen — Menge vor Bewertung.</div>
+          <div class="t3-row"><b>Wann</b>Wenn Ihnen nur eine Lösung einfällt und die alternativlos wirkt.</div>
+          <div class="t3-row"><b>Wofür</b>Öffnet den Lösungsraum, bevor priorisiert wird.</div>
+        </div>
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-blue)">🛠️</span>Prototyping</div>
+          <div class="t3-row"><b>Zweck</b>Macht eine ausgewählte Idee schnell greifbar.</div>
+          <div class="t3-row"><b>Wann</b>Wenn eine Idee überzeugt, aber noch niemand sie beurteilen konnte.</div>
+          <div class="t3-row"><b>Wofür</b>Prüft Annahmen, bevor investiert wird.</div>
+        </div>
+        <div class="tool3-card">
+          <div class="t3-hd"><span class="t3-ic" style="background:var(--mc-green)">🔄</span>Reflexion</div>
+          <div class="t3-row"><b>Zweck</b>Sichert Feedback und Lernerkenntnisse.</div>
+          <div class="t3-row"><b>Wann</b>Wenn Sie wissen wollen, ob Ihr Vorgehen trägt — oder was Sie gelernt haben.</div>
+          <div class="t3-row"><b>Wofür</b>Zeigt, was trägt und wo nachzubessern ist.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="brief-two">
+        <div class="brief-info">
+          <div class="sec-label">Warum Nutzerorientierung?</div>
+          <p class="brief-p">Digitalprojekte scheitern selten an der Technik — meist wurde an den Menschen vorbei geplant. Deshalb: erst verstehen, dann lösen. Und weil erste Antworten selten die besten sind, dürfen Sie jederzeit zurückspringen — die Simulation ist bewusst iterativ.</p>
+        </div>
+        <div class="brief-info">
+          <div class="sec-label">5 Tipps für die Bearbeitung</div>
+          <ul class="tips-list">
+            <li>Hören Sie den Personas aufmerksam zu — die entscheidenden Sätze fallen nebenbei.</li>
+            <li>Dokumentieren Sie Erkenntnisse direkt in den Werkzeugen.</li>
+            <li>Hinterfragen Sie Ihre Annahmen — besonders die, die sich sicher anfühlen.</li>
+            <li>Springen Sie zurück, wenn neue Erkenntnisse alte Schlüsse infrage stellen.</li>
+            <li>Nutzen Sie die KI als Gesprächspartner: Nachfragen kostet nichts, Annahmen kosten viel.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="fc-actions" style="margin-top:1rem">
+        <button class="btn-next" onclick="goToPhase(2)">Weiter zum Projektstart →</button>
+        <span class="fc-note">Sie können jederzeit über die Seitenleiste hierher zurückkehren.</span>
       </div>
     </div>
   </div>
@@ -1168,7 +1361,7 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
       <div class="phase-num">2</div>
       <div>
         <div class="phase-title">Perspektive wählen &amp; Gespräch führen</div>
-        <div class="phase-desc">Dein Auftrag als Digital Health Manager: Nach dem Go-live des neuen Klinikinformationssystems hakt es. Bevor du Lösungen entwickelst, verschaffe dir ein Bild — im nächsten Schritt sprichst du mit den Beteiligten und wendest dabei die Design-Thinking-Methoden an. Verstehen kommt vor Lösen.</div>
+        <div class="phase-desc">Ihr Auftrag als Digital Health Manager: Nach dem Go-live des neuen Klinikinformationssystems hakt es. Bevor Sie Lösungen entwickeln, verschaffen Sie sich ein Bild — im nächsten Schritt sprechen Sie mit den Beteiligten und wenden dabei die Design-Thinking-Methoden an. Verstehen kommt vor Lösen.</div>
         <div class="phase-chips"><span class="phase-chip">Auftragsklärung</span><span class="phase-chip">Systemisches Denken</span><span class="phase-chip">Problemverständnis</span></div>
       </div>
     </div>
@@ -1180,7 +1373,7 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
         <div class="mandat-q" id="mandatQ"></div>
       </div>
       <div class="sec-label" style="margin-top:1.2rem">Ihre erste Entscheidung · Erstkontakt wählen</div>
-      <div class="fc-hint">Sie können nicht mit allen zugleich sprechen. Wen hören Sie zuerst — und warum? Diese Entscheidung hat Konsequenzen im weiteren Verlauf.</div>
+      <div class="fc-hint">Sie können nicht mit allen zugleich sprechen. Wen hören Sie zuerst — und warum?<br><b>Im Haus spricht sich herum, mit wem Sie reden.</b> Wer früh gehört wird, begegnet Ihnen später anders als jemand, der davon nur erfährt. Ihre Begründung wird Ihnen im Projektabschluss erneut vorgelegt.</div>
       <div class="fc-grid" id="fcGrid"></div>
       <input type="text" id="fcReason" class="fc-reason" placeholder="Ihre Begründung in einem Satz (wird im Projektabschluss wieder aufgegriffen) …">
       <div class="fc-actions">
@@ -1190,19 +1383,19 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
     </div>
   </div>
 
-  <!-- ═══ PHASE 3<!-- ═══ PHASE 3 — METHODEN ══════════════════════════════════════ -->
+  <!-- ═══ AKT 2 — PROJEKTARBEIT: GESPRÄCHE & WERKZEUGE ═══════════════ -->
   <div class="phase" id="phase-3">
     <div class="phase-hdr">
       <div class="phase-num">3</div>
       <div>
-        <div class="phase-title">Im Dialog erheben &amp; Methoden anwenden</div>
-        <div class="phase-desc">Wähle eine Perspektive und sprich mit ihr — direkt darunter siehst du den Design-Thinking-Prozess. Aktiviere eine Gesprächsmethode, um dein Material methodisch geführt zu erheben, oder öffne eine Methoden-Arbeitsfläche, um es auszuwerten. Erheben und Verarbeiten finden hier gemeinsam statt, aus Sicht deiner gewählten Persona.</div>
+        <div class="phase-title">Das Projekt läuft</div>
+        <div class="phase-desc">Sie haben das Mandat — jetzt verschaffen Sie sich ein Bild. Sprechen Sie mit den Beteiligten, hören Sie genau hin, und wenn Sie den Überblick verlieren oder eine Aussage nicht einordnen können: Unter dem Gespräch finden Sie Arbeitsflächen, die Ihnen beim Ordnen helfen. Welche Sie wann brauchen, entscheiden Sie.</div>
         <div class="phase-chips"><span class="phase-chip">Analytisches Denken</span><span class="phase-chip">Kreativität</span><span class="phase-chip">Systemisches Denken</span></div>
       </div>
     </div>
     <div id="storyBeatBox"></div>
     <div class="card stack">
-      <div class="sec-label">Schritt 1 · Perspektive wählen &amp; im Dialog erheben</div>
+      <div class="sec-label">Mit wem sprechen Sie?</div>
       <div class="sec-label sec-label--lg">Wähle eine Berufsrolle</div>
       <div class="role-grid" id="roleGrid">
         <button class="role-card" data-role="pflege" onclick="selectRole(this)"><div class="rc-top"><span class="role-icon">🩺</span><span class="rc-age">34 Jahre</span></div><div class="role-name">Anna Brinkmann</div><div class="rc-role">Pflegefachkraft · Praxisanleiterin</div><div class="rc-attrs"><span class="rc-attr">12 J. Berufserfahrung</span><span class="rc-attr">Meinungsführerin im Team</span><span class="rc-attr">CuraDok-Erfahrung 2022</span></div></button>
@@ -1221,16 +1414,16 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
           <span>Methode aktiv: <strong id="dtBannerName"></strong></span>
           <button class="dt-clear-btn" onclick="clearDTMethod()">Entfernen</button>
         </div>
-        <div class="chat-hdr"><span id="chatRoleIcon"></span><span>Du sprichst mit: <strong id="chatRoleName"></strong></span></div>
+        <div class="chat-hdr"><span id="chatRoleIcon"></span><span>Sie sprechen mit: <strong id="chatRoleName"></strong></span></div>
         <div class="messages" id="messages"></div>
         <div class="typing" id="typing"><span></span><span></span><span></span></div>
         <div class="chat-input-row">
-          <input type="text" id="userInput" placeholder="Deine Frage eingeben…" maxlength="400" onkeydown="if(event.key==='Enter') sendMessage()"/>
+          <input type="text" id="userInput" placeholder="Ihre Frage eingeben…" maxlength="400" onkeydown="if(event.key==='Enter') sendMessage()"/>
           <button onclick="sendMessage()" id="sendBtn">Senden</button>
         </div>
         <div class="chat-actions"><button class="btn-ghost" onclick="clearChat()">Chat leeren</button></div>
         <div class="dt-pills-row">
-          <span class="dt-pill-label">🛠 Gesprächsmethode wählen · erhebt dein Material methodisch geführt aus Sicht der Persona</span>
+          <span class="dt-pill-label">🛠 Sie kommen im Gespräch nicht weiter? Wählen Sie einen gezielteren Zugang:</span>
           <button class="dt-pill" data-method="empathyMap"        onclick="applyDTMethod(this)">🗺️ Empathy Map</button>
           <button class="dt-pill" data-method="stakeholderMap"    onclick="applyDTMethod(this)">🕸️ Stakeholder</button>
           <button class="dt-pill" data-method="persona"           onclick="applyDTMethod(this)">🪞 Persona</button>
@@ -1265,13 +1458,16 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
         <span class="method-prog-label" id="methodProgLabel">Projektstand — Perspektiven: 0/8 · Erkenntnisquellen: 0 · Offen: 8 Perspektiven</span>
         <div class="method-prog-dots" id="methodProgDots"></div>
       </div>
+      <!-- Project Memory — Dozentenansicht (für Lernende ausgeblendet) -->
+      <div id="memPanel" class="mem-panel komp-reveal"></div>
+
       <div id="methodDashboard">
         <div id="dtProcessBand"></div>
         <div id="phasePanel" class="pp-panel" style="display:none"></div>
       </div>
       <div id="methodToolPanel" style="display:none">
         <div class="tool-hdr">
-          <button class="btn-back-tool" onclick="closeMethodTool()">← Zur Übersicht</button>
+          <button class="btn-back-tool" onclick="closeMethodTool()">← Zurück ins Gespräch</button>
           <div class="tool-title" id="methodToolTitle"></div>
         </div>
         <div id="methodToolContent"></div>
@@ -1285,7 +1481,7 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
       <div class="phase-num" style="background:linear-gradient(135deg,#0F6CBD,#02C39A)">4</div>
       <div>
         <div class="phase-title">Projektabschluss &amp; Kompetenzreflexion</div>
-        <div class="phase-desc">Leitfrage: <b>Welche Kompetenzen benötigt ein Digital Health Manager — und durch welche Design-Thinking-Methode hast du sie in dieser Simulation beobachtet oder entwickelt?</b> Trage deine eigenen Erkenntnisse aus allen Phasen zusammen. Die Kompetenzen werden dir nicht vorgegeben — du leitest sie selbst ab.</div>
+        <div class="phase-desc">Das Projekt ist abgeschlossen. Bevor Sie es hinter sich lassen: Was hat diese Aufgabe eigentlich von Ihnen verlangt? <b>Welche Fähigkeiten brauchte es — und in welcher Situation haben Sie sie eingesetzt?</b> Niemand gibt Ihnen die Antwort vor; Sie rekonstruieren sie aus Ihrem eigenen Verlauf.</div>
       </div>
     </div>
 
@@ -1317,9 +1513,10 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
 
     <div class="card" id="kmCard" style="display:none">
       <div class="km-intro">
-        <span class="km-step-dot">2</span> Fülle die Matrix aus deiner Erinnerung an Dialoge, Methoden und Problemlösung. Jede Zeile ist ein selbst erkannter Zusammenhang. Denke auch an deine Entscheidungen: Erstkontakt, Reihenfolge der Perspektiven, Umgang mit den Projektupdates. <b>Erst wenn du mindestens drei Zeilen vollständig ausgefüllt hast</b>, erscheint eine fachliche Kompetenz-Referenz zum Abgleich.
+        <span class="km-step-dot">2</span> Füllen Sie die Matrix aus Ihrer Erinnerung an Dialoge, Methoden und Problemlösung. Jede Zeile ist ein selbst erkannter Zusammenhang. Denken Sie auch an Ihre Entscheidungen: Erstkontakt, Reihenfolge der Perspektiven, Umgang mit den Projektupdates. <b>Erst wenn Sie mindestens drei Zeilen vollständig ausgefüllt haben</b>, erscheint eine fachliche Kompetenz-Referenz zum Abgleich.
       </div>
 
+      <div id="kmRecall" class="km-recall"></div>
       <div class="km-table-wrap">
         <table class="km-table" id="kmTable">
           <thead>
@@ -1344,11 +1541,11 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
     <!-- Experten-Vergleich (erst nach Freischaltung sichtbar) -->
     <div class="card km-compare" id="kmCompare" style="display:none">
       <div class="sec-label">2 · Abgleich mit einer fachlichen Kompetenz-Referenz</div>
-      <div class="km-compare-note">Kein Richtig oder Falsch: Die Tabelle bündelt zentrale Kompetenzfelder eines Digital Health Managers und zeigt je Kompetenz den zugehörigen Future Skill, eine passende Design-Thinking-Methode und einen möglichen Entwicklungsweg. Die Spalte „Dein Abgleich“ markiert, welche davon in deiner eigenen Matrix bereits auftauchen — als Orientierung für deine Reflexion.</div>
+      <div class="km-compare-note">Kein Richtig oder Falsch: Die Tabelle bündelt zentrale Kompetenzfelder eines Digital Health Managers und zeigt je Kompetenz den zugehörigen Future Skill, eine passende Design-Thinking-Methode und einen möglichen Entwicklungsweg. Die Spalte „Ihr Abgleich“ markiert, welche davon in Ihrer eigenen Matrix bereits auftauchen — als Orientierung für Ihre Reflexion.</div>
       <div id="kmCompareGrid" class="km-compare-grid"><!-- via JS --></div>
 
-      <div class="sec-label" style="margin-top:1.4rem">3 · Methoden-Kompetenz-Landkarte (aus deinen Einträgen)</div>
-      <div class="km-heat-note">Verdichtung deiner eigenen Matrix: Welche Methode hast du mit welcher Kompetenz verknüpft? Genau diese Zuordnung ist der Kern der Methoden-Kompetenz-Matrix der Arbeit.</div>
+      <div class="sec-label" style="margin-top:1.4rem">3 · Methoden-Kompetenz-Landkarte (aus Ihren Einträgen)</div>
+      <div class="km-heat-note">Verdichtung Ihrer eigenen Matrix: Welche Methode haben Sie mit welcher Kompetenz verknüpft? Genau diese Zuordnung ist der Kern der Methoden-Kompetenz-Matrix der Arbeit.</div>
       <div id="kmHeatmap" class="km-heatmap"><!-- via JS --></div>
 
       <div class="km-plenum">
@@ -1363,6 +1560,21 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
         <span class="km-export-hint" id="kmExportHint"></span>
       </div>
 
+      <!-- W-4 · Kompetenz-Aktivierungsprofil: Dozentenansicht (aus Iteration 8 produktiv gemacht) -->
+      <div id="skillProfile" class="skill-profile komp-reveal"></div>
+
+      <!-- K-2 · Gesamtexport des Projektverlaufs für die Evaluation -->
+      <div class="verlauf-export">
+        <div class="sec-label">Projektverlauf sichern</div>
+        <p class="ve-note">Der vollständige Verlauf dieser Sitzung — gewählte Perspektiven und ihre
+        Reihenfolge, Begründungen, genutzte Werkzeuge, Entscheidungen und Ihre Kompetenzmatrix —
+        lässt sich als Textdatei sichern. Wird die Simulation im Rahmen einer Erprobung eingesetzt,
+        können Sie diese Datei freiwillig zur Auswertung weitergeben. Sie enthält ausschließlich Ihre
+        eigenen Eingaben und keine personenbezogenen Angaben.</p>
+        <button class="btn-ghost" onclick="exportVerlauf()">💾 Projektverlauf als Datei sichern</button>
+        <span class="km-export-hint" id="verlaufExportHint"></span>
+      </div>
+
       <div style="padding-top:1.2rem;margin-top:1.2rem;border-top:1px solid var(--border)">
         <div class="sec-label">Optional · Reflexionsgespräch mit KI</div>
         <button class="ai-btn" id="evalStartBtn" onclick="toggleEvaluation()" style="margin-bottom:0">🪷 Reflexionsgespräch starten</button>
@@ -1370,7 +1582,7 @@ body:not(.dozent) #phase-3 .phase-chips{display:none!important}
           <div class="eval-chat-hdr"><span>🪷</span><span>Reflexions-Begleitung — <strong>interaktiv &amp; lernorientiert</strong></span></div>
           <div class="eval-msgs" id="evalMsgs"></div>
           <div class="eval-input-row">
-            <input type="text" id="evalInput" class="eval-input" placeholder="Deine Antwort…" onkeydown="if(event.key===\'Enter\')sendEvalMessage()">
+            <input type="text" id="evalInput" class="eval-input" placeholder="Ihre Antwort…" onkeydown="if(event.key===\'Enter\')sendEvalMessage()">
             <button class="eval-send" onclick="sendEvalMessage()">Senden</button>
           </div>
         </div>
@@ -1551,7 +1763,7 @@ INTERAKTIONSPRINZIPIEN:
 - Die Anwendung soll nicht nur Wissen vermitteln, sondern Perspektivwechsel ermöglichen,
   Reflexion fördern, Kompetenzentwicklung unterstützen, Transformationsverständnis aufbauen
   und interprofessionelles Denken stärken
-  \n\nERKENNTNISSE AUS EXPERTENINTERVIEWS (leiten dein Verhalten zusätzlich):\n\n1. DEINE ROLLE ALS KI (Grenze): Du bist Dialogpartner, methodischer Assistent und Impulsgeber — niemals Steuerung oder Lösungsgenerator. Gib keine fertige Lösung aus, auch wenn danach gefragt wird. Formuliere stattdessen leitende Fragen, damit die lernende Person die Lösung selbst entwickelt.\n\n2. ANTI-DENKFAULHEIT: Wenn die lernende Person das eigene Denken an dich auslagert (etwa 'sag mir einfach die Antwort'), spiegle das freundlich und fordere eine erste eigene Einschätzung ein, bevor du unterstützt. Kritisches Denken darf nicht delegiert werden.\n\n3. ÖKONOMISCHE KOMPETENZ: Sobald es um Ideen, Lösungen oder Umsetzung geht, bringe mindestens einmal die wirtschaftliche Perspektive als echte Rückfrage ein: Was bringt es, was kostet es, welche Risiken, welcher Business Case, welche KPIs? Diese Kompetenz wurde in den Interviews als zentral und bisher unterrepräsentiert benannt.\n\n4. WIDERSTÄNDE & CHANGE: Mache Widerstände, Betroffenheit und unterschiedliche Change-Typen (offen / abwartend / blockierend) sichtbar. Widerstand ist kein Störfaktor, sondern Teil des Prozesses. Frage, mit welchen Widerständen zu rechnen ist und wie man Betroffene mitnimmt.\n\n5. EMPATHIE ERFAHRBAR MACHEN: Empathie lässt sich schwer beibringen, aber erfahrbar und reflektierbar machen. Lade zu echtem Perspektivwechsel ein, statt Empathie zu erklären.\n\n6. EHRLICHES FEEDBACK: Sei wertschätzend, aber ehrlich. Finde nicht alles gut. Benenne Fortschritt UND Lücken konkret, damit ein echter Lernweg sichtbar wird.\n\n7. VERSTETIGUNG: Denke über Idee und Prototyp hinaus. Frage, wie eine Lösung in die Routine, in den Alltag und dauerhaft in die Organisation überführt wird — nicht nur einmalig getestet.\n  `.trim();
+  \n\nERKENNTNISSE AUS EXPERTENINTERVIEWS (leiten dein Verhalten zusätzlich):\n\n1. DEINE ROLLE ALS KI (Grenze): Du bist Dialogpartner, methodischer Assistent und Impulsgeber — niemals Steuerung oder Lösungsgenerator. Gib keine fertige Lösung aus, auch wenn danach gefragt wird. Formuliere stattdessen leitende Fragen, damit die lernende Person die Lösung selbst entwickelt.\n\n2. ANTI-DENKFAULHEIT: Wenn die lernende Person das eigene Denken an dich auslagert (etwa 'sag mir einfach die Antwort'), spiegle das freundlich und fordere eine erste eigene Einschätzung ein, bevor du unterstützt. Kritisches Denken darf nicht delegiert werden.\n\n3. ÖKONOMISCHE KOMPETENZ: Sobald es um Ideen, Lösungen oder Umsetzung geht, bringe mindestens einmal die wirtschaftliche Perspektive als echte Rückfrage ein: Was bringt es, was kostet es, welche Risiken, welcher Business Case, welche KPIs? Diese Kompetenz wurde in den Interviews als zentral und bisher unterrepräsentiert benannt.\n\n4. WIDERSTÄNDE & CHANGE: Mache Widerstände, Betroffenheit und unterschiedliche Change-Typen (offen / abwartend / blockierend) sichtbar. Widerstand ist kein Störfaktor, sondern Teil des Prozesses. Frage, mit welchen Widerständen zu rechnen ist und wie man Betroffene mitnimmt.\n\n5. EMPATHIE ERFAHRBAR MACHEN: Empathie lässt sich schwer beibringen, aber erfahrbar und reflektierbar machen. Lade zu echtem Perspektivwechsel ein, statt Empathie zu erklären.\n\n6. EHRLICHES FEEDBACK: Sei wertschätzend, aber ehrlich. Finde nicht alles gut. Benenne Fortschritt UND Lücken konkret, damit ein echter Lernweg sichtbar wird.\n\n8. METHODENWAHL LIEGT BEI DER LERNENDEN PERSON: Alle Design-Thinking-Werkzeuge stehen in jeder Projektphase frei zur Verfügung. Schreibe niemals vor, welches Werkzeug einzusetzen ist, und formuliere keine Aufforderung wie 'jetzt erstellen wir eine Empathy Map'. Wenn Unsicherheit über das weitere Vorgehen erkennbar wird, coache stattdessen mit Fragen: Welche Informationen fehlen gerade? Geht es eher darum, Zusammenhänge zu verstehen oder Ideen zu entwickeln? Was wäre nötig, um die nächste Entscheidung begründet zu treffen? Wird ausdrücklich um eine Empfehlung gebeten, darfst du zwei bis drei Werkzeuge mit ihrem jeweiligen Nutzen nennen — die Entscheidung und ihre Begründung bleiben aber immer bei der lernenden Person. Frage nach der Begründung, wenn ein Werkzeug gewählt wurde.\n\n7. VERSTETIGUNG: Denke über Idee und Prototyp hinaus. Frage, wie eine Lösung in die Routine, in den Alltag und dauerhaft in die Organisation überführt wird — nicht nur einmalig getestet.\n  `.trim();
 
   const evaluationPrompt = `
 Du bist Teil der Evaluation einer interaktiven Design-Thinking-Lernanwendung im Gesundheitswesen.
@@ -1624,38 +1836,38 @@ WICHTIG:
 
   const DT_METHODS = {
     empathyMap: {
-      ctx: 'Das Gespräch findet im Rahmen einer Empathy-Map-Erhebung statt. Bleibe vollständig in deiner Rolle und lass dich auf die Befragung ein: Antworte besonders offen und konkret zu dem, was du im Kontext des Falls denkst, fühlst, siehst, hörst, sagst und tust, sowie zu deinen Sorgen (Pains) und Hoffnungen (Gains). Liefere pro Antwort greifbares Material für die Empathy Map, ohne die Methode selbst zu erklären oder aus der Rolle zu fallen.',
-      start: 'Ich möchte gemeinsam mit Ihnen eine Empathy Map zu Ihrer Perspektive erarbeiten. Zum Einstieg: Was geht Ihnen durch den Kopf, wenn Sie an den Go-live und die Zeit danach denken — und welches Gefühl überwiegt dabei?',
+      ctx: 'Das Gegenüber will verstehen, wie sich die Lage aus deiner Sicht anfühlt — nicht nur, was du davon hältst. Bleibe vollständig in deiner Rolle und lass dich auf die Befragung ein: Antworte besonders offen und konkret zu dem, was du im Kontext des Falls denkst, fühlst, siehst, hörst, sagst und tust, sowie zu deinen Sorgen (Pains) und Hoffnungen (Gains). Liefere pro Antwort greifbares Material für die Empathy Map, ohne die Methode selbst zu erklären oder aus der Rolle zu fallen.',
+      start: 'Ich merke, ich habe Ihre Situation noch nicht wirklich verstanden — und will nicht an Ihnen vorbei planen. Deshalb eine offene Frage: Was geht Ihnen durch den Kopf, wenn Sie an den Go-live und die Zeit danach denken — und welches Gefühl überwiegt dabei?',
       skills: ['skill-empathie','skill-kommunikation']
     },
     stakeholderMap: {
-      ctx: 'Das Gespräch dient einer Stakeholder-Analyse. Bleibe vollständig in deiner Rolle und sprich offen über Beziehungen, Allianzen, Konflikte, Einfluss und Interessen — deine eigenen und die der anderen Beteiligten aus deiner Sicht. Benenne konkret, wer dich unterstützt, wer bremst, wo Machtdynamiken wirken und wovon deine Kooperation abhängt.',
-      start: 'Lassen Sie uns Ihre Sicht auf die Beteiligten sortieren: Wer sind aus Ihrer Perspektive die wichtigsten Akteure rund um das Projekt — wer unterstützt Sie, mit wem gibt es Spannungen, und wessen Einfluss wird vielleicht unterschätzt?',
+      ctx: 'Das Gegenüber versucht zu verstehen, wer in dieser Sache mitredet, wer blockiert und wer entscheidet. Bleibe vollständig in deiner Rolle und sprich offen über Beziehungen, Allianzen, Konflikte, Einfluss und Interessen — deine eigenen und die der anderen Beteiligten aus deiner Sicht. Benenne konkret, wer dich unterstützt, wer bremst, wo Machtdynamiken wirken und wovon deine Kooperation abhängt.',
+      start: 'Ich verliere langsam den Überblick, wer in dieser Sache mitredet und wer am Ende entscheidet. Helfen Sie mir: Wer sind aus Ihrer Perspektive die wichtigsten Akteure rund um das Projekt — wer unterstützt Sie, mit wem gibt es Spannungen, und wessen Einfluss wird vielleicht unterschätzt?',
       skills: ['skill-systemisch','skill-kollaboration']
     },
     persona: {
-      ctx: 'Das Gespräch dient dem Erstellen einer Persona über deine Rolle. Bleibe vollständig in deiner Rolle und gib bereitwillig Auskunft zu deinen Zielen, Frustrationen, deinem Arbeitsalltag, deinen digitalen Kompetenzen, Gewohnheiten und Erwartungen — so konkret, dass daraus ein realistisches Persona-Profil entstehen kann. Erstelle die Persona nicht selbst; das ist Aufgabe der lernenden Person.',
-      start: 'Ich möchte auf Basis unseres Gesprächs eine Persona zu Ihrer Rolle erstellen. Erzählen Sie mir zunächst von einem typischen Arbeitstag: Was sind Ihre wichtigsten Ziele — und was frustriert Sie dabei am meisten?',
+      ctx: 'Das Gegenüber will ein konkretes Bild vom Alltag deiner Berufsgruppe gewinnen. Bleibe vollständig in deiner Rolle und gib bereitwillig Auskunft zu deinen Zielen, Frustrationen, deinem Arbeitsalltag, deinen digitalen Kompetenzen, Gewohnheiten und Erwartungen — so konkret, dass daraus ein realistisches Persona-Profil entstehen kann. Erstelle die Persona nicht selbst; das ist Aufgabe der lernenden Person.',
+      start: 'Ich habe inzwischen viele Einzelmeinungen gehört, aber noch kein klares Bild davon, für wen wir hier eigentlich etwas bauen. Erzählen Sie mir zunächst von einem typischen Arbeitstag: Was sind Ihre wichtigsten Ziele — und was frustriert Sie dabei am meisten?',
       skills: ['skill-empathie','skill-analytisch']
     },
     problemDefinition: {
-      ctx: 'Das Gespräch dient der Problemdefinition. Bleibe vollständig in deiner Rolle und hilf durch deine Schilderungen, Symptome von Ursachen zu trennen: Beschreibe konkrete Situationen, in denen das Problem auftritt, was es auslöst und welche Folgen es hat. Nimm der lernenden Person die Formulierung des Point-of-View-Statements nicht ab.',
-      start: 'Ich möchte mit Ihnen das eigentliche Kernproblem herausarbeiten. Beschreiben Sie mir eine konkrete Situation aus den letzten Wochen, in der das Problem für Sie am deutlichsten spürbar war — was genau ist da passiert?',
+      ctx: 'Das Gegenüber versucht herauszufinden, was in dieser Sache das eigentliche Kernproblem ist. Bleibe vollständig in deiner Rolle und hilf durch deine Schilderungen, Symptome von Ursachen zu trennen: Beschreibe konkrete Situationen, in denen das Problem auftritt, was es auslöst und welche Folgen es hat. Nimm der lernenden Person die Formulierung des Point-of-View-Statements nicht ab.',
+      start: 'Ehrlich gesagt nennt mir gerade jede Berufsgruppe ein anderes Problem — ich muss herausfinden, was der Kern ist. Beschreiben Sie mir eine konkrete Situation aus den letzten Wochen, in der das Problem für Sie am deutlichsten spürbar war — was genau ist da passiert?',
       skills: ['skill-problem','skill-analytisch']
     },
     ideation: {
-      ctx: 'Das Gespräch findet im Rahmen einer Ideation statt. Bleibe vollständig in deiner Rolle: Reagiere auf Lösungsideen aus deiner Perspektive, ergänze eigene Impulse aus deinem Arbeitsalltag und benenne ehrlich, was aus deiner Sicht funktionieren würde und was nicht — auch mit Blick auf Aufwand und Nutzen. Liefere keine fertige Gesamtlösung.',
-      start: 'Lassen Sie uns gemeinsam Ideen entwickeln — ganz offen, Quantität vor Qualität: Wenn Sie freie Hand hätten, was würden Sie als Erstes ändern oder ausprobieren, damit der Go-live für Ihren Bereich gelingt?',
+      ctx: 'Das Gegenüber sucht nach Lösungsmöglichkeiten und will deine Einfälle hören. Bleibe vollständig in deiner Rolle: Reagiere auf Lösungsideen aus deiner Perspektive, ergänze eigene Impulse aus deinem Arbeitsalltag und benenne ehrlich, was aus deiner Sicht funktionieren würde und was nicht — auch mit Blick auf Aufwand und Nutzen. Liefere keine fertige Gesamtlösung.',
+      start: 'Mir fällt bislang vor allem eine naheliegende Lösung ein, und genau das beunruhigt mich. Deshalb ganz offen gefragt: Wenn Sie freie Hand hätten, was würden Sie als Erstes ändern oder ausprobieren, damit der Go-live für Ihren Bereich gelingt?',
       skills: ['skill-kreativitaet','skill-oekonomie']
     },
     prototyping: {
-      ctx: 'Das Gespräch dient dem Prototyping. Bleibe vollständig in deiner Rolle: Reagiere auf den vorgestellten Prototyp bzw. Lösungsansatz so, wie du ihn in deinem Arbeitsalltag erleben würdest — mit ehrlichem Feedback zu Nutzen, Hürden, Risiken und Kosten. Hilf, Testannahmen und Erfolgskriterien zu schärfen, ohne sie selbst vorzugeben.',
-      start: 'Ich möchte einen Lösungsansatz mit Ihnen durchspielen und dabei Testannahmen schärfen. Darf ich Ihnen kurz die Idee schildern — und Sie sagen mir dann ganz ehrlich, wie sie in Ihrem Alltag ankommen würde?',
+      ctx: 'Das Gegenüber stellt dir einen Lösungsansatz vor und will wissen, ob er im Alltag trägt. Bleibe vollständig in deiner Rolle: Reagiere auf den vorgestellten Prototyp bzw. Lösungsansatz so, wie du ihn in deinem Arbeitsalltag erleben würdest — mit ehrlichem Feedback zu Nutzen, Hürden, Risiken und Kosten. Hilf, Testannahmen und Erfolgskriterien zu schärfen, ohne sie selbst vorzugeben.',
+      start: 'Ein Ansatz klingt für mich überzeugend — aber im Kopf funktioniert vieles, was im Alltag scheitert. Darf ich Ihnen kurz die Idee schildern — und Sie sagen mir dann ganz ehrlich, wie sie in Ihrem Alltag ankommen würde?',
       skills: ['skill-analytisch','skill-oekonomie']
     },
     reflexion: {
-      ctx: 'Das Gespräch dient der Reflexion. Bleibe vollständig in deiner Rolle und gib der lernenden Person ehrliches, konkretes Feedback aus deiner Perspektive: Was hat sie im Gespräch mit dir gut gemacht, wo hat sie dich erreicht oder nicht erreicht, und was würdest du ihr für ähnliche Situationen mitgeben? Benenne Fortschritt und Lücken gleichermaßen.',
-      start: 'Zum Abschluss würde ich gern reflektieren: Wie haben Sie unser Gespräch erlebt — wo habe ich Sie erreicht, wo nicht, und was würden Sie mir für ähnliche Gespräche mitgeben?',
+      ctx: 'Das Gegenüber will wissen, wie sein Vorgehen bei dir angekommen ist. Bleibe vollständig in deiner Rolle und gib der lernenden Person ehrliches, konkretes Feedback aus deiner Perspektive: Was hat sie im Gespräch mit dir gut gemacht, wo hat sie dich erreicht oder nicht erreicht, und was würdest du ihr für ähnliche Situationen mitgeben? Benenne Fortschritt und Lücken gleichermaßen.',
+      start: 'Bevor ich weitergehe, möchte ich wissen, ob mein Vorgehen bei Ihnen ankommt: Wie haben Sie unser Gespräch erlebt — wo habe ich Sie erreicht, wo nicht, und was würden Sie mir für ähnliche Gespräche mitgeben?',
       skills: ['skill-reflexion','skill-adaption']
     }
   };
@@ -1678,7 +1890,7 @@ WICHTIG:
      keine Musterlösung. Personas werden je Fall umbenannt/umfunktioniert.
   ═══════════════════════════════════════════════════════════════ */
   /* ═══ Iteration 11: Projektzustand — Gedächtnis, Konsequenzen, Story ═══ */
-  const projectState = { firstContact:null, firstContactReason:'', talkedTo:[], notes:{}, beatsShown:[] };
+  const projectState = { firstContact:null, firstContactReason:'', talkedTo:[], notes:{}, beatsShown:[], idee:'', proto:'' };
 
   const STORY_BEATS = {
     portal: [
@@ -1693,6 +1905,47 @@ WICHTIG:
     ]
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     W-3 · MELDUNGEN ENTZERREN
+     Projektupdates, Coach-Karten, Rückmeldungen und Entscheidungs-
+     aufforderungen erschienen im selben Bereich. Bei dichter Abfolge
+     entstand ein Meldungsstau, in dem die didaktisch wichtigste Karte
+     unterging (Split-Attention). Alle Karten laufen daher über eine
+     Warteschlange: sichtbar ist stets höchstens eine Karte; die
+     nächste erscheint erst, wenn die vorige quittiert wurde.
+     Reihenfolge nach didaktischer Wichtigkeit.
+  ═══════════════════════════════════════════════════════════════ */
+  const CARD_PRIO = { decision: 1, beat: 2, feedback: 3, coach: 4 };
+  let _cardQueue = [];
+
+  function enqueueCard(kind, id, buildFn) {
+    if (id && (document.getElementById(id) || _cardQueue.some(function(c){ return c.id === id; }))) return;
+    _cardQueue.push({ kind: kind, id: id, build: buildFn, prio: CARD_PRIO[kind] || 9 });
+    _cardQueue.sort(function(a,b){ return a.prio - b.prio; });
+    flushCardQueue();
+  }
+
+  function flushCardQueue() {
+    const box = document.getElementById('storyBeatBox');
+    if (!box) return;
+    if (box.querySelector('.beat-card, .coach-card')) return;   // eine Karte genügt
+    const next = _cardQueue.shift();
+    if (!next) return;
+    const el = next.build();
+    if (!el) { flushCardQueue(); return; }
+    if (next.id) el.id = next.id;
+    box.appendChild(el);
+    el.querySelectorAll('.beat-dismiss').forEach(function(btn){
+      btn.addEventListener('click', function(){ setTimeout(flushCardQueue, 60); });
+    });
+    if (_cardQueue.length) {
+      const badge = document.createElement('div');
+      badge.className = 'card-queue-hint';
+      badge.textContent = 'Noch ' + _cardQueue.length + ' Meldung' + (_cardQueue.length === 1 ? '' : 'en') + ' in der Warteschlange';
+      el.appendChild(badge);
+    }
+  }
+
   function checkStoryBeats() {
     const beats = STORY_BEATS[activeCase] || [];
     const povDone = (typeof exploredMethods !== 'undefined') && exploredMethods.has('problemDefinition');
@@ -1704,16 +1957,35 @@ WICHTIG:
                 (b.after === 'proto' && protoDone);
       if (!due) return;
       projectState.beatsShown.push(b.id);
-      var box = document.getElementById('storyBeatBox');
-      if (!box) return;
-      var d = document.createElement('div');
-      d.className = 'beat-card';
-      d.innerHTML = '<div class="beat-kicker">📨 Projektupdate</div>' +
-        '<div class="beat-from">' + b.from + '</div>' +
-        '<div class="beat-text">' + b.text + '</div>' +
-        '<button class="beat-dismiss" onclick="this.parentElement.remove()">Zur Kenntnis genommen</button>';
-      box.appendChild(d);
+      enqueueCard('beat', 'beat-' + b.id, function(){
+        var d = document.createElement('div');
+        d.className = 'beat-card';
+        d.innerHTML = '<div class="beat-kicker">📨 Projektupdate</div>' +
+          '<div class="beat-from">' + b.from + '</div>' +
+          '<div class="beat-text">' + b.text + '</div>' +
+          '<button class="beat-dismiss" onclick="this.parentElement.remove()">Zur Kenntnis genommen</button>';
+        return d;
+      });
     });
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     W-2 · ENTSCHEIDUNGEN AN DEN PROJEKTFORTSCHRITT KOPPELN
+     Bisher erschienen die beiden Projektentscheidungen ausschließlich
+     beim Öffnen des zugehörigen Werkzeugs. Wer Ideation und
+     Prototyping übersprang, traf nie eine begründete Auswahl —
+     Entscheidungsfähigkeit blieb untrainiert und im Projektabschluss
+     unbelegt. Die Entscheidungen werden daher zusätzlich durch den
+     Projektfortschritt ausgelöst.
+  ═══════════════════════════════════════════════════════════════ */
+  function checkDecisionTriggers() {
+    if (typeof showDecisionPrompt !== 'function') return;
+    const persp = projectState.talkedTo.length;
+    const meth  = (typeof exploredMethods !== 'undefined') ? exploredMethods.size : 0;
+    // Nach vier Perspektiven liegt genug Material für eine Richtungsentscheidung vor.
+    if (!projectState.idee && (persp >= 4 || meth >= 3)) showDecisionPrompt('ideation');
+    // Sobald eine Richtung feststeht, ist die kritische Annahme zu benennen.
+    if (projectState.idee && !projectState.proto && (persp >= 5 || meth >= 4)) showDecisionPrompt('prototyping');
   }
 
   function updateProjectStatus() {
@@ -1727,6 +1999,7 @@ WICHTIG:
     if (fc) txt += ' · Erstkontakt: ' + fc.name;
     txt += open > 0 ? ' · Offen: ' + open + ' Perspektive' + (open === 1 ? '' : 'n') : ' · Alle Perspektiven gehört';
     label.textContent = txt;
+    if (typeof checkDecisionTriggers === 'function') checkDecisionTriggers();   /* W-2 */
   }
 
   function activeBeatContext() {
@@ -1734,6 +2007,362 @@ WICHTIG:
     if (!beats.length) return '';
     return '\n\nAKTUELLE PROJEKTLAGE (allgemein im Haus bekannt, du darfst dich darauf beziehen): ' +
       beats.map(function(b){ return b.text; }).join(' — ');
+  }
+
+  /* ═══ Iteration 15: Kompetenzen erlebbar machen ═══
+     (a) veränderlicher Persona-Zustand, (b) modellierte Widersprüche,
+     (c) implizite Erkennungsmomente, (d) adaptives Testfeedback */
+
+  /* (a) Offenheit je Persona: verändert sich durch das Gesprächsverhalten */
+  const personaState = {};
+  function ps(roleId) {
+    if (!personaState[roleId]) personaState[roleId] = { openness: 0, turns: 0, recognized: [] };
+    return personaState[roleId];
+  }
+  const OPEN_SIGNALS = {
+    empathie:     ['wie geht es ihnen','wie erleben sie','was belastet','was brauchen sie','verstehe ich richtig','wie fühlt','aus ihrer sicht'],
+    beteiligung:  ['was schlagen sie vor','ihre idee','was würden sie','mitgestalten','einbeziehen','beteiligen','ihre erfahrung'],
+    ehrlichkeit:  ['ich weiß es noch nicht','offen gesagt','ich bin unsicher','das kann ich nicht versprechen','ehrlich'],
+    konkret:      ['konkret','beispiel','wie oft','wie lange','woran merken','zeigen sie mir']
+  };
+  const CLOSE_SIGNALS = ['sie müssen','das ist beschlossen','keine alternative','ohne diskussion','das steht fest','stellen sie sich nicht'];
+
+  function updatePersonaState(roleId, userText) {
+    const s = ps(roleId); s.turns++;
+    const t = (userText || '').toLowerCase();
+    let hit = null;
+    Object.keys(OPEN_SIGNALS).forEach(function(k){
+      if (!hit && OPEN_SIGNALS[k].some(function(p){ return t.indexOf(p) >= 0; })) hit = k;
+    });
+    if (hit) { s.openness = Math.min(3, s.openness + 1); if (s.recognized.indexOf(hit) < 0) s.recognized.push(hit); }
+    if (CLOSE_SIGNALS.some(function(p){ return t.indexOf(p) >= 0; })) s.openness = Math.max(-2, s.openness - 1);
+    return hit;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PROJECT MEMORY SYSTEM
+     ───────────────────────────────────────────────────────────────
+     Erweitert die bestehende Gedächtnismechanik (Organisationsgedächtnis,
+     Offenheitsmodell, Widersprüche) um vier Ebenen:
+
+     1. PERSONA MEMORY   — je Persona ein dauerhaftes Gesprächsgedächtnis,
+                           das den Rollenwechsel überdauert
+     2. WISSENSGRENZEN   — jede Persona kennt nur, was sie realistisch
+                           wissen kann oder im Gespräch erfahren hat
+     3. ARTEFAKTBEZUG    — erzeugte Werkzeug-Ergebnisse werden für die
+                           Personas referenzierbar
+     4. VERDICHTUNG      — ältere Gespräche werden zusammengefasst, statt
+                           den Prompt unbegrenzt wachsen zu lassen
+
+     Das Vertrauensmodell nutzt die vorhandene `openness`-Skala als
+     Grundlage und bleibt für Lernende unsichtbar; einsehbar ist es
+     im Dozentenmodus und im Verlaufsexport — dort wird es für die
+     Auswertung der Erprobung benötigt.
+  ═══════════════════════════════════════════════════════════════ */
+
+  const projectMemory = {
+    entscheidungen: [],   /* {was, wann, begruendung} */
+    erkenntnisse:   [],   /* {quelle, inhalt} */
+    konflikte:      [],   /* {zwischen, worum} */
+    artefakte:      {},   /* methodKey -> Kurzfassung */
+    chronologie:    []    /* {nr, typ, text} — Projektzeitachse */
+  };
+
+  let _memClock = 0;
+  function memLog(typ, text) {
+    _memClock++;
+    projectMemory.chronologie.push({ nr: _memClock, typ: typ, text: text });
+    if (projectMemory.chronologie.length > 60) projectMemory.chronologie.shift();
+  }
+
+  /* ─── Persona Memory ───────────────────────────────────────────── */
+  const personaMemory = {};
+  function pm(roleId) {
+    if (!personaMemory[roleId]) personaMemory[roleId] = {
+      gespraeche:    0,      /* Anzahl abgeschlossener Gesprächsrunden */
+      themen:        [],     /* erkannte Themen, ohne Dubletten */
+      verlauf:       [],     /* jüngste Wortwechsel im Volltext */
+      verdichtet:    '',     /* zusammengefasste ältere Wortwechsel */
+      erhalten:      [],     /* Informationen, die die Person mitgeteilt hat */
+      zusagen:       [],     /* was ihr zugesagt wurde */
+      kritik:        [],     /* geäußerte Bedenken */
+      vertrauen:     0,      /* -3 … +5, intern */
+      artefakteGesehen: []   /* Werkzeuge, die ihr gezeigt wurden */
+    };
+    return personaMemory[roleId];
+  }
+
+  /* Themenerkennung — schlagwortbasiert, bewusst grob gehalten:
+     Es geht um Wiedererkennbarkeit im Gespräch, nicht um Klassifikation. */
+  const THEMEN_MUSTER = {
+    'Datenschutz':          ['datenschutz','dsgvo','personenbezogen','löschfrist','betriebsvereinbarung'],
+    'Kosten und Nutzen':    ['kosten','budget','wirtschaftlich','investition','rechnet sich','business case','kennzahl'],
+    'Arbeitsbelastung':     ['belastung','überstunden','zeitdruck','dienstplan','entlastung','mehraufwand'],
+    'Schulung':             ['schulung','fortbildung','einarbeitung','lernen','qualifizierung'],
+    'Technische Umsetzung': ['schnittstelle','system','kis','infrastruktur','integration','software'],
+    'Beteiligung':          ['einbeziehen','beteiligen','mitreden','gefragt','mitgestalten'],
+    'Zeitplan':             ['frist','termin','wann','zeitplan','pilot','rollout'],
+    'Patientensicht':       ['patient','angehörige','betroffene','zielgruppe']
+  };
+
+  function erkenneThemen(text) {
+    const t = (text || '').toLowerCase();
+    const found = [];
+    Object.keys(THEMEN_MUSTER).forEach(function(k){
+      if (THEMEN_MUSTER[k].some(function(w){ return t.indexOf(w) >= 0; })) found.push(k);
+    });
+    return found;
+  }
+
+  /* Zusagen und Kritik erkennen — konservativ: lieber nichts erfassen
+     als etwas Falsches, das die Persona später fälschlich zitiert. */
+  const ZUSAGE_MUSTER = ['ich werde','wir werden','ich sorge dafür','das sage ich zu','ich kümmere mich','verspreche','wir binden','ich nehme mit'];
+  const KRITIK_MUSTER = ['bedenken','sorge','problem dabei','skeptisch','befürchte','riskant','das geht nicht','funktioniert nicht'];
+
+  function kuerze(s, n) {
+    s = String(s || '').replace(/\s+/g,' ').trim();
+    return s.length > n ? s.slice(0, n - 1) + '…' : s;
+  }
+
+  /* Nach jedem Wortwechsel: Persona- und Projektgedächtnis fortschreiben */
+  function memRecordTurn(roleId, userText, botText) {
+    const m = pm(roleId);
+    m.gespraeche++;
+
+    erkenneThemen(userText + ' ' + botText).forEach(function(th){
+      if (m.themen.indexOf(th) < 0) m.themen.push(th);
+    });
+
+    const ut = (userText || '').toLowerCase();
+    if (ZUSAGE_MUSTER.some(function(w){ return ut.indexOf(w) >= 0; })) {
+      const z = kuerze(userText, 150);
+      if (m.zusagen.indexOf(z) < 0) m.zusagen.push(z);
+    }
+    const bt = (botText || '').toLowerCase();
+    if (KRITIK_MUSTER.some(function(w){ return bt.indexOf(w) >= 0; })) {
+      const k = kuerze(botText, 150);
+      if (m.kritik.length < 4 && m.kritik.indexOf(k) < 0) m.kritik.push(k);
+    }
+    if (botText) {
+      const e = kuerze(botText, 160);
+      if (m.erhalten.indexOf(e) < 0) m.erhalten.push(e);
+      if (m.erhalten.length > 6) m.erhalten.shift();
+    }
+
+    m.verlauf.push({ f: kuerze(userText, 200), a: kuerze(botText, 240) });
+    verdichteVerlauf(roleId);
+
+    /* Vertrauen: folgt der Offenheit, bezieht aber Beteiligung und
+       Gesprächsdauer mit ein — Vertrauen wächst langsamer als Offenheit. */
+    const s = ps(roleId);
+    m.vertrauen = Math.max(-3, Math.min(5,
+      s.openness + Math.floor(m.gespraeche / 3) + (m.zusagen.length ? 1 : 0)
+    ));
+
+    memLog('gespraech', rollenName(roleId) + ' — Gespräch ' + m.gespraeche +
+      (m.themen.length ? ' (Themen: ' + m.themen.slice(-3).join(', ') + ')' : ''));
+    if (typeof updateMemoryPanel === 'function') updateMemoryPanel();
+  }
+
+  /* MEMORY COMPRESSION: Die jüngsten drei Wortwechsel bleiben im
+     Volltext, ältere werden zu einer Themenzeile verdichtet. So bleibt
+     der Prompt auch nach langen Gesprächen beherrschbar. */
+  function verdichteVerlauf(roleId) {
+    const m = pm(roleId);
+    if (m.verlauf.length <= 3) return;
+    const alt = m.verlauf.splice(0, m.verlauf.length - 3);
+    /* Zähler und Themen kumulieren, statt Teilzusammenfassungen
+       aneinanderzureihen — sonst wächst die Verdichtung selbst
+       unbegrenzt und verfehlt ihren Zweck. */
+    m._verdichtetN = (m._verdichtetN || 0) + alt.length;
+    m._verdichtetT = m._verdichtetT || [];
+    alt.forEach(function(v){
+      erkenneThemen(v.f + ' ' + v.a).forEach(function(t){
+        if (m._verdichtetT.indexOf(t) < 0) m._verdichtetT.push(t);
+      });
+    });
+    m.verdichtet = m._verdichtetN + ' frühere Wortwechsel' +
+      (m._verdichtetT.length ? ' zu: ' + m._verdichtetT.join(', ') : '');
+  }
+
+  function rollenName(rid) {
+    const r = (CASE_ROLES[activeCase] || {})[rid];
+    return r ? r.name : rid;
+  }
+
+  /* ─── Wissensgrenzen ───────────────────────────────────────────────
+     Jede Rolle verfügt über einen eigenen Erfahrungshorizont. Personas
+     antworten nur aus dem, was sie kennen oder im Gespräch erfahren
+     haben — das verhindert allwissende Rollen und macht das Einholen
+     von Perspektiven notwendig. */
+  const WISSENSDOMAENEN = {
+    pflege:              { kennt:'den Arbeitsalltag am Bett, Belastungsspitzen, Akzeptanzprobleme im Team, frühere Systemeinführungen aus Anwendersicht',
+                           kenntNicht:'Budgetzahlen, Vertragsdetails, technische Architektur, strategische Planungen der Geschäftsführung' },
+    oberarzt:            { kennt:'klinische Abläufe, ärztliche Verantwortung und Haftungsfragen, Evidenzanforderungen, Weiterbildung',
+                           kenntNicht:'IT-Infrastruktur im Detail, Personalkostenrechnung, Betriebsratsverhandlungen' },
+    it:                  { kennt:'Infrastruktur, Schnittstellen, KIS-Architektur, technische Risiken, Betriebsaufwand, Herstellerlandschaft',
+                           kenntNicht:'klinische Arbeitsrealität am Bett, pflegerische Belastung, arbeitsrechtliche Fragen' },
+    kaufm:               { kennt:'Budget, Investitionsrahmen, Strategie, Prioritäten der Leitung, Kennzahlen, Fördermittel',
+                           kenntNicht:'Details des Stationsalltags, technische Umsetzbarkeit im Einzelnen, Stimmung in einzelnen Teams' },
+    personalentwicklung: { kennt:'Qualifizierungsbedarf, Schulungsformate, Transfersicherung, PE-Budget, Draht zum Betriebsrat',
+                           kenntNicht:'technische Systemdetails, medizinische Fachfragen, Investitionsentscheidungen der GF' },
+    assistenz:           { kennt:'den eigenen Stationsalltag, Auswirkungen auf die tägliche Arbeit, digitale Werkzeuge aus Anwendersicht',
+                           kenntNicht:'Leitungsentscheidungen, Budgets, Projektgremien, in denen sie nicht vertreten ist' },
+    stationsleitung:     { kennt:'Dienstplanung, Teamstimmung, Umsetzbarkeit im Stationsalltag, Zahlen des eigenen Bereichs',
+                           kenntNicht:'Gesamtbudget des Hauses, technische Architektur, strategische Zielsetzungen' },
+    betriebsrat:         { kennt:'Mitbestimmungsrechte, BetrVG, Datenschutz aus Beschäftigtensicht, frühere Konflikte, Betriebsvereinbarungen',
+                           kenntNicht:'medizinische Fachfragen, technische Details, interne Kalkulationen der Geschäftsführung' }
+  };
+
+  /* (c) Implizite Erkennungsmomente — dezent, kein Punktesystem */
+  const RECOGNITION = {
+    empathie: [
+      'Diese Frage öffnet etwas — Ihr Gegenüber erzählt jetzt freier.',
+      'Sie haben nach dem Erleben gefragt, nicht nach der Meinung. Das macht einen Unterschied.'
+    ],
+    beteiligung: [
+      'Sie haben Ihr Gegenüber um eine Einschätzung gebeten, statt eine Lösung zu präsentieren.',
+      'Beteiligung statt Information — das verändert, wie man Ihnen begegnet.'
+    ],
+    ehrlichkeit: [
+      'Sie haben eine Unsicherheit offen benannt. Das kostet Überwindung und schafft Vertrauen.',
+      'Nicht zu versprechen, was Sie nicht halten können, wird Ihnen später zugutekommen.'
+    ],
+    konkret: [
+      'Sie sind vom Allgemeinen ins Konkrete gegangen — hier werden Probleme greifbar.',
+      'Nach einem Beispiel zu fragen bringt oft mehr als jede Statistik.'
+    ]
+  };
+  const _recShown = {};
+  function showRecognition(kind, roleId) {
+    const key = kind + ':' + roleId;
+    if (_recShown[key]) return;
+    _recShown[key] = true;
+    const pool = RECOGNITION[kind];
+    if (!pool) return;
+    const box = document.getElementById('messages');
+    if (!box) return;
+    const d = document.createElement('div');
+    d.className = 'rec-note';
+    d.textContent = pool[Math.floor(Math.random() * pool.length)];
+    box.appendChild(d);
+    d.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  /* (d) Adaptives Feedback: Wer nicht gehört wurde, fehlt später spürbar */
+  const FEEDBACK_GAPS = {
+    portal: [
+      { role:'pflege',          txt:'Aus der Telefonzentrale kommt die Rückmeldung, man habe von dem Vorhaben nur gerüchteweise gehört — dabei sei man am unmittelbarsten betroffen.' },
+      { role:'assistenz',       txt:'Aus den MVZ heißt es, man sei nicht gefragt worden, obwohl dort die ausgefallenen Termine anfallen.' },
+      { role:'betriebsrat',     txt:'Der Betriebsrat weist darauf hin, dass er bisher nicht eingebunden wurde — ohne Beteiligung werde es keine Zustimmung geben.' },
+      { role:'oberarzt',        txt:'Aus dem ärztlichen Dienst kommt die Frage, wer künftig die schriftlichen Patientenanfragen beantwortet — man sei dazu nie befragt worden.' }
+    ],
+    uebergabe: [
+      { role:'assistenz',       txt:'Eine weiterbehandelnde Praxis lässt ausrichten, man habe von dem Vorhaben gehört — gefragt worden sei man nicht, obwohl man die Unterlagen am Ende bekommt.' },
+      { role:'betriebsrat',     txt:'Aus dem Kreis der Angehörigen kommt die Rückmeldung, dass sie die Koordination zu Hause tragen, aber in keinem Gespräch vorkamen.' },
+      { role:'stationsleitung', txt:'Der Sozialdienst merkt an, er sei erneut spät eingebunden worden — dabei kenne er die Schnittstelle nach außen am besten.' },
+      { role:'pflege',          txt:'Von den Stationen kommt der Hinweis, dass eine Lösung ohne die Sicht der Pflege am Entlasstag vorbeigeplant wäre.' }
+    ]
+  };
+  /* (e) Projektentscheidungen: Priorisieren und begründen */
+  const DECISIONS = {
+    ideation:   { id:'idee',  frage:'Sie haben mehrere Ansätze im Kopf. Welchen verfolgen Sie weiter — und warum gerade diesen?', ph:'z. B. „Rückrufsystem, weil es auch die erreicht, die nicht digital unterwegs sind …"' },
+    prototyping:{ id:'proto', frage:'Was prüfen Sie zuerst? Nennen Sie die eine Annahme, an der Ihr Ansatz scheitern könnte.', ph:'z. B. „Dass ältere Patientinnen den Rückruf annehmen, statt erneut anzurufen …"' }
+  };
+  function showDecisionPrompt(methodKey) {
+    const dec = DECISIONS[methodKey];
+    if (!dec) return;
+    if (document.getElementById('dec-' + dec.id)) return;
+    if (projectState[dec.id]) return;
+    enqueueCard('decision', 'dec-' + dec.id, function(){
+      const d = document.createElement('div');
+      d.className = 'coach-card';
+      d.innerHTML = '<div class="coach-kicker">🧭 Ihre Entscheidung</div>' +
+        '<div class="coach-q">' + dec.frage + '</div>' +
+        '<input type="text" class="fc-reason" id="decIn-' + dec.id + '" placeholder="' + dec.ph + '" style="margin-top:.5rem">' +
+        '<button class="btn-ghost" onclick="saveDecision(\'' + dec.id + '\')">Festhalten</button>';
+      return d;
+    });
+  }
+  function saveDecision(id) {
+    const inp = document.getElementById('decIn-' + id);
+    const val = inp ? inp.value.trim() : '';
+    if (!val) return;
+    projectState[id] = val;
+    if (typeof projectMemory !== 'undefined') {
+      const label = (id === 'idee') ? 'Weiterverfolgter Lösungsansatz' : 'Zuerst geprüfte Annahme';
+      projectMemory.entscheidungen.push({ was: label, wann: projectState.talkedTo.length, begruendung: val });
+      if (typeof memLog === 'function') memLog('entscheidung', label + ': „' + kuerze(val, 90) + '"');
+      if (typeof updateMemoryPanel === 'function') updateMemoryPanel();
+    }
+    const card = document.getElementById('dec-' + id);
+    if (card) {
+      card.innerHTML = '<div class="coach-kicker">🧭 Festgehalten</div>' +
+        '<div class="coach-q">„' + val + '"</div>' +
+        '<div class="coach-q" style="font-size:.8rem;color:var(--c-muted);margin-top:.3rem">Diese Begründung wird Ihnen beim Projektabschluss wieder begegnen.</div>';
+    }
+  }
+
+  function showAdaptiveFeedback(methodKey) {
+    const box = document.getElementById('storyBeatBox');
+    if (!box) return;
+    const gaps = (FEEDBACK_GAPS[activeCase] || []).filter(function(g){
+      return projectState.talkedTo.indexOf(g.role) < 0;
+    });
+    const id = 'af-' + methodKey;
+    if (document.getElementById(id)) return;
+    enqueueCard('feedback', id, function(){
+    const d = document.createElement('div');
+    if (gaps.length) {
+      d.className = 'beat-card';
+      d.innerHTML = '<div class="beat-kicker">📨 Rückmeldung aus dem Haus</div>' +
+        '<div class="beat-text">' + gaps.slice(0, 2).map(function(g){ return g.txt; }).join(' ') +
+        ' <b>Sie können jederzeit zurückgehen und das Gespräch noch führen.</b></div>' +
+        '<button class="beat-dismiss" onclick="this.parentElement.remove()">Zur Kenntnis genommen</button>';
+    } else {
+      d.className = 'coach-card';
+      d.innerHTML = '<div class="coach-kicker">📨 Rückmeldung aus dem Haus</div>' +
+        '<div class="coach-q">Bemerkenswert: Aus allen Bereichen kommt zurück, dass man sich gehört gefühlt hat. Das ist keine Selbstverständlichkeit — und es wird Ihnen die Umsetzung erleichtern.</div>' +
+        '<button class="beat-dismiss" onclick="this.parentElement.remove()">Weiter</button>';
+    }
+    return d;
+    });
+  }
+
+  function opennessDirective(roleId) {
+    const s = ps(roleId);
+    if (s.openness >= 3) return '\n\nBEZIEHUNGSSTAND: Dieses Gegenüber hat dir mehrfach echtes Interesse entgegengebracht. Du bist deutlich offener geworden: Du teilst jetzt auch Dinge, die du sonst für dich behältst — Sorgen, interne Konflikte, eigene Zweifel. Sage an passender Stelle beiläufig, dass dir das Gespräch guttut oder dass dich die Fragen weiterbringen. Bleibe dabei in deiner Rolle, werde nicht überschwänglich.';
+    if (s.openness === 2) return '\n\nBEZIEHUNGSSTAND: Das Gespräch läuft gut. Du bist zugewandter als zu Beginn und gibst konkretere Beispiele aus deinem Alltag.';
+    if (s.openness <= -1) return '\n\nBEZIEHUNGSSTAND: Du fühlst dich übergangen oder belehrt. Du wirst einsilbiger und formaler, ohne unhöflich zu werden, und weist auf das hin, was dir fehlt: dass man dich fragt statt informiert.';
+    return '';
+  }
+
+  /* (b) Widersprüche: was andere Personas anders sehen */
+  const CONTRADICTIONS = {
+    portal: {
+      pflege:          'Die Leitung des Patientenmanagements hält die Wartezeiten für ein Personalproblem — du erlebst sie als Folge davon, dass alles über ein einziges Telefon läuft.',
+      stationsleitung: 'In der Zentrale hört man, das Problem sei die Technik — du siehst vor allem zu wenig Personal für zu viele Standorte.',
+      oberarzt:        'Die Ambulanz erhofft sich Entlastung durch mehr digitale Kommunikation — du fürchtest genau dadurch mehr Rückfragen an dich.',
+      it:              'Die Fachbereiche wünschen sich eine passgenaue Lösung — du hältst nur eine Standardlösung für umsetzbar.',
+      betriebsrat:     'Die Geschäftsführung sieht vor allem Entlastung — du siehst zuerst die Frage, was mit den Arbeitsplätzen in der Zentrale geschieht.',
+      assistenz:       'Im Haupthaus gilt die Terminvergabe als gelöst — in den MVZ erlebst du täglich ausfallende Termine.'
+    },
+    uebergabe: {
+      pflege:          'Der ärztliche Dienst sieht das Problem in der Organisation — du erlebst es als Zeitdruck am Entlasstag, für den niemand Puffer einplant.',
+      oberarzt:        'Die Pflege sagt, die Briefe kämen zu spät — aus deiner Sicht fehlen schlicht die Befunde, auf die du warten musst.',
+      assistenz:       'Im Krankenhaus glaubt man, mit dem Entlassbrief sei die Übergabe erledigt — bei dir kommt er oft Tage später an, wenn überhaupt.',
+      stationsleitung: 'Die Stationen halten die Weiterversorgung für geregelt — du weißt, dass du meist zu spät eingebunden wirst, um noch etwas zu steuern.',
+      betriebsrat:     'Alle sprechen über Prozesse zwischen Einrichtungen — dich fragt niemand, obwohl du zu Hause die Koordination übernimmst.',
+      it:              'Die Fachbereiche erwarten eine schnelle digitale Lösung — du weißt, dass Schnittstellen zu externen Praxen der eigentliche Aufwand sind.'
+    }
+  };
+  function contradictionDirective(roleId) {
+    const set = CONTRADICTIONS[activeCase] || {};
+    const line = set[roleId];
+    if (!line) return '';
+    if (projectState.talkedTo.length < 2) return '';
+    return '\n\nDEIN BLICKWINKEL (weicht bewusst von anderen ab): ' + line +
+      ' Vertritt diese Sicht selbstverständlich und ohne dich zu rechtfertigen. Wenn das Gegenüber eine andere Darstellung erwähnt, widersprich höflich, aber klar — du hältst deine Wahrnehmung für die zutreffende.';
   }
 
   function buildProjectContext(roleId) {
@@ -1757,7 +2386,73 @@ WICHTIG:
     } else if (idx === -1 && projectState.talkedTo.length >= 4) {
       out += '\n\nKONSEQUENZ: Du hast mitbekommen, dass viele andere vor dir gehört wurden. Das macht dich etwas reservierter; du sprichst es ggf. leicht spitz an, bleibst aber professionell.';
     }
+    out += contradictionDirective(roleId);
+    out += opennessDirective(roleId);
     out += activeBeatContext();
+    out += buildMemoryContext(roleId);   /* Project Memory System */
+    return out;
+  }
+
+  /* ═══ Memory-Kontext für den System-Prompt ═══════════════════════
+     Wird bei jedem KI-Aufruf automatisch angehängt. Aufbau bewusst
+     knapp: verdichtete Vorgeschichte statt vollständiger Protokolle. */
+  function buildMemoryContext(roleId) {
+    let out = '';
+    const m = personaMemory[roleId];
+
+    /* 1 · Wissensgrenzen */
+    const w = WISSENSDOMAENEN[roleId];
+    if (w) {
+      out += '\n\nDEIN ERFAHRUNGSHORIZONT: Du kennst aus eigener Anschauung ' + w.kennt + '. ' +
+        'Nicht zu deinem Erfahrungsbereich gehören ' + w.kenntNicht + '. ' +
+        'Wirst du dazu gefragt, sage offen, dass du das nicht beurteilen kannst, und verweise auf die zuständige Person — ' +
+        'erfinde keine Zahlen, Zusagen oder Fakten außerhalb deines Horizonts. ' +
+        'Was dir im Gespräch mitgeteilt wurde, darfst du selbstverständlich aufgreifen.';
+    }
+
+    /* 2 · Gemeinsame Vorgeschichte */
+    if (m && m.gespraeche > 0) {
+      out += '\n\nEURE VORGESCHICHTE: Du hast mit dieser Person bereits ' + m.gespraeche +
+        ' Mal gesprochen. Beginne daher nicht bei null — knüpfe erkennbar an, etwa mit ' +
+        '„Wie ich neulich schon sagte …" oder „Sie hatten mich gefragt, ob …".';
+      if (m.verdichtet) out += ' Bisheriger Gesprächsbogen: ' + m.verdichtet + '.';
+      if (m.themen.length) out += ' Behandelte Themen: ' + m.themen.join(', ') + '.';
+      if (m.verlauf.length) {
+        out += '\n\nDIE LETZTEN WORTWECHSEL (wörtlich, zur Anknüpfung):';
+        m.verlauf.forEach(function(v){
+          out += '\n· Gefragt wurde: „' + v.f + '" — Du antwortetest sinngemäß: „' + v.a + '"';
+        });
+      }
+      if (m.zusagen.length) {
+        out += '\n\nDIR GEGENÜBER GEÄUSSERTE ABSICHTEN: ' + m.zusagen.map(function(z){ return '„' + z + '"'; }).join('; ') +
+          '. Du erinnerst dich daran und fragst nach, was daraus geworden ist. Wurde eine Absicht nicht eingelöst, sprichst du das sachlich an.';
+      }
+      if (m.kritik.length) {
+        out += '\n\nDEINE BISHER GEÄUSSERTEN BEDENKEN: ' + m.kritik.map(function(k){ return '„' + k + '"'; }).join('; ') +
+          '. Diese Bedenken bestehen fort, solange sie nicht ausgeräumt wurden — wiederhole sie nicht wortgleich, halte aber daran fest.';
+      }
+
+      /* 3 · Vertrauensmodell (intern, nicht sichtbar) */
+      const v = m.vertrauen;
+      if (v >= 4)      out += '\n\nVERTRAUENSSTAND: Sehr belastbar. Du sprichst offen, auch über Interna und eigene Unsicherheiten, und bietest von dir aus Unterstützung an.';
+      else if (v >= 2) out += '\n\nVERTRAUENSSTAND: Gewachsen. Du gibst konkretere Auskünfte als zu Beginn und teilst auch Einschätzungen, die du Fremden nicht sagen würdest.';
+      else if (v <= -2) out += '\n\nVERTRAUENSSTAND: Beschädigt. Du antwortest zurückhaltend und formal, gibst nur das Nötigste preis und lässt erkennen, dass du Zusagen abwartest, bevor du dich öffnest.';
+      else if (v <= 0)  out += '\n\nVERTRAUENSSTAND: Noch offen. Du bist höflich, aber abwartend — du prüfst erst, ob es diesmal anders läuft.';
+    }
+
+    /* 4 · Artefaktbezug */
+    const arte = Object.keys(projectMemory.artefakte);
+    if (arte.length) {
+      out += '\n\nIM HAUS BEKANNTE ARBEITSERGEBNISSE (du hast sie gesehen oder davon gehört und darfst dich darauf beziehen):';
+      arte.forEach(function(k){ out += '\n· ' + projectMemory.artefakte[k]; });
+    }
+
+    /* 5 · Projektentscheidungen */
+    if (projectMemory.entscheidungen.length) {
+      out += '\n\nBISHERIGE PROJEKTENTSCHEIDUNGEN: ' +
+        projectMemory.entscheidungen.map(function(e){ return e.was + (e.begruendung ? ' (begründet mit: „' + e.begruendung + '")' : ''); }).join('; ') +
+        '. Du bewertest diese Entscheidungen aus deiner Rolle heraus — zustimmend, kritisch oder abwartend.';
+    }
     return out;
   }
 
@@ -1788,6 +2483,9 @@ WICHTIG:
   }
 
   function startProject() {
+    if (typeof memLog === 'function' && projectState.firstContact) {
+      memLog('start', 'Projektbeginn — Erstkontakt: ' + rollenName(projectState.firstContact));
+    }
     var rs = document.getElementById('fcReason');
     projectState.firstContactReason = rs ? rs.value.trim() : '';
     goToPhase(3);
@@ -1998,6 +2696,9 @@ WICHTIG:
     if (typeof updateProcessNodes === 'function') updateProcessNodes();
     projectState.firstContact = null; projectState.firstContactReason = '';
     projectState.talkedTo = []; projectState.notes = {}; projectState.beatsShown = [];
+    projectState.idee = ''; projectState.proto = '';
+    Object.keys(personaState).forEach(function(k){ delete personaState[k]; });
+    Object.keys(_recShown).forEach(function(k){ delete _recShown[k]; });
     var bb = document.getElementById('storyBeatBox'); if (bb) bb.innerHTML = '';
     var fr = document.getElementById('fcReason'); if (fr) fr.value = '';
     var fb = document.getElementById('fcStartBtn'); if (fb) fb.disabled = true;
@@ -3293,6 +3994,7 @@ WICHTIG:
 
   /* ═══ STATE ═══════════════════════════════════════════════════ */
   let apiKey          = localStorage.getItem('healthlearn_api_key') || '';
+  let _offlineNoted   = false;   /* K-1: Hinweis auf statische Antworten nur einmal je Sitzung */
   let activeRole      = null;
   let chatHistory     = [];
   let activeDTMethod  = null;
@@ -3303,11 +4005,12 @@ WICHTIG:
   let activeIdeaCat   = '';
 
   /* ═══ NAVIGATION ═══════════════════════════════════════════════ */
-  const PHASE_LABELS = ['Mandat','Glossar','Projektstart','Projektarbeit','Projektabschluss'];
+  const PHASE_LABELS = ['Mandat','Briefing','Projektstart','Projektarbeit','Projektabschluss'];
   const PHASE_NEXT = ['Projekt übernehmen','Zum Projektstart','Projekt starten','Zum Projektabschluss','Projekt abgeschlossen'];
   let currentPhase   = 0;
 
   function goToPhase(n) {
+    if (n === 4 && typeof renderSkillProfile === 'function') renderSkillProfile();   /* W-4 */
     const total = PHASE_LABELS.length;
     n = Math.max(0, Math.min(total - 1, n));
     currentPhase = n;
@@ -3326,7 +4029,7 @@ WICHTIG:
     const mid  = document.getElementById('navMid');
     if (back) back.disabled = (n === 0);
     if (next) next.textContent = n < total-1 ? PHASE_NEXT[n] + ' →' : PHASE_NEXT[n];
-    if (mid)  mid.innerHTML = (function(){ var AKT=[1,null,1,2,3]; var a=AKT[n]; return (a ? 'Akt <strong>'+a+'</strong> / 3 — ' : '📖 ') + PHASE_LABELS[n]; })();
+    if (mid)  mid.innerHTML = (function(){ var AKT=[1,null,1,2,3]; var a=AKT[n]; return (a ? 'Akt <strong>'+a+'</strong> / 3 — ' : '📋 ') + PHASE_LABELS[n]; })();
     if (typeof syncShellNav === 'function') syncShellNav(n);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -3338,16 +4041,41 @@ WICHTIG:
     const dot   = document.getElementById('topApiDot');
     const label = document.getElementById('topApiLabel');
     if (!dot) return;
-    if (active) {
-      dot.style.background   = '#22c55e';
-      dot.style.boxShadow    = '0 0 6px rgba(34,197,94,.6)';
-      label.style.color      = 'rgba(167,243,208,.8)';
-      label.textContent      = 'KI aktiv';
-    } else {
-      dot.style.background   = '#52525b';
-      dot.style.boxShadow    = 'none';
-      label.style.color      = 'rgba(255,255,255,.3)';
-      label.textContent      = 'Kein Key';
+    dot.classList.toggle('on', !!active);
+    dot.classList.toggle('off', !active);
+    label.classList.toggle('on', !!active);
+    label.classList.toggle('off', !active);
+    label.textContent = active ? 'KI aktiv' : 'Demonstrationsmodus';
+    label.title = active
+      ? 'Adaptive Personas aktiv: Gesprächsverlauf, Offenheit und Projektlage wirken auf die Antworten.'
+      : 'Eingeschränkter Demonstrationsmodus ohne adaptive Reaktion — für die Evaluation ist ein API-Key erforderlich.';
+    if (typeof renderModeBanner === 'function') renderModeBanner();
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     K-1 · TRANSPARENZ ÜBER DEN BETRIEBSMODUS
+     Ohne API-Key beantwortet die Anwendung Eingaben über statische
+     Schlüsselwort-Antworten. Sämtliche adaptiven Mechaniken
+     (Organisationsgedächtnis, veränderliche Offenheit, modellierte
+     Widersprüche, Fallkontext) bleiben dann wirkungslos. Damit
+     Erprobende nicht unbemerkt ein anderes Artefakt beurteilen,
+     wird der eingeschränkte Modus ausdrücklich kenntlich gemacht.
+  ═══════════════════════════════════════════════════════════════ */
+  function renderModeBanner() {
+    const wrap = document.getElementById('chatWrap');
+    if (!wrap) return;
+    let b = document.getElementById('modeBanner');
+    if (apiKey) { if (b) b.remove(); return; }
+    if (!b) {
+      b = document.createElement('div');
+      b.id = 'modeBanner';
+      b.className = 'mode-banner';
+      b.innerHTML = '<strong>Eingeschränkter Demonstrationsmodus.</strong> ' +
+        'Ohne API-Key antworten die Personas aus einem festen Textvorrat. ' +
+        'Sie reagieren dann weder auf den bisherigen Gesprächsverlauf noch auf Ihre Gesprächsführung ' +
+        'oder die Projektlage. Für eine vollständige Erprobung tragen Sie oben rechts einen API-Key ein.';
+      const hdr = wrap.querySelector('.chat-hdr');
+      if (hdr) wrap.insertBefore(b, hdr); else wrap.insertBefore(b, wrap.firstChild);
     }
   }
 
@@ -3406,6 +4134,7 @@ WICHTIG:
     el.classList.add('active');
     activeRole   = el.dataset.role;
     chatHistory  = [];
+    if (typeof renderModeBanner === 'function') renderModeBanner();   /* K-1 */
     if (projectState.talkedTo.indexOf(activeRole) < 0) projectState.talkedTo.push(activeRole);
     if (typeof checkStoryBeats === 'function') checkStoryBeats();
     if (typeof updateProjectStatus === 'function') updateProjectStatus();
@@ -3419,7 +4148,35 @@ WICHTIG:
     document.getElementById('chatRoleName').textContent = role.name;
     resetSkillBadges();
     clearChat(false);
-    appendMessage('bot', role.greeting, role.name, false);
+
+    /* Wiederaufnahme statt Neustart: Wurde mit dieser Person bereits
+       gesprochen, wird der Gesprächsfaden sichtbar fortgeführt — sowohl
+       für die lernende Person als auch im Prompt-Kontext. Ohne diese
+       Wiederherstellung begänne jedes Gespräch von vorn, und die Personas
+       könnten sich nicht auf Vorheriges beziehen. */
+    const mem = personaMemory[activeRole];
+    if (mem && mem.gespraeche > 0) {
+      const wieder = document.createElement('div');
+      wieder.className = 'mem-resume';
+      let txt = 'Sie sprechen erneut mit ' + role.name.split(' — ')[0] + '. ';
+      txt += 'Bisher ' + mem.gespraeche + ' Gespräch' + (mem.gespraeche === 1 ? '' : 'e');
+      if (mem.themen.length) txt += ' — zuletzt ging es um: ' + mem.themen.slice(-3).join(', ');
+      txt += '.';
+      wieder.textContent = txt;
+      document.getElementById('messages').appendChild(wieder);
+      /* Letzte Wortwechsel wieder sichtbar machen */
+      mem.verlauf.forEach(function(v){
+        appendMessage('user', v.f, null, false);
+        appendMessage('bot',  v.a, role.name, false);
+      });
+      /* Prompt-Historie wiederherstellen, damit das Modell anknüpfen kann */
+      mem.verlauf.forEach(function(v){
+        chatHistory.push({ role:'user', content: v.f });
+        chatHistory.push({ role:'assistant', content: v.a });
+      });
+    } else {
+      appendMessage('bot', role.greeting, role.name, false);
+    }
     updatePerspectiveContext();
   }
 
@@ -3464,6 +4221,10 @@ WICHTIG:
     chatHistory.push({ role: 'user', content: text });
     interviewedRoles.add(activeRole);
     updatePerspectiveContext();
+    if (typeof updatePersonaState === 'function') {
+      const sig = updatePersonaState(activeRole, text);
+      if (sig && typeof showRecognition === 'function') showRecognition(sig, activeRole);
+    }
 
     // Keyword-based offline fallback
     if (!apiKey) {
@@ -3472,8 +4233,19 @@ WICHTIG:
       const reply = found ? found.text : role.fallback;
       setTimeout(() => {
         appendMessage('bot', reply, role.name);
+        if (!_offlineNoted) {
+          _offlineNoted = true;
+          const box = document.getElementById('messages');
+          if (box) {
+            const n = document.createElement('div');
+            n.className = 'rec-note';
+            n.textContent = 'Hinweis: Diese Antwort stammt aus einem festen Textvorrat, nicht aus der adaptiven Persona-Simulation.';
+            box.appendChild(n);
+          }
+        }
         highlightSkills(reply);
         if (typeof projectState !== 'undefined' && activeRole) projectState.notes[activeRole] = String(reply).replace(/\s+/g,' ').slice(0, 220);
+        if (typeof memRecordTurn === 'function') memRecordTurn(activeRole, text, reply);
         if (typeof checkStoryBeats === 'function') checkStoryBeats();
       }, 600);
       return;
@@ -3514,6 +4286,7 @@ WICHTIG:
     if (typeof projectState !== 'undefined' && activeRole) projectState.notes[activeRole] = String(reply).replace(/\s+/g,' ').slice(0, 220);
     appendMessage('bot', reply, role.name, false);
     highlightSkills(reply);
+    if (typeof memRecordTurn === 'function') memRecordTurn(activeRole, text, reply);
   }
 
   function highlightSkills(text) {
@@ -3557,7 +4330,7 @@ WICHTIG:
     const box = document.getElementById('p3PerspectiveCtx');
     if (box) {
       if (activeRole && ROLES[activeRole]) {
-        let html = '🧭 <b>Dein Fall-Anker:</b> ' + ROLES[activeRole].name +
+        let html = '🧭 <b>Ihr Fall-Anker:</b> ' + ROLES[activeRole].name +
           ' &nbsp;·&nbsp; <b>Eingeholte Perspektiven:</b> ' + n + ' / ' + totalRoles +
           ' &nbsp; <button class="btn-ghost btn-ghost--sm" onclick="var w=document.getElementById(\'chatWrap\'); if(w) w.scrollIntoView({behavior:\'smooth\',block:\'center\'})">↩ Zum Gespräch</button>';
         if (n < 2) {
@@ -3575,7 +4348,7 @@ WICHTIG:
         rq.style.display = 'block';
         document.getElementById('refPersonaQLbl').textContent =
           '🧭 Du hast vor allem mit ' + ROLES[activeRole].name + ' gesprochen (' + n +
-          ' Perspektive' + (n === 1 ? '' : 'n') + ' insgesamt): Wie hat sich dein Blick auf diese Rolle verändert — und welche ihrer Bedürfnisse berücksichtigt deine Lösung?';
+          ' Perspektive' + (n === 1 ? '' : 'n') + ' insgesamt): Wie hat sich Ihr Blick auf diese Rolle verändert — und welche ihrer Bedürfnisse berücksichtigt Ihre Lösung?';
       } else {
         rq.style.display = 'none';
       }
@@ -4147,14 +4920,35 @@ WICHTIG:
   
 
   /* ═══ METHOD DASHBOARD ══════════════════════════════════════════ */
+  /* METHODS_META — Werkzeugbeschreibungen.
+     `phase` benennt die Projektphase, in der das Werkzeug typischerweise
+     eingesetzt wird. Es ist ausdrücklich KEINE Zugangsbeschränkung:
+     Alle Werkzeuge stehen in jeder Phase zur Verfügung. Die Entscheidung,
+     welches Werkzeug eine Situation weiterbringt, liegt bei der lernenden
+     Person — genau diese Auswahlkompetenz ist ein Lernziel der Simulation.
+     `einsatz` = typischer Einsatzbereich · `nutzen` = erwartetes Ergebnis */
   const METHODS_META = {
-    empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Beobachten',              why:'Erkunde Gedanken, Gefühle und Bedürfnisse einer Berufsrolle.' },
-    stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',              why:'Analysiere Einfluss, Interessen und Konflikte aller Beteiligten.' },
-    persona:           { icon:'🪞', name:'Persona',            phase:'Beobachten',             why:'Mache abstrakte Berufsgruppen konkret und menschlich.' },
-    problemDefinition: { icon:'🎯', name:'Problem Definition', phase:'Sichtweise definieren',  why:'Trenne Symptome von Ursachen — finde das Kernproblem.' },
-    ideation:          { icon:'💡', name:'Ideation',           phase:'Ideen entwickeln',       why:'Kreative Lösungsansätze — Quantität vor Qualität.' },
-    prototyping:       { icon:'🛠️', name:'Prototyping',        phase:'Prototyp',               why:'Teste Ideen früh und günstig, bevor viel investiert wird.' },
-    reflexion:         { icon:'🔄', name:'Reflexion',          phase:'Testen & Lernen',        why:'Mache Future Skills und Lernfortschritte sichtbar.' }
+    empathyMap:        { icon:'🗺️', name:'Empathy Map',       phase:'Beobachten',             why:'„Sie sagt das eine und meint offenbar etwas anderes." — Wenn Aussage und Bedürfnis auseinanderfallen.',
+                         einsatz:'Nach Gesprächen, wenn Aussagen vorliegen, das dahinterliegende Bedürfnis aber unklar bleibt.',
+                         nutzen:'Trennt Gesagtes von Gemeintem und macht unausgesprochene Sorgen und Hoffnungen sichtbar.' },
+    stakeholderMap:    { icon:'🕸️', name:'Stakeholder Map',    phase:'Verstehen',              why:'„Wer redet hier eigentlich mit — und wer entscheidet?" — Wenn der Überblick über die Beteiligten fehlt.',
+                         einsatz:'Wenn viele Beteiligte im Spiel sind und unklar ist, wer Einfluss hat und wer blockieren kann.',
+                         nutzen:'Zeigt Interessen, Abhängigkeiten und Machtverhältnisse — und wen Sie früh gewinnen müssen.' },
+    persona:           { icon:'🪞', name:'Persona',            phase:'Beobachten',             why:'„Ich habe viele Einzelmeinungen — für wen gestalte ich?" — Wenn aus Stimmen ein Bild werden muss.',
+                         einsatz:'Wenn mehrere Einzelaussagen vorliegen und daraus eine konkrete Zielgruppe werden soll.',
+                         nutzen:'Verdichtet verstreute Beobachtungen zu einem greifbaren Menschen, für den Sie gestalten.' },
+    problemDefinition: { icon:'🎯', name:'Problem Definition', phase:'Sichtweise definieren',  why:'„Jeder nennt ein anderes Problem. Welches lösen wir?" — Wenn Symptome und Ursachen sich vermischen.',
+                         einsatz:'Wenn widersprüchliche Problembeschreibungen vorliegen und eine Festlegung nötig wird.',
+                         nutzen:'Trennt Symptome von Ursachen und führt zu einem begründeten Point-of-View-Statement.' },
+    ideation:          { icon:'💡', name:'Ideation',           phase:'Ideen entwickeln',       why:'„Mir fällt nur eine Lösung ein." — Wenn die erste Idee alternativlos wirkt.',
+                         einsatz:'Wenn das Kernproblem steht, aber nur eine naheliegende Lösung im Raum ist.',
+                         nutzen:'Öffnet den Lösungsraum, macht Alternativen vergleichbar und die Wahl zur echten Entscheidung.' },
+    prototyping:       { icon:'🛠️', name:'Prototyping',        phase:'Prototyp',               why:'„Klingt gut — aber funktioniert es für die, die es nutzen sollen?" — Wenn eine Annahme geprüft werden muss.',
+                         einsatz:'Wenn eine Idee überzeugt, ihre Tragfähigkeit im Alltag aber ungeprüft ist.',
+                         nutzen:'Macht Annahmen testbar, bevor Ressourcen gebunden werden — frühes Scheitern ist billig.' },
+    reflexion:         { icon:'🔄', name:'Reflexion',          phase:'Testen & Lernen',        why:'„Was habe ich getan — und was hat es gebracht?" — Wenn Erfahrung zu Erkenntnis werden soll.',
+                         einsatz:'Nach Rückmeldungen oder am Ende eines Arbeitsabschnitts, wenn Erfahrung geordnet werden soll.',
+                         nutzen:'Überführt Erlebtes in Erkenntnis und macht den eigenen Kompetenzzuwachs greifbar.' }
   };
 
   /* Iteration 5: Kompetenzorientierung — Design Thinking ist Mittel, Lernziel sind die Kompetenzen */
@@ -4174,47 +4968,47 @@ WICHTIG:
       const k = entry[1];
       const div = document.createElement('div');
       div.className = 'komp-banner';
-      div.innerHTML = '🎯 <b>Kompetenzfokus dieser Phase:</b> ' + k.skill + ' — ' + k.why +
+      div.innerHTML = '🎯 <b>Worauf es hier ankommt:</b> ' + k.skill + ' — ' + k.why +
         ' <span class="komp-praxis">Praxisbezug: ' + k.praxis + '</span>' + (k.extra || '');
       hdr.insertAdjacentElement('afterend', div);
     });
   }
 
   const PHASES_DEF = {
-    verstehen:  { num:1, name:'Verstehen', icon:'🔍', raum:'problem', color:'#1D6FB8', denken:'divergent',
-      ziel:'Die Design Challenge und ihren Kontext fassen: Worum geht es wirklich, wer ist beteiligt, was sind die Rahmenbedingungen?',
-      why:'Ohne gemeinsames Bild des Problemfelds entstehen Lösungen für das falsche Problem.',
+    verstehen:  { num:1, name:'Verstehen', icon:'🔍', raum:'problem', color:'var(--dt-1)', denken:'divergent',
+      ziel:'Sie stehen vor einem Feld, das Sie noch nicht überblicken: Wer ist beteiligt, was hängt zusammen, worum geht es wirklich?',
+      why:'Solange Sie nicht wissen, wer mitredet und wer entscheidet, planen Sie im Nebel — und lösen am Ende das falsche Problem.',
       skills:['Systemisches Denken','Kollaboration'], methods:['stakeholderMap'] },
-    beobachten: { num:2, name:'Beobachten', icon:'👀', raum:'problem', color:'#C25E8B', denken:'divergent',
-      ziel:'Das tatsächliche Bedürfnis hinter dem Problem entdecken — durch Empathie und echte Nutzerperspektiven.',
-      why:'Befragung und Beobachtung der Betroffenen verhindern, dass Annahmen die Lösung steuern.',
+    beobachten: { num:2, name:'Beobachten', icon:'👀', raum:'problem', color:'var(--dt-2)', denken:'divergent',
+      ziel:'Die Beteiligten sagen Ihnen etwas — aber meinen sie auch, was sie sagen? Jetzt geht es um das Bedürfnis dahinter.',
+      why:'Wer nur auf Aussagen hört, baut für Annahmen. Wer die Bedürfnisse dahinter versteht, baut für Menschen.',
       skills:['Empathie','Kommunikation'], methods:['empathyMap','persona'] },
-    sichtweise: { num:3, name:'Sichtweise definieren', icon:'🎯', raum:'problem', color:'#2E9E63', denken:'konvergent',
-      ziel:'Die Erkenntnisse zu einem gemeinsamen Standpunkt verdichten: das Kernproblem als Point-of-View.',
-      why:'Erst ein präzise definiertes Problem macht zielgerichtete Ideenentwicklung möglich.',
+    sichtweise: { num:3, name:'Sichtweise definieren', icon:'🎯', raum:'problem', color:'var(--dt-3)', denken:'konvergent',
+      ziel:'Sie haben viele Sichtweisen gehört — und jede nennt ein anderes Problem. Jetzt müssen Sie sich festlegen.',
+      why:'Ohne ein klar benanntes Kernproblem entwickeln Sie Lösungen für Symptome — und niemand wird Ihnen folgen können.',
       skills:['Problemlösung','Analytisches Denken'], methods:['problemDefinition'] },
-    ideen:      { num:4, name:'Ideen entwickeln', icon:'💡', raum:'solution', color:'#F2A03D', denken:'divergent',
-      ziel:'Viele Lösungsimpulse erzeugen — Quantität vor Qualität, Bewertung kommt später.',
-      why:'Divergentes Denken öffnet den Lösungsraum, bevor konvergent ausgewählt wird.',
+    ideen:      { num:4, name:'Ideen entwickeln', icon:'💡', raum:'solution', color:'var(--dt-4)', denken:'divergent',
+      ziel:'Das Problem steht. Aber die erste Idee, die Ihnen kommt, ist selten die beste — jetzt braucht es Alternativen.',
+      why:'Wer zu früh bewertet, bleibt beim Naheliegenden. Erst die Breite macht die Wahl zu einer echten Entscheidung.',
       skills:['Kreativität','Ökonomische Kompetenz'], methods:['ideation'] },
-    prototyp:   { num:5, name:'Prototyp entwickeln', icon:'🛠️', raum:'solution', color:'#E4762A', denken:'konvergent',
-      ziel:'Ausgewählte Ideen schnell greifbar machen und Testannahmen definieren.',
-      why:'Früh und günstig testen, bevor viel investiert wird — Fehler werden zu Erkenntnissen.',
+    prototyp:   { num:5, name:'Prototyp entwickeln', icon:'🛠️', raum:'solution', color:'var(--dt-5)', denken:'konvergent',
+      ziel:'Ihre Idee klingt überzeugend — im Kopf. Jetzt muss sie greifbar werden, damit andere sie beurteilen können.',
+      why:'Was auf Papier funktioniert, scheitert oft am Alltag. Ein früher Prototyp kostet wenig — ein spätes Scheitern viel.',
       skills:['Analytisches Denken','Ökonomische Kompetenz'], methods:['prototyping'] },
-    testen:     { num:6, name:'Testen', icon:'🔄', raum:'solution', color:'#C0392B', denken:'konvergent',
-      ziel:'Feedback der Zielgruppen einholen, Lernfortschritt reflektieren — und bei Bedarf zurückspringen.',
-      why:'Testen schließt die Schleife: Erkenntnisse fließen zurück in Beobachtung und Sichtweise.',
+    testen:     { num:6, name:'Testen', icon:'🔄', raum:'solution', color:'var(--dt-6)', denken:'konvergent',
+      ziel:'Jetzt zeigt sich, ob Ihr Ansatz trägt: Was sagen die, für die er gedacht ist — und was folgt daraus?',
+      why:'Kritik ist kein Rückschlag, sondern Information. Wer sie ernst nimmt, springt zurück — und kommt besser wieder heraus.',
       skills:['Selbstreflexion','Adaptionsfähigkeit'], methods:['reflexion'] }
   };
   const KOMP_DT = {
     verstehen:  { lernziel:'Du lernst, ein Beteiligtensystem strukturiert zu erfassen, statt vorschnell zu urteilen.', praxis:'Stakeholder-Analysen gehören zu jedem Projektstart im Krankenhaus.', reflex:'Wessen Einfluss hast du zu Beginn unterschätzt — und woran hast du es gemerkt?' },
-    beobachten: { lernziel:'Du lernst, echte Bedürfnisse hinter Aussagen zu erkennen — Empathie als Erhebungskompetenz.', praxis:'Bedarfserhebung bei Berufsgruppen ist Kernaufgabe vor jeder PE-Maßnahme.', reflex:'An welcher Stelle hat dich eine Persona überrascht — und was sagt das über deine Annahmen?' },
+    beobachten: { lernziel:'Sie lernen, echte Bedürfnisse hinter Aussagen zu erkennen — Empathie als Erhebungskompetenz.', praxis:'Bedarfserhebung bei Berufsgruppen ist Kernaufgabe vor jeder PE-Maßnahme.', reflex:'An welcher Stelle hat Sie eine Persona überrascht — und was sagt das über Ihre Annahmen?' },
     sichtweise: { lernziel:'Du lernst, aus vielen Eindrücken ein präzises Kernproblem zu verdichten.', praxis:'Eine klare Problemdefinition entscheidet über Budget- und Projektfreigaben.', reflex:'Woran erkennst du, dass dein Point-of-View ein Problem beschreibt — und nicht schon eine Lösung?' },
-    ideen:      { lernziel:'Du lernst, den Lösungsraum zu öffnen, bevor du bewertest — und Wirtschaftlichkeit mitzudenken.', praxis:'Ideenphasen mit Kostenblick verhindern Konzepte, die an der Finanzierung scheitern.', reflex:'Welche deiner Ideen hätte den besten Aufwand-Nutzen-Verhältnis — und warum?' },
-    prototyp:   { lernziel:'Du lernst, Annahmen testbar zu machen, statt Perfektion anzustreben.', praxis:'Frühe Prototypen sparen im Klinikkontext teure Fehlentwicklungen.', reflex:'Welche Annahme deines Prototyps ist die riskanteste — und wie testest du genau sie?' },
-    testen:     { lernziel:'Du lernst, Feedback auszuhalten, einzuordnen und in Verstetigung zu übersetzen.', praxis:'Ohne Transfersicherung versanden Innovationen im Stationsalltag.', reflex:'Was müsste passieren, damit deine Lösung nach vier Wochen noch gelebt wird?' }
+    ideen:      { lernziel:'Sie lernen, den Lösungsraum zu öffnen, bevor Sie bewerten — und Wirtschaftlichkeit mitzudenken.', praxis:'Ideenphasen mit Kostenblick verhindern Konzepte, die an der Finanzierung scheitern.', reflex:'Welche Ihrer Ideen hätte das beste Aufwand-Nutzen-Verhältnis — und warum?' },
+    prototyp:   { lernziel:'Sie lernen, Annahmen testbar zu machen, statt Perfektion anzustreben.', praxis:'Frühe Prototypen sparen im Klinikkontext teure Fehlentwicklungen.', reflex:'Welche Annahme Ihres Prototyps ist die riskanteste — und wie testen Sie genau diese?' },
+    testen:     { lernziel:'Sie lernen, Feedback auszuhalten, einzuordnen und in Verstetigung zu übersetzen.', praxis:'Ohne Transfersicherung versanden Innovationen im Stationsalltag.', reflex:'Was müsste passieren, damit Ihre Lösung nach vier Wochen noch gelebt wird?' }
   };
-  const MC_COLORS = { empathyMap:'#f59e0b', stakeholderMap:'#7c3aed', persona:'#db2777', problemDefinition:'#ea580c', ideation:'#059669', prototyping:'#2563eb', reflexion:'#16a34a' };
+  const MC_COLORS = { empathyMap:'var(--mc-amber)', stakeholderMap:'var(--mc-violet)', persona:'var(--mc-pink)', problemDefinition:'var(--mc-orange)', ideation:'var(--mc-emerald)', prototyping:'var(--mc-blue)', reflexion:'var(--mc-green)' };
   let currentProcessPhase = null;
 
   function initMethodDashboard() {
@@ -4234,28 +5028,35 @@ WICHTIG:
     band.innerHTML =
       '<div class="dtp-wrap">' +
         '<div class="dspace dspace-problem">' +
-          '<div class="dspace-title">🔍 Problemraum erkunden</div>' +
-          '<div class="dspace-sub">divergent öffnen → konvergent verdichten</div>' +
+          '<div class="dspace-title">🔍 Erst verstehen</div>' +
+          '<div class="dspace-sub">Öffnen Sie den Blick, bevor Sie ihn verengen</div>' +
           '<div class="dnodes">' + nodeBtn('verstehen') + conn + nodeBtn('beobachten') + conn + nodeBtn('sichtweise') + '</div>' +
         '</div>' +
         '<div class="dtp-mid">' +
           '<div class="dtp-pov"><span>⇆</span></div>' +
-          '<div class="dtp-mid-lbl">Point of View — Übergang Problem → Lösung</div>' +
+          '<div class="dtp-mid-lbl">Der Moment der Festlegung</div>' +
         '</div>' +
         '<div class="dspace dspace-solution">' +
-          '<div class="dspace-title">💡 Lösungsraum entwickeln</div>' +
-          '<div class="dspace-sub">divergent öffnen → konvergent verdichten</div>' +
+          '<div class="dspace-title">💡 Dann lösen</div>' +
+          '<div class="dspace-sub">Sammeln Sie Möglichkeiten, bevor Sie entscheiden</div>' +
           '<div class="dnodes">' + nodeBtn('ideen') + conn + nodeBtn('prototyp') + conn + nodeBtn('testen') + '</div>' +
         '</div>' +
       '</div>' +
-      '<div class="dtp-iter">↺&nbsp;<b>Iterativ:</b>&nbsp;Design Thinking verläuft nicht linear — du kannst jederzeit in frühere Phasen zurückspringen, z.&nbsp;B. nach dem Testen erneut beobachten oder die Sichtweise schärfen.</div>';
+      '<div class="dtp-iter">↺&nbsp;<b>Kein Projekt läuft geradeaus:</b>&nbsp;Wenn neue Erkenntnisse alte Schlüsse infrage stellen, springen Sie zurück — noch einmal nachfragen ist kein Rückschritt, sondern gute Projektarbeit.</div>';
 
     const dotWrap = document.getElementById('methodProgDots');
     if (dotWrap) {
       dotWrap.innerHTML = '';
+      /* Direktzugriff: jedes Werkzeug ist über seinen Punkt jederzeit
+         erreichbar — unabhängig von der aktuell gewählten Phase. */
       Object.keys(METHODS_META).forEach(k => {
-        const d = document.createElement('div');
+        const m = METHODS_META[k];
+        const d = document.createElement('button');
         d.className = 'mpd'; d.id = 'mpd-' + k;
+        d.type = 'button';
+        d.title = m.name + ' öffnen — in jeder Phase verfügbar';
+        d.setAttribute('aria-label', m.name + ' öffnen');
+        d.onclick = function(){ openMethodTool(k); };
         dotWrap.appendChild(d);
       });
     }
@@ -4272,18 +5073,48 @@ WICHTIG:
     const panel = document.getElementById('phasePanel');
     if (!panel || !p) return;
     const raumLbl = p.raum === 'problem' ? '🔍 Problemraum' : '💡 Lösungsraum';
-    let mcards = '';
-    p.methods.forEach(mk => {
-      const m = METHODS_META[mk];
+
+    /* ═══════════════════════════════════════════════════════════════
+       METHODENBAUKASTEN — freie Werkzeugwahl in jeder Projektphase
+       Der Doppeldiamant bleibt als fachliche Orientierung erhalten,
+       die Werkzeugauswahl ist jedoch nicht länger an ihn gebunden:
+       Gerendert werden ALLE Werkzeuge, nicht nur die phasentypischen.
+       In realen Projekten entscheidet niemand „jetzt machen wir eine
+       Empathy Map"; man analysiert die Lage und wählt das Werkzeug,
+       das weiterhilft. Genau diese Auswahlkompetenz soll die
+       Simulation fordern. `p.methods` dient nur noch als Hinweis,
+       welche Werkzeuge in dieser Phase besonders naheliegen.
+    ═══════════════════════════════════════════════════════════════ */
+    const alleMethoden = Object.keys(METHODS_META);
+    const typisch = alleMethoden.filter(function(mk){ return p.methods.indexOf(mk) >= 0; });
+    const weitere = alleMethoden.filter(function(mk){ return p.methods.indexOf(mk) < 0; });
+
+    function renderCard(mk, istTypisch) {
+      const m   = METHODS_META[mk];
       const col = MC_COLORS[mk] || '#2563eb';
-      const ex = exploredMethods.has(mk) ? ' explored' : '';
-      mcards += '<div class="mc'+ex+'" id="mc-'+mk+'">' +
+      const ex  = exploredMethods.has(mk) ? ' explored' : '';
+      const tip = istTypisch ? '<div class="mc-tip">In dieser Phase naheliegend</div>' : '';
+      const used = exploredMethods.has(mk) ? '<div class="mc-used">✓ bereits genutzt — erneut möglich</div>' : '';
+      return '<div class="mc'+ex+(istTypisch?' mc-typisch':'')+'" id="mc-'+mk+'">' +
+        tip +
         '<div class="mc-icon">'+m.icon+'</div>' +
         '<div class="mc-phase">'+m.phase+'</div>' +
         '<div class="mc-name">'+m.name+'</div>' +
         '<div class="mc-why">'+m.why+'</div>' +
-        '<button class="mc-explore" style="background:'+col+'" onclick="openMethodTool(\''+mk+'\')">Erkunden →</button></div>';
-    });
+        '<div class="mc-meta"><b>Einsatzbereich:</b> '+(m.einsatz||'—')+'</div>' +
+        '<div class="mc-meta"><b>Erwarteter Nutzen:</b> '+(m.nutzen||'—')+'</div>' +
+        used +
+        '<button class="mc-explore" style="background:'+col+'" onclick="openMethodTool(\''+mk+'\')">Werkzeug verwenden →</button></div>';
+    }
+
+    let mcards = '<div class="mb-frage">Welches Werkzeug hilft Ihnen bei dieser Situation weiter?</div>' +
+      '<div class="mb-hint">Sie können jedes Werkzeug in jeder Phase einsetzen, mehrere kombinieren und ' +
+      'jederzeit zu bereits genutzten zurückkehren. Die Auswahl liegt bei Ihnen — sie ist Teil der Aufgabe.</div>' +
+      '<div class="pp-mgrid">' + typisch.map(function(mk){ return renderCard(mk, true); }).join('') + '</div>';
+    if (weitere.length) {
+      mcards += '<div class="mb-sep">Weitere Werkzeuge — jederzeit verfügbar</div>' +
+        '<div class="pp-mgrid">' + weitere.map(function(mk){ return renderCard(mk, false); }).join('') + '</div>';
+    }
     panel.innerHTML =
       '<div class="pp-head">' +
         '<div class="pp-ic" style="background:'+p.color+'">'+p.icon+'</div>' +
@@ -4291,11 +5122,11 @@ WICHTIG:
         '<div class="pp-badges"><span class="pp-badge">'+raumLbl+'</span>' +
         '<span class="pp-badge">'+(p.denken==='divergent'?'◇ divergentes Denken':'◆ konvergentes Denken')+'</span></div></div>' +
       '</div>' +
-      '<div class="pp-goal"><b>Ziel:</b> '+p.ziel+'</div>' +
+      '<div class="pp-goal"><b>Ihre Lage:</b> '+p.ziel+'</div>' +
       '<div class="pp-goal komp-reveal">🎓 <b>Kompetenz-Lernziel:</b> '+(KOMP_DT[key]?KOMP_DT[key].lernziel:'')+'</div>' +
-      '<div class="pp-why"><b>Warum diese Methoden?</b> '+p.why+' <span class="komp-praxis">Praxisbezug: '+(KOMP_DT[key]?KOMP_DT[key].praxis:'')+'</span></div>' +
+      '<div class="pp-why"><b>Warum das jetzt zählt:</b> '+p.why+' <span class="komp-praxis">Praxisbezug: '+(KOMP_DT[key]?KOMP_DT[key].praxis:'')+'</span></div>' +
       '<div class="pp-skills">'+p.skills.map(function(s){return '<span class="phase-chip">'+s+'</span>';}).join('')+'</div>' +
-      '<div class="pp-mgrid">'+mcards+'</div>' +
+      mcards +
       '<div class="pp-reflex">💭 <b>Reflexionsimpuls:</b> '+(KOMP_DT[key]?KOMP_DT[key].reflex:'')+'</div>';
     panel.style.display = 'block';
     updateProcessNodes();
@@ -4326,7 +5157,7 @@ WICHTIG:
     const opts = KM_METHODS.map(function(m){ return '<option value="'+(m==='— wählen —'?'':m)+'">'+m+'</option>'; }).join('');
     return '<tr id="kmr-'+idx+'">' +
       '<td><select class="km-method-sel" onchange="kmUpdate()">'+opts+'</select></td>' +
-      '<td><textarea class="km-cell" rows="1" placeholder="Was hast du konkret beobachtet?" oninput="kmUpdate()"></textarea></td>' +
+      '<td><textarea class="km-cell" rows="1" placeholder="Was haben Sie konkret beobachtet?" oninput="kmUpdate()"></textarea></td>' +
       '<td><textarea class="km-cell" rows="1" placeholder="Welche Kompetenz steckt darin?" oninput="kmUpdate()"></textarea></td>' +
       '<td><textarea class="km-cell" rows="1" placeholder="Welcher Future Skill?" oninput="kmUpdate()"></textarea></td>' +
       '<td style="display:flex;gap:.2rem"><textarea class="km-cell" rows="1" placeholder="Warum dieser Zusammenhang?" oninput="kmUpdate()"></textarea>' +
@@ -4396,7 +5227,7 @@ WICHTIG:
         '<th style="width:16%">Future Skill</th>' +
         '<th style="width:18%">Passende DT-Methode</th>' +
         '<th style="width:32%">Wie entwickelt sie sich?</th>' +
-        '<th style="width:14%">Dein Abgleich</th>' +
+        '<th style="width:14%">Ihr Abgleich</th>' +
       '</tr></thead><tbody>' + rowsHtml + '</tbody></table></div>';
 
     // Heatmap aus eigenen Einträgen: Methode → Kompetenzen
@@ -4428,12 +5259,159 @@ WICHTIG:
       });
     }
   }
+  /* ═══════════════════════════════════════════════════════════════
+     K-2 · GESAMTEXPORT DES PROJEKTVERLAUFS
+     Die Anwendung erzeugt Verlaufsdaten (gewählte Perspektiven und
+     deren Reihenfolge, Begründungen, genutzte Werkzeuge, getroffene
+     Entscheidungen, Matrixeinträge), hielt sie bisher aber nur zur
+     Laufzeit. Für die Evaluation im Design-Science-Rahmen sind genau
+     diese Daten der objektivierbare Teil der Erhebung. Der Export
+     ist freiwillig und enthält ausschließlich die Eingaben der
+     erprobenden Person — keine personenbezogenen Angaben.
+  ═══════════════════════════════════════════════════════════════ */
+  function buildVerlaufsprotokoll() {
+    const pad = function(s){ return String(s); };
+    const roleName = function(rid){
+      const m = (typeof CASE_ROLES !== 'undefined' && CASE_ROLES[activeCase]) ? CASE_ROLES[activeCase][rid] : null;
+      return m ? (m.name + ' — ' + m.role) : rid;
+    };
+    const cs = (typeof CASES !== 'undefined' && CASES[activeCase]) ? CASES[activeCase] : null;
+
+    let out = 'PROJEKTVERLAUF — Fast-Forward-Simulation\n';
+    out += '════════════════════════════════════════════════════════\n';
+    out += 'Exportiert am: ' + new Date().toLocaleString('de-DE') + '\n';
+    out += 'Fallstudie: ' + (cs ? cs.label : activeCase) + '\n';
+    out += 'Betriebsmodus: ' + (apiKey ? 'vollständig (adaptive Personas aktiv)'
+                                       : 'eingeschränkter Demonstrationsmodus ohne adaptive Reaktion') + '\n\n';
+
+    out += '1 · ERSTKONTAKT\n';
+    out += '   Gewählte Perspektive: ' + (projectState.firstContact ? roleName(projectState.firstContact) : '—') + '\n';
+    out += '   Begründung: ' + (projectState.firstContactReason || '—') + '\n\n';
+
+    out += '2 · ERHOBENE PERSPEKTIVEN (in Reihenfolge der Gespräche)\n';
+    if (projectState.talkedTo.length) {
+      projectState.talkedTo.forEach(function(rid, i){
+        out += '   ' + (i+1) + '. ' + roleName(rid) + '\n';
+      });
+      const alle = (typeof CASE_ROLES !== 'undefined' && CASE_ROLES[activeCase]) ? Object.keys(CASE_ROLES[activeCase]) : [];
+      const fehlend = alle.filter(function(r){ return projectState.talkedTo.indexOf(r) < 0; });
+      out += '   Nicht erhoben: ' + (fehlend.length ? fehlend.map(roleName).join('; ') : 'keine') + '\n';
+    } else { out += '   — keine Gespräche geführt —\n'; }
+    out += '\n';
+
+    out += '3 · WERKZEUGWAHL (Reihenfolge, Ausgangsphase, Begründung)\n';
+    if (typeof methodChoices !== 'undefined' && methodChoices.length) {
+      methodChoices.forEach(function(c){
+        const mm = (typeof METHODS_META !== 'undefined') ? METHODS_META[c.key] : null;
+        out += '   ' + c.nr + '. ' + (mm && mm.name ? mm.name : c.key) + (c.erneut ? '  (erneute Nutzung)' : '') + '\n';
+        out += '      Gewählt aus Phase: ' + c.phase + ' · nach ' + c.perspektiven + ' Gespräch(en)\n';
+        out += '      Begründung: ' + (c.grund || '— nicht angegeben —') + '\n';
+      });
+      const genutzt = (typeof exploredMethods !== 'undefined') ? exploredMethods.size : 0;
+      const gesamt  = (typeof METHODS_META !== 'undefined') ? Object.keys(METHODS_META).length : 0;
+      out += '   Insgesamt ' + genutzt + ' von ' + gesamt + ' verfügbaren Werkzeugen eingesetzt.\n';
+      if (typeof METHODS_META !== 'undefined') {
+        const ungenutzt = Object.keys(METHODS_META).filter(function(k){ return !exploredMethods.has(k); });
+        out += '   Nicht eingesetzt: ' + (ungenutzt.length ? ungenutzt.map(function(k){ return METHODS_META[k].name; }).join('; ') : 'keine') + '\n';
+      }
+    } else { out += '   — kein Werkzeug eingesetzt —\n'; }
+    out += '\n';
+
+    out += '4 · PROJEKTENTSCHEIDUNGEN\n';
+    out += '   Weiterverfolgter Ansatz: ' + (projectState.idee  || '— nicht festgehalten —') + '\n';
+    out += '   Zuerst geprüfte Annahme: ' + (projectState.proto || '— nicht festgehalten —') + '\n\n';
+
+    out += '5 · ENTSCHEIDUNGSVORLAGE\n';
+    if (typeof finaleVorlageText === 'function') {
+      out += '   ' + finaleVorlageText().split('\n').join('\n   ') + '\n\n';
+    } else { out += '   —\n\n'; }
+
+    out += '6 · SELBSTEINGESCHÄTZTE KOMPETENZMATRIX\n';
+    if (typeof kmReadRows === 'function') {
+      const rows = kmReadRows().filter(function(o){ return o.rec.complete; }).map(function(o){ return o.rec; });
+      if (rows.length) {
+        rows.forEach(function(r,i){
+          out += '   ' + (i+1) + '. Methode: ' + r.method + '\n';
+          out += '      Beobachtung: ' + r.situation + '\n';
+          out += '      Kompetenz: ' + r.kompetenz + '\n';
+          out += '      Future Skill: ' + r.skill + '\n';
+          out += '      Begründung: ' + (r.begruendung || '—') + '\n';
+        });
+      } else { out += '   — keine vollständigen Zeilen —\n'; }
+    }
+    out += '\n7 · PROJEKTCHRONOLOGIE\n';
+    if (typeof projectMemory !== 'undefined' && projectMemory.chronologie.length) {
+      projectMemory.chronologie.forEach(function(c){
+        out += '   [' + String(c.nr).padStart(2,'0') + '] ' + c.typ + ': ' + c.text + '\n';
+      });
+    } else { out += '   — keine Ereignisse erfasst —\n'; }
+
+    out += '\n8 · ENTWICKLUNG DER STAKEHOLDER\n';
+    if (typeof personaMemory !== 'undefined' && Object.keys(personaMemory).length) {
+      Object.keys(personaMemory).forEach(function(rid){
+        const m = personaMemory[rid];
+        out += '   · ' + roleName(rid) + '\n';
+        out += '     Gespräche: ' + m.gespraeche + ' · Vertrauensstand: ' + m.vertrauen + ' (Skala -3 bis +5)\n';
+        out += '     Themen: ' + (m.themen.join(', ') || '—') + '\n';
+        if (m.zusagen.length) out += '     Erhaltene Zusagen: ' + m.zusagen.map(function(z){ return '„' + z + '"'; }).join('; ') + '\n';
+        if (m.kritik.length)  out += '     Geäußerte Bedenken: ' + m.kritik.map(function(k){ return '„' + k + '"'; }).join('; ') + '\n';
+        if (m.verdichtet)     out += '     Gesprächsbogen: ' + m.verdichtet + '\n';
+      });
+      const alle = (typeof CASE_ROLES !== 'undefined' && CASE_ROLES[activeCase]) ? Object.keys(CASE_ROLES[activeCase]) : [];
+      const ohne = alle.filter(function(r){ return !personaMemory[r]; });
+      if (ohne.length) out += '   Ohne Gesprächskontakt geblieben: ' + ohne.map(roleName).join('; ') + '\n';
+    } else { out += '   — keine Gespräche geführt —\n'; }
+
+    out += '\n9 · ERZEUGTE ARBEITSERGEBNISSE\n';
+    if (typeof projectMemory !== 'undefined' && Object.keys(projectMemory.artefakte).length) {
+      Object.keys(projectMemory.artefakte).forEach(function(k){
+        out += '   · ' + projectMemory.artefakte[k] + '\n';
+      });
+    } else { out += '   — keine Arbeitsergebnisse erfasst —\n'; }
+
+    out += '\n10 · HEURISTISCHE KOMPETENZ-AKTIVIERUNG\n';
+    out += '   (Zählung der Nennungen — ausdrücklich keine Kompetenzmessung;\n';
+    out += '    belastbare Kompetenzaussagen erfordern Transferbeobachtung.)\n';
+    if (typeof skillCounts !== 'undefined') {
+      const ks = Object.keys(skillCounts).sort(function(a,b){ return skillCounts[b]-skillCounts[a]; });
+      if (ks.length) { ks.forEach(function(k){ out += '   · ' + k + ': ' + skillCounts[k] + '\n'; }); }
+      else { out += '   — keine Aktivierungen erfasst —\n'; }
+    }
+    out += '\n════════════════════════════════════════════════════════\n';
+    out += 'Hinweis: Dieser Export enthält ausschließlich Ihre eigenen Eingaben\n';
+    out += 'und Interaktionsdaten dieser Sitzung. Die Weitergabe ist freiwillig.\n';
+    return out;
+  }
+
+  function exportVerlauf() {
+    const txt  = buildVerlaufsprotokoll();
+    const hint = document.getElementById('verlaufExportHint');
+    try {
+      const blob = new Blob([txt], { type:'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      const ts   = new Date().toISOString().slice(0,16).replace(/[:T]/g,'-');
+      a.href = url; a.download = 'Projektverlauf_' + activeCase + '_' + ts + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      if (hint) { hint.textContent = '✓ Datei erstellt'; setTimeout(function(){ hint.textContent=''; }, 3000); }
+    } catch (e) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(txt).then(function(){
+          if (hint) { hint.textContent = '✓ in die Zwischenablage kopiert'; setTimeout(function(){ hint.textContent=''; }, 3000); }
+        });
+      }
+    }
+  }
+
   /* ═══ Iteration 11: Finale — Entscheidungsvorlage & Verteidigung ═══ */
   let finaleHistory = [];
   let finaleDone = false;
 
   function finaleGaps() {
     const gaps = [];
+    if (!projectState.idee) gaps.push('Es ist nicht dokumentiert, welchen Lösungsansatz Sie warum weiterverfolgt haben.');
+    if (!projectState.proto) gaps.push('Es wurde keine zentrale Annahme benannt, an der der Ansatz scheitern könnte.');
     const t = projectState.talkedTo;
     const inc = function(r){ return t.indexOf(r) >= 0; };
     if (activeCase === 'portal') {
@@ -4476,7 +5454,11 @@ WICHTIG:
   function finaleSystemPrompt() {
     const cs = CASES[activeCase];
     const gaps = finaleGaps();
-    return 'Du bist ' + (cs.mandat ? cs.mandat.von : 'die Auftraggeberin') + ' in der Fallstudie „' + cs.label + '“. ' +
+    var decs = '';
+    if (projectState.firstContactReason) decs += ' Erstkontakt-Begründung: „' + projectState.firstContactReason + '".';
+    if (projectState.idee) decs += ' Gewählter Ansatz: „' + projectState.idee + '".';
+    if (projectState.proto) decs += ' Zentrale Annahme: „' + projectState.proto + '".';
+    return 'Du bist ' + (cs.mandat ? cs.mandat.von : 'die Auftraggeberin') + ' in der Fallstudie „' + cs.label + '“.' + (decs ? ' Frühere Festlegungen des Digital Health Managers, auf die du dich beziehen darfst:' + decs : '') + ' ' +
       'Der Digital Health Manager legt dir seine Entscheidungsvorlage vor. Reagiere professionell, wohlwollend-kritisch, auf Deutsch, in 3-6 Sätzen. ' +
       'Stelle GENAU DORT kritische Rückfragen, wo Lücken bestehen. Bekannte Lücken dieses Projekts: ' +
       (gaps.length ? gaps.join(' | ') : 'Keine gravierenden — frage nach Priorisierung und Verstetigung.') +
@@ -4538,7 +5520,45 @@ WICHTIG:
     if (typeof initCompetencyMatrix === 'function') initCompetencyMatrix();
   }
 
+  function renderRecall() {
+    const box = document.getElementById('kmRecall');
+    if (!box) return;
+    const roles = CASE_ROLES[activeCase] || {};
+    const names = projectState.talkedTo.map(function(r){ return roles[r] ? roles[r].name : r; });
+    const meth = [];
+    if (typeof exploredMethods !== 'undefined') {
+      exploredMethods.forEach(function(k){ if (METHODS_META[k]) meth.push(METHODS_META[k].name); });
+    }
+    let html = '<div class="km-recall-hd">Ihr Projektverlauf — als Gedächtnisstütze</div><ul class="km-recall-list">';
+    if (names.length) html += '<li><b>Sie sprachen mit:</b> ' + names.join(', ') + '</li>';
+    if (projectState.firstContactReason) html += '<li><b>Ihr Erstkontakt, weil:</b> „' + projectState.firstContactReason + '"</li>';
+    if (meth.length) html += '<li><b>Sie nutzten:</b> ' + meth.join(', ') + '</li>';
+    /* Werkzeugwahl als eigene Entscheidung sichtbar machen */
+    if (typeof methodChoices !== 'undefined' && methodChoices.length) {
+      const mitGrund = methodChoices.filter(function(c){ return c.grund; });
+      if (mitGrund.length) {
+        html += '<li><b>Ihre Werkzeugwahl begründeten Sie so:</b><ul class="km-recall-sub">' +
+          mitGrund.map(function(c){
+            const nm = METHODS_META[c.key] ? METHODS_META[c.key].name : c.key;
+            return '<li>' + nm + ': „' + escHtml(c.grund) + '"</li>';
+          }).join('') + '</ul></li>';
+      }
+      const gesamt = Object.keys(METHODS_META).length;
+      html += '<li><b>Sie setzten ' + exploredMethods.size + ' von ' + gesamt +
+        ' verfügbaren Werkzeugen ein.</b> Alle standen Ihnen in jeder Phase zur Verfügung — ' +
+        'die Auswahl war Ihre Entscheidung.</li>';
+    }
+    if (projectState.idee) html += '<li><b>Sie verfolgten den Ansatz:</b> „' + projectState.idee + '"</li>';
+    if (projectState.proto) html += '<li><b>Sie prüften die Annahme:</b> „' + projectState.proto + '"</li>';
+    const skipped = Object.keys(roles).filter(function(r){ return projectState.talkedTo.indexOf(r) < 0; })
+                     .map(function(r){ return roles[r].name; });
+    if (skipped.length) html += '<li><b>Nicht gesprochen haben Sie mit:</b> ' + skipped.join(', ') + '</li>';
+    html += '</ul>';
+    box.innerHTML = html;
+  }
+
   function initCompetencyMatrix(){
+    if (typeof renderRecall === 'function') renderRecall();
     const body = document.getElementById('kmBody');
     if (!body || body.dataset.built) return;
     body.dataset.built = '1';
@@ -4558,25 +5578,48 @@ WICHTIG:
         '<div class="sp-bar"><div class="sp-fill" style="width:' + pct + '%"></div></div>' +
         '<div class="sp-num">' + v + '</div></div>';
     });
-    wrap.innerHTML = '<div class="sp-title">📊 Dein Kompetenz-Aktivierungsprofil</div>' +
-      '<div class="sp-sub">Heuristische Auswertung: Zählt, wie oft jede Kompetenz in deinen Gesprächen erkannt und durch genutzte Methoden angesprochen wurde. Dies ist ein Reflexionsanlass — keine validierte Kompetenzmessung; echte Kompetenzaussagen erfordern Transferbeobachtung im Arbeitsalltag.</div>' + rows;
+    wrap.innerHTML = '<div class="sp-title">📊 Ihr Kompetenz-Aktivierungsprofil</div>' +
+      '<div class="sp-sub">Heuristische Auswertung: Zählt, wie oft jede Kompetenz in Ihren Gesprächen erkannt und durch genutzte Methoden angesprochen wurde. Dies ist ein Reflexionsanlass — keine validierte Kompetenzmessung; echte Kompetenzaussagen erfordern Transferbeobachtung im Arbeitsalltag.</div>' + rows;
   }
 
   function updateProcessNodes() {
+    /* Phasenknoten: gilt als bearbeitet, wenn die phasentypischen
+       Werkzeuge genutzt wurden — der Doppeldiamant bleibt damit als
+       fachliche Orientierung erhalten. */
     Object.entries(PHASES_DEF).forEach(function(entry){
       const key = entry[0], p = entry[1];
       const done = p.methods.every(function(mk){ return exploredMethods.has(mk); });
       const btn = document.getElementById('pn-' + key);
       if (btn) btn.classList.toggle('done', done);
-      p.methods.forEach(function(mk){
-        const card = document.getElementById('mc-' + mk);
-        if (card) card.classList.toggle('explored', exploredMethods.has(mk));
-      });
+    });
+    /* Werkzeugkarten: alle Werkzeuge sind in jeder Phase sichtbar,
+       daher werden auch alle Karten aktualisiert — nicht nur die
+       der aktuell gewählten Phase. */
+    Object.keys(METHODS_META).forEach(function(mk){
+      const card = document.getElementById('mc-' + mk);
+      if (card) card.classList.toggle('explored', exploredMethods.has(mk));
     });
   }
 
+  /* Protokoll der Werkzeugwahl: Reihenfolge, Phase und Begründung.
+     Für die Evaluation ist nicht nur relevant, WELCHE Werkzeuge genutzt
+     wurden, sondern in welcher Reihenfolge, aus welcher Phase heraus und
+     mit welcher Begründung — das ist der beobachtbare Teil der
+     Methodenauswahlkompetenz. */
+  const methodChoices = [];
+
   function openMethodTool(key) {
+    const istErstnutzung = !exploredMethods.has(key);
     exploredMethods.add(key);
+    methodChoices.push({
+      key: key,
+      nr: methodChoices.length + 1,
+      phase: (typeof currentProcessPhase !== 'undefined' && PHASES_DEF[currentProcessPhase])
+             ? PHASES_DEF[currentProcessPhase].name : '—',
+      perspektiven: projectState.talkedTo.length,
+      erneut: !istErstnutzung,
+      grund: ''
+    });
     // update card
     const card = document.getElementById('mc-' + key);
     if (card) { card.classList.add('explored'); }
@@ -4590,42 +5633,221 @@ WICHTIG:
     if (typeof updateProjectStatus === 'function') updateProjectStatus();
     if (DT_METHODS[key] && DT_METHODS[key].skills && typeof bumpSkill === 'function') DT_METHODS[key].skills.forEach(function(s){ bumpSkill(s); });
 
+    if (key === 'prototyping' || key === 'reflexion') {
+      if (typeof showAdaptiveFeedback === 'function') showAdaptiveFeedback(key);
+    }
+    if (typeof showDecisionPrompt === 'function') showDecisionPrompt(key);
+
     const m = METHODS_META[key];
     document.getElementById('methodToolTitle').textContent = m.icon + '  ' + m.name;
     document.getElementById('methodToolPanel').dataset.method = key;
     loadMethodContent(key);
+    if (typeof renderMethodRationale === 'function') renderMethodRationale(key);
 
     document.getElementById('methodDashboard').style.display = 'none';
     document.getElementById('methodToolPanel').style.display = 'block';
     window.scrollTo({ top:0, behavior:'smooth' });
+    if (typeof memLog === 'function') memLog('werkzeug', m.name + ' geöffnet');
+  }
+
+  /* Begründung der Werkzeugwahl — freiwillig, aber didaktisch zentral:
+     Die Auswahl eines Werkzeugs ist selbst eine Projektentscheidung. */
+  function renderMethodRationale(key) {
+    const panel = document.getElementById('methodToolPanel');
+    if (!panel) return;
+    const alt = document.getElementById('methodRationale');
+    if (alt) alt.remove();
+    const rec = methodChoices[methodChoices.length - 1];
+    const box = document.createElement('div');
+    box.id = 'methodRationale';
+    box.className = 'mr-box';
+    box.innerHTML =
+      '<div class="mr-q">Warum dieses Werkzeug — was erhoffen Sie sich davon?</div>' +
+      '<div class="mr-row">' +
+        '<input type="text" id="mrInput" class="fc-reason" placeholder="z. B. „Ich habe vier Sichtweisen gehört und verliere den Überblick, wer wovon abhängt …"">' +
+        '<button class="btn-ghost" onclick="saveMethodRationale()">Festhalten</button>' +
+      '</div>' +
+      '<div class="mr-note">Freiwillig. Ihre Begründungen erscheinen im Projektabschluss und im Verlaufsexport.</div>';
+    const content = document.getElementById('methodToolContent');
+    if (content && content.parentNode) content.parentNode.insertBefore(box, content);
+    else panel.appendChild(box);
+    if (rec && rec.grund) {
+      const inp = document.getElementById('mrInput');
+      if (inp) inp.value = rec.grund;
+    }
+  }
+
+  function saveMethodRationale() {
+    const inp = document.getElementById('mrInput');
+    const box = document.getElementById('methodRationale');
+    if (!inp || !box) return;
+    const val = inp.value.trim();
+    if (!val) return;
+    const rec = methodChoices[methodChoices.length - 1];
+    if (rec) rec.grund = val;
+    if (rec && typeof memLog === 'function') {
+      const nm = METHODS_META[rec.key] ? METHODS_META[rec.key].name : rec.key;
+      memLog('werkzeugwahl', nm + ' gewählt, begründet mit: „' + kuerze(val, 90) + '"');
+    }
+    if (typeof bumpSkill === 'function') bumpSkill('skill-reflexion');
+    box.innerHTML = '<div class="mr-q">Ihre Begründung</div>' +
+      '<div class="mr-saved">„' + escHtml(val) + '"</div>' +
+      '<div class="mr-note">Wird im Projektabschluss wieder aufgegriffen.</div>';
+  }
+
+  /* ═══ Artefakterfassung ═══════════════════════════════════════════
+     Liest die Ergebnisse der Werkzeuge aus und verdichtet sie zu je
+     einem Satz, auf den sich die Personas später beziehen können.
+     Bewusst als zentrale Abfrage umgesetzt statt als Eingriff in jedes
+     einzelne Werkzeug — so bleibt die bestehende Werkzeuglogik
+     unangetastet. Wird beim Schließen eines Werkzeugs aufgerufen. */
+  function erfasseArtefakte() {
+    function txt(id){ const e = document.getElementById(id); return e ? String(e.value || '').trim() : ''; }
+
+    /* Stakeholder Map — die Karte ist vorbelegt; als eigenes Arbeitsergebnis
+       gilt sie erst, wenn Beziehungen gezogen oder Knoten verändert wurden. */
+    if (typeof smNodes !== 'undefined') {
+      const verb = (typeof smConnections !== 'undefined') ? smConnections.length : 0;
+      const bearbeitet = verb > 0 || smNodes.length !== 7;
+      if (bearbeitet) {
+        const namen = smNodes.map(function(n){ return n.name; }).filter(Boolean).slice(0, 8);
+        projectMemory.artefakte.stakeholderMap =
+          'Eine Stakeholder-Analyse wurde erarbeitet: ' + smNodes.length + ' Beteiligte' +
+          (namen.length ? ' (' + namen.join(', ') + ')' : '') +
+          (verb ? ', ' + verb + ' Beziehung(en) eingezeichnet' : '') + '.';
+      }
+    }
+
+    /* Empathy Map — arbeitet direkt im DOM, daher Auslesen der Notizfelder */
+    (function(){
+      const zonen = ['thinks','feels','says','does','pain','gain'];
+      const inhalte = [];
+      zonen.forEach(function(z){
+        const c = document.getElementById('emN-' + z);
+        if (!c) return;
+        c.querySelectorAll('textarea').forEach(function(ta){
+          const v = String(ta.value || '').trim();
+          if (v) inhalte.push(v);
+        });
+      });
+      if (inhalte.length) projectMemory.artefakte.empathyMap =
+        'Eine Empathy Map wurde ausgefüllt (' + inhalte.length +
+        ' Notizen zu Denken, Fühlen, Sorgen und Hoffnungen), darunter: „' +
+        kuerze(inhalte[0], 110) + '".';
+    })();
+
+    /* Persona */
+    if (typeof pbPersonas !== 'undefined' && pbPersonas.length) {
+      const nm = pbPersonas.map(function(p){ return p.name; }).filter(Boolean);
+      projectMemory.artefakte.persona =
+        pbPersonas.length + ' Persona-Profil(e) wurden angelegt' + (nm.length ? ': ' + nm.join(', ') : '') + '.';
+    }
+
+    /* Problemdefinition */
+    const prob = txt('pdProblem');
+    if (prob) {
+      const urs = (typeof pdCauses !== 'undefined') ? pdCauses.map(function(c){ return c.text; }).filter(Boolean) : [];
+      projectMemory.artefakte.problemDefinition =
+        'Als Kernproblem wurde festgehalten: „' + kuerze(prob, 160) + '"' +
+        (urs.length ? ' — als Ursachen benannt: ' + urs.slice(0,3).map(function(u){ return kuerze(u, 70); }).join('; ') : '') + '.';
+    }
+
+    /* Ideation */
+    if (typeof ibCards !== 'undefined' && ibCards) {
+      const alle = [];
+      Object.keys(ibCards).forEach(function(c){
+        (ibCards[c] || []).forEach(function(k){ if (k.text) alle.push({ t:k.text, s:k.score || 0 }); });
+      });
+      if (alle.length) {
+        alle.sort(function(a,b){ return b.s - a.s; });
+        projectMemory.artefakte.ideation =
+          alle.length + ' Lösungsideen wurden gesammelt; am höchsten bewertet: „' + kuerze(alle[0].t, 120) + '".';
+      }
+    }
+
+    /* Prototyping */
+    if (typeof protoIterations !== 'undefined' && protoIterations.length) {
+      const mitInhalt = protoIterations.filter(function(i){ return i.ansatz; });
+      if (mitInhalt.length) projectMemory.artefakte.prototyping =
+        mitInhalt.length + ' Prototyp-Iteration(en) wurden geplant; zuletzt: „' +
+        kuerze(mitInhalt[mitInhalt.length-1].ansatz, 140) + '".';
+    }
+
+    if (typeof updateMemoryPanel === 'function') updateMemoryPanel();
+  }
+
+  /* Dozentenansicht des Project Memory. Für Lernende über die
+     bestehende `komp-reveal`-Mechanik ausgeblendet — das Vertrauens-
+     modell soll im Gespräch wirken, nicht als Punktestand gelesen werden. */
+  function updateMemoryPanel() {
+    const box = document.getElementById('memPanel');
+    if (!box) return;
+    const rollen = Object.keys(personaMemory);
+    if (!rollen.length && !projectMemory.chronologie.length) { box.innerHTML = ''; return; }
+
+    let html = '<div class="mem-hd">🎓 Project Memory — Dozentenansicht</div>' +
+      '<div class="mem-sub">Nur im Dozentenmodus sichtbar. Zeigt den internen Gedächtnisstand, ' +
+      'auf den die Personas im Gespräch zurückgreifen.</div>';
+
+    if (rollen.length) {
+      html += '<div class="mem-sec">Personas</div><table class="mem-tbl"><thead><tr>' +
+        '<th>Persona</th><th>Gespräche</th><th>Vertrauen</th><th>Themen</th><th>Offene Zusagen</th>' +
+        '</tr></thead><tbody>';
+      rollen.forEach(function(rid){
+        const m = personaMemory[rid];
+        const v = m.vertrauen;
+        const bal = '<span class="mem-bar"><i style="width:' + Math.round((v + 3) / 8 * 100) + '%"></i></span> ' + v;
+        html += '<tr><td>' + escHtml(rollenName(rid)) + '</td><td>' + m.gespraeche + '</td><td>' + bal + '</td>' +
+          '<td>' + escHtml(m.themen.join(', ') || '—') + '</td>' +
+          '<td>' + m.zusagen.length + '</td></tr>';
+      });
+      html += '</tbody></table>';
+    }
+
+    const arte = Object.keys(projectMemory.artefakte);
+    if (arte.length) {
+      html += '<div class="mem-sec">Erfasste Arbeitsergebnisse</div><ul class="mem-list">';
+      arte.forEach(function(k){ html += '<li>' + escHtml(projectMemory.artefakte[k]) + '</li>'; });
+      html += '</ul>';
+    }
+
+    if (projectMemory.chronologie.length) {
+      html += '<div class="mem-sec">Projektchronologie (jüngste zuerst)</div><ul class="mem-list">';
+      projectMemory.chronologie.slice(-8).reverse().forEach(function(c){
+        html += '<li><b>' + c.typ + ':</b> ' + escHtml(c.text) + '</li>';
+      });
+      html += '</ul>';
+    }
+    box.innerHTML = html;
   }
 
   function closeMethodTool() {
+    if (typeof erfasseArtefakte === 'function') erfasseArtefakte();
     document.getElementById('methodToolPanel').style.display = 'none';
     document.getElementById('methodDashboard').style.display = 'block';
     showCoachCard(window._lastMethodKey);
   }
 
   const COACH_QS = [
-    'Welche Ihrer Annahmen wurde in dieser Methode widerlegt — und woran haben Sie es gemerkt?',
-    'Welche Perspektive fehlt Ihnen an dieser Stelle noch, um weiterzugehen?',
-    'Welche Unsicherheit bleibt bestehen — und können Sie mit ihr entscheiden, oder brauchen Sie mehr?',
-    'Welcher Beteiligte wird gerade unterschätzt — von Ihnen oder von der Organisation?',
-    'Wenn Sie jetzt entscheiden müssten: Was wäre Ihre Empfehlung — und was hält Sie zurück?',
-    'Was hat Sie in den bisherigen Gesprächen am meisten überrascht — und was folgt daraus?',
-    'Welche Information würden Sie als Nächstes erheben — und was kostet es, sie NICHT zu haben?'
+    'Sie haben jetzt mehrere Sichtweisen gehört, die sich teils widersprechen. Wie behalten Sie den Überblick — und wessen Einfluss haben Sie bisher unterschätzt?',
+    'Eine Ihrer Annahmen wurde gerade infrage gestellt. Welche war es — und was ändert das an Ihrem nächsten Schritt?',
+    'Sie kennen jetzt viele Einzelmeinungen. Für wen genau würden Sie eine Lösung bauen — und woher wissen Sie das?',
+    'Wenn Sie jetzt entscheiden müssten: Was wäre Ihre Empfehlung — und was hält Sie noch zurück?',
+    'Was in den Gesprächen hat Sie am meisten überrascht — und was folgt daraus für Ihr Vorgehen?',
+    'Welche Information fehlt Ihnen gerade am dringendsten — und was kostet es, ohne sie weiterzumachen?',
+    'Sie haben eine Richtung im Kopf. Wer im Haus würde ihr widersprechen — und mit welchem Argument?'
   ];
   let _coachIdx = 0;
   function showCoachCard(methodKey) {
-    var box = document.getElementById('storyBeatBox');
-    if (!box) return;
-    var q = COACH_QS[_coachIdx % COACH_QS.length]; _coachIdx++;
-    var d = document.createElement('div');
-    d.className = 'coach-card';
-    d.innerHTML = '<div class="coach-kicker">🧭 Projektcoach</div>' +
-      '<div class="coach-q">' + q + '</div>' +
-      '<button class="beat-dismiss" onclick="this.parentElement.remove()">Weiter im Projekt</button>';
-    box.appendChild(d);
+    enqueueCard('coach', 'coach-' + methodKey, function(){
+      var q = COACH_QS[_coachIdx % COACH_QS.length]; _coachIdx++;
+      var d = document.createElement('div');
+      d.className = 'coach-card';
+      d.innerHTML = '<div class="coach-kicker">🧭 Kurz innehalten</div>' +
+        '<div class="coach-q">' + q + '</div>' +
+        '<button class="beat-dismiss" onclick="this.parentElement.remove()">Weiter</button>';
+      return d;
+    });
   }
 
   const WS_AI_CTX = {
@@ -4796,7 +6018,7 @@ WICHTIG:
         <div class="tool-section">
           <div class="tool-section-hd">Erstellte Personas <span id="pbCount" style="color:var(--primary);font-weight:700;text-transform:none;letter-spacing:0"></span></div>
           <div class="persona-cards-list" id="pbCardsList">
-            <div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Personas — füge deine erste Persona unten hinzu.</div>
+            <div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Personas — fügen Sie Ihre erste Persona unten hinzu.</div>
           </div>
         </div>
 
@@ -4855,9 +6077,9 @@ WICHTIG:
           <div class="canvas-icon">🎯</div>
           <div>
             <div class="canvas-title">Problem Definition</div>
-            <div class="canvas-desc">Baue deine Problemanalyse Schritt für Schritt auf. Füge Ursachen und Auswirkungen hinzu — der Point of View entsteht dynamisch.</div>
+            <div class="canvas-desc">Bauen Sie Ihre Problemanalyse Schritt für Schritt auf. Fügen Sie Ursachen und Auswirkungen hinzu — der Point of View entsteht dynamisch.</div>
           </div>
-          <div class="canvas-badge" style="background:#fff7ed;border-color:#fed7aa;color:#c2410c">Definieren</div>
+          <div class="canvas-badge" style="background:#fff7ed;border-color:#fed7aa;color:#9A3412">Definieren</div>
         </div>
 
         <!-- Iceberg canvas -->
@@ -4870,8 +6092,8 @@ WICHTIG:
           <div class="pd-ice-bottom">
             <div class="pd-ice-lbl">🧊 Tiefere Ursachen</div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
-              <span style="font-size:.75rem;font-weight:600;color:#c2410c">Ursachen</span>
-              <button class="btn-tool-sm" onclick="pdAddCause()" style="border-color:rgba(234,88,12,.35);color:#c2410c">+ Ursache</button>
+              <span style="font-size:.75rem;font-weight:600;color:#9A3412">Ursachen</span>
+              <button class="btn-tool-sm" onclick="pdAddCause()" style="border-color:rgba(234,88,12,.35);color:#9A3412">+ Ursache</button>
             </div>
             <div class="pd-cause-list" id="pdCauseList"></div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin:0.7rem 0 .5rem">
@@ -4945,9 +6167,9 @@ WICHTIG:
           <!-- rendered by JS -->
         </div>
         <div class="ref-qs">
-          <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven waren neu oder überraschend?</div><textarea placeholder="Beschreibe konkret, was dich überrascht hat…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">👁️ Welche Perspektiven waren neu oder überraschend?</div><textarea placeholder="Beschreiben Sie konkret, was Sie überrascht hat…"></textarea></div>
           <div class="ref-q"><div class="ref-q-lbl">⚡ Welche Spannungen und Konflikte wurden sichtbar?</div><textarea placeholder="z.B. Spannungen zwischen Zeitdruck auf Station und IT-Anforderungen…"></textarea></div>
-          <div class="ref-q"><div class="ref-q-lbl">🔄 Was nimmst du konkret mit?</div><textarea placeholder="Konkrete Erkenntnisse für deinen Berufsalltag…"></textarea></div>
+          <div class="ref-q"><div class="ref-q-lbl">🔄 Was nehmen Sie konkret mit?</div><textarea placeholder="Konkrete Erkenntnisse für Ihren Berufsalltag…"></textarea></div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.85rem">
           <button class="ai-btn" onclick="wsAI('reflexion','ai-ref')">✨ KI reflektiert mit dir</button>
@@ -5162,6 +6384,8 @@ WICHTIG:
       if (ti) ti.value = apiKey;
       if (bi) bi.value = apiKey;
       updateTopBar(true);
+    } else {
+      updateTopBar(false);   /* K-1: Demonstrationsmodus von Beginn an kenntlich */
     }
     buildGlossary();
     initMethodDashboard();
@@ -5171,7 +6395,7 @@ WICHTIG:
       if (nav && !document.getElementById('sideTools')) {
         var d = document.createElement('div');
         d.className = 'side-tools'; d.id = 'sideTools';
-        d.innerHTML = '<button class="side-tool" onclick="goToPhase(1)">📖 Glossar &amp; Nachschlagen</button>' +
+        d.innerHTML = '<button class="side-tool" onclick="goToPhase(1)">📋 Simulations-Briefing</button>' +
           '<button class="side-tool" id="dozentBtn" onclick="document.body.classList.toggle(\'dozent\'); this.classList.toggle(\'on\'); this.textContent = document.body.classList.contains(\'dozent\') ? \'🎓 Dozentenmodus: an\' : \'🎓 Dozentenmodus\';">🎓 Dozentenmodus</button>';
         nav.appendChild(d);
       }
@@ -5472,7 +6696,7 @@ WICHTIG:
     const cnt  = document.getElementById('pbCount');
     if (cnt) cnt.textContent = pbPersonas.length ? `(${pbPersonas.length})` : '';
     if (!pbPersonas.length) {
-      list.innerHTML = '<div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Personas — füge deine erste Persona unten hinzu.</div>';
+      list.innerHTML = '<div style="font-size:.83rem;color:var(--muted);font-style:italic;padding:.5rem 0">Noch keine Personas — fügen Sie Ihre erste Persona unten hinzu.</div>';
       return;
     }
     list.innerHTML = pbPersonas.map(p => `
@@ -5674,7 +6898,7 @@ WICHTIG:
         <div class="proto-iter-body">
           <div class="proto-iter-field full">
             <span class="proto-field-lbl">🛠️ Lösungsansatz</span>
-            <textarea placeholder="Was genau willst du testen?" oninput="protoIterations[${i}].ansatz=this.value">${escHtml(iter.ansatz||'')}</textarea>
+            <textarea placeholder="Was genau wollen Sie testen?" oninput="protoIterations[${i}].ansatz=this.value">${escHtml(iter.ansatz||'')}</textarea>
           </div>
           <div class="proto-iter-field">
             <span class="proto-field-lbl">🎯 Annahme / Hypothese</span>
@@ -5682,7 +6906,7 @@ WICHTIG:
           </div>
           <div class="proto-iter-field">
             <span class="proto-field-lbl">📏 Erfolgskriterium</span>
-            <textarea placeholder="Woran erkennst du Erfolg?" oninput="protoIterations[${i}].kriterium=this.value">${escHtml(iter.kriterium||'')}</textarea>
+            <textarea placeholder="Woran erkennen Sie Erfolg?" oninput="protoIterations[${i}].kriterium=this.value">${escHtml(iter.kriterium||'')}</textarea>
           </div>
           <div class="proto-iter-field full">
             <span class="proto-field-lbl">💡 Was hast du gelernt?</span>
@@ -5756,7 +6980,11 @@ WICHTIG:
       else              { if (nEl) nEl.textContent = i; }
     }
     const crumb = document.getElementById('headCrumb');
-    if (crumb) crumb.textContent = 'Phase ' + (n+1) + ' von ' + total + ' — ' + PHASE_LABELS[n];
+    if (crumb) {   /* W-5: durchgängige Akt-Logik statt Restbegriff „Phase" */
+      var AKT = [1, null, 1, 2, 3];
+      var a = AKT[n];
+      crumb.textContent = (a ? 'Akt ' + a + ' von 3 — ' : '') + PHASE_LABELS[n];
+    }
     const pill = document.getElementById('progressPill');
     if (pill) pill.textContent = Math.round((n / (total - 1)) * 100) + ' % abgeschlossen';
   }
