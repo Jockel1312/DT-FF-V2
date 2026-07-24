@@ -994,6 +994,133 @@ input::placeholder,textarea::placeholder{color:var(--c-muted);opacity:1}
 .km-recall-sub{margin:.35rem 0 0 1.1rem;padding:0}
 .km-recall-sub li{font-size:.8rem;color:var(--c-muted);margin-bottom:.2rem;list-style:circle}
 
+.ve-json{margin-top:.9rem;padding-top:.9rem;border-top:1px dashed var(--c-border)}
+
+/* ═══ SEMINARMODUS ═══ */
+.brand{cursor:default;user-select:none}
+.doz-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:9500;
+  display:none;align-items:center;justify-content:center;padding:1.5rem}
+.doz-overlay.show{display:flex}
+.doz-modal{background:var(--c-surface);border-radius:14px;max-width:440px;width:100%;
+  padding:1.6rem 1.7rem;box-shadow:0 24px 60px rgba(0,0,0,.32)}
+.doz-title{font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
+.doz-text{font-size:.81rem;color:var(--c-muted);line-height:1.6;margin-bottom:1rem}
+.doz-lbl{display:block;font-size:.75rem;font-weight:600;color:var(--c-muted);
+  margin:.7rem 0 .25rem;text-transform:uppercase;letter-spacing:.05em}
+.doz-input{width:100%;padding:.6rem .8rem;border:1px solid var(--c-border);border-radius:8px;
+  font-size:.88rem;font-family:inherit;background:var(--c-surface-alt);color:var(--c-text)}
+.doz-input:focus{outline:none;border-color:var(--c-primary)}
+.doz-fehler{font-size:.78rem;color:#c0392b;min-height:1.1rem;margin-top:.45rem}
+.doz-actions{display:flex;gap:.55rem;align-items:center;margin-top:.6rem;flex-wrap:wrap}
+.kontext-leiste{display:none;align-items:center;gap:.4rem;font-size:.75rem;
+  color:var(--c-muted);margin-left:.7rem}
+.kl-dot{width:7px;height:7px;border-radius:50%;background:#38a169;flex:0 0 auto}
+.kl-sep{opacity:.5}
+.kl-muted{color:var(--c-muted);opacity:.85}
+.sem-sec{font-size:.92rem;font-weight:600;margin:1.4rem 0 .6rem;padding-top:1rem;
+  border-top:1px solid var(--c-border)}
+#semBody .sem-sec:first-child{border-top:none;padding-top:0;margin-top:0}
+.sem-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.7rem;margin-bottom:.9rem}
+.sem-form label{display:flex;flex-direction:column;gap:.25rem}
+.sem-form span{font-size:.75rem;font-weight:600;color:var(--c-muted)}
+.sem-form input{padding:.5rem .7rem;border:1px solid var(--c-border);border-radius:8px;
+  font-size:.83rem;font-family:inherit;background:var(--c-surface-alt);color:var(--c-text)}
+.sem-form input:focus{outline:none;border-color:var(--c-primary)}
+.sem-empty{font-size:.82rem;color:var(--c-muted);font-style:italic;padding:.6rem 0}
+.sem-card{border:1px solid var(--c-border);border-radius:10px;margin-bottom:.6rem;overflow:hidden}
+.sem-card-hd{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.75rem .95rem;cursor:pointer;background:var(--c-surface-alt)}
+.sem-card-hd:hover{background:#EDF1F6}
+.sem-card-t{font-weight:600;font-size:.87rem}
+.sem-card-s{font-size:.75rem;color:var(--c-muted);margin-top:.12rem}
+.sem-card-r{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:flex-end}
+.sem-id{font-family:ui-monospace,monospace;font-size:.75rem;background:var(--c-surface);
+  border:1px solid var(--c-border);border-radius:5px;padding:.12rem .45rem}
+.sem-stat{font-size:.74rem;color:var(--c-muted)}
+.sem-chev{color:var(--c-muted);font-size:.8rem}
+.sem-card-body{padding:.9rem .95rem 1rem}
+.sem-code{font-family:ui-monospace,monospace;font-size:.8rem;background:var(--c-surface-alt);
+  border:1px solid var(--c-border);border-radius:5px;padding:.1rem .4rem}
+.sem-badge{display:inline-block;font-size:.71rem;padding:.12rem .5rem;border-radius:20px;font-weight:600}
+.st-offen{background:var(--c-surface-alt);color:var(--c-muted)}
+.st-laeuft{background:rgba(214,158,46,.16);color:#b7791f}
+.st-fertig{background:rgba(56,161,105,.16);color:#2f855a}
+.sem-actions{display:flex;gap:.5rem;align-items:center;margin-top:.85rem;flex-wrap:wrap}
+.sem-del{color:#c0392b}
+.sem-foot{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--c-border)}
+
+/* ═══ GRUPPENANALYSE — Dozenten-Debrief ═══ */
+body:not(.dozent) .dozent-only{display:none!important}
+.ga-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9000;
+  display:none;align-items:flex-start;justify-content:center;padding:2.5rem 1.2rem;overflow-y:auto}
+.ga-overlay.show{display:flex}
+.ga-modal{background:var(--c-surface);border-radius:14px;max-width:1180px;width:100%;
+  padding:1.6rem 1.8rem 2rem;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.ga-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+  padding-bottom:1rem;border-bottom:1px solid var(--c-border);margin-bottom:1.2rem}
+.ga-title{font-size:1.15rem;font-weight:600}
+.ga-sub{font-size:.8rem;color:var(--c-muted);line-height:1.6;margin-top:.3rem;max-width:78ch}
+.ga-close{background:none;border:none;font-size:1.7rem;line-height:1;cursor:pointer;
+  color:var(--c-muted);padding:0 .3rem;font-family:inherit}
+.ga-close:hover{color:var(--c-text)}
+.ga-drop{border:2px dashed var(--c-border);border-radius:12px;padding:1.6rem;text-align:center;
+  background:var(--c-surface-alt)}
+.ga-drop.over{border-color:var(--c-primary);background:rgba(37,99,235,.05)}
+.ga-drop-ic{font-size:1.9rem;margin-bottom:.4rem}
+.ga-drop-t{font-weight:600;font-size:.95rem;margin-bottom:.25rem}
+.ga-drop-s{font-size:.8rem;color:var(--c-muted);margin-bottom:.9rem;line-height:1.55}
+.ga-loaded{margin-top:1rem}
+.ga-chips{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center}
+.ga-chip{display:inline-flex;align-items:center;gap:.4rem;background:var(--c-surface);
+  border:1px solid var(--c-border);border-radius:20px;padding:.3rem .5rem .3rem .8rem;font-size:.8rem}
+.ga-chip small{color:var(--c-muted);font-size:.7rem}
+.ga-chip button{background:none;border:none;cursor:pointer;color:var(--c-muted);
+  font-size:1rem;line-height:1;padding:0 .2rem;font-family:inherit}
+.ga-chip button:hover{color:#c0392b}
+.ga-warn{margin-top:.8rem;padding:.55rem .8rem;border-radius:8px;font-size:.78rem;line-height:1.55;
+  background:rgba(214,158,46,.10);border:1px solid rgba(214,158,46,.4);color:var(--c-text)}
+.ga-actions{display:flex;gap:.6rem;align-items:center;margin-top:1.1rem;flex-wrap:wrap}
+.ga-result{margin-top:1.4rem}
+.ga-sec{font-size:.95rem;font-weight:600;margin:1.6rem 0 .5rem;padding-top:1rem;
+  border-top:1px solid var(--c-border)}
+.ga-result .ga-sec:first-child{border-top:none;padding-top:0;margin-top:0}
+.ga-note{font-size:.77rem;color:var(--c-muted);line-height:1.55;margin-bottom:.6rem;max-width:80ch}
+.ga-tblwrap{overflow-x:auto}
+.ga-tbl{width:100%;border-collapse:collapse;font-size:.79rem;min-width:520px}
+.ga-tbl th{text-align:left;font-weight:600;padding:.42rem .55rem;color:var(--c-muted);
+  border-bottom:1.5px solid var(--c-border);white-space:nowrap}
+.ga-tbl td{padding:.42rem .55rem;border-bottom:1px solid var(--c-border);vertical-align:top}
+.ga-tbl-matrix td{text-align:center}
+.ga-tbl-matrix td:first-child{text-align:left}
+.v-hoch{background:rgba(56,161,105,.20);font-weight:600}
+.v-mittel{background:rgba(56,161,105,.10)}
+.v-neutral{background:var(--c-surface-alt)}
+.v-niedrig{background:rgba(214,158,46,.16)}
+.v-leer{color:var(--c-border)}
+.ga-finding{margin-top:.7rem;padding:.55rem .8rem;border-radius:8px;font-size:.79rem;line-height:1.55;
+  background:var(--c-surface-alt);border-left:3px solid var(--c-primary)}
+.ga-step{display:inline-block;background:var(--c-surface-alt);border:1px solid var(--c-border);
+  border-radius:6px;padding:.15rem .45rem;font-size:.75rem;margin:.1rem 0}
+.ga-arr{color:var(--c-muted);margin:0 .25rem;font-size:.75rem}
+.ga-bars{margin-top:.5rem}
+.ga-bar-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem}
+.ga-bar-lbl{flex:0 0 165px;font-size:.78rem}
+.ga-bar{flex:1;height:9px;background:var(--c-surface-alt);border-radius:5px;overflow:hidden}
+.ga-bar i{display:block;height:100%;background:var(--c-primary);border-radius:5px}
+.ga-bar-n{flex:0 0 52px;text-align:right;font-size:.75rem;color:var(--c-muted)}
+.ga-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:.75rem}
+.ga-card{background:var(--c-surface-alt);border:1px solid var(--c-border);border-radius:10px;padding:.8rem .9rem}
+.ga-card-hd{font-weight:600;font-size:.85rem;margin-bottom:.45rem;padding-bottom:.35rem;
+  border-bottom:1px solid var(--c-border)}
+.ga-ul{margin:0;padding-left:1.05rem}
+.ga-ul li{font-size:.77rem;line-height:1.55;margin-bottom:.3rem}
+.ga-empty{font-size:.77rem;color:var(--c-muted);font-style:italic}
+.ga-qs{margin:.3rem 0 0 1.1rem;padding:0}
+.ga-qs li{font-size:.83rem;line-height:1.65;margin-bottom:.45rem}
+.ga-ai{white-space:pre-wrap;font-size:.83rem;line-height:1.7;margin-top:.8rem}
+.ga-ai:empty{display:none}
+@media(max-width:700px){.ga-modal{padding:1.1rem 1rem 1.5rem}.ga-bar-lbl{flex-basis:110px}}
+
 /* Project Memory — Dozentenansicht */
 .mem-panel{background:var(--c-surface-alt);border:1px solid var(--c-border);
   border-radius:var(--r-lg);padding:1rem 1.15rem;margin-bottom:1.1rem}
@@ -1070,7 +1197,7 @@ input::placeholder,textarea::placeholder{color:var(--c-muted);opacity:1}
 
   <!-- SIDEBAR: Prozessnavigation -->
   <nav class="side" aria-label="Phasennavigation">
-    <div class="brand">Fast-Forward-Studio<small id="brandCase">Simulation</small></div>
+    <div class="brand" onclick="logoKlick()" title="Fast-Forward-Studio">Fast-Forward-Studio<small id="brandCase">Simulation</small></div>
     <div class="nav-label">Projekt</div>
     <button class="nav-item" id="sn-0" onclick="goToPhase(0)"><span class="n">0</span> Mandat</button>
     <button class="nav-item" id="sn-1" onclick="goToPhase(1)"><span class="n">1</span> Briefing</button>
@@ -1087,6 +1214,7 @@ input::placeholder,textarea::placeholder{color:var(--c-muted);opacity:1}
   <header class="va-header">
     <span class="crumb">Simulation · <strong id="headCrumb">Akt 1 von 3 — Mandat</strong></span>
     <span class="progress-pill" id="progressPill">0 % abgeschlossen</span>
+    <span class="kontext-leiste" id="kontextLeiste" style="display:none"></span>
     <div class="hdr-api">
       <input class="top-api-input" type="password" id="topApiKeyInput" placeholder="sk-ant-…" autocomplete="off" onkeydown="if(event.key==='Enter') saveApiKeyTop()"/>
       <button class="top-api-btn" onclick="saveApiKeyTop()">Speichern</button>
@@ -1573,6 +1701,15 @@ input::placeholder,textarea::placeholder{color:var(--c-muted);opacity:1}
         eigenen Eingaben und keine personenbezogenen Angaben.</p>
         <button class="btn-ghost" onclick="exportVerlauf()">💾 Projektverlauf als Datei sichern</button>
         <span class="km-export-hint" id="verlaufExportHint"></span>
+
+        <!-- Datengrundlage für den Dozenten-Debrief -->
+        <div class="ve-json">
+          <button class="btn-ghost" onclick="exportProjektJSON()">📊 Projektdaten für die Gruppenanalyse (JSON)</button>
+          <span class="km-export-hint" id="jsonExportHint"></span>
+          <div class="ve-note" style="margin-top:.5rem">Wird für die gemeinsame Auswertung mehrerer Gruppen
+          im Seminar benötigt. Erfasst wird ausschließlich ein frei gewählter Gruppenname —
+          keine personenbezogenen Angaben.</div>
+        </div>
       </div>
 
       <div style="padding-top:1.2rem;margin-top:1.2rem;border-top:1px solid var(--border)">
@@ -1587,6 +1724,92 @@ input::placeholder,textarea::placeholder{color:var(--c-muted);opacity:1}
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ═══ SEMINARMODUS — Dozentenanmeldung ═══ -->
+  <div class="doz-overlay" id="dozOverlay">
+    <div class="doz-modal">
+      <div class="doz-title" id="dozTitel">Dozentenanmeldung</div>
+      <div class="doz-text" id="dozText">Bitte geben Sie das Dozentenpasswort ein.</div>
+      <input type="password" id="dozPw" class="doz-input" autocomplete="off"
+             placeholder="Passwort" onkeydown="if(event.key==='Enter')dozAnmelden()">
+      <div class="doz-fehler" id="dozFehler"></div>
+      <div class="doz-actions">
+        <button class="btn-next" id="dozBtn" onclick="dozAnmelden()">Anmelden</button>
+        <button class="btn-ghost" onclick="dozDialogSchliessen()">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SEMINARMODUS — Seminarverwaltung ═══ -->
+  <div class="ga-overlay" id="semOverlay">
+    <div class="ga-modal">
+      <div class="ga-hd">
+        <div>
+          <div class="ga-title">Seminarverwaltung</div>
+          <div class="ga-sub">Lehrveranstaltungen anlegen, Gruppencodes erzeugen und den Bearbeitungsstand
+          verfolgen. Alle Angaben verbleiben auf diesem Gerät; gespeichert werden ausschließlich
+          Seminar-ID, Gruppenname und Gruppencode.</div>
+        </div>
+        <button class="ga-close" onclick="seminarSchliessen()" title="Schließen">×</button>
+      </div>
+      <div id="semBody"></div>
+      <div class="sem-foot">
+        <button class="btn-ghost" onclick="dozAbmelden()">Dozentenmodus verlassen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SEMINARMODUS — Gruppenstart ═══ -->
+  <div class="doz-overlay" id="grpOverlay">
+    <div class="doz-modal">
+      <div class="doz-title">Gruppe zuordnen</div>
+      <div class="doz-text">Ihre Lehrperson hat Ihnen eine Seminar-ID und einen Gruppencode genannt.
+      Damit wird Ihr Projektverlauf beim Export automatisch der richtigen Veranstaltung zugeordnet.</div>
+      <label class="doz-lbl">Seminar-ID</label>
+      <input type="text" id="grpSemId" class="doz-input" placeholder="z. B. DHM-SS27-001" autocomplete="off">
+      <label class="doz-lbl">Gruppencode</label>
+      <input type="text" id="grpCode" class="doz-input" placeholder="z. B. DHM-A7K4" autocomplete="off"
+             onkeydown="if(event.key==='Enter')gruppenstartBestaetigen()">
+      <div class="doz-fehler" id="grpFehler"></div>
+      <div class="doz-actions">
+        <button class="btn-next" onclick="gruppenstartBestaetigen()">Zuordnen</button>
+        <button class="btn-ghost" onclick="gruppenstartSchliessen()">Ohne Zuordnung fortfahren</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GRUPPENANALYSE — Dozenten-Debrief (optional, überlagernd) ═══ -->
+  <div class="ga-overlay" id="gaOverlay">
+    <div class="ga-modal">
+      <div class="ga-hd">
+        <div>
+          <div class="ga-title">Gruppenanalyse — Dozenten-Debrief</div>
+          <div class="ga-sub">Vergleich mehrerer Projektverläufe für die gemeinsame Nachbereitung.
+          Es entsteht keine Rangfolge und keine Bewertung — Ziel ist, unterschiedliche Lösungswege
+          nebeneinanderzustellen und die Diskussion zu eröffnen.</div>
+        </div>
+        <button class="ga-close" onclick="gaClose()" title="Schließen">×</button>
+      </div>
+
+      <div class="ga-drop" id="gaDrop">
+        <div class="ga-drop-ic">📊</div>
+        <div class="ga-drop-t">Projektdateien auswählen</div>
+        <div class="ga-drop-s">Mehrere JSON-Dateien gleichzeitig wählen oder hierher ziehen.
+        Ab zwei Gruppen wird der Vergleich erstellt.</div>
+        <input type="file" id="gaFiles" accept="application/json,.json" multiple
+               onchange="gaLoadFiles(this.files)" style="display:none">
+        <button class="btn-ghost" onclick="document.getElementById('gaFiles').click()">Dateien wählen …</button>
+        <div class="ga-loaded" id="gaLoaded"></div>
+      </div>
+
+      <div class="ga-actions" id="gaActions" style="display:none">
+        <button class="btn-next" onclick="gaAnalyse()">Gruppenanalyse starten →</button>
+        <button class="btn-ghost" onclick="gaReset()">Auswahl zurücksetzen</button>
+      </div>
+
+      <div class="ga-result" id="gaResult"></div>
     </div>
   </div>
 
@@ -5383,6 +5606,145 @@ WICHTIG:
     return out;
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     GRUPPENANALYSE — Datengrundlage
+     ───────────────────────────────────────────────────────────────
+     Der bestehende Textexport bleibt unverändert: Er ist für Lernende
+     lesbar und dient der Abgabe. Ergänzend wird derselbe Datenstand
+     maschinenlesbar als JSON ausgegeben — Grundlage für den
+     Dozenten-Debrief, der mehrere Gruppen vergleicht.
+
+     Datenschutz: Erfasst wird ausschließlich ein frei gewählter
+     Gruppenname. Es werden keine personenbezogenen Daten gespeichert.
+  ═══════════════════════════════════════════════════════════════ */
+  const EXPORT_SCHEMA = 1;
+
+  function buildProjektDaten(gruppenname) {
+    const cs = (typeof CASES !== 'undefined' && CASES[activeCase]) ? CASES[activeCase] : null;
+    const rn = function(rid){
+      const m = (typeof CASE_ROLES !== 'undefined' && CASE_ROLES[activeCase]) ? CASE_ROLES[activeCase][rid] : null;
+      return m ? m.name : rid;
+    };
+    const alleRollen = (typeof CASE_ROLES !== 'undefined' && CASE_ROLES[activeCase])
+                       ? Object.keys(CASE_ROLES[activeCase]) : [];
+
+    /* Personas mit Vertrauensverlauf und Themen */
+    const personas = alleRollen.map(function(rid){
+      const m = personaMemory[rid];
+      return {
+        id: rid,
+        name: rn(rid),
+        rolle: (CASE_ROLES[activeCase][rid] || {}).role || '',
+        gesprochen: !!m,
+        reihenfolge: projectState.talkedTo.indexOf(rid) + 1 || null,
+        gespraeche: m ? m.gespraeche : 0,
+        vertrauen: m ? m.vertrauen : null,
+        themen: m ? m.themen.slice() : [],
+        zusagen: m ? m.zusagen.slice() : [],
+        kritik: m ? m.kritik.slice() : [],
+        gespraechsbogen: m ? (m.verdichtet || '') : ''
+      };
+    });
+
+    /* Werkzeugwahl mit Reihenfolge und Begründung */
+    const werkzeuge = (typeof methodChoices !== 'undefined' ? methodChoices : []).map(function(c){
+      return {
+        nr: c.nr, key: c.key,
+        name: (METHODS_META[c.key] || {}).name || c.key,
+        ausPhase: c.phase, nachGespraechen: c.perspektiven,
+        erneut: !!c.erneut, begruendung: c.grund || ''
+      };
+    });
+
+    const kmRows = (typeof kmReadRows === 'function')
+      ? kmReadRows().filter(function(o){ return o.rec.complete; }).map(function(o){ return o.rec; })
+      : [];
+
+    const fv = function(id){ const e = document.getElementById(id); return e ? String(e.value || '').trim() : ''; };
+
+    return {
+      schema: EXPORT_SCHEMA,
+      typ: 'fastforward-projektverlauf',
+      gruppe: gruppenname || 'Unbenannte Gruppe',
+      /* Seminarzuordnung — ermöglicht der Gruppenanalyse, Projekte ohne
+         manuelles Umbenennen dem richtigen Seminar zuzuordnen */
+      seminar: seminarKontext ? {
+        id: seminarKontext.seminarId,
+        veranstaltung: seminarKontext.veranstaltung,
+        semester: seminarKontext.semester,
+        gruppencode: seminarKontext.gruppencode
+      } : null,
+      exportiert: new Date().toISOString(),
+      fall: { key: activeCase, titel: cs ? cs.label : activeCase },
+      betriebsmodus: apiKey ? 'vollstaendig' : 'demonstrationsmodus',
+
+      erstkontakt: {
+        persona: projectState.firstContact ? rn(projectState.firstContact) : null,
+        personaId: projectState.firstContact || null,
+        begruendung: projectState.firstContactReason || ''
+      },
+      perspektiven: {
+        reihenfolge: projectState.talkedTo.map(rn),
+        reihenfolgeIds: projectState.talkedTo.slice(),
+        anzahl: projectState.talkedTo.length,
+        nichtErhoben: alleRollen.filter(function(r){ return projectState.talkedTo.indexOf(r) < 0; }).map(rn)
+      },
+      personas: personas,
+      werkzeuge: werkzeuge,
+      werkzeugeGenutzt: (typeof exploredMethods !== 'undefined') ? Array.from(exploredMethods) : [],
+      werkzeugeUngenutzt: Object.keys(METHODS_META).filter(function(k){
+        return !(typeof exploredMethods !== 'undefined' && exploredMethods.has(k));
+      }),
+      artefakte: Object.assign({}, projectMemory.artefakte),
+      entscheidungen: {
+        loesungsansatz: projectState.idee || '',
+        geprueffteAnnahme: projectState.proto || '',
+        weitere: projectMemory.entscheidungen.slice()
+      },
+      chronologie: projectMemory.chronologie.slice(),
+      abschluss: {
+        ausgangslage: fv('finLage'), erkenntnisse: fv('finErk'),
+        empfehlung: fv('finEmp'), nutzen: fv('finNut'), risiken: fv('finRis')
+      },
+      reflexion: { kompetenzmatrix: kmRows },
+      kompetenzAktivierung: Object.assign({}, (typeof skillCounts !== 'undefined' ? skillCounts : {}))
+    };
+  }
+
+  function exportProjektJSON() {
+    /* Im Seminarbetrieb ist die Gruppe bereits zugeordnet — dann entfällt
+       die Abfrage vollständig. */
+    if (seminarKontext) {
+      const daten = buildProjektDaten(seminarKontext.gruppenname);
+      markiereGruppenstatus('abgeschlossen');
+      return exportJSONDatei(daten);
+    }
+    const vorschlag = 'Gruppe ' + String.fromCharCode(65 + Math.floor(Math.random() * 6));
+    const name = window.prompt(
+      'Gruppenname für die Auswertung\n\n' +
+      'Bitte einen Gruppennamen ohne personenbezogene Angaben eingeben ' +
+      '(z. B. „Gruppe A" oder „Team Nord"). Die Datei enthält keine Namen der Teilnehmenden.',
+      vorschlag);
+    if (name === null) return;
+    return exportJSONDatei(buildProjektDaten(String(name).trim() || vorschlag));
+  }
+
+  function exportJSONDatei(daten) {
+    const hint = document.getElementById('jsonExportHint');
+    try {
+      const blob = new Blob([JSON.stringify(daten, null, 2)], { type:'application/json;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      const safe = daten.gruppe.replace(/[^\w\-]+/g, '_');
+      a.href = url; a.download = 'Projekt_' + safe + '.json';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      if (hint) { hint.textContent = '✓ ' + a.download + ' erstellt'; setTimeout(function(){ hint.textContent=''; }, 4000); }
+    } catch (e) {
+      if (hint) hint.textContent = 'Export fehlgeschlagen: ' + e.message;
+    }
+  }
+
   function exportVerlauf() {
     const txt  = buildVerlaufsprotokoll();
     const hint = document.getElementById('verlaufExportHint');
@@ -6369,6 +6731,800 @@ WICHTIG:
     if (evalOpen) startEvalChat();
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     GRUPPENANALYSE — Dozenten-Debrief
+     ───────────────────────────────────────────────────────────────
+     Vollständig optional: Die Simulation läuft für einzelne Gruppen
+     unverändert. Der Debrief wird erst aktiv, wenn Dozierende
+     mindestens zwei Projektdateien laden. Die Auswertung erfolgt
+     lokal im Browser; die KI-Zusammenfassung ist ein zusätzlicher
+     Schritt und nur mit API-Key verfügbar.
+
+     Grundsatz: kein Ranking, keine Bewertung, keine Gewinner —
+     die Analyse stellt Wege nebeneinander und erzeugt Fragen.
+  ═══════════════════════════════════════════════════════════════ */
+  let gaProjekte = [];
+
+  function gaOpen()  { document.getElementById('gaOverlay').classList.add('show'); }
+  function gaClose() { document.getElementById('gaOverlay').classList.remove('show'); }
+  function gaReset() {
+    gaProjekte = [];
+    document.getElementById('gaLoaded').innerHTML = '';
+    document.getElementById('gaResult').innerHTML = '';
+    document.getElementById('gaActions').style.display = 'none';
+    const f = document.getElementById('gaFiles'); if (f) f.value = '';
+  }
+
+  function gaLoadFiles(fileList) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    let offen = files.length;
+    files.forEach(function(f){
+      const r = new FileReader();
+      r.onload = function(){
+        try {
+          const d = JSON.parse(r.result);
+          if (d && d.typ === 'fastforward-projektverlauf') {
+            if (!gaProjekte.some(function(p){ return p.gruppe === d.gruppe && p.exportiert === d.exportiert; })) {
+              gaProjekte.push(d);
+            }
+          } else {
+            gaProjekte.push({ _fehler: true, dateiname: f.name });
+          }
+        } catch (e) {
+          gaProjekte.push({ _fehler: true, dateiname: f.name });
+        }
+        if (--offen === 0) gaRenderLoaded();
+      };
+      r.onerror = function(){ if (--offen === 0) gaRenderLoaded(); };
+      r.readAsText(f);
+    });
+  }
+
+  function gaRenderLoaded() {
+    const gueltig = gaProjekte.filter(function(p){ return !p._fehler; });
+    const fehler  = gaProjekte.filter(function(p){ return p._fehler; });
+    let html = '';
+    if (gueltig.length) {
+      html += '<div class="ga-chips">' + gueltig.map(function(p, i){
+        const sem = p.seminar ? p.seminar.id : null;
+        return '<span class="ga-chip">' + escHtml(p.gruppe) +
+          '<small>' + escHtml(sem || (p.fall || {}).titel || '') + '</small>' +
+          '<button onclick="gaRemove(' + i + ')" title="Entfernen">×</button></span>';
+      }).join('') + '</div>';
+
+      /* Automatische Zuordnung anhand der Seminar-ID — ein manuelles
+         Umbenennen der Dateien ist nicht erforderlich. */
+      const semIds = [];
+      gueltig.forEach(function(p){
+        const id = p.seminar ? p.seminar.id : '(ohne Seminarzuordnung)';
+        if (semIds.indexOf(id) < 0) semIds.push(id);
+      });
+      if (semIds.length === 1 && semIds[0] !== '(ohne Seminarzuordnung)') {
+        const s0 = gueltig.find(function(p){ return p.seminar; }).seminar;
+        html += '<div class="ga-finding">Alle ' + gueltig.length + ' Projekte gehören zu ' +
+          escHtml(s0.veranstaltung || s0.id) + ' (' + escHtml(s0.id) + ').</div>';
+      } else if (semIds.length > 1) {
+        html += '<div class="ga-warn">Die geladenen Projekte stammen aus verschiedenen Zusammenhängen: ' +
+          semIds.map(escHtml).join(', ') + '. Ein Vergleich ist möglich, sollte aber im Debrief benannt werden.</div>';
+      }
+    }
+    if (fehler.length) {
+      html += '<div class="ga-warn">' + fehler.length + ' Datei(en) konnten nicht gelesen werden: ' +
+        fehler.map(function(f){ return escHtml(f.dateiname); }).join(', ') +
+        '. Erwartet wird eine mit dieser Anwendung erzeugte JSON-Datei.</div>';
+    }
+    if (gueltig.length === 1) {
+      html += '<div class="ga-warn">Für einen Vergleich werden mindestens zwei Gruppen benötigt.</div>';
+    }
+    document.getElementById('gaLoaded').innerHTML = html;
+    document.getElementById('gaActions').style.display = gueltig.length >= 2 ? 'flex' : 'none';
+  }
+
+  function gaRemove(i) {
+    const gueltig = gaProjekte.filter(function(p){ return !p._fehler; });
+    const ziel = gueltig[i];
+    gaProjekte = gaProjekte.filter(function(p){ return p !== ziel; });
+    gaRenderLoaded();
+    document.getElementById('gaResult').innerHTML = '';
+  }
+
+  /* ─── Strategie-Erkennung ────────────────────────────────────────
+     Leitet aus dem Verlauf eine beschreibende Kennzeichnung ab.
+     Bewusst als Beschreibung formuliert, nicht als Bewertung. */
+  function gaStrategie(p) {
+    const w = p.werkzeuge || [];
+    const ersteWZ = w.length ? w[0] : null;
+    const persp = (p.perspektiven || {}).anzahl || 0;
+    const erstesWZnach = ersteWZ ? ersteWZ.nachGespraechen : null;
+
+    if (!w.length && persp >= 4) return 'gesprächsgeleitet — Perspektiven vor Werkzeugen';
+    if (ersteWZ && erstesWZnach !== null && erstesWZnach <= 1) return 'werkzeuggeleiteter Einstieg';
+    if (ersteWZ && ['stakeholderMap'].indexOf(ersteWZ.key) >= 0) return 'stakeholderorientierter Einstieg';
+    if (ersteWZ && ['empathyMap','persona'].indexOf(ersteWZ.key) >= 0) return 'nutzerorientierter Einstieg';
+    if (ersteWZ && ['problemDefinition'].indexOf(ersteWZ.key) >= 0) return 'analytischer Einstieg';
+    if (ersteWZ && ['ideation','prototyping'].indexOf(ersteWZ.key) >= 0) return 'lösungsorientierter Einstieg';
+    if (persp >= 6) return 'breit erhebend';
+    return 'gemischtes Vorgehen';
+  }
+
+  function gaIterativ(p) {
+    const w = p.werkzeuge || [];
+    return w.some(function(x){ return x.erneut; });
+  }
+
+  function gaAnalyse() {
+    const P = gaProjekte.filter(function(p){ return !p._fehler; });
+    if (P.length < 2) return;
+    const box = document.getElementById('gaResult');
+    let H = '';
+
+    /* ── 1 · Projektstrategien ───────────────────────────────────── */
+    H += '<div class="ga-sec">1 · Vorgehensweisen im Überblick</div>' +
+      '<div class="ga-tblwrap"><table class="ga-tbl"><thead><tr>' +
+      '<th>Gruppe</th><th>Charakterisierung</th><th>Erstkontakt</th><th>Perspektiven</th>' +
+      '<th>Werkzeuge</th><th>Iterativ</th></tr></thead><tbody>';
+    P.forEach(function(p){
+      H += '<tr><td><b>' + escHtml(p.gruppe) + '</b></td>' +
+        '<td>' + escHtml(gaStrategie(p)) + '</td>' +
+        '<td>' + escHtml((p.erstkontakt || {}).persona || '—') + '</td>' +
+        '<td>' + ((p.perspektiven || {}).anzahl || 0) + ' von ' +
+          (((p.perspektiven || {}).anzahl || 0) + ((p.perspektiven || {}).nichtErhoben || []).length) + '</td>' +
+        '<td>' + (p.werkzeugeGenutzt || []).length + '</td>' +
+        '<td>' + (gaIterativ(p) ? 'ja' : 'nein') + '</td></tr>';
+    });
+    H += '</tbody></table></div>';
+
+    /* ── 2 · Stakeholdermanagement ───────────────────────────────── */
+    const alleP = [];
+    P.forEach(function(p){ (p.personas || []).forEach(function(x){
+      if (!alleP.some(function(y){ return y.id === x.id; })) alleP.push({ id:x.id, name:x.name });
+    }); });
+    H += '<div class="ga-sec">2 · Stakeholdermanagement</div>' +
+      '<div class="ga-note">Zahl = Position in der Gesprächsreihenfolge. Leer bedeutet: nicht gesprochen. ' +
+      'Die Färbung zeigt den erreichten Vertrauensstand.</div>' +
+      '<div class="ga-tblwrap"><table class="ga-tbl ga-tbl-matrix"><thead><tr><th>Persona</th>';
+    P.forEach(function(p){ H += '<th>' + escHtml(p.gruppe) + '</th>'; });
+    H += '</tr></thead><tbody>';
+    alleP.forEach(function(rp){
+      H += '<tr><td>' + escHtml(rp.name) + '</td>';
+      P.forEach(function(p){
+        const e = (p.personas || []).find(function(x){ return x.id === rp.id; });
+        if (e && e.gesprochen) {
+          const v = e.vertrauen;
+          const cls = v >= 3 ? 'v-hoch' : (v >= 1 ? 'v-mittel' : (v <= -1 ? 'v-niedrig' : 'v-neutral'));
+          H += '<td class="' + cls + '" title="Vertrauensstand: ' + v + '">' + (e.reihenfolge || '·') + '</td>';
+        } else H += '<td class="v-leer">—</td>';
+      });
+      H += '</tr>';
+    });
+    H += '</tbody></table></div>';
+
+    /* Wer wurde durchgängig übergangen? */
+    const uebergangen = alleP.filter(function(rp){
+      return P.every(function(p){
+        const e = (p.personas || []).find(function(x){ return x.id === rp.id; });
+        return !e || !e.gesprochen;
+      });
+    });
+    if (uebergangen.length) {
+      H += '<div class="ga-finding">Von <b>keiner</b> Gruppe angesprochen: ' +
+        uebergangen.map(function(r){ return escHtml(r.name); }).join(', ') +
+        ' — ein möglicher Ausgangspunkt für die Diskussion.</div>';
+    }
+
+    /* ── 3 · Methodeneinsatz ─────────────────────────────────────── */
+    H += '<div class="ga-sec">3 · Methodeneinsatz</div>' +
+      '<div class="ga-tblwrap"><table class="ga-tbl"><thead><tr><th>Gruppe</th><th>Reihenfolge der Werkzeuge</th></tr></thead><tbody>';
+    P.forEach(function(p){
+      const seq = (p.werkzeuge || []).map(function(w){
+        return '<span class="ga-step">' + escHtml(w.name) + (w.erneut ? ' ↻' : '') + '</span>';
+      }).join('<span class="ga-arr">→</span>');
+      H += '<tr><td><b>' + escHtml(p.gruppe) + '</b></td><td>' + (seq || '<i>keine Werkzeuge eingesetzt</i>') + '</td></tr>';
+    });
+    H += '</tbody></table></div>';
+
+    /* Nutzungshäufigkeit je Werkzeug */
+    const wzZahl = {};
+    P.forEach(function(p){ (p.werkzeugeGenutzt || []).forEach(function(k){ wzZahl[k] = (wzZahl[k]||0)+1; }); });
+    const wzKeys = Object.keys(METHODS_META);
+    H += '<div class="ga-note" style="margin-top:.7rem">Verbreitung der Werkzeuge über alle Gruppen:</div><div class="ga-bars">';
+    wzKeys.forEach(function(k){
+      const n = wzZahl[k] || 0;
+      const pct = Math.round(n / P.length * 100);
+      H += '<div class="ga-bar-row"><div class="ga-bar-lbl">' + escHtml(METHODS_META[k].name) + '</div>' +
+        '<div class="ga-bar"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="ga-bar-n">' + n + '/' + P.length + '</div></div>';
+    });
+    H += '</div>';
+
+    /* ── 4 · Artefakte nebeneinander ─────────────────────────────── */
+    H += '<div class="ga-sec">4 · Erzeugte Arbeitsergebnisse</div><div class="ga-cards">';
+    P.forEach(function(p){
+      const a = p.artefakte || {};
+      const ks = Object.keys(a);
+      H += '<div class="ga-card"><div class="ga-card-hd">' + escHtml(p.gruppe) + '</div>';
+      if (ks.length) { H += '<ul class="ga-ul">'; ks.forEach(function(k){ H += '<li>' + escHtml(a[k]) + '</li>'; }); H += '</ul>'; }
+      else H += '<div class="ga-empty">keine Arbeitsergebnisse erfasst</div>';
+      H += '</div>';
+    });
+    H += '</div>';
+
+    /* ── 5 · Entscheidungen ──────────────────────────────────────── */
+    H += '<div class="ga-sec">5 · Entscheidungen und Empfehlungen</div><div class="ga-cards">';
+    P.forEach(function(p){
+      const e = p.entscheidungen || {}; const ab = p.abschluss || {};
+      H += '<div class="ga-card"><div class="ga-card-hd">' + escHtml(p.gruppe) + '</div><ul class="ga-ul">';
+      H += '<li><b>Erstkontakt, weil:</b> ' + escHtml((p.erstkontakt||{}).begruendung || '—') + '</li>';
+      H += '<li><b>Verfolgter Ansatz:</b> ' + escHtml(e.loesungsansatz || '—') + '</li>';
+      H += '<li><b>Geprüfte Annahme:</b> ' + escHtml(e.geprueffteAnnahme || '—') + '</li>';
+      H += '<li><b>Empfehlung:</b> ' + escHtml(ab.empfehlung || '—') + '</li>';
+      H += '<li><b>Benannte Risiken:</b> ' + escHtml(ab.risiken || '—') + '</li>';
+      H += '</ul></div>';
+    });
+    H += '</div>';
+
+    /* ── 6 · Vertrauensentwicklung ───────────────────────────────── */
+    H += '<div class="ga-sec">6 · Vertrauensstand am Projektende</div>' +
+      '<div class="ga-note">Der Vertrauenswert entsteht aus Gesprächsführung, Beteiligung und eingelösten ' +
+      'Zusagen. Er ist ein Simulationsmerkmal, keine Leistungsmessung.</div><div class="ga-bars">';
+    P.forEach(function(p){
+      const mit = (p.personas || []).filter(function(x){ return x.gesprochen; });
+      const schnitt = mit.length ? (mit.reduce(function(s,x){ return s + (x.vertrauen||0); },0) / mit.length) : 0;
+      const pct = Math.round((schnitt + 3) / 8 * 100);
+      H += '<div class="ga-bar-row"><div class="ga-bar-lbl">' + escHtml(p.gruppe) + '</div>' +
+        '<div class="ga-bar"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="ga-bar-n">⌀ ' + schnitt.toFixed(1) + '</div></div>';
+    });
+    H += '</div>';
+
+    /* ── Diskussionsfragen ───────────────────────────────────────── */
+    H += '<div class="ga-sec">Fragen für das Plenum</div>' +
+      '<div class="ga-note">Aus den vorliegenden Verläufen abgeleitet.</div>' +
+      '<ul class="ga-qs">' + gaFragen(P).map(function(q){ return '<li>' + escHtml(q) + '</li>'; }).join('') + '</ul>';
+
+    /* ── KI-Zusammenfassung ──────────────────────────────────────── */
+    H += '<div class="ga-sec">Wissenschaftliche Zusammenfassung</div>';
+    if (typeof apiKey !== 'undefined' && apiKey) {
+      H += '<button class="ai-btn" id="gaAiBtn" onclick="gaKiZusammenfassung()">🪷 Zusammenfassung erstellen lassen</button>' +
+        '<div class="ga-ai" id="gaAiOut"></div>';
+    } else {
+      H += '<div class="ga-warn">Für die automatische Zusammenfassung wird ein API-Key benötigt. ' +
+        'Die Vergleichsdarstellung oben steht unabhängig davon vollständig zur Verfügung.</div>';
+    }
+
+    H += '<div class="ga-actions" style="margin-top:1.2rem">' +
+      '<button class="btn-ghost" onclick="gaExportBericht()">💾 Debrief-Bericht sichern</button>' +
+      '<span class="km-export-hint" id="gaExportHint"></span></div>';
+
+    box.innerHTML = H;
+    box.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  /* Diskussionsfragen — aus den tatsächlichen Unterschieden abgeleitet */
+  function gaFragen(P) {
+    const qs = [];
+    const strat = {};
+    P.forEach(function(p){ const s = gaStrategie(p); (strat[s] = strat[s] || []).push(p.gruppe); });
+    const stratKeys = Object.keys(strat);
+    if (stratKeys.length > 1) {
+      qs.push('Die Gruppen sind unterschiedlich eingestiegen (' +
+        stratKeys.map(function(k){ return k + ': ' + strat[k].join(', '); }).join(' · ') +
+        '). Was hat die jeweilige Wahl nahegelegt?');
+    }
+    /* Unterschiedliche Erstkontakte */
+    const ek = {};
+    P.forEach(function(p){ const n = (p.erstkontakt||{}).persona; if (n) (ek[n] = ek[n] || []).push(p.gruppe); });
+    if (Object.keys(ek).length > 1) {
+      qs.push('Der Erstkontakt fiel unterschiedlich aus. Welche Folgen hatte es, zuerst mit ' +
+        Object.keys(ek).join(' beziehungsweise ') + ' zu sprechen?');
+    }
+    /* Übergangene Perspektiven */
+    const nie = [];
+    P.forEach(function(p){ ((p.perspektiven||{}).nichtErhoben||[]).forEach(function(n){ if (nie.indexOf(n)<0) nie.push(n); }); });
+    if (nie.length) qs.push('Nicht alle Perspektiven wurden überall gehört (u. a. ' + nie.slice(0,3).join(', ') +
+      '). Woran lag das, und was hätte sich mit dieser Perspektive verändert?');
+    /* Werkzeugumfang */
+    const zahlen = P.map(function(p){ return (p.werkzeugeGenutzt||[]).length; });
+    if (Math.max.apply(null,zahlen) - Math.min.apply(null,zahlen) >= 2) {
+      qs.push('Der Werkzeugeinsatz reicht von ' + Math.min.apply(null,zahlen) + ' bis ' +
+        Math.max.apply(null,zahlen) + ' Werkzeugen. Ab wann hilft ein weiteres Werkzeug, ab wann bindet es nur Zeit?');
+    }
+    /* Vertrauen */
+    qs.push('Wo im Projektverlauf ist Vertrauen entstanden — und an welcher Stelle wurde es beschädigt?');
+    qs.push('Welche Risiken hat Ihre Gruppe benannt, die in anderen Vorlagen nicht vorkommen?');
+    qs.push('Welches Vorgehen würden Sie nach dieser Gegenüberstellung beim nächsten Projekt wählen?');
+    return qs;
+  }
+
+  /* KI-gestützte Zusammenfassung — beschreibend, ohne Bewertung */
+  async function gaKiZusammenfassung() {
+    const P = gaProjekte.filter(function(p){ return !p._fehler; });
+    const btn = document.getElementById('gaAiBtn');
+    const out = document.getElementById('gaAiOut');
+    if (!out) return;
+    if (btn) { btn.disabled = true; btn.textContent = 'Wird erstellt …'; }
+    out.textContent = '';
+
+    /* Verdichtete Datengrundlage statt vollständiger Exporte */
+    const kompakt = P.map(function(p){
+      return {
+        gruppe: p.gruppe,
+        vorgehen: gaStrategie(p),
+        erstkontakt: (p.erstkontakt||{}).persona,
+        erstkontaktBegruendung: (p.erstkontakt||{}).begruendung,
+        perspektivenReihenfolge: (p.perspektiven||{}).reihenfolge,
+        nichtGehoert: (p.perspektiven||{}).nichtErhoben,
+        werkzeugfolge: (p.werkzeuge||[]).map(function(w){ return w.name + (w.begruendung ? ' («' + w.begruendung + '»)' : ''); }),
+        loesungsansatz: (p.entscheidungen||{}).loesungsansatz,
+        geprueffteAnnahme: (p.entscheidungen||{}).geprueffteAnnahme,
+        empfehlung: (p.abschluss||{}).empfehlung,
+        risiken: (p.abschluss||{}).risiken,
+        vertrauen: (p.personas||[]).filter(function(x){ return x.gesprochen; })
+                    .map(function(x){ return x.name + ': ' + x.vertrauen; })
+      };
+    });
+
+    const sys = 'Du unterstützt eine Lehrperson bei der Nachbereitung einer Lernsimulation zum ' +
+      'Digital Health Management. Mehrere Gruppen haben denselben Fall bearbeitet. ' +
+      'Verfasse eine sachliche, wissenschaftlich formulierte Gegenüberstellung in deutscher Sprache.\n\n' +
+      'VERBINDLICHE VORGABEN:\n' +
+      '- Keine Bewertung, keine Rangfolge, kein Urteil über richtig oder falsch. Kein Lob, kein Tadel.\n' +
+      '- Beschreibe Unterschiede als Varianten des Vorgehens, nicht als Qualitätsstufen.\n' +
+      '- Wenn du Folgen benennst, formuliere sie als Hypothesen („könnte dazu geführt haben"), nicht als Befunde.\n' +
+      '- Stütze dich ausschließlich auf die übergebenen Daten; ergänze nichts.\n' +
+      '- Gliedere in: (1) Gemeinsamkeiten, (2) Unterschiede im Vorgehen, (3) erkennbare Muster, ' +
+      '(4) Ansatzpunkte für die Diskussion.\n' +
+      '- Maximal 350 Wörter, Fließtext mit Zwischenüberschriften, keine Aufzählungszeichen.';
+
+    const reply = await callAPI(sys, [{ role:'user', content:
+      'Daten der Gruppen:\n' + JSON.stringify(kompakt, null, 1) }], 900);
+
+    out.textContent = reply;
+    if (btn) { btn.disabled = false; btn.textContent = '🪷 Zusammenfassung neu erstellen'; }
+  }
+
+  /* Debrief-Bericht als Textdatei */
+  function gaExportBericht() {
+    const P = gaProjekte.filter(function(p){ return !p._fehler; });
+    if (!P.length) return;
+    let t = 'DEBRIEF — GEGENÜBERSTELLUNG DER PROJEKTVERLÄUFE\n';
+    t += '════════════════════════════════════════════════════════\n';
+    t += 'Erstellt: ' + new Date().toLocaleString('de-DE') + '\n';
+    t += 'Gruppen: ' + P.length + '\n';
+    t += 'Fall: ' + ((P[0].fall || {}).titel || '—') + '\n';
+    if (P[0].seminar) {
+      t += 'Lehrveranstaltung: ' + (P[0].seminar.veranstaltung || '—') +
+           ' (' + P[0].seminar.id + ', ' + (P[0].seminar.semester || '') + ')\n';
+    }
+    t += '\n';
+    t += 'Hinweis: Diese Gegenüberstellung dient der didaktischen Nachbereitung.\n';
+    t += 'Sie enthält keine Bewertung und keine Rangfolge.\n\n';
+
+    P.forEach(function(p){
+      t += '────────────────────────────────────────────────────────\n';
+      t += 'GRUPPE: ' + p.gruppe + '\n';
+      t += '  Vorgehen: ' + gaStrategie(p) + (gaIterativ(p) ? ' (mit Wiederholungen)' : '') + '\n';
+      t += '  Erstkontakt: ' + ((p.erstkontakt||{}).persona || '—') + '\n';
+      t += '    Begründung: ' + ((p.erstkontakt||{}).begruendung || '—') + '\n';
+      t += '  Perspektiven: ' + ((p.perspektiven||{}).reihenfolge || []).join(' → ') + '\n';
+      const ne = (p.perspektiven||{}).nichtErhoben || [];
+      t += '  Nicht gehört: ' + (ne.length ? ne.join('; ') : 'keine') + '\n';
+      t += '  Werkzeuge: ' + ((p.werkzeuge||[]).map(function(w){ return w.name; }).join(' → ') || 'keine') + '\n';
+      (p.werkzeuge||[]).forEach(function(w){
+        if (w.begruendung) t += '    · ' + w.name + ' gewählt, weil: „' + w.begruendung + '"\n';
+      });
+      t += '  Verfolgter Ansatz: ' + ((p.entscheidungen||{}).loesungsansatz || '—') + '\n';
+      t += '  Geprüfte Annahme: ' + ((p.entscheidungen||{}).geprueffteAnnahme || '—') + '\n';
+      t += '  Empfehlung: ' + ((p.abschluss||{}).empfehlung || '—') + '\n';
+      t += '  Risiken: ' + ((p.abschluss||{}).risiken || '—') + '\n';
+      const mit = (p.personas||[]).filter(function(x){ return x.gesprochen; });
+      if (mit.length) {
+        t += '  Vertrauensstand je Persona:\n';
+        mit.forEach(function(x){ t += '    · ' + x.name + ': ' + x.vertrauen + (x.themen.length ? ' (Themen: ' + x.themen.join(', ') + ')' : '') + '\n'; });
+      }
+      t += '\n';
+    });
+
+    t += '════════════════════════════════════════════════════════\n';
+    t += 'FRAGEN FÜR DAS PLENUM\n\n';
+    gaFragen(P).forEach(function(q,i){ t += (i+1) + '. ' + q + '\n'; });
+
+    const ai = document.getElementById('gaAiOut');
+    if (ai && ai.textContent.trim()) {
+      t += '\n════════════════════════════════════════════════════════\n';
+      t += 'ZUSAMMENFASSUNG\n\n' + ai.textContent.trim() + '\n';
+    }
+
+    const hint = document.getElementById('gaExportHint');
+    try {
+      const blob = new Blob([t], { type:'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'Debrief_' + new Date().toISOString().slice(0,10) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      if (hint) { hint.textContent = '✓ Bericht gesichert'; setTimeout(function(){ hint.textContent=''; }, 3000); }
+    } catch (e) {
+      if (navigator.clipboard) navigator.clipboard.writeText(t);
+      if (hint) hint.textContent = '✓ in die Zwischenablage kopiert';
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SEMINARMODUS — Lehrveranstaltungsverwaltung
+     ───────────────────────────────────────────────────────────────
+     Modular gekapselt: Das gesamte Modul greift über die Schnittstelle
+     `SeminarStore` auf den Speicher zu. Für eine spätere Anbindung an
+     Cloud-Speicher, Moodle oder ein Login-System muss ausschließlich
+     dieser Adapter ersetzt werden — die übrige Logik bleibt unberührt.
+
+     ZUR ZUGANGSHÜRDE (wichtig für die Dokumentation der Arbeit):
+     Diese Anwendung läuft vollständig lokal in einer einzelnen Datei.
+     Ein Passwort kann hier keinen echten Zugriffsschutz leisten, da der
+     Quelltext einsehbar ist. Die Anmeldung ist deshalb als Hürde gegen
+     versehentliches Aufrufen zu verstehen, nicht als Sicherheitsmerkmal.
+     Belastbarer Schutz erforderte eine serverseitige Prüfung.
+
+     Datenschutz: Gespeichert werden ausschließlich Seminar-ID,
+     Gruppenname und Gruppencode. Keine personenbezogenen Daten.
+  ═══════════════════════════════════════════════════════════════ */
+  const SeminarStore = {
+    KEY: 'ffs_seminare_v1',
+    laden: function() {
+      try { return JSON.parse(localStorage.getItem(this.KEY) || '[]'); }
+      catch (e) { return []; }
+    },
+    speichern: function(liste) {
+      try { localStorage.setItem(this.KEY, JSON.stringify(liste)); return true; }
+      catch (e) { return false; }
+    },
+    finde: function(seminarId) {
+      return this.laden().find(function(s){ return s.id === seminarId; }) || null;
+    },
+    aktualisiere: function(seminarId, fn) {
+      const liste = this.laden();
+      const i = liste.findIndex(function(s){ return s.id === seminarId; });
+      if (i < 0) return false;
+      fn(liste[i]);
+      return this.speichern(liste);
+    }
+  };
+
+  /* Aktive Sitzungszuordnung — wird während der Simulation mitgeführt */
+  let seminarKontext = null;
+  try {
+    seminarKontext = JSON.parse(sessionStorage.getItem('ffs_kontext') || 'null');
+  } catch (e) { seminarKontext = null; }
+
+  function setzeSeminarKontext(k) {
+    seminarKontext = k;
+    try {
+      if (k) sessionStorage.setItem('ffs_kontext', JSON.stringify(k));
+      else sessionStorage.removeItem('ffs_kontext');
+    } catch (e) { /* Sitzungsspeicher nicht verfügbar — Kontext bleibt im Arbeitsspeicher */ }
+    if (typeof zeigeKontextLeiste === 'function') zeigeKontextLeiste();
+  }
+
+  /* ─── Code-Erzeugung ─────────────────────────────────────────────
+     Ohne leicht verwechselbare Zeichen (0/O, 1/I/L), damit Codes
+     mündlich weitergegeben und fehlerfrei abgetippt werden können. */
+  const CODE_ZEICHEN = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  function zufallsCode(n) {
+    let s = '';
+    for (let i = 0; i < n; i++) s += CODE_ZEICHEN[Math.floor(Math.random() * CODE_ZEICHEN.length)];
+    return s;
+  }
+
+  function erzeugeSeminarId(veranstaltung, semester) {
+    const kurz = String(veranstaltung || 'SEM').split(/\s+/)
+      .map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,4) || 'SEM';
+    const sem = String(semester || '').match(/(SS|WS|Sommer|Winter)/i);
+    const jahr = (String(semester || '').match(/\d{2,4}/) || [''])[0].slice(-2);
+    const semKurz = sem ? (sem[0].toUpperCase().startsWith('S') ? 'SS' : 'WS') : 'XX';
+    const vorhandene = SeminarStore.laden();
+    const praefix = kurz + '-' + semKurz + jahr;
+    let nr = 1;
+    while (vorhandene.some(function(s){ return s.id === praefix + '-' + String(nr).padStart(3,'0'); })) nr++;
+    return praefix + '-' + String(nr).padStart(3,'0');
+  }
+
+  function erzeugeGruppen(anzahl, seminarKurz) {
+    const gruppen = [];
+    for (let i = 0; i < anzahl; i++) {
+      const buchstabe = String.fromCharCode(65 + i);
+      gruppen.push({
+        name: 'Gruppe ' + buchstabe,
+        code: seminarKurz + '-' + buchstabe + zufallsCode(3),
+        status: 'offen',          /* offen | begonnen | abgeschlossen */
+        begonnenAm: null,
+        exportiertAm: null
+      });
+    }
+    return gruppen;
+  }
+
+  function seminarAnlegen(daten) {
+    const id = erzeugeSeminarId(daten.veranstaltung, daten.semester);
+    const kurz = id.split('-')[0];
+    const seminar = {
+      id: id,
+      semester: daten.semester || '',
+      veranstaltung: daten.veranstaltung || '',
+      fall: daten.fall || '',
+      angelegt: new Date().toISOString(),
+      gruppen: erzeugeGruppen(Math.max(1, Math.min(30, parseInt(daten.anzahl, 10) || 4)), kurz)
+    };
+    const liste = SeminarStore.laden();
+    liste.push(seminar);
+    SeminarStore.speichern(liste);
+    return seminar;
+  }
+
+  /* Code-Prüfung beim Gruppenstart */
+  function pruefeGruppenzugang(seminarId, gruppencode) {
+    const s = SeminarStore.finde(String(seminarId || '').trim().toUpperCase());
+    if (!s) return { ok:false, grund:'Seminar-ID nicht gefunden. Bitte prüfen Sie die Schreibweise.' };
+    const code = String(gruppencode || '').trim().toUpperCase();
+    const g = s.gruppen.find(function(x){ return x.code.toUpperCase() === code; });
+    if (!g) return { ok:false, grund:'Gruppencode gehört nicht zu diesem Seminar.' };
+    return { ok:true, seminar:s, gruppe:g };
+  }
+
+  /* ─── Dozentenanmeldung ─────────────────────────────────────────
+     Auslösung ausschließlich über Strg+Shift+D oder fünf Klicks auf
+     die Wortmarke. Kein sichtbarer Menüpunkt für Studierende.
+     Das Passwort ist beim ersten Aufruf frei wählbar und wird als
+     Hashwert abgelegt — der Klartext steht nicht im Speicher.
+     Zur Schutzwirkung siehe Hinweis am Modulkopf. */
+  const DOZ_KEY = 'ffs_doz_v1';
+
+  function hashCode(s) {
+    let hv = 5381;
+    for (let i = 0; i < s.length; i++) hv = ((hv << 5) + hv + s.charCodeAt(i)) >>> 0;
+    return String(hv);
+  }
+  function dozPasswortGesetzt() { return !!localStorage.getItem(DOZ_KEY); }
+  function dozPasswortSetzen(pw) { localStorage.setItem(DOZ_KEY, hashCode(pw)); }
+  function dozPasswortPruefen(pw) { return localStorage.getItem(DOZ_KEY) === hashCode(pw); }
+
+  let dozAngemeldet = false;
+
+  function dozDialogOeffnen() {
+    if (dozAngemeldet) { seminarOeffnen(); return; }
+    const ov = document.getElementById('dozOverlay');
+    if (!ov) return;
+    const ersteinrichtung = !dozPasswortGesetzt();
+    document.getElementById('dozTitel').textContent =
+      ersteinrichtung ? 'Dozentenzugang einrichten' : 'Dozentenanmeldung';
+    document.getElementById('dozText').innerHTML = ersteinrichtung
+      ? 'Legen Sie ein Passwort für den Dozentenbereich fest. Es wird ausschließlich auf diesem Gerät gespeichert.<br>' +
+        '<b>Hinweis:</b> Diese Anwendung läuft vollständig lokal im Browser. Die Anmeldung schützt vor ' +
+        'versehentlichem Aufrufen, ersetzt aber keinen technischen Zugriffsschutz.'
+      : 'Bitte geben Sie das Dozentenpasswort ein.';
+    document.getElementById('dozBtn').textContent = ersteinrichtung ? 'Festlegen und anmelden' : 'Anmelden';
+    document.getElementById('dozFehler').textContent = '';
+    document.getElementById('dozPw').value = '';
+    ov.classList.add('show');
+    setTimeout(function(){ document.getElementById('dozPw').focus(); }, 60);
+  }
+
+  function dozDialogSchliessen() {
+    const ov = document.getElementById('dozOverlay');
+    if (ov) ov.classList.remove('show');
+  }
+
+  function dozAnmelden() {
+    const pw = document.getElementById('dozPw').value;
+    const fehler = document.getElementById('dozFehler');
+    if (!pw || pw.length < 4) { fehler.textContent = 'Bitte mindestens vier Zeichen eingeben.'; return; }
+    if (!dozPasswortGesetzt()) {
+      dozPasswortSetzen(pw);
+    } else if (!dozPasswortPruefen(pw)) {
+      fehler.textContent = 'Passwort nicht korrekt.';
+      return;
+    }
+    dozAngemeldet = true;
+    document.body.classList.add('dozent');
+    const btn = document.getElementById('dozentBtn');
+    if (btn) { btn.classList.add('on'); btn.textContent = '🎓 Dozentenmodus: an'; }
+    dozDialogSchliessen();
+    seminarOeffnen();
+  }
+
+  function dozAbmelden() {
+    dozAngemeldet = false;
+    document.body.classList.remove('dozent');
+    const btn = document.getElementById('dozentBtn');
+    if (btn) { btn.classList.remove('on'); btn.textContent = '🎓 Dozentenmodus'; }
+    const ov = document.getElementById('semOverlay');
+    if (ov) ov.classList.remove('show');
+  }
+
+  /* Versteckte Auslösung */
+  let _logoKlicks = 0, _logoTimer = null;
+  function logoKlick() {
+    _logoKlicks++;
+    clearTimeout(_logoTimer);
+    _logoTimer = setTimeout(function(){ _logoKlicks = 0; }, 2000);
+    if (_logoKlicks >= 5) { _logoKlicks = 0; dozDialogOeffnen(); }
+  }
+
+  /* ─── Seminarverwaltung: Oberfläche ───────────────────────────── */
+  let semAktiv = null;   /* aktuell aufgeklapptes Seminar */
+
+  function seminarOeffnen() {
+    if (!dozAngemeldet) { dozDialogOeffnen(); return; }
+    document.getElementById('semOverlay').classList.add('show');
+    seminarRender();
+  }
+  function seminarSchliessen() {
+    document.getElementById('semOverlay').classList.remove('show');
+  }
+
+  function seminarRender() {
+    const box = document.getElementById('semBody');
+    if (!box) return;
+    const liste = SeminarStore.laden();
+    let H = '';
+
+    /* Anlegen */
+    H += '<div class="sem-sec">Neue Lehrveranstaltung anlegen</div>' +
+      '<div class="sem-form">' +
+        '<label><span>Semester</span><input id="semSemester" placeholder="z. B. Sommersemester 2027"></label>' +
+        '<label><span>Veranstaltung</span><input id="semVeranst" placeholder="z. B. Digital Health Management"></label>' +
+        '<label><span>Fall</span><input id="semFall" placeholder="z. B. Einführung einer digitalen Patientenakte"></label>' +
+        '<label><span>Anzahl Gruppen</span><input id="semAnzahl" type="number" min="1" max="30" value="6"></label>' +
+      '</div>' +
+      '<button class="btn-next" onclick="seminarStarten()">Seminar starten →</button>' +
+      '<span class="km-export-hint" id="semHint"></span>';
+
+    /* Übersicht */
+    H += '<div class="sem-sec">Seminarübersicht</div>';
+    if (!liste.length) {
+      H += '<div class="sem-empty">Noch keine Lehrveranstaltung angelegt.</div>';
+    } else {
+      liste.slice().reverse().forEach(function(s){
+        const st = seminarStatus(s);
+        const offen = semAktiv === s.id;
+        H += '<div class="sem-card">' +
+          '<div class="sem-card-hd" onclick="seminarToggle(\'' + s.id + '\')">' +
+            '<div><div class="sem-card-t">' + escHtml(s.veranstaltung || '—') + '</div>' +
+            '<div class="sem-card-s">' + escHtml(s.semester || '') +
+              (s.fall ? ' · ' + escHtml(s.fall) : '') + '</div></div>' +
+            '<div class="sem-card-r"><span class="sem-id">' + escHtml(s.id) + '</span>' +
+            '<span class="sem-stat">' + s.gruppen.length + ' Gruppen · ' +
+              st.abgeschlossen + ' abgeschlossen</span>' +
+            '<span class="sem-chev">' + (offen ? '▴' : '▾') + '</span></div>' +
+          '</div>';
+        if (offen) {
+          H += '<div class="sem-card-body">' +
+            '<div class="ga-note">Gruppencodes an die Teams verteilen. Beim Start der Simulation ' +
+            'geben die Gruppen Seminar-ID und Gruppencode ein — weitere Angaben sind nicht nötig.</div>' +
+            '<div class="ga-tblwrap"><table class="ga-tbl"><thead><tr>' +
+            '<th>Gruppe</th><th>Code</th><th>Status</th><th>Begonnen</th><th>Exportiert</th></tr></thead><tbody>';
+          s.gruppen.forEach(function(g){
+            const cls = g.status === 'abgeschlossen' ? 'st-fertig' : (g.status === 'begonnen' ? 'st-laeuft' : 'st-offen');
+            const lbl = g.status === 'abgeschlossen' ? 'abgeschlossen' : (g.status === 'begonnen' ? 'in Bearbeitung' : 'offen');
+            H += '<tr><td>' + escHtml(g.name) + '</td>' +
+              '<td><code class="sem-code">' + escHtml(g.code) + '</code></td>' +
+              '<td><span class="sem-badge ' + cls + '">' + lbl + '</span></td>' +
+              '<td>' + (g.begonnenAm ? new Date(g.begonnenAm).toLocaleString('de-DE') : '—') + '</td>' +
+              '<td>' + (g.exportiertAm ? new Date(g.exportiertAm).toLocaleString('de-DE') : '—') + '</td></tr>';
+          });
+          H += '</tbody></table></div>' +
+            '<div class="sem-actions">' +
+              '<button class="btn-ghost" onclick="seminarCodesKopieren(\'' + s.id + '\')">📋 Codes kopieren</button>' +
+              '<button class="btn-ghost" onclick="gaOpen()">📊 Gruppenanalyse öffnen</button>' +
+              '<button class="btn-ghost sem-del" onclick="seminarLoeschen(\'' + s.id + '\')">Seminar löschen</button>' +
+              '<span class="km-export-hint" id="semCodeHint-' + s.id + '"></span>' +
+            '</div></div>';
+        }
+        H += '</div>';
+      });
+    }
+    box.innerHTML = H;
+  }
+
+  function seminarStatus(s) {
+    let b = 0, a = 0;
+    s.gruppen.forEach(function(g){
+      if (g.status === 'begonnen') b++;
+      if (g.status === 'abgeschlossen') a++;
+    });
+    return { begonnen:b, abgeschlossen:a, offen:s.gruppen.length - b - a };
+  }
+
+  function seminarToggle(id) { semAktiv = (semAktiv === id) ? null : id; seminarRender(); }
+
+  function seminarStarten() {
+    const v = function(id){ const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+    const hint = document.getElementById('semHint');
+    if (!v('semVeranst')) { if (hint) hint.textContent = 'Bitte eine Veranstaltung angeben.'; return; }
+    const s = seminarAnlegen({
+      semester: v('semSemester'), veranstaltung: v('semVeranst'),
+      fall: v('semFall'), anzahl: v('semAnzahl')
+    });
+    semAktiv = s.id;
+    seminarRender();
+  }
+
+  function seminarCodesKopieren(id) {
+    const s = SeminarStore.finde(id);
+    if (!s) return;
+    let t = s.veranstaltung + ' — ' + s.semester + '\n';
+    t += 'Seminar-ID: ' + s.id + '\n';
+    if (s.fall) t += 'Fall: ' + s.fall + '\n';
+    t += '\nZugangsdaten für die Gruppen:\n';
+    s.gruppen.forEach(function(g){ t += '  ' + g.name + ': ' + g.code + '\n'; });
+    t += '\nDie Gruppen geben beim Start Seminar-ID und Gruppencode ein.';
+    const hint = document.getElementById('semCodeHint-' + id);
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){
+      if (hint) { hint.textContent = '✓ kopiert'; setTimeout(function(){ hint.textContent=''; }, 2500); }
+    });
+  }
+
+  function seminarLoeschen(id) {
+    if (!window.confirm('Dieses Seminar mit allen Gruppencodes löschen? Bereits exportierte Projektdateien bleiben erhalten.')) return;
+    SeminarStore.speichern(SeminarStore.laden().filter(function(s){ return s.id !== id; }));
+    if (semAktiv === id) semAktiv = null;
+    seminarRender();
+  }
+
+  /* Statusfortschreibung aus der laufenden Simulation */
+  function markiereGruppenstatus(status) {
+    if (!seminarKontext) return;
+    SeminarStore.aktualisiere(seminarKontext.seminarId, function(s){
+      const g = s.gruppen.find(function(x){ return x.code === seminarKontext.gruppencode; });
+      if (!g) return;
+      if (status === 'begonnen' && g.status === 'offen') { g.status = 'begonnen'; g.begonnenAm = new Date().toISOString(); }
+      if (status === 'abgeschlossen') { g.status = 'abgeschlossen'; g.exportiertAm = new Date().toISOString(); }
+    });
+  }
+
+  /* ─── Gruppenstart: Zuordnung zur Lehrveranstaltung ─────────────
+     Optional: Ohne Seminarcodes läuft die Simulation unverändert.
+     Der Dialog erscheint nur, wenn mindestens ein Seminar angelegt ist. */
+  function gruppenstartOeffnen() {
+    const ov = document.getElementById('grpOverlay');
+    if (!ov) return;
+    document.getElementById('grpFehler').textContent = '';
+    ov.classList.add('show');
+    setTimeout(function(){ document.getElementById('grpSemId').focus(); }, 60);
+  }
+  function gruppenstartSchliessen() {
+    const ov = document.getElementById('grpOverlay');
+    if (ov) ov.classList.remove('show');
+  }
+
+  function gruppenstartBestaetigen() {
+    const sid = document.getElementById('grpSemId').value;
+    const gc  = document.getElementById('grpCode').value;
+    const f   = document.getElementById('grpFehler');
+    const r   = pruefeGruppenzugang(sid, gc);
+    if (!r.ok) { f.textContent = r.grund; return; }
+    setzeSeminarKontext({
+      seminarId: r.seminar.id,
+      veranstaltung: r.seminar.veranstaltung,
+      semester: r.seminar.semester,
+      gruppenname: r.gruppe.name,
+      gruppencode: r.gruppe.code
+    });
+    markiereGruppenstatus('begonnen');
+    gruppenstartSchliessen();
+  }
+
+  function zeigeKontextLeiste() {
+    const el = document.getElementById('kontextLeiste');
+    if (!el) return;
+    if (!seminarKontext) { el.style.display = 'none'; el.innerHTML = ''; return; }
+    el.style.display = 'flex';
+    el.innerHTML = '<span class="kl-dot"></span>' +
+      '<span>' + escHtml(seminarKontext.gruppenname) + '</span>' +
+      '<span class="kl-sep">·</span>' +
+      '<span class="kl-muted">' + escHtml(seminarKontext.veranstaltung || seminarKontext.seminarId) + '</span>';
+  }
+
   /* ═══ UTILS ════════════════════════════════════════════════════ */
   function escHtml(str) {
     if (!str) return '';
@@ -6395,11 +7551,45 @@ WICHTIG:
       if (nav && !document.getElementById('sideTools')) {
         var d = document.createElement('div');
         d.className = 'side-tools'; d.id = 'sideTools';
+        /* Der Dozentenbereich ist im normalen Menü nicht sichtbar.
+           Zugang ausschließlich über Strg+Shift+D oder fünf Klicks auf
+           die Wortmarke; beides führt zur Anmeldung. */
         d.innerHTML = '<button class="side-tool" onclick="goToPhase(1)">📋 Simulations-Briefing</button>' +
-          '<button class="side-tool" id="dozentBtn" onclick="document.body.classList.toggle(\'dozent\'); this.classList.toggle(\'on\'); this.textContent = document.body.classList.contains(\'dozent\') ? \'🎓 Dozentenmodus: an\' : \'🎓 Dozentenmodus\';">🎓 Dozentenmodus</button>';
+          '<button class="side-tool dozent-only" id="dozentBtn" onclick="seminarOeffnen()">🎓 Dozentenmodus: an</button>' +
+          '<button class="side-tool dozent-only" id="gaBtn" onclick="gaOpen()">📊 Gruppenanalyse</button>' +
+          '<button class="side-tool dozent-only" onclick="seminarOeffnen()">🗂 Seminarverwaltung</button>';
         nav.appendChild(d);
       }
     })();
+    /* Gruppenanalyse: Dateien auch per Drag-and-drop annehmen */
+    (function(){
+      const dz = document.getElementById('gaDrop');
+      if (!dz) return;
+      ['dragenter','dragover'].forEach(function(e){
+        dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.add('over'); });
+      });
+      ['dragleave','drop'].forEach(function(e){
+        dz.addEventListener(e, function(ev){ ev.preventDefault(); dz.classList.remove('over'); });
+      });
+      dz.addEventListener('drop', function(ev){
+        if (ev.dataTransfer && ev.dataTransfer.files) gaLoadFiles(ev.dataTransfer.files);
+      });
+    })();
+    /* Versteckter Zugang zum Dozentenbereich */
+    document.addEventListener('keydown', function(e){
+      if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+        e.preventDefault();
+        dozDialogOeffnen();
+      }
+    });
+
+    /* Seminarzuordnung anbieten, sofern Lehrveranstaltungen angelegt sind.
+       Ohne Seminare bleibt der Ablauf unverändert. */
+    zeigeKontextLeiste();
+    if (!seminarKontext && SeminarStore.laden().length) {
+      setTimeout(gruppenstartOeffnen, 700);
+    }
+
     renderCase(activeCase);
     goToPhase(0);
   });
